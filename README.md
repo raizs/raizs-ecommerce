@@ -16,11 +16,3 @@ yarn install
 yarn run build
 yarn run server
 ```
-
-## Can I use this as a template for a production app?
-
-**NO!** This repo exists only to demonstrate how to achieve SSR and Code Splitting at the same time.
-
-_But... Why?_ --- The server app is as slim as it can get. It lacks even the most basic security features like XSS and CSRF.
-
-**This is not a boilerplate for a production expressjs server app!!!**
