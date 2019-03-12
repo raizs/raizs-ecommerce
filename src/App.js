@@ -1,83 +1,61 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
 import './styles/css/index.css';
-import { setMessage, setMy } from './store/reducers/app.reducer';
+import { setMessageAction } from './store/actions';
+import { Private } from './containers/private';
+import { BaseContainer } from './helpers';
 
-const actions = { setMessage, setMy };
+import Icon from '@material-ui/core/Icon';
 
-const AsyncComponent = Loadable({
-    loader: () => import(/* webpackChunkName: "myNamedChunk" */ './SomeComponent'),
-    loading: () => <div>loading...</div>,
-    modules: ['myNamedChunk'],
-});
+const actions = { setMessageAction };
 
 const AsyncPageDefault = Loadable({
-    loader: () => import(/* webpackChunkName: "pageDefault" */ './PageDefault'),
-    loading: () => <div>loading page...</div>,
-    modules: ['pageDefault'],
+	loader: () => import(/* webpackChunkName: "pageDefault" */ './PageDefault'),
+	loading: () => <div>loading page...</div>,
+	modules: ['pageDefault'],
 });
 
-const AsyncPageAnother = Loadable({
-    loader: () => import(/* webpackChunkName: "pageAnother" */ './PageAnother'),
-    loading: () => <div>loading another page...</div>,
-    modules: ['pageAnother'],
-});
+class App extends BaseContainer {
+  constructor(props) {
+    super(props, null);
+  }
 
-class App extends Component {
-    componentDidMount() {
-        if(!this.props.message) {
-            this.props.setMessage("Hi, I'm from client!");
-        }
-    }
-
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src="./logo.svg" className="App-logo" alt="logo"/>
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                <div className="App-intro">
-                    <h2>Part 1: Async component</h2>
-                    <AsyncComponent />
-
-                    <hr />
-
-                    <h2>Part 2: Redux store {this.props.my}</h2>
-                    <p>
-                        Redux: { this.props.message }
-                    </p>
-
-                    <hr />
-                    <button onClick={this.props.setMy}>SET MY</button>
-
-                    <h2>Part 3: React router</h2>
-                    <nav>
-                        <NavLink to="/" exact activeClassName="active">Home</NavLink>
-                        <NavLink to="/another" activeClassName="active">Another page</NavLink>
-                    </nav>
-                    <Switch>
-                        <Route path="/" exact component={AsyncPageDefault} />
-                        <Route path="/another" component={AsyncPageAnother} />
-                    </Switch>
-                </div>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div className="App">
+				<header className="App-header">
+					<h1 className="App-title">Welcome to React</h1>
+				</header>
+        <Icon color='primary'>delete_outlined</Icon>
+        <Icon fontSize='large'>delete</Icon>
+				<div className="App-intro">
+					<nav>
+						<NavLink to="/" exact activeClassName="active">Home</NavLink>
+						<NavLink to="/another" activeClassName="active">Another page</NavLink>
+					</nav>
+          <Icon fontSize='large'>delete</Icon>
+          <Icon color='primary'>delete_outlined</Icon>
+					<Switch>
+						<Route path="/" exact component={AsyncPageDefault} />
+						<Route path="/another" component={Private} />
+					</Switch>
+				</div>
+			</div>
+		);
+	}
 }
 
-const mapStateToProps = ({app}) => ({
-    message: app.message,
-    my: app.my
+const mapStateToProps = ({ app }) => ({
+	message: app.message
 });
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        actions
-    )(App)
+	connect(
+		mapStateToProps,
+		actions
+	)(App)
 );
