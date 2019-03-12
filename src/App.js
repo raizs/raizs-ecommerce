@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
-import { setMessage } from './store/appReducer';
+import { setMessage } from './store/reducers/app.reducer';
 
 // import logo from './logo.svg';
 import './styles/css/index.css';
@@ -69,11 +69,13 @@ class App extends Component {
     }
 }
 
+const mapStateToProps = ({app}) => ({
+    message: app.message
+})
+
 export default withRouter(
     connect(
-        ({ app }) => ({
-            message: app.message,
-        }),
+        mapStateToProps,
         dispatch => ({
             updateMessage: (messageText) => dispatch(setMessage(messageText)),
         })
