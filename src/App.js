@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
-import { setMessage } from './store/reducers/app.reducer';
-
-// import logo from './logo.svg';
 import './styles/css/index.css';
+import { setMessage, setMy } from './store/reducers/app.reducer';
+
+const actions = { setMessage, setMy };
 
 const AsyncComponent = Loadable({
     loader: () => import(/* webpackChunkName: "myNamedChunk" */ './SomeComponent'),
@@ -30,7 +30,7 @@ const AsyncPageAnother = Loadable({
 class App extends Component {
     componentDidMount() {
         if(!this.props.message) {
-            this.props.updateMessage("Hi, I'm from client!");
+            this.props.setMessage("Hi, I'm from client!");
         }
     }
 
@@ -47,12 +47,13 @@ class App extends Component {
 
                     <hr />
 
-                    <h2>Part 2: Redux store</h2>
+                    <h2>Part 2: Redux store {this.props.my}</h2>
                     <p>
                         Redux: { this.props.message }
                     </p>
 
                     <hr />
+                    <button onClick={this.props.setMy}>SET MY</button>
 
                     <h2>Part 3: React router</h2>
                     <nav>
@@ -70,14 +71,13 @@ class App extends Component {
 }
 
 const mapStateToProps = ({app}) => ({
-    message: app.message
-})
+    message: app.message,
+    my: app.my
+});
 
 export default withRouter(
     connect(
         mapStateToProps,
-        dispatch => ({
-            updateMessage: (messageText) => dispatch(setMessage(messageText)),
-        })
+        actions
     )(App)
 );

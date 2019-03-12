@@ -1,1 +1,1 @@
-export { setMessage, appReducer, setAsyncMessage  } from "./app.reducer"
+export { setMessage, appReducer, setAsyncMessage, setMy } from "./app.reducer"

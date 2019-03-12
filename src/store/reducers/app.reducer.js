@@ -1,5 +1,12 @@
 const initialState = {
     message: null,
+    my: ''
+};
+
+export const setMy = () => {
+    return {
+        type: 'MY'
+    };
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -9,6 +16,7 @@ export const appReducer = (state = initialState, action) => {
                 ...state,
                 message: action.message,
             };
+        case "MY": return { ...state, my: 'novo' };
         default:
             return state;
     }
