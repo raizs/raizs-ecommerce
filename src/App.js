@@ -7,8 +7,7 @@ import { Route, Switch, NavLink } from 'react-router-dom';
 import { setMessage } from './store/appReducer';
 
 // import logo from './logo.svg';
-import './App.css';
-
+import './styles/css/index.css';
 
 const AsyncComponent = Loadable({
     loader: () => import(/* webpackChunkName: "myNamedChunk" */ './SomeComponent'),

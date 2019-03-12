@@ -1,5 +1,5 @@
 {
-  "name": "cra-ssr-code-splitting",
+  "name": "raizs-ecommerce",
   "version": "0.1.0",
   "private": false,
   "homepage": "./",
@@ -20,14 +20,19 @@
     "react-scripts": "^2.1.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
+    "stylus": "^0.54.5",
     "url-loader": "^1.0.1"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-css": "stylus -c src/styles/stylus/ --out src/styles/css",
+    "watch-css": "npm run build-css && stylus -c -w src/styles/stylus/ --out src/styles/css",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "NODE_ENV=production node server/bootstrap.js"
@@ -37,5 +42,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }
