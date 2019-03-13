@@ -1,0 +1,28 @@
+header.app-header
+  display block
+  background-color white
+  box-shadow 0 2px 4px 0 rgba(0, 0, 0, 0.08)
+  height $HEADER_HEIGHT
+
+  > *
+    display inline-block
+    vertical-align middle
+    line-height $HEADER_HEIGHT
+
+  img.logo
+    width $LOGO_WIDTH
+    margin $D 2*$D
+
+  div.category
+    font-size $FONT_XS
+    color $GREY_FONT
+    font-weight $FONT_BOLD
+    padding 0 2*$D
+    cursor pointer
+    height $HEADER_HEIGHT
+    line-height $HEADER_HEIGHT
+    &:hover
+      color $GREEN
+
+  div.right-content
+    float right
