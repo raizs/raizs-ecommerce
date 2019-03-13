@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
 import './styles/css/index.css';
+
 import { setMessageAction } from './store/actions';
 import { Private } from './containers/private';
-import { BaseContainer } from './helpers';
-
-import Icon from '@material-ui/core/Icon';
+import { Header } from './components';
 
 const actions = { setMessageAction };
 
@@ -19,31 +18,21 @@ const AsyncPageDefault = Loadable({
 	modules: ['pageDefault'],
 });
 
-class App extends BaseContainer {
-  constructor(props) {
-    super(props, null);
-  }
-
+class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<header className="App-header">
-					<h1 className="App-title">Welcome to React</h1>
-				</header>
-        <Icon color='primary'>delete_outlined</Icon>
-        <Icon fontSize='large'>delete</Icon>
-				<div className="App-intro">
+        <Header />
+				{/* <div className="App-intro">
 					<nav>
 						<NavLink to="/" exact activeClassName="active">Home</NavLink>
 						<NavLink to="/another" activeClassName="active">Another page</NavLink>
 					</nav>
-          <Icon fontSize='large'>delete</Icon>
-          <Icon color='primary'>delete_outlined</Icon>
 					<Switch>
 						<Route path="/" exact component={AsyncPageDefault} />
 						<Route path="/another" component={Private} />
 					</Switch>
-				</div>
+				</div> */}
 			</div>
 		);
 	}
