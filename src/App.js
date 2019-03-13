@@ -8,7 +8,7 @@ import './styles/css/index.css';
 
 import { setMessageAction } from './store/actions';
 import { Private } from './containers/private';
-import { Header } from './components';
+import { Header, TopHeader } from './components';
 
 const actions = { setMessageAction };
 
@@ -22,6 +22,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+				<TopHeader history={this.props.history} />
         <Header />
 				{/* <div className="App-intro">
 					<nav>
