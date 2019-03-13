@@ -5,3 +5,5 @@ export {
   BaseContainer,
   BaseController
 };
+
+export { HeaderHelper } from './_lib/Header.helper';
