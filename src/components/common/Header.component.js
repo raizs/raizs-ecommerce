@@ -2,28 +2,59 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 
 import { categories } from '../../assets';
+import { HeaderHelper } from '../../helpers';
+
+const CATEGORY_AVERAGE_WIDTH = 140;
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      windowWidth: 800
+      windowWidth: 1024
     };
   }
 
   componentDidMount() {
+    const context = this;
+    window.addEventListener('resize', () => {
+      const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths();
+
+      context.setState({ windowWidth, availableCenterWidth });
+    });
     
+    const {
+      windowWidth,
+      logoWidth,
+      rightContentWidth,
+      availableCenterWidth
+    } = HeaderHelper.getWidths();
+
+    this.setState({ windowWidth, logoWidth, rightContentWidth, availableCenterWidth });
   }
 
   renderLeftContent(content) {
-    return categories.map(category => {
+    let fits = Math.floor(this.state.availableCenterWidth / CATEGORY_AVERAGE_WIDTH);
+
+    const show = categories.slice(0, fits);
+    const more = fits >= categories.length ? [] :
+      categories.slice(fits - categories.length);
+
+    const to = show.map(category => {
       return (
         <div key={category.id} className='category'>
           {category.label}
         </div>
       );
     });
+
+    if(more.length) to.push(
+      <div key='more' className='category'>
+        MAIS
+      </div>
+    );
+
+    return to;
   }
   
   renderCenterContent(content) {
@@ -31,7 +62,7 @@ class Header extends Component {
   }
   
   renderRightContent(content) {
-    return <div className='right-content'>MUITO CONTEÚDO NA DIREITA! MUITO MESMO.</div>;
+    return <div className='right-content'>MUITO CONTEÚDO NA DIREITA AAAAAAAAAAA MUITO MESMO.</div>;
   }
   
   render() {
