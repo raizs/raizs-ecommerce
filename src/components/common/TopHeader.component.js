@@ -7,10 +7,25 @@ const DatePicker = (props) => {
     <div >Here comes the Datepicker</div>
   )
 }
+
+/**
+ * renderNavLink - Render the buttons that navigate in the different routes of the website
+ *
+ * @param {String} label - the text that is inside the button 
+ * @param {String} route - the route that you want to nav to
+ * @returns {Object} - Instance of rendered NavLink
+ */
+
 const renderNavLink = ({label, route}) => {
   return 	<NavLink to={route} className="nav-button">{label}</NavLink>
 }
 
+ /**
+ *
+ *
+ * @param {Object} props - TopHeader parent (Main) passed props
+ * @returns {JSX} 
+ */
 export const TopHeader = (props) => {
   const { history } = props
 
