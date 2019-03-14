@@ -2,18 +2,18 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 
-const DatePicker = (props) => {
+const MiniDatePicker = (props) => {
   return (
     <div >Here comes the Datepicker</div>
   )
 }
 
 /**
- * renderNavLink - Render the buttons that navigate in the different routes of the website
+ * renderNavLink - Render the buttons that navigate in the different routes from the website
  *
  * @param {String} label - the text that is inside the button 
  * @param {String} route - the route that you want to nav to
- * @returns {Object} - Instance of rendered NavLink
+ * @returns {NavLink} - Return a NavLink button that access different routes from the website
  */
 
 const renderNavLink = ({label, route}) => {
@@ -35,7 +35,7 @@ export const TopHeader = (props) => {
         {renderNavLink({route:"route", label:"Sobre a Raízs"})}
         {renderNavLink({route:"route", label:"Conheça os Produtores"})}
       </nav>
-      <DatePicker></DatePicker>
+      <MiniDatePicker></MiniDatePicker>
       <nav className="side-buttons">
         {renderNavLink({route:"route", label:"Refazer Pedido"})}
         {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}
@@ -44,4 +44,3 @@ export const TopHeader = (props) => {
   )
 }
 
-// export { TopHeader }
