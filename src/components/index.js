@@ -1,2 +1,2 @@
-export { Header } from './common/Header.component';
-export { TopHeader } from './common/TopHeader.component';
+export { Header } from './_lib/Header.component';
+export { TopHeader } from './_lib/TopHeader.component';

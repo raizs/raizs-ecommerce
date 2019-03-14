@@ -4,8 +4,12 @@ import React, { Component } from 'react';
 import { categories } from '../../assets';
 import { HeaderHelper } from '../../helpers';
 
-const CATEGORY_AVERAGE_WIDTH = 140;
-
+/**
+ * Header - App main header
+ *
+ * @class Header
+ * @extends {Component}
+ */
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -14,33 +18,43 @@ class Header extends Component {
       windowWidth: 1024
     };
   }
-
-  componentDidMount() {
+/**
+ * componentDidMount - Lifecycle method. Adds the event listener for resizing
+ * to adjust the number of rendered categories in this header and saves the startup
+ * values
+ *
+ * @memberof Header
+ */
+componentDidMount() {
     const context = this;
     window.addEventListener('resize', () => {
-      const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths();
-
+      const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
       context.setState({ windowWidth, availableCenterWidth });
     });
     
     const {
       windowWidth,
-      logoWidth,
-      rightContentWidth,
       availableCenterWidth
     } = HeaderHelper.getWidths();
 
-    this.setState({ windowWidth, logoWidth, rightContentWidth, availableCenterWidth });
+    this.setState({ windowWidth, availableCenterWidth });
   }
 
-  renderLeftContent(content) {
-    let fits = Math.floor(this.state.availableCenterWidth / CATEGORY_AVERAGE_WIDTH);
+/**
+ * renderLeftContent - Renders the left part of the header component
+ * 
+ * IMPORTANT: The left part is adjacent to the logo, whereas the center part is
+ * necessarily centered
+ *
+ * @returns
+ */
+renderLeftContent() {
+    const { availableCenterWidth } = this.state;
 
-    const show = categories.slice(0, fits);
-    const more = fits >= categories.length ? [] :
-      categories.slice(fits - categories.length);
+    const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
+    console.log(toShow, more);
 
-    const to = show.map(category => {
+    const to = toShow.map(category => {
       return (
         <div key={category.id} className='category'>
           {category.label}
@@ -57,22 +71,21 @@ class Header extends Component {
     return to;
   }
   
-  renderCenterContent(content) {
+  renderCenterContent() {
     return null;
   }
   
-  renderRightContent(content) {
-    return <div className='right-content'>MUITO CONTEÚDO NA DIREITA AAAAAAAAAAA MUITO MESMO.</div>;
+  renderRightContent() {
+    return <div className='right-content'>MUITO CONTEÚDO NA DIREITA MUITO MESMO.</div>;
   }
   
   render() {
-    const { leftContent, centerContent, rightContent } = this.props;
     return (
       <header className='app-header'>
         <img alt='brand-logo' className='logo' src='https://raizs.vteximg.com.br/arquivos/logotipo-raizs.png?v=635947045802400000' />
-        {this.renderLeftContent(leftContent)}
-        {this.renderCenterContent(centerContent)}
-        {this.renderRightContent(rightContent)}
+        {this.renderLeftContent()}
+        {this.renderCenterContent()}
+        {this.renderRightContent()}
       </header>
     );
   }
