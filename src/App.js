@@ -23,7 +23,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<TopHeader history={this.props.history} />
-        <Header />
+        <Header history={this.props.history} />
 				{/* <div className="App-intro">
 					<nav>
 						<NavLink to="/" exact activeClassName="active">Home</NavLink>

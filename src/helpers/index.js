@@ -7,3 +7,4 @@ export {
 };
 
 export { HeaderHelper } from './_lib/Header.helper';
+export { StringMapper } from './_lib/StringMapper';

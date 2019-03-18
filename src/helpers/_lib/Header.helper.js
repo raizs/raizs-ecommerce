@@ -1,6 +1,5 @@
-import { categories } from "../../assets";
+import { categories, MORE_CATEGORY_WIDTH } from "../../assets";
 
-const CATEGORY_AVERAGE_WIDTH = 140; // px
 const D = 8; // px
 
 export class HeaderHelper {
@@ -15,8 +14,7 @@ export class HeaderHelper {
   static getWidths() {
     const windowWidth = window.innerWidth;
     const logoWidth = document.querySelector('header.app-header img.logo').clientWidth;
-    let rightContentWidth = document.querySelector('header.app-header div.right-content').clientWidth;
-    rightContentWidth += 2*D; // margin
+    let rightContentWidth = document.querySelector('header.app-header div.right-content').clientWidth + 2*D;
     const availableCenterWidth = windowWidth - logoWidth - rightContentWidth;
 
     return { windowWidth, availableCenterWidth };
@@ -32,11 +30,19 @@ export class HeaderHelper {
   static handleCategoryOptions(availableCenterWidth) {
     const { length } = categories;
 
-    let fits = Math.floor(availableCenterWidth / CATEGORY_AVERAGE_WIDTH);
+    let fits = 0, sum = 40;
+    categories.forEach((category, index) => {
+      if(fits < categories.length && availableCenterWidth > sum + category.width) {
+        sum += category.width;
+        fits++;
+      }
+      if(index === length - 1 && fits < length)
+        if(sum + MORE_CATEGORY_WIDTH > availableCenterWidth) fits--;
+    });
     fits = Math.min(length, fits);
 
-    const toShow = categories.slice(0, fits);
-    const more = fits === length ? [] : categories.slice(fits - length);
+    const more = fits <= length - 1 ? categories.slice(fits - length) : [];
+    const toShow = more.length ? categories.slice(0, fits) : categories;
 
     return { toShow, more };
   }
