@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Zoom from '@material-ui/core/Zoom';
+import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -125,7 +125,7 @@ class HeaderPopperButton extends React.Component {
           }}
         >
           {({ TransitionProps }) => (
-            <Zoom {...TransitionProps} timeout={350}>
+            <Fade {...TransitionProps} timeout={350}>
               <Paper elevation={5}>
                 <span className={classes.arrow} ref={this.handleArrowRef} />
                 <Typography
@@ -137,7 +137,7 @@ class HeaderPopperButton extends React.Component {
                   {children}
                 </Typography>
               </Paper>
-            </Zoom>
+            </Fade>
           )}
         </Popper>
       </div>

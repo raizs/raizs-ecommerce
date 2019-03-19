@@ -5,7 +5,7 @@ const GRAY = '#616161';
 const LIGHT_GRAY = '#CCC';
 const BLACK = '#141414';
 
-const XXS = '10px';
+const XXS = '11px';
 const XS = '12px';
 const SM = '14px';
 const MD = '16px';
