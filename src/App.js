@@ -1,40 +1,46 @@
 import React, { Component } from 'react';
-import Loadable from 'react-loadable';
+// import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Route, Switch, NavLink } from 'react-router-dom';
+// import { Route, Switch, NavLink } from 'react-router-dom';
+import { MuiThemeProvider } from '@material-ui/core/styles'
 
 import './styles/css/index.css';
 
 import { setMessageAction } from './store/actions';
-import { Private } from './containers/private';
-import { Header, TopHeader } from './components';
+// import { Private } from './containers/private';
+import { Header, TopHeader, Footer } from './components';
+
+import defaultTheme from './muiTheme';
 
 const actions = { setMessageAction };
 
-const AsyncPageDefault = Loadable({
-	loader: () => import(/* webpackChunkName: "pageDefault" */ './PageDefault'),
-	loading: () => <div>loading page...</div>,
-	modules: ['pageDefault'],
-});
+// const AsyncPageDefault = Loadable({
+// 	loader: () => import(/* webpackChunkName: "pageDefault" */ './PageDefault'),
+// 	loading: () => <div>loading page...</div>,
+// 	modules: ['pageDefault'],
+// });
 
 class App extends Component {
 	render() {
 		return (
-			<div className="App">
-				<TopHeader history={this.props.history} />
-        <Header history={this.props.history} />
-				{/* <div className="App-intro">
-					<nav>
-						<NavLink to="/" exact activeClassName="active">Home</NavLink>
-						<NavLink to="/another" activeClassName="active">Another page</NavLink>
-					</nav>
-					<Switch>
-						<Route path="/" exact component={AsyncPageDefault} />
-						<Route path="/another" component={Private} />
-					</Switch>
-				</div> */}
-			</div>
+      <MuiThemeProvider theme={defaultTheme}>
+        <div className="App">
+          <TopHeader history={this.props.history} />
+          <Header history={this.props.history} />
+          {/* <div className="App-intro">
+            <nav>
+            <NavLink to="/" exact activeClassName="active">Home</NavLink>
+            <NavLink to="/another" activeClassName="active">Another page</NavLink>
+            </nav>
+            <Switch>
+            <Route path="/" exact component={AsyncPageDefault} />
+            <Route path="/another" component={Private} />
+            </Switch>
+          </div> */}
+          <Footer />
+        </div>
+      </MuiThemeProvider>
 		);
 	}
 }

@@ -1,8 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, Menu, MenuItem, Icon, Fab } from '@material-ui/core';
+import { withStyles, Button, Menu, MenuItem } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
+const styles = theme => ({
+  button: theme.buttons.header,
+  menuItem: {
+    '& span': {
+      color: theme.palette.green.main
+    },
+    '& li': {
+      color: theme.palette.gray.main
+    }
+  },
+  
+});
 
 const defaultItem = {
   id: PropTypes.string,
@@ -18,7 +31,7 @@ const defaultItem = {
  * @class DropdownMenu
  * @extends {Component}
  */
-export class DropdownMenu extends Component {
+class DropdownMenu extends Component {
   constructor(props) {
     super(props);
 
@@ -59,8 +72,9 @@ export class DropdownMenu extends Component {
    * @memberof DropdownMenu
    */
   renderItems() {
-    return this.props.items.map(item => (
-      <MenuItem key={item.id} onClick={() => this.handleItemClick(item)}>
+    const { items, classes } = this.props;
+    return items.map(item => (
+      <MenuItem className={classes.menuItem} key={item.id} onClick={() => this.handleItemClick(item)}>
         {item.label}
       </MenuItem>
     ));
@@ -77,7 +91,7 @@ export class DropdownMenu extends Component {
   renderLabel(label, hasArrow) {
     return (
       <div className='label'>
-        <div className='text' style={{verticalAlign: 'top', display: 'inline-block'}}>
+        <div className='text' style={{verticalAlign: 'middle', display: 'inline-block'}}>
           {label}
         </div>
         {
@@ -96,18 +110,17 @@ export class DropdownMenu extends Component {
   }
 
   render() {
-    let { id, label, hasArrow } = this.props;
+    let { id, label, hasArrow, classes } = this.props;
     const { anchorEl } = this.state;
 
     id = 'dropdown-menu-' + id;
 
     return (
-      <div className='dropdown-menu'>
+      <div>
         <Button
-          disableRipple
-          disableFocusRipple
-          aria-owns={anchorEl ? id : undefined}
           aria-haspopup="true"
+          aria-owns={anchorEl ? id : undefined}
+          className={classes.button}
           onClick={event => this.setState({ anchorEl: event.currentTarget })}
         >
           {this.renderLabel(label, hasArrow)}
@@ -124,3 +137,7 @@ export class DropdownMenu extends Component {
     )
   }
 }
+
+DropdownMenu = withStyles(styles)(DropdownMenu);
+
+export { DropdownMenu };

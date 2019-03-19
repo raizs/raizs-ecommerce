@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-
 const MiniDatePicker = (props) => {
   return (
     <div >Here comes the Datepicker</div>
@@ -27,7 +26,6 @@ const renderNavLink = ({label, route}) => {
  * @returns {JSX} 
  */
 export const TopHeader = (props) => {
-  const { history } = props
 
   return (
     <div className="top-header flex h sb al-c" >
@@ -42,5 +40,4 @@ export const TopHeader = (props) => {
       </nav>
     </div>
   )
-}
-
+};

@@ -3,31 +3,12 @@ import React, { Component } from 'react';
 
 import { HeaderHelper } from '../../helpers';
 
-import Icon from '@material-ui/core/Icon';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-
-import { Tooltip } from '@material-ui/core';
-import Zoom from '@material-ui/core/Zoom';
-import {
-  createMuiTheme,
-  MuiThemeProvider
-} from "@material-ui/core/styles";
-import { DropdownMenu, MenuTooltip } from '..';
+import { DropdownMenu, HeaderPopper, HeaderPopperButton } from '..';
 import { StringMapper } from '../../helpers/_lib/StringMapper';
+import { Button, withStyles } from '@material-ui/core';
 
-// this theme overrides the default tooltip style
-const theme = createMuiTheme({
-  overrides: {
-    MuiTooltip: {
-      tooltip: {
-        backgroundColor: 'white',
-        border: '1px solid #A9A9A9',
-        borderRadius: '16px',
-        marginTop: 0,
-        padding: 0
-      }
-    }
-  }
+const styles = theme => ({
+  headerButton: theme.buttons.header
 });
 
 /**
@@ -77,38 +58,31 @@ componentDidMount() {
  */
 renderLeftContent() {
     const { availableCenterWidth } = this.state;
-    const { history } = this.props;
+    const { history, classes } = this.props;
 
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
     const to = toShow.map(({ id, label }) => {
       if(id === 'all')
         return (
-          <div
-            id={id}
-            className='category'
+          <Button
+            key={id}
+            className={classes.headerButton}
             onClick={() => history.push(StringMapper.categoryToURL(id))} 
           >
             {label}
-          </div>
+          </Button>
         );
       
       return (
-        <Tooltip
+        <HeaderPopperButton
+          id={id}
           key={id}
-          interactive
-          id='header-tooltip'
-          TransitionComponent={Zoom}
-          title={<MenuTooltip id={id} />}
+          label={label}
+          clickAction={() => history.push(StringMapper.categoryToURL(id))}
         >
-          <div
-            id={id}
-            className='category'
-            onClick={() => history.push(StringMapper.categoryToURL(id))}
-          >
-            {label}
-          </div>
-        </Tooltip>
+          <HeaderPopper id={id} moreInfo={id === 'grocery'} />
+        </HeaderPopperButton>
       );
     });
 
@@ -116,6 +90,7 @@ renderLeftContent() {
       more.forEach(category => {
         category.clickAction = () => history.push(StringMapper.categoryToURL(category.id))
       });
+
       to.push(
         <div key='more' className='category'>
           <DropdownMenu id='more' label='MAIS' items={more} />
@@ -138,15 +113,7 @@ renderLeftContent() {
   renderRightContent() {
     return (
       <div className='right-content'>
-        <Icon fontSize='large'>shopping_basket</Icon>ASSINATURA
-        <Icon fontSize='large'>search</Icon>
-        <DropdownMenu
-          id='profile'
-          hasArrow={false}
-          label={<AccountCircleIcon fontSize='large' />}
-          items={[{id: '1', label: 'uno'}, {id: '2', label: 'dos'}]}
-        />
-        <Icon fontSize='large'>shopping_cart</Icon>
+        RIGHT CONTENT
       </div>
     );
   }
@@ -155,13 +122,11 @@ renderLeftContent() {
     return (
       <header className='app-header'>
         <img alt='brand-logo' className='logo' src='https://raizs.vteximg.com.br/arquivos/logotipo-raizs.png?v=635947045802400000' />
-        <MuiThemeProvider theme={theme}>
-          <div className='left-content'>
-            {this.renderLeftContent()}
-          </div>
-          {this.renderCenterContent()}
-          {this.renderRightContent()}
-        </MuiThemeProvider>
+        <div className='left-content'>
+          {this.renderLeftContent()}
+        </div>
+        {this.renderCenterContent()}
+        {this.renderRightContent()}
       </header>
     );
   }
@@ -179,5 +144,7 @@ renderLeftContent() {
 //   centerContent: [],
 //   rightContent: [],
 // }
+
+Header = withStyles(styles)(Header);
  
 export { Header };
