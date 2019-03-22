@@ -7,9 +7,7 @@ import { DropdownMenu, HeaderPopper, HeaderPopperButton } from '..';
 import { StringMapper } from '../../helpers/_lib/StringMapper';
 import { Button, withStyles } from '@material-ui/core';
 
-const styles = theme => ({
-  headerButton: theme.buttons.header
-});
+import styles from './styles/header.styles';
 
 /**
  * Header - App main header
@@ -26,14 +24,15 @@ class Header extends Component {
     };
 
   }
-/**
- * componentDidMount - Lifecycle method. Adds the event listener for resizing
- * to adjust the number of rendered categories in this header and saves the startup
- * values
- *
- * @memberof Header
- */
-componentDidMount() {
+
+  /**
+   * componentDidMount - Lifecycle method. Adds the event listener for resizing
+   * to adjust the number of rendered categories in this header and saves the startup
+   * values
+   *
+   * @memberof Header
+   */
+  componentDidMount() {
     const context = this;
     window.addEventListener('resize', () => {
       const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
@@ -48,15 +47,15 @@ componentDidMount() {
     this.setState({ windowWidth, availableCenterWidth });
   }
 
-/**
- * renderLeftContent - Renders the left part of the header component
- * 
- * IMPORTANT: The left part is adjacent to the logo, whereas the center part is
- * necessarily centered
- *
- * @returns {JSX} Containing the desired left header content
- */
-renderLeftContent() {
+  /**
+   * _renderLeftContent - Renders the left part of the header component
+   * 
+   * IMPORTANT: The left part is adjacent to the logo, whereas the center part is
+   * necessarily centered
+   *
+   * @returns {JSX} Containing the desired left header content
+   */
+  _renderLeftContent() {
     const { availableCenterWidth } = this.state;
     const { history, classes } = this.props;
 
@@ -101,16 +100,16 @@ renderLeftContent() {
     return to;
   }
   
-  renderCenterContent() {
+  _renderCenterContent() {
     return null;
   }
   
   /**
-   * renderRightContent - Renders the right part of the header component
+   * _renderRightContent - Renders the right part of the header component
    *
    * @returns {JSX} Containing the desired right header content
    */
-  renderRightContent() {
+  _renderRightContent() {
     return (
       <div className='right-content'>
         RIGHT CONTENT
@@ -123,10 +122,10 @@ renderLeftContent() {
       <header className='app-header'>
         <img alt='brand-logo' className='logo' src='https://raizs.vteximg.com.br/arquivos/logotipo-raizs.png?v=635947045802400000' />
         <div className='left-content'>
-          {this.renderLeftContent()}
+          {this._renderLeftContent()}
         </div>
-        {this.renderCenterContent()}
-        {this.renderRightContent()}
+        {this._renderCenterContent()}
+        {this._renderRightContent()}
       </header>
     );
   }

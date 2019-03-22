@@ -4,19 +4,20 @@ export const footerListAssets = {
     items: [
       {
         label: 'Quem Somos',
-        id: 1
-      }, {
-        label: 'Famílias Produtoras',
-        id: 2
+        id: 1,
+        url: 'quem-somos'
       }, {
         label: 'Fundo do Pequeno Produtor',
-        id: 3
+        id: 2,
+        url: 'quem-somos#fundo'
       }, {
         label: 'Por Que Orgânicos',
-        id: 4
+        id: 3,
+        url: 'quem-somos#organicos'
       }, {
         label: 'Ética e Transparência',
-        id: 5
+        id: 4,
+        url: 'quem-somos#etica-transparencia'
       }
     ]
   },
@@ -25,19 +26,24 @@ export const footerListAssets = {
     items: [
       {
         label: 'Como Funciona',
-        id: 1
+        id: 1,
+        url: '1'
       }, {
         label: 'Avulso ou Assinatura',
-        id: 2
+        id: 2,
+        url: '2'
       }, {
         label: 'FAQ',
-        id: 3
+        id: 3,
+        url: '3'
       }, {
         label: 'Contato',
-        id: 4
+        id: 4,
+        url: '4'
       }, {
         label: 'Seja um Fornecedor',
-        id: 5
+        id: 5,
+        url: '5'
       }
     ]
   }

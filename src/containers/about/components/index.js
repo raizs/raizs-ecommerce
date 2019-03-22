@@ -1,0 +1,1 @@
+export { AboutUs } from './_lib/AboutUs.component';

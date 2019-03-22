@@ -5,6 +5,8 @@ const GRAY = '#616161';
 const LIGHT_GRAY = '#CCC';
 const BLACK = '#141414';
 
+const GRAY_BG = '#EFEFEF';
+
 const XXS = '11px';
 const XS = '12px';
 const SM = '14px';
@@ -12,9 +14,8 @@ const MD = '16px';
 const LG = '24px';
 const XL = '36px';
 
-const HEADER_HEIGHT = '64px';
-
 const SPACING_UNIT = 8;
+const HEADER_HEIGHT = '64px';
 
 const theme = createMuiTheme({
   typography: {
@@ -23,28 +24,36 @@ const theme = createMuiTheme({
       'sans-serif'
     ].join(','),
     subtitle1: {
-      fontSize: '12px',
-      color: '#616161',
+      fontSize: XS,
+      color: GRAY,
       fontWeight: 700,
     },
+    timelineSectionTitle: {
+      fontSize: XS,
+      color: GREEN,
+      fontWeight: 600,
+      textAlign: 'center',
+      marginBottom: 2 * SPACING_UNIT
+    },
+    infoText: {
+      fontSize: MD,
+      color: GRAY,
+      fontWeight: 500,
+      letterSpacing: 1
+    }
   },
-  fontSizes: {
-    XXS,
-    XS,
-    SM,
-    MD,
-    LG,
-    XL
-  },
+  fontSizes: { XXS, XS, SM, MD, LG, XL },
   palette: {
     green: {
       main: GREEN
     },
     gray: {
-      main: GRAY
+      main: GRAY,
+      bg: GRAY_BG
     },
     grey: {
-      main: GRAY
+      main: GRAY,
+      bg: GRAY_BG
     },
     lightGray: {
       main: LIGHT_GRAY
@@ -89,11 +98,11 @@ const theme = createMuiTheme({
       }
     }
   },
+  sizes: {
+    HEADER_HEIGHT
+  },
   shape: {
     borderRadius: '8px',
-  },
-  sizes: {
-    HEADER_HEIGHT,
   },
   spacing: {
     unit: SPACING_UNIT

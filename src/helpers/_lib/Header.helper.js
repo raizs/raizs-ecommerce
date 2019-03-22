@@ -1,4 +1,4 @@
-import { categories, MORE_CATEGORY_WIDTH } from "../../assets";
+import { categories, MORE_CATEGORY_WIDTH } from '../../assets';
 
 const D = 8; // px
 

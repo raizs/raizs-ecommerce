@@ -4,18 +4,7 @@ import PropTypes from 'prop-types'
 import { withStyles, Button, Menu, MenuItem } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-const styles = theme => ({
-  button: theme.buttons.header,
-  menuItem: {
-    '& span': {
-      color: theme.palette.green.main
-    },
-    '& li': {
-      color: theme.palette.gray.main
-    }
-  },
-  
-});
+import styles from './styles/dropdownMenu.styles';
 
 const defaultItem = {
   id: PropTypes.string,
@@ -43,7 +32,7 @@ class DropdownMenu extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.node,
-    items: PropTypes.arrayOf(defaultItem),
+    items: PropTypes.array,
     hasArrow: PropTypes.bool,
   }
 
@@ -53,42 +42,42 @@ class DropdownMenu extends Component {
   }
 
   /**
-   * handleItemClick - Handles the menu item click action
+   * _handleItemClick - Handles the menu item click action
    *
    * @param {String} id - The id of the item
    * @param {Function} clickAction - The specific menu item action
    * @param {Boolean} shouldClose - Defines whether the menu should close after clicking
    * @memberof DropdownMenu
    */
-  handleItemClick({ id, clickAction, shouldClose = true }) {
+  _handleItemClick({ id, clickAction, shouldClose = true }) {
     if(Boolean(clickAction)) clickAction(id);
     if(shouldClose) this.setState({ anchorEl: null });
   }
 
   /**
-   * RenderItems - Maps the items into MenuItems
+   * _renderItems - Maps the items into MenuItems
    *
    * @returns Array of {JSX} MenuItems
    * @memberof DropdownMenu
    */
-  renderItems() {
+  _renderItems() {
     const { items, classes } = this.props;
     return items.map(item => (
-      <MenuItem className={classes.menuItem} key={item.id} onClick={() => this.handleItemClick(item)}>
+      <MenuItem className={classes.menuItem} key={item.id} onClick={() => this._handleItemClick(item)}>
         {item.label}
       </MenuItem>
     ));
   }
   
   /**
-   * renderLabel - Renders the menu button label correctly
+   * _renderLabel - Renders the menu button label correctly
    *
    * @param {String} label - The label string
    * @param {Boolean} hasArrow - Defines if the button has the drop arrow
    * @returns {JSX} Label
    * @memberof DropdownMenu
    */
-  renderLabel(label, hasArrow) {
+  _renderLabel(label, hasArrow) {
     return (
       <div className='label'>
         <div className='text' style={{verticalAlign: 'middle', display: 'inline-block'}}>
@@ -102,8 +91,7 @@ class DropdownMenu extends Component {
               verticalAlign: 'middle',
               transform: 'translateY(-.125em)'
             }}
-          />
-          : null
+          /> : null
         }
       </div>
     );
@@ -123,7 +111,7 @@ class DropdownMenu extends Component {
           className={classes.button}
           onClick={event => this.setState({ anchorEl: event.currentTarget })}
         >
-          {this.renderLabel(label, hasArrow)}
+          {this._renderLabel(label, hasArrow)}
         </Button>
         <Menu
           id={id}
@@ -131,7 +119,7 @@ class DropdownMenu extends Component {
           open={Boolean(anchorEl)}
           onClose={() => this.setState({ anchorEl: null })}
         >
-          {this.renderItems()}
+          {this._renderItems()}
         </Menu>
       </div>
     )

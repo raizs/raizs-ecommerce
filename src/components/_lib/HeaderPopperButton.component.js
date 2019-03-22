@@ -1,63 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Popper from '@material-ui/core/Popper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
+import {
+  Popper,
+  Typography,
+  Button,
+  Fade,
+  Paper,
+  withStyles
+} from '@material-ui/core';
 
-const styles = theme => ({
-  content: {
-    padding: `${theme.spacing.unit * 2}px`
-  },
-  button: {
-    backgroundColor: 'transparent',
-    padding: `0 ${theme.spacing.unit * 2}px`,
-    fontSize: theme.fontSizes.XS,
-    fontWeight: 700,
-    height: theme.sizes.HEADER_HEIGHT,
-    '& span': {
-      color: theme.palette.gray.main
-    },
-    '&:hover': {
-      backgroundColor: 'transparent',
-      '& span': {
-        color: theme.palette.green.main
-      }
-    },
-  },
-  popper: {
-    zIndex: 1,
-    '&[x-placement*="bottom"] $arrow': {
-      top: 0,
-      left: 0,
-      marginTop: '-0.9em',
-      width: '3em',
-      height: '1em',
-      '&::before': {
-        borderWidth: '0 1em 1em 1em',
-        borderColor: `transparent transparent ${theme.palette.lightGray.main} transparent`,
-      },
-    }
-  },
-  arrow: {
-    position: 'absolute',
-    fontSize: 7,
-    width: '3em',
-    height: '3em',
-    '&::before': {
-      content: '""',
-      margin: 'auto',
-      display: 'block',
-      width: 0,
-      height: 0,
-      borderStyle: 'solid',
-    },
-  },
-});
+import styles from './styles/headerPopperButton.styles'
 
-class HeaderPopperButton extends React.Component {
+/**
+ * HeaderPopperButton - Component with header category button and anchored
+ * Popper component
+ *
+ * @class HeaderPopperButton
+ * @extends {Component}
+ */
+class HeaderPopperButton extends Component {
   state = {
     anchorEl: null,
     open: false,
@@ -65,32 +26,50 @@ class HeaderPopperButton extends React.Component {
     arrowRef: null
   };
 
-  handleArrowRef = node => {
-    this.setState({
-      arrowRef: node,
-    });
+  /**
+   * _handleArrowRef - method to place the popper arrow correctly
+   *
+   * @memberof HeaderPopperButton
+   */
+  _handleArrowRef = node => {
+    this.setState({ arrowRef: node });
   };
 
-  handleMouseEnterLabel = event => {
+  /**
+   * _handleMouseEnterButton - handles hover over button
+   *
+   * @memberof HeaderPopperButton
+   */
+  _handleMouseEnterButton = event => {
     const { currentTarget } = event;
     this.timeout = null;
     this.setState(state => ({
       anchorEl: currentTarget,
-      open: true,
+      open: true
     }));
   };
+  
+  /**
+   * _handleMouseEnterPopper - handles hover over popper
+   *
+   * @memberof HeaderPopperButton
+   */
+  _handleMouseEnterPopper = () => {
+    this.timeout = null;
+    this.setState({ open: true });
+  }
 
-  handleMouseLeave = () => {
+  /**
+   * _handleMouseLeave - handles mouse leave event from popper or button
+   *
+   * @memberof HeaderPopperButton
+   */
+  _handleMouseLeave = () => {
     if(this.state.open)
       this.timeout = setTimeout(() => {
         if(this.timeout) this.setState({ open: false })
       }, 50);
   };
-
-  handleMouseEnterPopper = () => {
-    this.timeout = null;
-    this.setState({ open: true });
-  }
 
   render() {
     const { classes, children, label, clickAction } = this.props;
@@ -103,9 +82,9 @@ class HeaderPopperButton extends React.Component {
       <div>
         <Button
           aria-describedby={id}
-          onMouseLeave={this.handleMouseLeave}
-          onMouseEnter={this.handleMouseEnterLabel}
-          onMouseOver={this.handleMouseEnterLabel}
+          onMouseLeave={this._handleMouseLeave}
+          onMouseEnter={this._handleMouseEnterButton}
+          onMouseOver={this._handleMouseEnterButton}
           className={classes.button}
           onClick={clickAction}
         >
@@ -127,11 +106,11 @@ class HeaderPopperButton extends React.Component {
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
               <Paper elevation={5}>
-                <span className={classes.arrow} ref={this.handleArrowRef} />
+                <span className={classes.arrow} ref={this._handleArrowRef} />
                 <Typography
                   component='div'
-                  onMouseEnter={this.handleMouseEnterPopper}
-                  onMouseLeave={this.handleMouseLeave}
+                  onMouseEnter={this._handleMouseEnterPopper}
+                  onMouseLeave={this._handleMouseLeave}
                   className={classes.content}
                 >
                   {children}
