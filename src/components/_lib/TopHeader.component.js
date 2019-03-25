@@ -8,11 +8,11 @@ const MiniDatePicker = (props) => {
 }
 
 /**
- * renderNavLink - Render the buttons that navigate in the different routes from the website
+ * renderNavLink - Renders the buttons that navigate in the different routes of the website
  *
  * @param {String} label - the text that is inside the button 
  * @param {String} route - the route that you want to nav to
- * @returns {NavLink} - Return a NavLink button that access different routes from the website
+ * @returns {NavLink} - Return a NavLink button that access different routes of the website
  */
 
 const renderNavLink = ({label, route}) => {
@@ -25,7 +25,7 @@ const renderNavLink = ({label, route}) => {
  * @param {Object} props - TopHeader parent (Main) passed props
  * @returns {JSX} 
  */
-export const TopHeader = (props) => {
+export const TopHeader = props => {
 
   return (
     <div className="top-header flex h sb al-c" >

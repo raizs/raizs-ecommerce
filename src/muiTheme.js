@@ -14,6 +14,13 @@ const MD = '16px';
 const LG = '24px';
 const XL = '36px';
 
+const nXXS = 11;
+const nXS = 12;
+const nSM = 14;
+const nMD = 16;
+const nLG = 24;
+const nXL = 36;
+
 const SPACING_UNIT = 8;
 const HEADER_HEIGHT = '64px';
 
@@ -39,7 +46,15 @@ const theme = createMuiTheme({
       fontSize: MD,
       color: GRAY,
       fontWeight: 500,
-      letterSpacing: 1
+      letterSpacing: '1px',
+      lineHeight: `${nMD + SPACING_UNIT/2}px`,
+      whiteSpace: 'pre-wrap'
+    },
+    bigTitle: {
+      fontSize: XL,
+      fontWeight: 700,
+      lineHeight: `${nXL + SPACING_UNIT/2}px`,
+      textAlign: 'center'
     }
   },
   fontSizes: { XXS, XS, SM, MD, LG, XL },

@@ -8,7 +8,9 @@ let TimelineSections = props => {
   const { classes, width, timelineWidth, fixed, children } = props;
 
   const style = { width };
-  if(fixed) style.marginLeft = timelineWidth;
+  if(fixed) {
+    style.marginLeft = timelineWidth;
+  };
 
   return (
     <div id='timeline-sections' className={classes.sections} style={style}>

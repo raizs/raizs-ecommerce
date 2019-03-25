@@ -39,11 +39,14 @@ export default ({ fontSizes, palette, sizes, spacing }) => ({
   },
   sections: {
     padding: `${2 * spacing.unit}px 0`,
-    display: 'inline-block'
+    display: 'inline-block',
   },
   section: {
     padding: 2 * spacing.unit,
     marginTop: 8 * spacing.unit,
+    '& *': {
+      zIndex: 2,
+    },
     '&:first-child': {
       marginTop: 2 * spacing.unit
     }
