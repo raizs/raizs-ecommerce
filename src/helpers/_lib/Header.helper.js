@@ -14,7 +14,7 @@ export class HeaderHelper {
   static getWidths() {
     const windowWidth = window.innerWidth;
     const logoWidth = document.querySelector('header.app-header img.logo').clientWidth;
-    let rightContentWidth = document.querySelector('header.app-header div.right-content').clientWidth + 2*D;
+    let rightContentWidth = document.querySelector('header.app-header div#right-content').clientWidth + 2*D;
     const availableCenterWidth = windowWidth - logoWidth - rightContentWidth;
 
     return { windowWidth, availableCenterWidth };

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { HeaderHelper } from '../../helpers';
 
-import { DropdownMenu, HeaderPopper, HeaderPopperButton } from '..';
+import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
 import { StringMapper } from '../../helpers/_lib/StringMapper';
 import { Button, withStyles } from '@material-ui/core';
 
@@ -16,13 +16,8 @@ import styles from './styles/header.styles';
  * @extends {Component}
  */
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      windowWidth: 1024
-    };
-
+  state = {
+    windowWidth: 1024
   }
 
   /**
@@ -110,9 +105,23 @@ class Header extends Component {
    * @returns {JSX} Containing the desired right header content
    */
   _renderRightContent() {
+    const { classes, isAuth } = this.props;
+
     return (
-      <div className='right-content'>
-        RIGHT CONTENT
+      <div id='right-content' className={classes.rightContent}>
+        <div>
+          <svg className={classes.headerIcon}>
+            <image className={classes.headerIcon} xlinkHref='/icons/assinatura.svg' />
+          </svg>
+          <span style={{ verticalAlign: 'middle', marginLeft: '16px', fontWeight: 600, fontSize: '12px' }}>ASSINATURA</span>
+        </div>
+        <svg className={classes.headerIcon}>
+          <image className={classes.headerIcon} xlinkHref='/icons/pesquisa.svg' />
+        </svg>
+        <HeaderUserButton isAuth={isAuth} />
+        <svg className={classes.headerIcon}>
+          <image className={classes.headerIcon} xlinkHref='/icons/cesta.svg' />
+        </svg>
       </div>
     );
   }
@@ -125,7 +134,7 @@ class Header extends Component {
           {this._renderLeftContent()}
         </div>
         {this._renderCenterContent()}
-        {this._renderRightContent()}
+        {this._renderRightContent(this.props.classes)}
       </header>
     );
   }

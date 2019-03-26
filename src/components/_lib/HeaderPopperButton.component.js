@@ -72,11 +72,14 @@ class HeaderPopperButton extends Component {
   };
 
   render() {
-    const { classes, children, label, clickAction } = this.props;
+    const { classes, children, label, clickAction, height } = this.props;
     const { anchorEl, open } = this.state;
     
     let { id } = this.props;
     id = open ? id : null;
+
+    let style = {};
+    if(height) style.height = height;
 
     return (
       <div>
@@ -87,6 +90,7 @@ class HeaderPopperButton extends Component {
           onMouseOver={this._handleMouseEnterButton}
           className={classes.button}
           onClick={clickAction}
+          style={style}
         >
           {label}
         </Button>

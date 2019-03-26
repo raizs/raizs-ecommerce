@@ -11,7 +11,7 @@ import '../../../node_modules/video-react/dist/video-react.css';
 
 import styles from './about.styles';
 
-const resizeEvent = context => {
+const _resizeEvent = context => {
   const timelineWidth = document.querySelector('#side-timeline').clientWidth;
   const availableWidth = window.innerWidth - timelineWidth - 16;
   const aboutUsHeight = window.innerHeight - 96;
@@ -19,7 +19,7 @@ const resizeEvent = context => {
   context.setState({ timelineWidth, availableWidth, aboutUsHeight });
 };
 
-const scrollEvent = context => {
+const _scrollEvent = context => {
   const timeline = document.querySelector('#timeline-sections');
   const offset = timeline ? timeline.offsetTop : 0;
   const htmlScroll = document.querySelector('html').scrollTop;
@@ -55,9 +55,9 @@ class About extends Component {
   componentDidMount() {
     const context = this;
     
-    window.addEventListener('resize', () => resizeEvent(context));
+    window.addEventListener('resize', () => _resizeEvent(context));
     
-    window.addEventListener('scroll', () => scrollEvent(context));
+    window.addEventListener('scroll', () => _scrollEvent(context));
 
     if(!this.state.expanded) {
       document.querySelector('body').style.overflow = 'hidden';
@@ -84,8 +84,8 @@ class About extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', scrollEvent);
-    window.removeEventListener('resize', resizeEvent);
+    window.removeEventListener('scroll', _scrollEvent);
+    window.removeEventListener('resize', _resizeEvent);
   }
 
   /**
@@ -104,7 +104,7 @@ class About extends Component {
       }[item.id];
 
       return Comp ? (
-        <TimelineSection id={item.id}>
+        <TimelineSection key={item.id} id={item.id}>
           <Comp />
         </TimelineSection>
       ) : <div>component not found</div>;

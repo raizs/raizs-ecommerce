@@ -116,4 +116,4 @@ export const footerIconAssets = {
 };
 
 export const footerCopyrights = 'Copyright ©2019 - TODOS OS DIREITOS RESERVADOS.';
-export const footerBottomText = 'As fotos aqui divulgadas, logotipo e marca são de propriedade do site www.raizs.com.br. É vetada sua reprodução, total ou parcial,sem a expressa autorização da Raízs.';
+export const footerBottomText = 'As fotos aqui divulgadas, logotipo e marca são de propriedade do site www.raizs.com.br. É vetada sua reprodução, total ou parcial, sem a expressa autorização da Raízs.';

@@ -24,7 +24,7 @@ class App extends Component {
       <MuiThemeProvider theme={defaultTheme}>
         <div className="App">
           <TopHeader history={history} />
-          <Header history={history} />
+          <Header isAuth={true} history={history} />
           <Switch>
             <Route path="/quem-somos" exact component={About} />
           </Switch>

@@ -7,6 +7,11 @@ const BLACK = '#141414';
 
 const GRAY_BG = '#EFEFEF';
 
+const GRAY_BORDER = '#D1DBE3';
+
+const FACEBOOK_BLUE = '#3C5A99';
+const GOOGLE_RED = '#D34836';
+
 const XXS = '11px';
 const XS = '12px';
 const SM = '14px';
@@ -64,18 +69,22 @@ const theme = createMuiTheme({
     },
     gray: {
       main: GRAY,
-      bg: GRAY_BG
+      bg: GRAY_BG,
+      border: GRAY_BORDER
     },
     grey: {
       main: GRAY,
-      bg: GRAY_BG
+      bg: GRAY_BG,
+      border: GRAY_BORDER
     },
     lightGray: {
       main: LIGHT_GRAY
     },
     black: {
       main: BLACK
-    }
+    },
+    facebook: FACEBOOK_BLUE,
+    google: GOOGLE_RED
   },
   buttons: {
     primary: {
@@ -111,6 +120,27 @@ const theme = createMuiTheme({
           fill: GREEN
         }
       }
+    }
+  },
+  inputs: {
+    text: {
+      height: '48px',
+      width: `calc(100% - ${2 * SPACING_UNIT}px)`,
+      border: `1px solid ${GRAY_BORDER}`,
+      margin: SPACING_UNIT,
+      padding: SPACING_UNIT,
+      fontSize: MD,
+      borderRadius: SPACING_UNIT,
+      transition: '.3s',
+      '&:focus, :active': {
+        margin: SPACING_UNIT,
+        padding: SPACING_UNIT,
+        outlineColor: GREEN
+      },
+    },
+    small: {
+      fontSize: SM,
+      height: '36px'
     }
   },
   sizes: {
