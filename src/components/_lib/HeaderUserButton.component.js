@@ -5,20 +5,32 @@ import { withStyles } from '@material-ui/core';
 import { HeaderUserPopper, HeaderPopperButton } from '..';
 import { SimplePopper } from '../../molecules';
 
+import ReactSvg from 'react-svg';
+
 let HeaderUserButton = props => {
-  const { classes, isAuth } = props;
+  const { classes, isAuth, toForm, isUserPopperOpen, toLoggedIn } = props;
+  const headerUserPopperProps = {
+    toLoggedIn,
+    toForm,
+    isAuth
+  };
   
   const label = (
-    <div>
-      <svg className={classes.headerIcon}>
-        <image className={classes.headerIcon} xlinkHref='/icons/usuario.svg' />
-      </svg>
-    </div>
+    <ReactSvg
+      src='/icons/usuario.svg'
+      className={classes.headerIcon}
+    />
   );
 
   return (
-    <SimplePopper label={label} shouldClose={isAuth} >
-      <HeaderUserPopper isAuth={isAuth} />
+    <SimplePopper
+      id='user'
+      label={label}
+      open={isUserPopperOpen}
+      shouldCloseOnInsideClick={isAuth}
+      fadeTimeout={isAuth ? { enter: 350, exit: 0 } : null}
+    >
+      <HeaderUserPopper {...headerUserPopperProps} />
     </SimplePopper>
   )
 }

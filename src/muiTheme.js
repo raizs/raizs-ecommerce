@@ -62,7 +62,7 @@ const theme = createMuiTheme({
       textAlign: 'center'
     }
   },
-  fontSizes: { XXS, XS, SM, MD, LG, XL },
+  fontSizes: { XXS, XS, SM, MD, LG, XL, nXXS, nXS, nSM, nMD, nLG, nXL },
   palette: {
     green: {
       main: GREEN

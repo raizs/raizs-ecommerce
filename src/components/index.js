@@ -5,6 +5,7 @@ export { HeaderPopperButton } from './_lib/HeaderPopperButton.component';
 export { HeaderUserButton } from './_lib/HeaderUserButton.component';
 export { HeaderUserPopper } from './_lib/HeaderUserPopper.component';
 export { HeaderPopper } from './_lib/HeaderPopper.component';
+export { Slider } from './_lib/Slider.component';
 export { Timeline } from './_lib/Timeline.component';
 export { TimelineSection } from './_lib/TimelineSection.component';
 export { TimelineSections } from './_lib/TimelineSections.component';

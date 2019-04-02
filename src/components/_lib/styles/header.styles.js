@@ -27,8 +27,18 @@ export default theme => ({
     }
   },
   headerIcon: {
-    height: 48,
-    width: 48,
-    verticalAlign: 'middle'
+    height: 40,
+    width: 40,
+    verticalAlign: 'middle',
+    display: 'inline-block',
+    '&:hover *': {
+      stroke: theme.palette.green.main
+    }
+  },
+  greenHover: {
+    '&:hover *': {
+      color: theme.palette.green.main,
+      stroke: theme.palette.green.main
+    }
   }
 });

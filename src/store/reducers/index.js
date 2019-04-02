@@ -1,9 +1,18 @@
 import { combineReducers } from 'redux';
+import { firebaseReducer } from 'react-redux-firebase';
 
-import { appReducer } from "./_lib/app.reducer"
+import { categoriesReducer } from "./_lib/categories.reducer"
+import { headerReducer } from "./_lib/header.reducer"
+import { productsReducer } from "./_lib/products.reducer"
+import { userReducer } from "./_lib/user.reducer"
 
 const rootReducer = combineReducers({
-  app: appReducer,
+  firebase: firebaseReducer,
+  
+  categories: categoriesReducer,
+  header: headerReducer,
+  products: productsReducer,
+  user: userReducer
 });
 
 export default rootReducer;

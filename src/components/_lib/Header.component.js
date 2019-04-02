@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import ReactSvg from 'react-svg'
 
 import { HeaderHelper } from '../../helpers';
 
@@ -105,23 +106,32 @@ class Header extends Component {
    * @returns {JSX} Containing the desired right header content
    */
   _renderRightContent() {
-    const { classes, isAuth } = this.props;
+    const { classes, isAuth, isUserPopperOpen, toForm, toLoggedIn } = this.props;
+    const headerUserButtonProps = {
+      isAuth,
+      toForm,
+      isUserPopperOpen,
+      toLoggedIn
+    };
 
     return (
       <div id='right-content' className={classes.rightContent}>
-        <div>
-          <svg className={classes.headerIcon}>
-            <image className={classes.headerIcon} xlinkHref='/icons/assinatura.svg' />
-          </svg>
+        <div className={classes.greenHover}>
+          <ReactSvg
+            src='/icons/assinatura.svg'
+            className={classes.headerIcon}
+          />
           <span style={{ verticalAlign: 'middle', marginLeft: '16px', fontWeight: 600, fontSize: '12px' }}>ASSINATURA</span>
         </div>
-        <svg className={classes.headerIcon}>
-          <image className={classes.headerIcon} xlinkHref='/icons/pesquisa.svg' />
-        </svg>
-        <HeaderUserButton isAuth={isAuth} />
-        <svg className={classes.headerIcon}>
-          <image className={classes.headerIcon} xlinkHref='/icons/cesta.svg' />
-        </svg>
+        <ReactSvg
+          src='/icons/pesquisa.svg'
+          className={classes.headerIcon}
+        />
+        <HeaderUserButton {...headerUserButtonProps} />
+        <ReactSvg
+          src='/icons/cesta.svg'
+          className={classes.headerIcon}
+        />
       </div>
     );
   }

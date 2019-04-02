@@ -3,14 +3,22 @@ import {
     compose,
     applyMiddleware
 } from 'redux';
-
 import ReduxThunk from 'redux-thunk'
+import { reactReduxFirebase } from 'react-redux-firebase';
+import firebase from 'firebase/app'
+import 'firebase/auth';
+
+import firebaseConfig from '../config/firebase.config';
 
 import rootReducer from './reducers';
 
-// if you're also using redux-thunk, add it as a middleware
-const createStoreWithMiddleware = compose(applyMiddleware(ReduxThunk))(createStore);
+firebase.initializeApp(firebaseConfig);
+
+const createStoreWithMiddlewares = compose(
+  reactReduxFirebase(firebase, { userProfile: 'users' }),
+  applyMiddleware(ReduxThunk)
+)(createStore);
 
 export default function configureStore(initialState = {}) {
-    return createStoreWithMiddleware(rootReducer, initialState);
+  return createStoreWithMiddlewares(rootReducer, initialState);
 };

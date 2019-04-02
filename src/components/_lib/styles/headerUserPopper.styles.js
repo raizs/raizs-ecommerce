@@ -38,6 +38,7 @@ export default theme => ({
     userSelect: 'none',
     cursor: 'pointer',
     marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing.unit/2,
     '&:active': {
       boxShadow: '1px 1px 2px 0 #444'
     },
@@ -106,7 +107,10 @@ export default theme => ({
   loginButton: {
     ...theme.buttons.primary,
     width: '100%',
-    marginTop: 2 * theme.spacing.unit
+    marginTop: 2 * theme.spacing.unit,
+    '&:active': {
+      boxShadow: '1px 1px 2px 0 #444'
+    }
   },
   infoText: {
     ...theme.typography.infoText,
