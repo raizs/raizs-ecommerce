@@ -108,7 +108,7 @@ class HeaderPopperButton extends Component {
           }}
         >
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
+            <Fade {...TransitionProps} timeout={{ enter: 350, exit: 100 }}>
               <Paper elevation={5}>
                 <span className={classes.arrow} ref={this._handleArrowRef} />
                 <Typography

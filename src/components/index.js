@@ -1,3 +1,5 @@
+export { CatalogSection } from './_lib/CatalogSection.component';
+export { CatalogSectionList } from './_lib/CatalogSectionList.component';
 export { DropdownMenu } from './_lib/DropdownMenu.component';
 export { Footer } from './_lib/Footer.component';
 export { Header } from './_lib/Header.component';

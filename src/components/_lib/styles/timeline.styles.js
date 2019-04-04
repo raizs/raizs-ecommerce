@@ -44,9 +44,6 @@ export default ({ fontSizes, palette, sizes, spacing }) => ({
   section: {
     padding: 2 * spacing.unit,
     marginTop: 8 * spacing.unit,
-    '& *': {
-      zIndex: 2,
-    },
     '&:first-child': {
       marginTop: 2 * spacing.unit
     }

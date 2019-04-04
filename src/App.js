@@ -14,8 +14,7 @@ import {
   closeUserPopperAction,
   openUserPopperAction,
   setUserAction,
-  setCategoriesAction,
-  setProductsAction
+  setCategoriesAction
 } from './store/actions';
 // import { Private } from './containers/private';
 
@@ -23,6 +22,7 @@ import defaultTheme from './muiTheme';
 
 import { Header, TopHeader, Footer } from './components';
 import { About } from './containers/about';
+import { Catalog } from './containers/catalog';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -30,8 +30,7 @@ const actions = {
   closeUserPopperAction,
   openUserPopperAction,
   setUserAction,
-  setCategoriesAction,
-  setProductsAction
+  setCategoriesAction
 };
 
 class App extends BaseContainer {
@@ -88,6 +87,7 @@ class App extends BaseContainer {
           <TopHeader history={history} />
           <Header {...headerProps} />
           <Switch>
+            <Route path="/catalogo" exact component={Catalog} />
             <Route path="/quem-somos" exact component={About} />
           </Switch>
           <Footer history={history} />

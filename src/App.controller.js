@@ -1,6 +1,6 @@
 import { BaseController, StateToApi } from './helpers';
-import { User, Categories, Products } from './entities';
-import { UserRepository, CategoriesRepository, ProductsRepository } from './repositories';
+import { User, Categories } from './entities';
+import { UserRepository, CategoriesRepository } from './repositories';
 
 export class AppController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -8,7 +8,6 @@ export class AppController extends BaseController {
 
     this.userRepo = new UserRepository();
     this.categoriesRepo = new CategoriesRepository();
-    this.productsRepo = new ProductsRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.signInWithEmailAndPassword = this.signInWithEmailAndPassword.bind(this);
@@ -20,31 +19,21 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction, setProductsAction } = this.getProps();
+    const { setCategoriesAction } = this.getProps();
     const promises = [
-      this.categoriesRepo.fetchCategories(),
-      this.productsRepo.fetchProducts()
+      this.categoriesRepo.fetchCategories()
     ];
 
     console.time('fetch')
     const [
-      categoriesPromise,
-      productsPromise
+      categoriesPromise
     ] = await Promise.all(promises);
     console.timeEnd('fetch')
-
-    console.log(categoriesPromise, productsPromise);
 
     if(!categoriesPromise.err) {
       const categories = new Categories(categoriesPromise.data);
       
       setCategoriesAction(categories);
-    }
-
-    if(!productsPromise.err) {
-      const products = new Products(productsPromise.data);
-
-      setProductsAction(products);
     }
   }
 

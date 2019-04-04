@@ -19,6 +19,10 @@ let TimelineSections = props => {
   );
 };
 
+TimelineSections.defaultProps = {
+  fixed: true
+};
+
 TimelineSections = withStyles(styles)(TimelineSections);
 
 export { TimelineSections };

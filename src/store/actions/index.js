@@ -18,6 +18,11 @@ export {
 } from './_lib/products.actions';
 
 export {
+  SET_UNITS_OF_MEASURE,
+  setUnitsOfMeasureAction
+} from './_lib/unitsOfMeasure.actions';
+
+export {
   SET_USER,
   setUserAction
 } from './_lib/user.actions';
