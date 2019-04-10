@@ -1,4 +1,9 @@
 export {
+  UPDATE_CART,
+  updateCartAction
+} from './_lib/cart.actions';
+
+export {
   SET_CATEGORIES,
   setCategoriesAction
 } from './_lib/categories.actions';
@@ -11,6 +16,11 @@ export {
   openUserPopperAction,
   closeUserPopperAction
 } from './_lib/header.actions';
+
+export {
+  SET_PRODUCT_BRANDS,
+  setProductBrandsAction
+} from './_lib/productBrands.actions';
 
 export {
   SET_PRODUCTS,

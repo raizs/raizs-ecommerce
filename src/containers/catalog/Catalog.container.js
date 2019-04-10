@@ -9,12 +9,23 @@ import styles from './catalog.styles';
 import { CatalogController } from './Catalog.controller';
 import { BaseContainer } from '../../helpers';
 
-import { setProductsAction, setUnitsOfMeasureAction } from '../../store/actions';
+import { Timeline, TimelineSections, TimelineSection } from '../../components';
+import { CatalogSection } from './components';
 import { withTimeline } from '../withTimeline';
-import { catalogMacroSections } from '../../assets';
-import { Timeline, TimelineSections, TimelineSection, CatalogSection } from '../../components';
 
-const actions = { setProductsAction, setUnitsOfMeasureAction };
+import {
+  setProductsAction,
+  setUnitsOfMeasureAction,
+  setProductBrandsAction,
+  updateCartAction
+} from '../../store/actions';
+
+const actions = {
+  setProductsAction,
+  setUnitsOfMeasureAction,
+  setProductBrandsAction,
+  updateCartAction
+};
 
 /**
  * Catalog - Container 'Catálogo'
@@ -44,24 +55,47 @@ class Catalog extends BaseContainer {
    * @memberof Catalog
    */
   _renderTimelineSections() {
-    const { categories, products, availableWidth } = this.props;
+    const { categories, products, availableWidth, brands, cart } = this.props;
+    const { handleUpdateCart } = this.controller;
 
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
-          <CatalogSection {...item} products={products} availableWidth={availableWidth} />
+          <CatalogSection
+            {...item}
+            brands={brands}
+            products={products}
+            availableWidth={availableWidth}
+            handleUpdateCart={handleUpdateCart}
+            cart={cart}
+          />
         </TimelineSection>
       );
     });
   }
 
   render() {
-    const { classes, history, availableWidth, timelineWidth, shouldFixTimeline, categories: { timelineObj } } = this.props;
+    const {
+      classes,
+      history,
+      availableWidth,
+      timelineWidth,
+      shouldFixTimeline,
+      categories: { timelineObj }
+    } = this.props;
 
     return (
       <div className={classes.wrapper}>
-        <Timeline fixed={shouldFixTimeline} history={history} content={{ items: timelineObj }} />
-        <TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
+        <Timeline
+          history={history}
+          fixed={shouldFixTimeline}
+          content={{ items: timelineObj }}
+        />
+        <TimelineSections
+          width={availableWidth}
+          fixed={shouldFixTimeline}
+          timelineWidth={timelineWidth}
+        >
           {this._renderTimelineSections()}
         </TimelineSections>
       </div>
@@ -70,9 +104,11 @@ class Catalog extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  products: state.products.model,
+  brands: state.brands.model,
   categories: state.categories.model,
-  uom: state.unitsOfMeasure.model
+  products: state.products.model,
+  uom: state.unitsOfMeasure.model,
+  cart: state.cart.current
 })
 
 export default compose(

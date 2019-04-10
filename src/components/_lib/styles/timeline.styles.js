@@ -6,10 +6,12 @@ export default ({ fontSizes, palette, sizes, spacing }) => ({
   wrapper: {
     width: '25%',
     maxWidth: TIMELINE_MAX_WIDTH,
+    maxHeight: '100vh',
+    overflowY: 'auto',
     display: 'inline-block',
     height: '100%',
     verticalAlign: 'top',
-    padding: `${4 * spacing.unit}px ${2 * spacing.unit}px 0 ${3 * spacing.unit}px`,
+    padding: `${4 * spacing.unit}px ${2 * spacing.unit}px ${2 * spacing.unit}px ${3 * spacing.unit}px`,
     '& *': {
       userSelect: 'none'
     }

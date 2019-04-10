@@ -5,10 +5,11 @@ import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withFirebase } from 'react-redux-firebase';
 import compose from 'recompose/compose';
+import SmoothScroll from 'smooth-scroll';
 
-import cep from 'cep-promise';
-
+import 'img-2';
 import './styles/css/index.css';
+import 'moment/locale/pt-br.js';
 
 import {
   closeUserPopperAction,
@@ -23,6 +24,7 @@ import defaultTheme from './muiTheme';
 import { Header, TopHeader, Footer } from './components';
 import { About } from './containers/about';
 import { Catalog } from './containers/catalog';
+import { Cart } from './containers/cart';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -50,7 +52,10 @@ class App extends BaseContainer {
 
     this.controller.initialFetch();
 
-    window.cepPromise = cep;
+    const scroll = new SmoothScroll('a[href^="#"]', {
+      speed: 750,
+      speedAsDuration: true
+    });
   }
 
 	render() {
@@ -88,6 +93,7 @@ class App extends BaseContainer {
           <Header {...headerProps} />
           <Switch>
             <Route path="/catalogo" exact component={Catalog} />
+            <Route path="/carrinho" exact component={Cart} />
             <Route path="/quem-somos" exact component={About} />
           </Switch>
           <Footer history={history} />

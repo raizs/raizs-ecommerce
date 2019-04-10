@@ -53,7 +53,7 @@ export class AppController extends BaseController {
   }
 
   signInWithGoogle() {
-    const { firebase, closeUserPopperAction, setUserAction } = this.getProps();
+    const { firebase, setUserAction } = this.getProps();
     const provider = new firebase.auth.GoogleAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then(async response => {

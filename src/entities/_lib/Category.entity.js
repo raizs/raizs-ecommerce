@@ -15,7 +15,16 @@ export class Category {
   }
 
   _getTimelineId(name) {
-    return name.toLowerCase().trim().replace(/(\(|\,|\.|\)|\/)/g, '').replace(/ /g, '-');
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[ÁÀÂÃ]/gi, 'a')
+      .replace(/[ÉÈÊ]/gi, 'e')
+      .replace(/[ÍÌÎ]/gi, 'i')
+      .replace(/[ÓÒÔÕ]/gi, 'o')
+      .replace(/[ÚÙÛ]/gi, 'u')
+      .replace(/[Ç]/gi, 'c')
+      .replace(/(\(|\,|\.|\)|\/)/g, '').replace(/ /g, '-');
   }
 
   _getOrder(timelineId) {

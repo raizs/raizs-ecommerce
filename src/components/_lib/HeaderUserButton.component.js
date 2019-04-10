@@ -1,11 +1,10 @@
 import React from 'react'
+import { withStyles } from '@material-ui/core';
+import ReactSvg from 'react-svg';
 
 import styles from './styles/header.styles';
-import { withStyles } from '@material-ui/core';
 import { HeaderUserPopper, HeaderPopperButton } from '..';
 import { SimplePopper } from '../../molecules';
-
-import ReactSvg from 'react-svg';
 
 let HeaderUserButton = props => {
   const { classes, isAuth, toForm, isUserPopperOpen, toLoggedIn } = props;

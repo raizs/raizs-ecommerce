@@ -106,7 +106,7 @@ class Header extends Component {
    * @returns {JSX} Containing the desired right header content
    */
   _renderRightContent() {
-    const { classes, isAuth, isUserPopperOpen, toForm, toLoggedIn } = this.props;
+    const { classes, isAuth, isUserPopperOpen, toForm, toLoggedIn, history } = this.props;
     const headerUserButtonProps = {
       isAuth,
       toForm,
@@ -128,10 +128,14 @@ class Header extends Component {
           className={classes.headerIcon}
         />
         <HeaderUserButton {...headerUserButtonProps} />
-        <ReactSvg
-          src='/icons/cesta.svg'
-          className={classes.headerIcon}
-        />
+        <div
+          onClick={() => history.push('carrinho')}
+        >
+          <ReactSvg
+            src='/icons/cesta.svg'
+            className={classes.headerIcon}
+          />
+        </div>
       </div>
     );
   }

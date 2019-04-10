@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
 import chunk from 'lodash.chunk';
+import 'img-2';
 
 import styles, { MIN_ROW_HEIGHT } from './styles/catalogSection.styles'
+import { CatalogProduct } from '..';
 
 const PRODUCT_WIDTH = 256 + 24;
 
@@ -46,7 +48,6 @@ class CatalogSectionList extends Component {
     const rowsToRender = this._calculateNumberOfRows(anchor.offsetTop, scroll);
     const fakeHeight = Math.ceil(this.props.groupedProducts.length / perRow) * MIN_ROW_HEIGHT + 80;
 
-    console.log(this.props.groupedProducts.length, perRow);
     anchor.style.height = `${fakeHeight}px`;
     
     this.setState({ perRow, anchor, rowsToRender });
@@ -79,20 +80,23 @@ class CatalogSectionList extends Component {
   
   _renderProducts() {
     const { perRow, rowsToRender } = this.state;
-    const { groupedProducts, classes } = this.props;
+    const { groupedProducts, brands, classes, handleUpdateCart, cart } = this.props;
     let chunked = chunk(groupedProducts, perRow);
 
     chunked = chunked.slice(0, rowsToRender);
 
-    return chunked.map(chunk => {
+    return chunked.map((chunk, index) => {
       return (
-        <div className={classes.row}>
+        <div className={classes.row} key={`chunk-${index}`}>
           {chunk.map(product => {
+            product.brand = brands.getNameFromId(product.brandId);
             return (
-              <div className={classes.product}>
-                <h5>{product.name}</h5>
-                <img style={{ width: '100%'}} src={`https://raizs.odoo.com/product/image?template_id=${product.templateId}`} />
-              </div>
+              <CatalogProduct
+                cart={cart}
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateCart}
+              />
             );
           })}
         </div>

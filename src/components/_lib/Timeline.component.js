@@ -6,7 +6,7 @@ import styles from './styles/timeline.styles';
 import { CollapsibleTimelineItem } from '../../molecules';
 
 const _renderCollapsibleItem = item => {
-  return <CollapsibleTimelineItem item={item} />
+  return <CollapsibleTimelineItem key={item.id} item={item} />
 };
 
 const _renderItems = (items, classes) => {

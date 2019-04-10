@@ -1,6 +1,6 @@
 import { BaseController } from '../../helpers';
-import { Products, UnitsOfMeasure } from '../../entities';
-import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
+import { Products, UnitsOfMeasure, ProductBrands, Cart } from '../../entities';
+import { ProductsRepository, UnitsOfMeasureRepository, ProductBrandsRepository } from '../../repositories';
 
 export class CatalogController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -8,20 +8,29 @@ export class CatalogController extends BaseController {
 
     this.productsRepo = new ProductsRepository();
     this.uomRepo = new UnitsOfMeasureRepository();
+    this.brandsRepo = new ProductBrandsRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
+    this.handleUpdateCart = this.handleUpdateCart.bind(this);
   }
 
   async initialFetch() {
-    const { setProductsAction, setUnitsOfMeasureAction } = this.getProps();
+    const {
+      setProductsAction,
+      setUnitsOfMeasureAction,
+      setProductBrandsAction
+    } = this.getProps();
+
     const promises = [
       this.productsRepo.fetchProducts(),
-      this.uomRepo.fetchUnitsOfMeasure()
+      this.uomRepo.fetchUnitsOfMeasure(),
+      this.brandsRepo.fetchProductBrands()
     ];
 
     const [
       productsPromise,
-      uomPromise
+      uomPromise,
+      brandsPromise
     ] = await Promise.all(promises);
 
     if(!productsPromise.err) {
@@ -35,5 +44,18 @@ export class CatalogController extends BaseController {
 
       setUnitsOfMeasureAction(uom);
     }
+    
+    if(!brandsPromise.err) {
+      const brands = new ProductBrands(brandsPromise.data);
+
+      setProductBrandsAction(brands);
+    }
+  }
+
+  async handleUpdateCart({ item, quantity }) {
+    const { cart, updateCartAction } = this.getProps();
+
+    const newCart = cart.update(item, quantity);
+    updateCartAction(newCart);
   }
 }

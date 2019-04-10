@@ -14,7 +14,6 @@ th, td, tr, aside, caption, sup, sub, q, small
 	border 0
 	text-decoration none
   font-family $FONT_MAIN
-  
 
 a
 	text-decoration none
@@ -55,3 +54,25 @@ blockquote:before
 table
 	border-collapse collapse
 	border-spacing 0
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 4px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $GREEN; 
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $GREEN; 
+}

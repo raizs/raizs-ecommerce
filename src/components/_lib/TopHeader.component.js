@@ -1,11 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-
-const MiniDatePicker = (props) => {
-  return (
-    <div >Here comes the Datepicker</div>
-  )
-}
+import { MiniDatePicker } from '../../molecules';
 
 /**
  * renderNavLink - Renders the buttons that navigate in the different routes of the website
@@ -33,7 +28,7 @@ export const TopHeader = props => {
         {renderNavLink({route:"route", label:"Sobre a Raízs"})}
         {renderNavLink({route:"route", label:"Conheça os Produtores"})}
       </nav>
-      <MiniDatePicker></MiniDatePicker>
+      <MiniDatePicker />
       <nav className="side-buttons">
         {renderNavLink({route:"route", label:"Refazer Pedido"})}
         {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}

@@ -10,6 +10,8 @@ export {
   Cache
 };
 
+export { Formatter } from './_lib/Formatter';
 export { HeaderHelper } from './_lib/Header.helper';
+export { MiniDatePickerHelper } from './_lib/MiniDatePicker.helper';
 export { StateToApi } from './_lib/StateToApi';
 export { StringMapper } from './_lib/StringMapper';

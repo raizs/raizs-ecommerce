@@ -7,7 +7,6 @@ import { aboutTimeline, aboutSections } from '../../assets';
 import { Timeline, TimelineSection, TimelineSections } from '../../components';
 import { AboutUs, Ethics, WhyOrganics, SmallProducerFund } from './components';
 
-import { TIMELINE_MAX_WIDTH } from '../../components/_lib/styles/timeline.styles';
 import '../../../node_modules/video-react/dist/video-react.css';
 
 import styles from './about.styles';
@@ -32,8 +31,6 @@ class About extends Component {
   }
 
   componentDidMount() {
-    const context = this;
-    
     if(!this.state.expanded) {
       document.querySelector('body').style.overflow = 'hidden';
       document.querySelector('html').style.overflow = 'hidden';

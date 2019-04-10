@@ -9,6 +9,8 @@ const GRAY_BG = '#EFEFEF';
 
 const GRAY_BORDER = '#D1DBE3';
 
+const RED = '#FF6E60';
+
 const FACEBOOK_BLUE = '#3C5A99';
 const GOOGLE_RED = '#D34836';
 
@@ -60,6 +62,12 @@ const theme = createMuiTheme({
       fontWeight: 700,
       lineHeight: `${nXL + SPACING_UNIT/2}px`,
       textAlign: 'center'
+    },
+    textEllipsis: {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      maxWidth: '100%',
+      whiteSpace: 'nowrap',
     }
   },
   fontSizes: { XXS, XS, SM, MD, LG, XL, nXXS, nXS, nSM, nMD, nLG, nXL },
@@ -84,7 +92,8 @@ const theme = createMuiTheme({
       main: BLACK
     },
     facebook: FACEBOOK_BLUE,
-    google: GOOGLE_RED
+    google: GOOGLE_RED,
+    red: RED
   },
   buttons: {
     primary: {
@@ -94,7 +103,28 @@ const theme = createMuiTheme({
       fontWeight: 700,
       padding: `${SPACING_UNIT}px ${2 * SPACING_UNIT}px`,
       borderRadius: `${SPACING_UNIT}px`,
-      cursor: 'pointer'
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: GREEN
+      },
+      '& > span': {
+        color: 'white'
+      }
+    },
+    error: {
+      backgroundColor: RED,
+      color: 'white',
+      fontSize: SM,
+      fontWeight: 700,
+      padding: `${SPACING_UNIT}px ${2 * SPACING_UNIT}px`,
+      borderRadius: `${SPACING_UNIT}px`,
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: RED
+      },
+      '& > span': {
+        color: 'white'
+      }
     },
     header: {
       backgroundColor: 'transparent',
@@ -127,15 +157,14 @@ const theme = createMuiTheme({
       height: '48px',
       width: `calc(100% - ${2 * SPACING_UNIT}px)`,
       border: `1px solid ${GRAY_BORDER}`,
-      margin: SPACING_UNIT,
       padding: SPACING_UNIT,
       fontSize: MD,
       borderRadius: SPACING_UNIT,
       transition: '.3s',
-      '&:focus, :active': {
-        margin: SPACING_UNIT,
+      '&:focus, &:active': {
         padding: SPACING_UNIT,
-        outlineColor: GREEN
+        border: `1px solid ${GREEN}`,
+        outline: 'none'
       },
     },
     small: {
