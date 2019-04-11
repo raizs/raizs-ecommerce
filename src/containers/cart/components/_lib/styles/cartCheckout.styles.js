@@ -50,6 +50,7 @@ export default theme => ({
     ...theme.inputs.text,
     width: '200px',
     marginTop: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     '&:focus, &:active': {
       marginTop: theme.spacing.unit,
       padding: theme.spacing.unit,

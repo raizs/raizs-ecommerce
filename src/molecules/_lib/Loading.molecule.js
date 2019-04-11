@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import classnames from 'classnames';
 
 const styles = theme => ({
   wrapper: {
@@ -9,24 +10,38 @@ const styles = theme => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '&.inline': {
+      display: 'inline-block',
+      width: 'auto',
+      verticalAlign: 'middle'
+    }
   },
   progress: {
-    color: theme.palette.green.main
+    '& *': {
+      color: theme.palette.green.main
+    }
   },
 });
 
 let Loading = props => {
-  const { classes } = props;
+  const { classes, size } = props;
+  const wrapperClasses = [classes.wrapper];
+  if(props.inline) wrapperClasses.push('inline');
+
   return (
-    <div className={classes.wrapper}>
-      <CircularProgress className={classes.progress} />
+    <div className={classnames(...wrapperClasses)}>
+      <CircularProgress className={classes.progress} size={size} />
     </div>
   );
 }
 
 Loading.propTypes = {
   classes: PropTypes.object.isRequired,
+};
+
+Loading.defaultProps = {
+  size: 40
 };
 
 Loading = withStyles(styles)(Loading);

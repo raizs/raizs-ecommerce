@@ -1,0 +1,1 @@
+export { InfoSections } from './_lib/InfoSections.component';

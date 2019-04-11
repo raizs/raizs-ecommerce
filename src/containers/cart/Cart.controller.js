@@ -1,6 +1,6 @@
 import cep from 'cep-promise';
 
-import { BaseController, Formatter } from '../../helpers';
+import { BaseController, Formatter, CepHelper } from '../../helpers';
 
 export class CartController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -33,23 +33,17 @@ export class CartController extends BaseController {
     this.toState(toState);
   }
 
-  handleCepBlur(e) {
+  async handleCepBlur(e) {
     const { value } = e.target;
     if(value.length < 9) {
       if(!value.length) return;
       return this.toState({ cepError: 'CEP inválido.' })
     }
 
-    cep(value)
-    .then(response => {
-      if(response.city !== 'São Paulo') this.toState({ cepError: "Não atendemos sua região =(" })
-      else {
-        // todo: calculate shipping price
-        this.toState({ shippingValue: 9.9, cepSuccess: true });
-      }
-    })
-    .catch(err => {
-      this.toState({ cepError: 'CEP inválido.' })
-    })
+    this.toState({ cepLoading: true });
+    const { success, msg, shippingValue } = await CepHelper.check(value);
+
+    if(success) this.toState({ cepLoading: false, shippingValue, cepSuccess: true })
+    else this.toState({ cepLoading: false, cepError: msg });
   }
 }

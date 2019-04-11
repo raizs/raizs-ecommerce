@@ -17,14 +17,14 @@ import {
   setUserAction,
   setCategoriesAction
 } from './store/actions';
-// import { Private } from './containers/private';
 
 import defaultTheme from './muiTheme';
 
 import { Header, TopHeader, Footer } from './components';
 import { About } from './containers/about';
-import { Catalog } from './containers/catalog';
 import { Cart } from './containers/cart';
+import { Catalog } from './containers/catalog';
+import { Checkout } from './containers/checkout';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -94,6 +94,7 @@ class App extends BaseContainer {
           <Switch>
             <Route path="/catalogo" exact component={Catalog} />
             <Route path="/carrinho" exact component={Cart} />
+            <Route path="/checkout" exact component={Checkout} />
             <Route path="/quem-somos" exact component={About} />
           </Switch>
           <Footer history={history} />

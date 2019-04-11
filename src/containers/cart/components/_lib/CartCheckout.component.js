@@ -4,6 +4,7 @@ import { withStyles, LinearProgress, Button } from '@material-ui/core';
 import styles from './styles/cartCheckout.styles'
 import { Formatter } from '../../../../helpers';
 import classnames from 'classnames';
+import { Loading } from '../../../../molecules';
 
 
 class CartCheckout extends Component {
@@ -44,7 +45,9 @@ class CartCheckout extends Component {
       cepSuccess,
       cepError,
       handleChange,
-      handleCepBlur
+      handleCepBlur,
+      cepLoading,
+      FREE_SHIPPING_VALUE
     } = this.props;
 
     return cepSuccess ? (
@@ -54,9 +57,9 @@ class CartCheckout extends Component {
           className={classes.info}
           style={{ margin: '16px 0' }}
         >
-          Faltam apenas {Formatter.currency(200 - cart.subtotal)} para Frete Grátis.
+          Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - cart.subtotal)} para Frete Grátis.
         </div>
-        <LinearProgress variant="determinate" value={100 * cart.subtotal/200} />
+        <LinearProgress variant="determinate" value={100 * cart.subtotal/FREE_SHIPPING_VALUE} />
       </div>
     ) : (
       <div>
@@ -67,7 +70,9 @@ class CartCheckout extends Component {
           className={classes.input}
           onChange={handleChange}
           onBlur={handleCepBlur}
+          disabled={cepLoading}
         />
+        { cepLoading ? <Loading inline size={20} /> : null }
         <div className={classes.errorText}>{cepError}</div>
       </div>
     )
@@ -92,17 +97,17 @@ class CartCheckout extends Component {
   }
 
   _renderCheckoutButton() {
-    const { classes, subtotalError } = this.props;
+    const { classes, subtotalError, history } = this.props;
 
     return subtotalError ? (
-      <Button className={classes.errorButton}>Adicione mais produtos</Button>
+      <Button onClick={() => history.push('catalogo')} className={classes.errorButton}>Adicione mais produtos</Button>
     ) : (
-      <Button className={classes.successButton}>CHECKOUT</Button>
+      <Button onClick={() => history.push('checkout')} className={classes.successButton}>CHECKOUT</Button>
     );
   }
 
   render() {
-    const { classes, cart, subtotalError, shippingValue, MINIMUM_VALUE } = this.props;
+    const { classes, cart, subtotalError, MINIMUM_VALUE } = this.props;
 
     const valueClasses = [classes.value];
     if(subtotalError) valueClasses.push('error');

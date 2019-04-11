@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core';
@@ -18,6 +19,7 @@ const actions = {
 };
 
 const MINIMUM_VALUE = 60; // todo: get from db
+const FREE_SHIPPING_VALUE = 200; // todo: get from db
 
 /**
  * Cart - Container 'Carrinho'
@@ -36,6 +38,7 @@ class Cart extends BaseContainer {
     coupon: '',
     shippingValue: null,
     
+    cepLoading: false,
     cepSuccess: false,
     cepError: false,
     subtotalError: false
@@ -69,14 +72,16 @@ class Cart extends BaseContainer {
   }
 
   render() {
-    const { classes, cart } = this.props;
-    const { cep, coupon, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
+    const { classes, cart, history } = this.props;
+    const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
     const { handleChange, handleCepBlur } = this.controller;
 
     const toCartCheckout = {
+      history,
       cart,
       cep,
       coupon,
+      cepLoading,
       cepSuccess,
       cepError,
       subtotalError,
@@ -84,7 +89,8 @@ class Cart extends BaseContainer {
       handleCepBlur,
       shippingValue,
 
-      MINIMUM_VALUE // todo: get from db
+      MINIMUM_VALUE, // todo: get from db
+      FREE_SHIPPING_VALUE // todo: get from db
     };
 
     return (
@@ -104,12 +110,11 @@ class Cart extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  products: state.products.model,
-  uom: state.unitsOfMeasure.model,
   cart: state.cart.current
-})
+});
 
 export default compose(
   withStyles(styles),
+  withRouter,
   connect(mapStateToProps, actions)
 )(Cart);

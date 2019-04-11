@@ -28,60 +28,8 @@ export default theme => ({
       marginBottom: 2 * theme.spacing.unit
     }
   },
-  facebookButton: {
-    height: '32px',
-    width: `calc(50% - ${theme.spacing.unit}px)`,
-    textAlign: 'center',
-    padding: theme.spacing.unit,
-    backgroundColor: theme.palette.facebook,
-    borderRadius: theme.spacing.unit,
-    userSelect: 'none',
-    cursor: 'pointer',
-    marginRight: theme.spacing.unit,
-    marginLeft: theme.spacing.unit/2,
-    '&:active': {
-      boxShadow: '1px 1px 2px 0 #444'
-    },
-    '& > *': {
-      display: 'inline-block',
-      verticalAlign: 'top'
-    },
-    '& > img': {
-      height: '18px',
-      width: '18px',
-      marginRight: theme.spacing.unit
-    },
-    '& > p': {
-      color: 'white',
-      fontWeight: 600,
-    }
-  },
-  googleButton: {
-    height: '32px',
-    width: `calc(50% - ${theme.spacing.unit}px)`,
-    textAlign: 'center',
-    padding: theme.spacing.unit,
-    backgroundColor: theme.palette.google,
-    borderRadius: theme.spacing.unit,
-    userSelect: 'none',
-    cursor: 'pointer',
-    '&:active': {
-      boxShadow: '1px 1px 2px 0 #444'
-    },
-    '& > *': {
-      display: 'inline-block',
-      verticalAlign: 'top'
-    },
-    '& > img': {
-      height: '18px',
-      width: '18px',
-      marginRight: theme.spacing.unit
-    },
-    '& > p': {
-      color: 'white',
-      fontWeight: 600,
-    }
-  },
+  facebookButton: theme.buttons.facebook,
+  googleButton: theme.buttons.google,
   textInput: {
     ...theme.inputs.text,
     ...theme.inputs.small,
