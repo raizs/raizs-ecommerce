@@ -47,7 +47,8 @@ class App extends BaseContainer {
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
-      if(user) console.log(`welcome ${user.displayName}`);
+      if(user) this.controller.fetchPgUser(user);
+      else this.props.setUserAction(null);
     });
 
     this.controller.initialFetch();

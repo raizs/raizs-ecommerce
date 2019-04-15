@@ -30,7 +30,8 @@ class UserLoginForm extends Component {
       classes,
       loginEmailOrCellphone,
       loginPassword,
-      handleChange
+      handleChange,
+      handleSubmit
     } = this.props;
 
     return (
@@ -50,7 +51,7 @@ class UserLoginForm extends Component {
           onChange={handleChange}
           placeholder='Senha'
         />
-        <Button className={classes.button}>Entrar</Button>
+        <Button onClick={handleSubmit} className={classes.button}>Entrar</Button>
       </form>
     )
   }

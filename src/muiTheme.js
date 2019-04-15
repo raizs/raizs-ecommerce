@@ -81,6 +81,7 @@ const theme = createMuiTheme({
       position: 'relative',
       zIndex: 1,
       textAlign: 'center',
+      userSelect: 'none',
       '&:before': {
         borderTop: `2px solid ${GRAY_BORDER}`,
         content: '""',
@@ -175,7 +176,7 @@ const theme = createMuiTheme({
       height: '32px',
       width: `calc(50% - ${SPACING_UNIT}px)`,
       textAlign: 'center',
-      padding: `0 ${SPACING_UNIT}px`,
+      paddingRight: SPACING_UNIT,
       display: 'inline-block',
       backgroundColor: FACEBOOK_BLUE,
       borderRadius: SPACING_UNIT,
@@ -198,7 +199,8 @@ const theme = createMuiTheme({
       },
       '& > p': {
         color: 'white',
-        fontWeight: 600,
+        fontSize: MD,
+        fontWeight: 500,
       }
     },
     google: {
@@ -226,7 +228,8 @@ const theme = createMuiTheme({
       },
       '& > p': {
         color: 'white',
-        fontWeight: 600,
+        fontSize: MD,
+        fontWeight: 500,
       }
     },
     header: {

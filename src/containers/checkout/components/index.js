@@ -1,1 +1,1 @@
-export { InfoSections } from './_lib/InfoSections.component';
+export { FormSections } from './_lib/FormSections.component';

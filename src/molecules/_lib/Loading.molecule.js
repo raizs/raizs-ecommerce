@@ -15,6 +15,11 @@ const styles = theme => ({
       display: 'inline-block',
       width: 'auto',
       verticalAlign: 'middle'
+    },
+    '&.absolute': {
+      position: 'absolute',
+      zIndex: 10,
+      backgroundColor: 'rgba(255,255,255,.7)'
     }
   },
   progress: {
@@ -28,6 +33,7 @@ let Loading = props => {
   const { classes, size } = props;
   const wrapperClasses = [classes.wrapper];
   if(props.inline) wrapperClasses.push('inline');
+  if(props.absolute) wrapperClasses.push('absolute');
 
   return (
     <div className={classnames(...wrapperClasses)}>

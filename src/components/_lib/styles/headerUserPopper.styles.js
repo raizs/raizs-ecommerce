@@ -1,6 +1,6 @@
 export default theme => ({
   wrapper: {
-    maxWidth: '230px'
+    maxWidth: '240px'
   },
   menuItem: {
     marginBottom: 2 * theme.spacing.unit,

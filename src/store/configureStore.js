@@ -11,7 +11,6 @@ import 'firebase/auth';
 import firebaseConfig from '../config/firebase.config';
 
 import rootReducer from './reducers';
-
 firebase.initializeApp(firebaseConfig);
 
 const createStoreWithMiddlewares = compose(

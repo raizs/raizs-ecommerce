@@ -12,6 +12,7 @@ export class CepHelper {
       }
       else {
         response.success = true;
+        response.data = res;
         // todo: calculate shipping price
         response.shippingValue = 9.9;
       }

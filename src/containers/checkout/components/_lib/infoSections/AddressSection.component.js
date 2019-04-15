@@ -4,14 +4,13 @@ import { withStyles, Collapse } from '@material-ui/core';
 import { Loading, FacebookButton, GoogleButton } from '../../../../../molecules';
 import { Formatter } from '../../../../../helpers';
 
-import { UserLoginForm, UserSignupForm } from '.';
+import { AddressForm } from '.';
 
 const styles = theme => ({
   section: {
     width: '100%',
     backgroundColor: 'white',
-    borderRadius: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    borderRadius: theme.spacing.unit
   },
   title: {
     backgroundColor: theme.palette.green.main,
@@ -43,18 +42,13 @@ const styles = theme => ({
   content: {
     position: 'relative',
     marginTop: 3 * theme.spacing.unit,
-    marginBottom: 3 * theme.spacing.unit
+    marginBottom: 3 * theme.spacing.unit,
+    padding: `0 ${3 * theme.spacing.unit}px`
   },
-  half: {
-    width: '50%',
-    display: 'inline-block',
-    paddingLeft: 4 * theme.spacing.unit,
-    paddingRight: 4 * theme.spacing.unit,
-    verticalAlign: 'top'
+  formTitle: {
+    ...theme.typography.formTitle,
+    textAlign: 'left'
   },
-  facebookButton: theme.buttons.facebook,
-  googleButton: theme.buttons.google,
-  formTitle: theme.typography.formTitle,
   textWithLineBehind: {
     ...theme.typography.textWithLineBehind,
     fontSize: theme.fontSizes.XS,
@@ -67,8 +61,7 @@ const styles = theme => ({
     borderRadius: theme.spacing.unit,
     display: 'flex',
     justifyContent: 'space-between',
-    padding: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    padding: theme.spacing.unit
   },
   doneNumber: {
     display: 'inline-block',
@@ -103,9 +96,9 @@ const styles = theme => ({
   }
 });
 
-class UserSection extends Component {
+class AddressSection extends Component {
   state = {
-    isOpen: true,
+    isOpen: false,
     isDone: false
   }
 
@@ -122,83 +115,38 @@ class UserSection extends Component {
 
   _renderCollapsibleContent() {
     const {
-      user,
       classes,
-      userSectionLoading,
+      addressSectionLoading,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState,
       handleChange,
-      handleCheckbox,
-      handleGoogleSignin,
-      handleCompleteSignup,
-      loginEmailOrCellphone,
-      handleEmailAndPasswordLogin,
-      loginPassword,
-      signupName,
-      signupLastName,
-      signupCpf,
-      signupEmail,
-      signupCellphone,
-      signupNews,
-      signupPassword
+      handleCepBlur
     } = this.props;
 
-    const toSignupForm = {
-      user,
+    const toAddressForm = {
       handleChange,
-      handleCheckbox,
-      handleCompleteSignup,
-      signupName,
-      signupLastName,
-      signupCpf,
-      signupEmail,
-      signupCellphone,
-      signupNews,
-      signupPassword
+      handleCepBlur,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState
     };
 
-    return user && !user.isComplete ? (
+    return (
       <div>
-        { userSectionLoading && <Loading absolute /> }
+        { addressSectionLoading && <Loading absolute /> }
 
         <div className={classes.whole}>
-          <h3 className={classes.formTitle}>Complete seu cadastro</h3>
-          <UserSignupForm {...toSignupForm} isCompleteForm />
-        </div>
-      </div>
-    ) : (
-      <div>
-        { userSectionLoading && <Loading absolute /> }
-
-        <div className={classes.half}>
-          <h3 className={classes.formTitle}>Login</h3>
-          <FacebookButton
-            id='facebook-login'
-            className={classes.facebookButton}
-            clickAction={() => console.log('sd')} />
-          <GoogleButton
-            id='google-login'
-            className={classes.googleButton}
-            clickAction={handleGoogleSignin} />
-          <div className={classes.textWithLineBehind}><span>ou entre com sua conta</span></div>
-          <UserLoginForm
-            loginEmailOrCellphone={loginEmailOrCellphone}
-            loginPassword={loginPassword}
-            handleChange={handleChange}
-            handleSubmit={handleEmailAndPasswordLogin}
-          />
-        </div>
-
-        <div className={classes.half}>
-          <h3 className={classes.formTitle}>Cadastro</h3>
-          <FacebookButton
-            id='facebook-signup'
-            className={classes.facebookButton}
-            clickAction={() => console.log('sd')} />
-          <GoogleButton
-            id='google-signup'
-            className={classes.googleButton}
-            clickAction={handleGoogleSignin} />
-          <div className={classes.textWithLineBehind}><span>ou cadastre-se com o email</span></div>
-          <UserSignupForm {...toSignupForm} />
+          <h3 className={classes.formTitle}>Endereço de Entrega</h3>
+          <AddressForm {...toAddressForm} />
         </div>
       </div>
     )
@@ -212,8 +160,8 @@ class UserSection extends Component {
       <div className={classes.section}>
 
         <div className={classes.title} onClick={() => this.setState({ isOpen: !isOpen })}>
-          <div className={classes.number}>1</div>
-          <h4 className={classes.label}>IDENTIFICAÇÃO</h4>
+          <div className={classes.number}>2</div>
+          <h4 className={classes.label}>ENTREGA</h4>
         </div>
         
         <Collapse in={isOpen}>
@@ -230,8 +178,8 @@ class UserSection extends Component {
     return (
       <div className={classes.doneWrapper}>
         <div>
-          <div className={classes.doneNumber}>1</div>
-          <h4 className={classes.doneLabel}>IDENTIFICAÇÃO</h4>
+          <div className={classes.doneNumber}>2</div>
+          <h4 className={classes.doneLabel}>ENTREGA</h4>
         </div>
         <div>
           <div className={classes.doneInfo}>{user.name}</div>
@@ -258,6 +206,6 @@ class UserSection extends Component {
   }
 }
 
-UserSection = withStyles(styles)(UserSection);
+AddressSection = withStyles(styles)(AddressSection);
 
-export { UserSection };
+export { AddressSection };

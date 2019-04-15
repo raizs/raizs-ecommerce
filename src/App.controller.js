@@ -1,4 +1,4 @@
-import { BaseController, StateToApi } from './helpers';
+import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
 import { User, Categories } from './entities';
 import { UserRepository, CategoriesRepository } from './repositories';
 
@@ -10,6 +10,7 @@ export class AppController extends BaseController {
     this.categoriesRepo = new CategoriesRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
+    this.fetchPgUser = this.fetchPgUser.bind(this);
     this.signInWithEmailAndPassword = this.signInWithEmailAndPassword.bind(this);
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
     this.logout = this.logout.bind(this);
@@ -19,7 +20,8 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction } = this.getProps();
+    const { setCategoriesAction, firebase } = this.getProps();
+    
     const promises = [
       this.categoriesRepo.fetchCategories()
     ];
@@ -37,6 +39,12 @@ export class AppController extends BaseController {
     }
   }
 
+  async fetchPgUser(user) {
+    const pgUser = await this.userRepo.getUser(user.uid);
+
+    if(!pgUser.err) this.getProps().setUserAction(new User(pgUser.data));
+  }
+
   signInWithEmailAndPassword() {
     const { email, password } = this.getState();
     const { firebase, closeUserPopperAction, openUserPopperAction } = this.getProps();
@@ -52,34 +60,23 @@ export class AppController extends BaseController {
     });
   }
 
-  signInWithGoogle() {
+  async signInWithGoogle() {
     const { firebase, setUserAction } = this.getProps();
-    const provider = new firebase.auth.GoogleAuthProvider();
 
-    firebase.auth().signInWithPopup(provider).then(async response => {
-      const { user, additionalUserInfo } = response;
+    const { success, error, user, isNewUser } = SocialMediaHelper.signInWithGoogle(firebase);
+
+    if(success && isNewUser) {
       const { createUser } = this.userRepo;
-      
-      if(additionalUserInfo.isNewUser) {
-        const pgUser = await createUser(StateToApi.createUserFromGoogleSignIn(user));
+      const pgUser = await createUser(StateToApi.createUserFromGoogleSignIn(user));
 
-        console.log(pgUser);
+      if(!pgUser.err) setUserAction(new User(pgUser.data));
+    }
 
-        if(!pgUser.err) setUserAction(new User(pgUser.data));
-      }
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-      console.log('error', {errorCode, errorMessage, email, credential});
-    });
+    if(error) {
+      // handle error
+    }
   }
-    
+
   logout() {
     const { firebase, closeUserPopperAction } = this.getProps();
     closeUserPopperAction()

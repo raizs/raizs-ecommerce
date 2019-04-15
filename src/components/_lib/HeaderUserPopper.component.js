@@ -3,6 +3,7 @@ import React from 'react'
 import styles from './styles/headerUserPopper.styles';
 import { withStyles } from '@material-ui/core';
 import { loggedUserMenuOptions } from '../../assets';
+import { FacebookButton, GoogleButton } from '../../molecules';
 
 const _renderLoggedInPopper = (classes, toLoggedIn) => {
   return loggedUserMenuOptions.map(option => (
@@ -21,20 +22,14 @@ const _renderLoggedOutPopper = (classes, toForm) => {
   const { email, password, handleChange, handleSubmit, handleGoogleSignIn } = toForm;
   return (
     <div className={classes.wrapper}>
-      <div className={classes.top}>
-        <div className={classes.facebookButton}>
-          <img alt='facebook login button' src='/icons/facebook.jpg' />
-          <p>
-            Facebook
-          </p>
-        </div>
-        <div onClick={handleGoogleSignIn} className={classes.googleButton}>
-          <img alt='google plus login button' src='/icons/google-plus.png' />
-          <p>
-            Google
-          </p>
-        </div>
-      </div>
+      <FacebookButton
+        id='facebook-login'
+        className={classes.facebookButton}
+        clickAction={() => console.log('fb login')} />
+      <GoogleButton
+        id='google-login'
+        className={classes.googleButton}
+        clickAction={handleGoogleSignIn} />
       <form onSubmit={e => { e.preventDefault(); handleSubmit(); }} className={classes.form}>
         <input
           id='email'

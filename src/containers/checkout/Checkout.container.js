@@ -9,11 +9,12 @@ import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
 import styles from './checkout.styles';
 
-import {} from '../../store/actions';
-import { InfoSections } from './components';
+import { setUserAction } from '../../store/actions';
+import { FormSections } from './components';
+import { withFirebase } from 'react-redux-firebase';
 
 const actions = {
-  // updateCheckoutAction
+  setUserAction
 };
 
 /**
@@ -29,6 +30,10 @@ class Checkout extends BaseContainer {
   }
 
   state = {
+    openedSection: 'address',
+    userSectionLoading: false,
+    addressSectionLoading: false,
+
     loginEmailOrCellphone: '',
     loginPassword: '',
 
@@ -38,30 +43,46 @@ class Checkout extends BaseContainer {
     signupEmail: '',
     signupCellphone: '',
     signupPassword: '',
-    signupNews: false
+    signupNews: false,
+
+    addressCep: '',
+    addressAddress: '',
+    addressNumber: '',
+    addressComplement: '',
+    addressNeighbourhood: '',
+    addressCity: '',
+    addressState: '',
   }
 
   static propTypes = {
     classes: PropTypes.object,
   }
 
-  _renderInfo() {
-    const { handleChange, handleCheckbox } = this.controller;
-    const {
-      loginEmailOrCellphone,
-      loginPassword,
-      signupName,
-      signupLastName,
-      signupCpf,
-      signupEmail,
-      signupCellphone,
-      signupPassword,
-      signupNews
-    } = this.state;
+  componentDidMount() {
+    if(this.props.user) this.controller.setUserInfo(this.props.user);
+  }
 
-    const toUserSection = {
+  componentWillReceiveProps(nextProps) {
+    const oldUser = this.props.user, nextUser = nextProps.user;
+    if(!oldUser && nextUser) this.controller.setUserInfo(nextUser);
+    if(!nextUser && oldUser) this.controller.clearUserInfo();
+  }
+
+  _renderInfo() {
+    const {
       handleChange,
       handleCheckbox,
+      handleGoogleSignin,
+      handleCompleteSignup,
+      handleEmailAndPasswordLogin,
+      handleOpenSection,
+      handleCepBlur
+    } = this.controller;
+
+    const {
+      openedSection,
+
+      userSectionLoading,
       loginEmailOrCellphone,
       loginPassword,
       signupName,
@@ -70,11 +91,58 @@ class Checkout extends BaseContainer {
       signupEmail,
       signupCellphone,
       signupPassword,
-      signupNews
+      signupNews,
+
+      addressSectionLoading,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState
+    } = this.state;
+
+    const { user } = this.props;
+
+    const toUserSection = {
+      user,
+      userSectionLoading,
+      handleChange,
+      handleCheckbox,
+      handleGoogleSignin,
+      handleCompleteSignup,
+      handleEmailAndPasswordLogin,
+      handleOpenSection,
+      loginEmailOrCellphone,
+      loginPassword,
+      signupName,
+      signupLastName,
+      signupCpf,
+      signupEmail,
+      signupCellphone,
+      signupPassword,
+      signupNews,
+      isOpen: openedSection === 'user',
+      isDone: user && user.isComplete && openedSection !== 'user'
     };
 
+    const toAddressSection = {
+      addressSectionLoading,
+      handleChange,
+      handleCepBlur,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState,
+      isOpen: openedSection === 'address'
+    }
+
     return (
-      <InfoSections toUserSection={toUserSection} />
+      <FormSections toUserSection={toUserSection} toAddressSection={toAddressSection} />
     );
   }
 
@@ -105,11 +173,13 @@ class Checkout extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart.current
+  cart: state.cart.current,
+  user: state.user.current
 });
 
 export default compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, actions)
+  connect(mapStateToProps, actions),
+  withFirebase
 )(Checkout);

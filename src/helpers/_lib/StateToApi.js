@@ -1,3 +1,5 @@
+import { Formatter } from "./Formatter";
+
 export class StateToApi {
 
   static createUserFromGoogleSignIn(firebaseUser) {
@@ -17,5 +19,24 @@ export class StateToApi {
     }
 
     return body;
+  }
+
+  static updateFirebaseUser(values) {
+    return {
+      email: values.signupEmail,
+      phoneNumber: `+55${Formatter.extractNumbers(values.signupCellphone)}`,
+      password: values.signupPassword,
+      displayName: values.signupName
+    };
+  }
+
+  static completeSignupUser(values) {
+    return {
+      name: values.signupName,
+      lastName: values.signupLastName,
+      cnpjCpf: parseInt(Formatter.extractNumbers(values.signupCpf)),
+      email: values.signupEmail,
+      phone: Formatter.extractNumbers(values.signupCellphone)
+    }
   }
 }
