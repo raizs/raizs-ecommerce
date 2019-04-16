@@ -55,6 +55,14 @@ const styles = theme => ({
       fontWeight: 700
     },
     '& svg': {
+      fill: theme.palette.gray.main
+    }
+  },
+  checkedCheckboxInput: {
+    '& span': {
+      fontWeight: 700
+    },
+    '& svg': {
       fill: theme.palette.green.main
     }
   },
@@ -161,6 +169,9 @@ class AddressForm extends Component {
           control={
             <Checkbox
               checked={addressIsDefault}
+              classes={{
+                checked: classes.checkedCheckboxInput
+              }}
               onChange={() => handleCheckboxChange('addressIsDefault')}
               value="addressIsDefault"
             />
