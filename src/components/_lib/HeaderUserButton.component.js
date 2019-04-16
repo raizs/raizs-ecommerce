@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core';
 import ReactSvg from 'react-svg';
 
 import styles from './styles/header.styles';
-import { HeaderUserPopper, HeaderPopperButton } from '..';
+import { HeaderUserPopper } from '..';
 import { SimplePopper } from '../../molecules';
 
 let HeaderUserButton = props => {

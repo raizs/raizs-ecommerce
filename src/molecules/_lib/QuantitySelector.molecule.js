@@ -80,7 +80,7 @@ class QuantitySelector extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.quantity != this.props.quantity) {
+    if(nextProps.quantity !== this.props.quantity) {
       this.setState({ quantity: nextProps.quantity });
     }  
   }
@@ -95,7 +95,7 @@ class QuantitySelector extends Component {
 
   _renderContent() {
     const { quantity } = this.state;
-    const { classes, changeAction, item } = this.props;
+    const { classes } = this.props;
 
     return quantity ? (
       <div className={classes.open}>

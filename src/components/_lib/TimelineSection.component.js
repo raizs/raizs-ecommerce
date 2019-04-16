@@ -14,6 +14,10 @@ let TimelineSection = props => {
   );
 };
 
+TimelineSection.propTypes = {
+  classes: PropTypes.object,
+};
+
 TimelineSection = withStyles(styles)(TimelineSection);
 
 export { TimelineSection };

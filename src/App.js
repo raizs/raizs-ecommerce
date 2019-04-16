@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
@@ -15,7 +15,8 @@ import {
   closeUserPopperAction,
   openUserPopperAction,
   setUserAction,
-  setCategoriesAction
+  setCategoriesAction,
+  setUserAddressesAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -32,6 +33,7 @@ const actions = {
   closeUserPopperAction,
   openUserPopperAction,
   setUserAction,
+  setUserAddressesAction,
   setCategoriesAction
 };
 
@@ -86,7 +88,7 @@ class App extends BaseContainer {
         logout
       }
     };
-    
+
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <div className="App">

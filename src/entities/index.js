@@ -8,3 +8,5 @@ export { ProductBrands } from './_lib/ProductBrands.entity';
 export { UnitOfMeasure } from './_lib/UnitOfMeasure.entity';
 export { UnitsOfMeasure } from './_lib/UnitsOfMeasure.entity';
 export { User } from './_lib/User.entity';
+export { UserAddress } from './_lib/UserAddress.entity';
+export { UserAddresses } from './_lib/UserAddresses.entity';

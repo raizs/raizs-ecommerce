@@ -36,3 +36,8 @@ export {
   SET_USER,
   setUserAction
 } from './_lib/user.actions';
+
+export {
+  SET_USER_ADDRESSES,
+  setUserAddressesAction
+} from './_lib/userAddresses.actions';

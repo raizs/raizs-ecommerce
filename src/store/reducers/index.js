@@ -8,6 +8,7 @@ import { productBrandsReducer } from "./_lib/productBrands.reducer"
 import { productsReducer } from "./_lib/products.reducer"
 import { unitsOfMeasureReducer } from "./_lib/unitsOfMeasure.reducer"
 import { userReducer } from "./_lib/user.reducer"
+import { userAddressesReducer } from "./_lib/userAddresses.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   header: headerReducer,
   products: productsReducer,
   unitsOfMeasure: unitsOfMeasureReducer,
-  user: userReducer
+  user: userReducer,
+  userAddresses: userAddressesReducer
 });
 
 export default rootReducer;

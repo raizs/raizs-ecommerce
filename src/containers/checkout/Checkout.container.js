@@ -9,12 +9,13 @@ import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
 import styles from './checkout.styles';
 
-import { setUserAction } from '../../store/actions';
+import { setUserAction, setUserAddressesAction } from '../../store/actions';
 import { FormSections } from './components';
 import { withFirebase } from 'react-redux-firebase';
 
 const actions = {
-  setUserAction
+  setUserAction,
+  setUserAddressesAction
 };
 
 /**
@@ -45,6 +46,8 @@ class Checkout extends BaseContainer {
     signupPassword: '',
     signupNews: false,
 
+    addressName: '',
+    addressReceiverName: '',
     addressCep: '',
     addressAddress: '',
     addressNumber: '',
@@ -52,6 +55,7 @@ class Checkout extends BaseContainer {
     addressNeighbourhood: '',
     addressCity: '',
     addressState: '',
+    addressIsDefault: false
   }
 
   static propTypes = {
@@ -71,12 +75,13 @@ class Checkout extends BaseContainer {
   _renderInfo() {
     const {
       handleChange,
-      handleCheckbox,
+      handleCheckboxChange,
       handleGoogleSignin,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
       handleOpenSection,
-      handleCepBlur
+      handleCepBlur,
+      handleNewAddressSubmit
     } = this.controller;
 
     const {
@@ -100,16 +105,17 @@ class Checkout extends BaseContainer {
       addressComplement,
       addressNeighbourhood,
       addressCity,
-      addressState
+      addressState,
+      addressIsDefault,
     } = this.state;
 
-    const { user } = this.props;
+    const { user, userAddresses } = this.props;
 
     const toUserSection = {
       user,
       userSectionLoading,
       handleChange,
-      handleCheckbox,
+      handleCheckboxChange,
       handleGoogleSignin,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
@@ -128,9 +134,12 @@ class Checkout extends BaseContainer {
     };
 
     const toAddressSection = {
+      userAddresses,
       addressSectionLoading,
       handleChange,
+      handleCheckboxChange,
       handleCepBlur,
+      handleNewAddressSubmit,
       addressCep,
       addressAddress,
       addressNumber,
@@ -138,11 +147,15 @@ class Checkout extends BaseContainer {
       addressNeighbourhood,
       addressCity,
       addressState,
+      addressIsDefault,
       isOpen: openedSection === 'address'
     }
 
     return (
-      <FormSections toUserSection={toUserSection} toAddressSection={toAddressSection} />
+      <FormSections
+        toUserSection={toUserSection}
+        toAddressSection={toAddressSection}
+      />
     );
   }
 
@@ -153,6 +166,8 @@ class Checkout extends BaseContainer {
 
   render() {
     const { classes } = this.props;
+
+    console.log(this.props.userAddresses);
 
     return (
       <div className={classes.wrapper}>
@@ -174,7 +189,8 @@ class Checkout extends BaseContainer {
 
 const mapStateToProps = state => ({
   cart: state.cart.current,
-  user: state.user.current
+  user: state.user.current,
+  userAddresses: state.userAddresses.model
 });
 
 export default compose(

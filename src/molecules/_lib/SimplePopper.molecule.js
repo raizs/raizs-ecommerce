@@ -32,7 +32,7 @@ class SimplePopper extends Component {
     
     document
     .querySelector('body')
-    .addEventListener('click', () => this._bodyClickEvent(context));
+    .addEventListener('click', () => { if(context.state.open || context.props.open) this._bodyClickEvent(context); });
   }
 
   componentWillUnmount() {

@@ -39,4 +39,20 @@ export class StateToApi {
       phone: Formatter.extractNumbers(values.signupCellphone)
     }
   }
+
+  static createAddressCheckout(values) {
+    return {
+      resPartnerId: values.resPartnerId,
+      name: values.addressName,
+      receiverName: values.addressReceiverName,
+      cep: values.addressCep,
+      address: values.addressAddress,
+      number: values.addressNumber,
+      complement: values.addressComplement,
+      neighbourhood: values.addressNeighbourhood,
+      city: values.addressCity,
+      state: values.addressState,
+      isDefaultAddress: values.addressIsDefault
+    }
+  }
 }

@@ -1,12 +1,13 @@
 import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
-import { User, Categories } from './entities';
-import { UserRepository, CategoriesRepository } from './repositories';
+import { User, Categories, UserAddresses } from './entities';
+import { UserRepository, UserAddressesRepository, CategoriesRepository } from './repositories';
 
 export class AppController extends BaseController {
   constructor({ toState, getState, getProps }) {
     super({ toState, getState, getProps });
 
     this.userRepo = new UserRepository();
+    this.userAddressesRepo = new UserAddressesRepository();
     this.categoriesRepo = new CategoriesRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
@@ -20,17 +21,15 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction, firebase } = this.getProps();
+    const { setCategoriesAction } = this.getProps();
     
     const promises = [
       this.categoriesRepo.fetchCategories()
     ];
 
-    console.time('fetch')
     const [
       categoriesPromise
     ] = await Promise.all(promises);
-    console.timeEnd('fetch')
 
     if(!categoriesPromise.err) {
       const categories = new Categories(categoriesPromise.data);
@@ -40,9 +39,17 @@ export class AppController extends BaseController {
   }
 
   async fetchPgUser(user) {
+    const { setUserAction, setUserAddressesAction } = this.getProps();
+
     const pgUser = await this.userRepo.getUser(user.uid);
 
-    if(!pgUser.err) this.getProps().setUserAction(new User(pgUser.data));
+    if(!pgUser.err) {
+      const newUser = new User(pgUser.data);
+      setUserAction(newUser);
+
+      const userAddresses = await this.userAddressesRepo.list(newUser.id);
+      if(!userAddresses.err) setUserAddressesAction(new UserAddresses(userAddresses.data));
+    }
   }
 
   signInWithEmailAndPassword() {

@@ -6,12 +6,12 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import styles from './styles/dropdownMenu.styles';
 
-const defaultItem = {
-  id: PropTypes.string,
-  label: PropTypes.string,
-  clickAction: PropTypes.func,
-  shouldClose: PropTypes.bool,
-};
+// const defaultItem = {
+//   id: PropTypes.string,
+//   label: PropTypes.string,
+//   clickAction: PropTypes.func,
+//   shouldClose: PropTypes.bool,
+// };
 
 /**
  *

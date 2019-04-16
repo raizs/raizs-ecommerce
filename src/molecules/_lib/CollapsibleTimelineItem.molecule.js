@@ -6,14 +6,11 @@ import styles from './styles/collapsibleTimelineItem.styles';
 
 class CollapsibleTimelineItem extends Component {
   state = {
-    isOpen: false,
-    hasPropsIsOpen: this.props.isOpen !== null
+    isOpen: false
   }
 
-  _handleClick() {
-    const { hasPropsIsOpen } = this.state;
-
-
+  static propTypes = {
+    classes: PropTypes.object,
   }
 
   render() {

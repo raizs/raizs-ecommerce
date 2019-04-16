@@ -1,5 +1,3 @@
-import cep from 'cep-promise';
-
 import { BaseController, Formatter, CepHelper } from '../../helpers';
 
 export class CartController extends BaseController {

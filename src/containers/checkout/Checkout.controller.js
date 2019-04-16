@@ -1,18 +1,21 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper } from '../../helpers';
-import { User } from '../../entities';
-import { UserRepository } from '../../repositories';
+import { User, UserAddresses } from '../../entities';
+import { UserRepository, UserAddressesRepository } from '../../repositories';
 
 export class CheckoutController extends BaseController {
   constructor({ toState, getState, getProps }) {
     super({ toState, getState, getProps });
 
     this.userRepo = new UserRepository();
+    this.userAddressesRepo = new UserAddressesRepository();
 
     this._getUserSignupValues = this._getUserSignupValues.bind(this);
+    this._getAddressValues = this._getAddressValues.bind(this);
+    this._clearAddressInfo = this._clearAddressInfo.bind(this);
 
     this.handleOpenSection = this.handleOpenSection.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.setUserInfo = this.setUserInfo.bind(this);
     this.clearUserInfo = this.clearUserInfo.bind(this);
 
@@ -20,6 +23,7 @@ export class CheckoutController extends BaseController {
     this.handleCompleteSignup = this.handleCompleteSignup.bind(this);
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
+    this.handleNewAddressSubmit = this.handleNewAddressSubmit.bind(this);
   }
 
   _getUserSignupValues() {
@@ -40,6 +44,49 @@ export class CheckoutController extends BaseController {
       signupCellphone,
       signupPassword
     };
+  }
+
+  _getAddressValues() {
+    const {
+      addressName,
+      addressReceiverName,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState,
+      addressIsDefault
+    } = this.getState();
+
+    return {
+      addressName,
+      addressReceiverName,
+      addressCep,
+      addressAddress,
+      addressNumber,
+      addressComplement,
+      addressNeighbourhood,
+      addressCity,
+      addressState,
+      addressIsDefault
+    };
+  }
+
+  _clearAddressInfo() {
+    this.toState({
+      addressName: '',
+      addressReceiverName: '',
+      addressCep: '',
+      addressAddress: '',
+      addressNumber: '',
+      addressComplement: '',
+      addressNeighbourhood: '',
+      addressCity: '',
+      addressState: '',
+      addressIsDefault: false
+    });
   }
 
   setUserInfo(user) {
@@ -78,21 +125,12 @@ export class CheckoutController extends BaseController {
   }
 
   handleChange(e, format) {
-    const { id } = e.target;
-    let { value } = e.target;
-
-    if(format) value = Formatter[format](value);
-
-    this.toState({ [id]: value })
+    this.toState(this.baseHandleChange(e, format));
   }
 
-  handleCheckbox(e) {
-    const { id } = e.target;
-    const value = this.getState()[id];
-
-    console.log([e.target]);
-
-    this.toState({ [id]: !value });
+  handleCheckboxChange(id) {
+    const currentValue = this.getState()[id];
+    this.toState(this.baseHandleCheckboxChange(id, currentValue));
   }
 
   async handleGoogleSignin() {
@@ -189,5 +227,24 @@ export class CheckoutController extends BaseController {
       });
     }
     else this.toState({ addressSectionLoading: false, cepError: msg });
+  }
+
+  async handleNewAddressSubmit() {
+    const { user, setUserAddressesAction, userAddresses } = this.getProps();
+    const values = this._getAddressValues();
+    values.resPartnerId = user.id;
+
+    this.toState({ addressSectionLoading: true });
+    
+    const toApi = StateToApi.createAddressCheckout(values);
+    const promise = await this.userAddressesRepo.create(toApi);
+
+    if(!promise.err) {
+      const newUserAdresses = userAddresses.add(promise.data);
+      setUserAddressesAction(newUserAdresses);
+      this._clearAddressInfo();
+    }
+    
+    this.toState({ addressSectionLoading: false });
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles, Collapse } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 
 import styles from './styles/timeline.styles';
 import { CollapsibleTimelineItem } from '../../molecules';

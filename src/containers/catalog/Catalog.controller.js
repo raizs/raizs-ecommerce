@@ -1,5 +1,5 @@
 import { BaseController } from '../../helpers';
-import { Products, UnitsOfMeasure, ProductBrands, Cart } from '../../entities';
+import { Products, UnitsOfMeasure, ProductBrands } from '../../entities';
 import { ProductsRepository, UnitsOfMeasureRepository, ProductBrandsRepository } from '../../repositories';
 
 export class CatalogController extends BaseController {

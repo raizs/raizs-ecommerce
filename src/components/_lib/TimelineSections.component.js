@@ -19,6 +19,11 @@ let TimelineSections = props => {
   );
 };
 
+TimelineSections.propTypes = {
+  fixed: PropTypes.bool,
+  classes: PropTypes.object,
+};
+
 TimelineSections.defaultProps = {
   fixed: true
 };

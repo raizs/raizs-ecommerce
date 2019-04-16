@@ -98,7 +98,7 @@ const styles = theme => ({
 
 class AddressSection extends Component {
   state = {
-    isOpen: false,
+    isOpen: true,
     isDone: false
   }
 
@@ -124,20 +124,26 @@ class AddressSection extends Component {
       addressNeighbourhood,
       addressCity,
       addressState,
+      addressIsDefault,
       handleChange,
-      handleCepBlur
+      handleCheckboxChange,
+      handleCepBlur,
+      handleNewAddressSubmit
     } = this.props;
-
+    
     const toAddressForm = {
       handleChange,
+      handleCheckboxChange,
       handleCepBlur,
+      handleNewAddressSubmit,
       addressCep,
       addressAddress,
       addressNumber,
       addressComplement,
       addressNeighbourhood,
       addressCity,
-      addressState
+      addressState,
+      addressIsDefault
     };
 
     return (

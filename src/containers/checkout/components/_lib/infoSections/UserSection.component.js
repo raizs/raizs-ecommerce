@@ -105,7 +105,7 @@ const styles = theme => ({
 
 class UserSection extends Component {
   state = {
-    isOpen: true,
+    isOpen: false,
     isDone: false
   }
 
@@ -205,7 +205,7 @@ class UserSection extends Component {
   }
 
   _renderCollapsible() {
-    const { classes, user } = this.props;
+    const { classes } = this.props;
     const { isOpen } = this.state;
 
     return (

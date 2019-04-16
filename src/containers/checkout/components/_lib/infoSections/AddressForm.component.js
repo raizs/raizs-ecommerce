@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles, Button } from '@material-ui/core';
-import classnames from 'classnames';
+import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 
 const styles = theme => ({
   wrapper: {
@@ -51,6 +50,14 @@ const styles = theme => ({
       display: 'inline-block'
     }
   },
+  checkboxInput: {
+    '& span': {
+      fontWeight: 700
+    },
+    '& svg': {
+      fill: theme.palette.green.main
+    }
+  },
   button: {
     ...theme.buttons.primary,
     marginTop: 3 * theme.spacing.unit,
@@ -75,9 +82,12 @@ class AddressForm extends Component {
       addressNeighbourhood,
       addressCity,
       addressState,
+      addressIsDefault,
+      handleCheckboxChange,
       handleChange,
       handleSubmit,
-      handleCepBlur
+      handleCepBlur,
+      handleNewAddressSubmit
     } = this.props;
 
     return (
@@ -146,7 +156,18 @@ class AddressForm extends Component {
           onChange={handleChange}
           placeholder='Estado'
         />
-        <Button onClick={handleSubmit} className={classes.button}>Continuar</Button>
+        <FormControlLabel
+          className={classes.checkboxInput}
+          control={
+            <Checkbox
+              checked={addressIsDefault}
+              onChange={() => handleCheckboxChange('addressIsDefault')}
+              value="addressIsDefault"
+            />
+          }
+          label="Salvar como Endereço Padrão"
+        />
+        <Button onClick={handleNewAddressSubmit} className={classes.button}>Continuar</Button>
       </form>
     )
   }
