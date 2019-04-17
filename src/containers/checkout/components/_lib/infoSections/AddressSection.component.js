@@ -245,7 +245,9 @@ class AddressSection extends Component {
     const { classes, selectedUserAddress } = this.props;
     return selectedUserAddress ? (
       <div>
-        <div className={classes.doneInfo}>{selectedUserAddress.name}{selectedUserAddress.isDefaultAddress ? ' (endereço padrão)' : ''}</div>
+        <div className={classes.doneInfo}>
+          {selectedUserAddress.name}{selectedUserAddress.isDefaultAddress ? ' (endereço padrão)' : ''}
+        </div>
         <div className={classes.doneInfo}>Para: {selectedUserAddress.receiverName}</div>
         <div className={classes.doneInfo}>{selectedUserAddress.cep}</div>
         <div className={classes.doneInfo}>{selectedUserAddress.formattedAddress}</div>
