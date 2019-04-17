@@ -3,6 +3,7 @@ export class UserAddress {
     this.original = userAddress;
 
     this.id = userAddress.id;
+    this.idString = typeof userAddress.id === 'number' ? userAddress.id.toString() : userAddress.id;
     this.name = userAddress.name;
     this.receiverName = userAddress.receiverName;
     this.cep = userAddress.cep;
@@ -16,6 +17,9 @@ export class UserAddress {
     this.isDefaultAddress = userAddress.isDefaultAddress;
 
     this.toCheckoutForm = this._mapToCheckoutForm(userAddress);
+
+    this.formattedAddress = this._formatAddress(userAddress);
+    this.formattedAddress2 = this._formatAddress2(userAddress);
   }
 
   _mapToCheckoutForm(userAddress) {
@@ -29,5 +33,16 @@ export class UserAddress {
       addressState: userAddress.state,
       addressIsDefault: userAddress.isDefaultAddress
     };
+  }
+
+  _formatAddress({ address, number, complement }) {
+    let string = address;
+    if(number) string += `, ${number}`;
+    if(complement) string += `, ${complement}`;
+    return string;
+  }
+
+  _formatAddress2({ neighbourhood, city, state }) {
+    return `${neighbourhood}, ${city} - ${state}`;
   }
 }

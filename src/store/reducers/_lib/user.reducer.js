@@ -1,7 +1,11 @@
 import { SET_USER } from "../../actions";
+import { Cache } from "../../../helpers";
+import { User } from "../../../entities";
+
+const cachedUser = Cache.getItem('user');
 
 const initialState = {
-	current: null
+	current: cachedUser ? new User(cachedUser) : null
 };
 
 export const userReducer = (state = initialState, action) => {

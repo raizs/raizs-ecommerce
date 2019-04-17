@@ -39,7 +39,7 @@ export class AppController extends BaseController {
   }
 
   async fetchPgUser(user) {
-    const { setUserAction, setUserAddressesAction } = this.getProps();
+    const { setUserAction, setUserAddressesAction, selectUserAddressAction } = this.getProps();
 
     const pgUser = await this.userRepo.getUser(user.uid);
 
@@ -48,7 +48,11 @@ export class AppController extends BaseController {
       setUserAction(newUser);
 
       const userAddresses = await this.userAddressesRepo.list(newUser.id);
-      if(!userAddresses.err) setUserAddressesAction(new UserAddresses(userAddresses.data));
+      if(!userAddresses.err) {
+        const newUserAddresses = new UserAddresses(userAddresses.data);
+        setUserAddressesAction(newUserAddresses);
+        selectUserAddressAction(newUserAddresses.getDefaultUserAddress());
+      }
     }
   }
 

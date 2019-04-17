@@ -49,6 +49,7 @@ const styles = theme => ({
     }
   },
   checkboxInput: {
+    userSelect: 'none',
     '& span': {
       fontWeight: 700
     },
@@ -57,6 +58,7 @@ const styles = theme => ({
     }
   },
   checkedCheckboxInput: {
+    userSelect: 'none',
     '& span': {
       fontWeight: 700
     },
@@ -67,7 +69,14 @@ const styles = theme => ({
   button: {
     ...theme.buttons.primary,
     marginTop: 3 * theme.spacing.unit,
-    display: 'block'
+    display: 'inline-block'
+  },
+  secondaryButton: {
+    ...theme.buttons.secondary,
+    marginTop: 3 * theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
+    fontSize: theme.fontSizes.SM,
+    display: 'inline-block'
   }
 });
 
@@ -79,6 +88,7 @@ class AddressForm extends Component {
   render() {
     const {
       classes,
+      hasAddresses,
       addressName,
       addressReceiverName,
       addressCep,
@@ -91,9 +101,11 @@ class AddressForm extends Component {
       addressIsDefault,
       handleCheckboxChange,
       handleChange,
-      handleSubmit,
       handleCepBlur,
-      handleNewAddressSubmit
+      handleNewAddressSubmit,
+      handleUpdateAddressSubmit,
+      handleViewUserAddresses,
+      isEditingAddress
     } = this.props;
 
     return (
@@ -176,7 +188,15 @@ class AddressForm extends Component {
           }
           label="Salvar como Endereço Padrão"
         />
-        <Button onClick={handleNewAddressSubmit} className={classes.button}>Continuar</Button>
+        <div>
+          <Button
+            onClick={isEditingAddress ? handleUpdateAddressSubmit : handleNewAddressSubmit}
+            className={classes.button}
+          >
+            {isEditingAddress ? 'Salvar' : 'Continuar'}
+          </Button>
+          {hasAddresses && <Button onClick={handleViewUserAddresses} className={classes.secondaryButton}>Ver Endereços</Button>}
+        </div>
       </form>
     )
   }

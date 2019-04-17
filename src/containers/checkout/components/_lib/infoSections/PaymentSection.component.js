@@ -5,13 +5,12 @@ import classnames from 'classnames';
 
 import { Loading } from '../../../../../molecules';
 
-import { AddressForm, AddressesList } from '.';
-
 const styles = theme => ({
   section: {
     width: '100%',
     backgroundColor: 'white',
-    borderRadius: theme.spacing.unit
+    borderRadius: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   },
   title: {
     backgroundColor: theme.palette.green.main,
@@ -101,7 +100,8 @@ const styles = theme => ({
   }
 });
 
-class AddressSection extends Component {
+class PaymentSection extends Component {
+
   static propTypes = {
     prop: PropTypes.object,
   }
@@ -109,96 +109,27 @@ class AddressSection extends Component {
   _renderCollapsibleContent() {
     const {
       classes,
-      currentAddressSection,
-      isAddressSectionDone,
-      addressSectionLoading,
-      addressName,
-      addressReceiverName,
-      addressCep,
-      addressAddress,
-      addressNumber,
-      addressComplement,
-      addressNeighbourhood,
-      addressCity,
-      addressState,
-      addressIsDefault,
+      paymentSectionLoading,
       handleChange,
-      handleCheckboxChange,
-      handleCepBlur,
-      handleNewAddressSubmit,
-      handleUpdateAddressSubmit,
-      handleViewUserAddresses,
-      userAddresses,
-      selectedUserAddress,
-      handleSelectUserAddress,
-      handleNewAddressForm,
-      handleEditUserAddress,
-      isEditingAddress,
-      handleCompleteAddressSection
+      handleCheckboxChange
     } = this.props;
-    
-    const toAddressForm = {
-      handleChange,
-      handleCheckboxChange,
-      handleCepBlur,
-      handleNewAddressSubmit,
-      handleUpdateAddressSubmit,
-      handleViewUserAddresses,
-      addressName,
-      addressReceiverName,
-      addressCep,
-      addressAddress,
-      addressNumber,
-      addressComplement,
-      addressNeighbourhood,
-      addressCity,
-      addressState,
-      addressIsDefault,
-      isEditingAddress
-    };
-
-    const toAddressesList = {
-      handleSelectUserAddress,
-      handleNewAddressForm,
-      userAddresses,
-      selectedUserAddress,
-      handleEditUserAddress,
-      handleCompleteAddressSection
-    };
-
-    let Comp = {
-      form: AddressForm,
-      list: AddressesList
-    }[currentAddressSection];
-    let compProps = {
-      form: toAddressForm,
-      list: toAddressesList
-    }[currentAddressSection];
-
-    const hasAddresses = userAddresses && userAddresses.all.length;
-
-    if(!hasAddresses) {
-      Comp = AddressForm;
-      compProps = toAddressForm
-    };
 
     return (
       <div>
-        { addressSectionLoading && <Loading absolute /> }
+        { paymentSectionLoading && <Loading absolute /> }
 
         <div className={classes.whole}>
-          <h3 className={classes.formTitle}>Endereço de Entrega</h3>
-          {<Comp hasAddresses={hasAddresses} {...compProps} />}
+          <h3 className={classes.formTitle}>Escolha uma forma de pagamento</h3>
         </div>
       </div>
     )
   }
 
   _renderCollapsible() {
-    const { classes, openedSection, isUserSectionDone } = this.props;
-    const isOpen = openedSection === 'address';
+    const { classes, openedSection, isUserSectionDone, isAddressSectionDone } = this.props;
+    const isOpen = openedSection === 'payment';
 
-    const isInacitve = !isUserSectionDone;
+    const isInacitve = !isUserSectionDone || !isAddressSectionDone;
     const titleClasses = [classes.title],
       numberClasses = [classes.number],
       labelClasses = [classes.label];
@@ -212,8 +143,8 @@ class AddressSection extends Component {
       <div className={classes.section}>
 
         <div className={classnames(titleClasses)}>
-          <div className={classnames(numberClasses)}>2</div>
-          <h4 className={classnames(labelClasses)}>ENTREGA</h4>
+          <div className={classnames(numberClasses)}>3</div>
+          <h4 className={classnames(labelClasses)}>PAGAMENTO</h4>
         </div>
         
         <Collapse in={isOpen}>
@@ -230,11 +161,11 @@ class AddressSection extends Component {
     return (
       <div className={classes.doneWrapper}>
         <div>
-          <div className={classes.doneNumber}>2</div>
-          <h4 className={classes.doneLabel}>ENTREGA</h4>
+          <div className={classes.doneNumber}>3</div>
+          <h4 className={classes.doneLabel}>PAGAMENTO</h4>
         </div>
         {this._renderDoneInfo()}
-        <div className={classes.doneChange} onClick={() => handleOpenSection('address')}>
+        <div className={classes.doneChange} onClick={() => handleOpenSection('payment')}>
           alterar
         </div>
       </div>
@@ -242,22 +173,22 @@ class AddressSection extends Component {
   }
 
   _renderDoneInfo() {
-    const { classes, selectedUserAddress } = this.props;
-    return selectedUserAddress ? (
+    const { classes, selectedPayment } = this.props;
+    return selectedPayment ? (
       <div>
-        <div className={classes.doneInfo}>{selectedUserAddress.name}{selectedUserAddress.isDefaultAddress ? ' (endereço padrão)' : ''}</div>
-        <div className={classes.doneInfo}>Para: {selectedUserAddress.receiverName}</div>
-        <div className={classes.doneInfo}>{selectedUserAddress.cep}</div>
-        <div className={classes.doneInfo}>{selectedUserAddress.formattedAddress}</div>
-        <div className={classes.doneInfo}>{selectedUserAddress.formattedAddress2}</div>
+        <div className={classes.doneInfo}>{selectedPayment.name}</div>
+        <div className={classes.doneInfo}>{selectedPayment.receiverName}</div>
+        <div className={classes.doneInfo}>{selectedPayment.cep}</div>
+        <div className={classes.doneInfo}>{selectedPayment.formattedPayment}</div>
+        <div className={classes.doneInfo}>{selectedPayment.formattedPayment2}</div>
       </div>
     ) : null;
   }
 
   _renderSection() {
-    const { isAddressSectionDone } = this.props;
+    const { isPaymentSectionDone } = this.props;
 
-    if(isAddressSectionDone) return this._renderDone();
+    if(isPaymentSectionDone) return this._renderDone();
     return this._renderCollapsible();
   }
 
@@ -266,6 +197,6 @@ class AddressSection extends Component {
   }
 }
 
-AddressSection = withStyles(styles)(AddressSection);
+PaymentSection = withStyles(styles)(PaymentSection);
 
-export { AddressSection };
+export { PaymentSection };

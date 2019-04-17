@@ -5,7 +5,7 @@ export default class BaseModel {
 		return new Entity(copy);
 	}
 
-	baseRemove(elementId, original, Entity, typeOfId = '_id') {
+	baseRemove(elementId, original, Entity, typeOfId = 'id') {
 		let copy = original;
 		for(let i in copy) {
 			if(copy[i][typeOfId] === elementId) copy.splice(i, 1);
@@ -13,7 +13,7 @@ export default class BaseModel {
 		return new Entity(copy);
 	}
 
-	baseUpdate(elementId, original, Entity, update, typeOfId = '_id') {
+	baseUpdate(elementId, original, Entity, update, typeOfId = 'id') {
 		let keys = Object.keys(update);
 		let copy = original;
 		for(let i in copy) {

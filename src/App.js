@@ -16,7 +16,8 @@ import {
   openUserPopperAction,
   setUserAction,
   setCategoriesAction,
-  setUserAddressesAction
+  setUserAddressesAction,
+  selectUserAddressAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -34,7 +35,8 @@ const actions = {
   openUserPopperAction,
   setUserAction,
   setUserAddressesAction,
-  setCategoriesAction
+  setCategoriesAction,
+  selectUserAddressAction
 };
 
 class App extends BaseContainer {
@@ -50,7 +52,11 @@ class App extends BaseContainer {
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
       if(user) this.controller.fetchPgUser(user);
-      else this.props.setUserAction(null);
+      else {
+        this.props.setUserAction(null);
+        this.props.setUserAddressesAction(null);
+        this.props.selectUserAddressAction(null);
+      }
     });
 
     this.controller.initialFetch();

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core';
-import { UserSection, AddressSection } from './infoSections';
+import { UserSection, AddressSection, PaymentSection } from './infoSections';
 
 class FormSections extends Component {
   static propTypes = {
@@ -9,12 +9,13 @@ class FormSections extends Component {
   }
 
   render() {
-    const { toUserSection, toAddressSection } = this.props;
+    const { toUserSection, toAddressSection, toPaymentSection } = this.props;
 
     return (
       <div>
         <UserSection {...toUserSection} />
         <AddressSection {...toAddressSection} />
+        <PaymentSection {...toPaymentSection} />
       </div>
     )
   }

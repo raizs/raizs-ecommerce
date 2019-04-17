@@ -18,7 +18,6 @@ const styles = theme => ({
     borderTopRightRadius: theme.spacing.unit,
     borderTopLeftRadius: theme.spacing.unit,
     padding: theme.spacing.unit,
-    cursor: 'pointer',
     userSelect: 'none',
     '& > *': {
       display: 'inline-block',
@@ -100,24 +99,26 @@ const styles = theme => ({
     '&:hover': {
       color: theme.palette.green.main
     }
+  },
+  continueAs: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 2 * theme.spacing.unit,
+    '& > span': {
+      textAlign: 'center',
+      fontSize: theme.fontSizes.SM,
+      color: theme.palette.green.main,
+      fontWeight: 700,
+      textDecoration: 'underline',
+      cursor: 'pointer'
+    }
   }
 });
 
 class UserSection extends Component {
-  state = {
-    isOpen: false,
-    isDone: false
-  }
 
   static propTypes = {
     prop: PropTypes.object,
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const prevIsOpen = this.props.isOpen, nextIsOpen = nextProps.isOpen;
-    const prevIsDone = this.props.isDone, nextIsDone = nextProps.isDone;
-    if(prevIsOpen !== nextIsOpen) this.setState({ isOpen: nextIsOpen });
-    if(prevIsDone !== nextIsDone) this.setState({ isDone: nextIsDone });
   }
 
   _renderCollapsibleContent() {
@@ -129,8 +130,9 @@ class UserSection extends Component {
       handleCheckbox,
       handleGoogleSignin,
       handleCompleteSignup,
-      loginEmailOrCellphone,
       handleEmailAndPasswordLogin,
+      handleOpenSection,
+      loginEmailOrCellphone,
       loginPassword,
       signupName,
       signupLastName,
@@ -200,18 +202,25 @@ class UserSection extends Component {
           <div className={classes.textWithLineBehind}><span>ou cadastre-se com o email</span></div>
           <UserSignupForm {...toSignupForm} />
         </div>
+
+        {
+          user &&
+          <div className={classes.continueAs} onClick={() => handleOpenSection('address')}>
+            <span>continuar como {user.name}</span>
+          </div>
+        }
       </div>
     )
   }
 
   _renderCollapsible() {
-    const { classes } = this.props;
-    const { isOpen } = this.state;
+    const { classes, openedSection } = this.props;
+    const isOpen = openedSection === 'user';
 
     return (
       <div className={classes.section}>
 
-        <div className={classes.title} onClick={() => this.setState({ isOpen: !isOpen })}>
+        <div className={classes.title}>
           <div className={classes.number}>1</div>
           <h4 className={classes.label}>IDENTIFICAÇÃO</h4>
         </div>
@@ -226,19 +235,14 @@ class UserSection extends Component {
   }
 
   _renderDone() {
-    const { classes, user, handleOpenSection } = this.props;
+    const { classes, handleOpenSection } = this.props;
     return (
       <div className={classes.doneWrapper}>
         <div>
           <div className={classes.doneNumber}>1</div>
           <h4 className={classes.doneLabel}>IDENTIFICAÇÃO</h4>
         </div>
-        <div>
-          <div className={classes.doneInfo}>{user.name}</div>
-          <div className={classes.doneInfo}>{Formatter.formatCpf(user.cpf)}</div>
-          <div className={classes.doneInfo}>{user.email}</div>
-          <div className={classes.doneInfo}>{Formatter.formatPhone(user.phone)}</div>
-        </div>
+        {this._renderDoneInfo()}
         <div className={classes.doneChange} onClick={() => handleOpenSection('user')}>
           alterar
         </div>
@@ -246,10 +250,23 @@ class UserSection extends Component {
     );
   }
 
-  _renderSection() {
-    const { isDone } = this.state;
+  _renderDoneInfo() {
+    const { classes, user } = this.props;
 
-    if(isDone) return this._renderDone();
+    return user ? (
+      <div>
+        <div className={classes.doneInfo}>{user.name}</div>
+        <div className={classes.doneInfo}>{Formatter.formatCpf(user.cpf)}</div>
+        <div className={classes.doneInfo}>{user.email}</div>
+        <div className={classes.doneInfo}>{Formatter.formatPhone(user.phone)}</div>
+      </div>
+    ) : null;
+  }
+
+  _renderSection() {
+    const { isUserSectionDone } = this.props;
+
+    if(isUserSectionDone) return this._renderDone();
     return this._renderCollapsible();
   }
 

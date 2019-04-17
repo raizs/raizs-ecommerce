@@ -3,10 +3,11 @@ import { Cache } from "../../../helpers";
 import { UserAddresses } from "../../../entities";
 
 const cachedUserAddresses = Cache.getItem('userAddresses');
+const model = cachedUserAddresses ? new UserAddresses(cachedUserAddresses) : null;
 
 const initialState = {
-  model: cachedUserAddresses ? new UserAddresses(cachedUserAddresses) : null,
-  selected: null
+  model,
+  selected: model ? model.getDefaultUserAddress() : null
 };
 
 export const userAddressesReducer = (state = initialState, action) => {

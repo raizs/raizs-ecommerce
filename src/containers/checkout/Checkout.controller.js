@@ -20,12 +20,19 @@ export class CheckoutController extends BaseController {
     this.setUserInfo = this.setUserInfo.bind(this);
     this.clearUserInfo = this.clearUserInfo.bind(this);
 
+    this.setUserAddressInfo = this.setUserAddressInfo.bind(this);
+
     this.handleGoogleSignin = this.handleGoogleSignin.bind(this);
     this.handleCompleteSignup = this.handleCompleteSignup.bind(this);
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.handleNewAddressSubmit = this.handleNewAddressSubmit.bind(this);
+    this.handleUpdateAddressSubmit = this.handleUpdateAddressSubmit.bind(this);
     this.handleSelectUserAddress = this.handleSelectUserAddress.bind(this);
+    this.handleViewUserAddresses = this.handleViewUserAddresses.bind(this);
+    this.handleNewAddressForm = this.handleNewAddressForm.bind(this);
+    this.handleEditUserAddress = this.handleEditUserAddress.bind(this);
+    this.handleCompleteAddressSection = this.handleCompleteAddressSection.bind(this);
   }
 
   _getUserSignupValues() {
@@ -92,12 +99,32 @@ export class CheckoutController extends BaseController {
   }
 
   setUserInfo(user) {
-    this.toState({
+    const toState = {
       signupName: user.name,
       signupLastName: user.lastName,
       signupCpf: user.cpf,
       signupEmail: user.email,
       signupCellphone: Formatter.formatPhone(user.phone)
+    };
+    if(user.isComplete) {
+      toState.isUserSectionDone = true;
+      toState.openedSection = 'address';
+    }
+    this.toState(toState);
+  }
+
+  setUserAddressInfo(userAddress) {
+    this.toState({
+      addressName: userAddress.name,
+      addressReceiverName: userAddress.receiverName,
+      addressCep: userAddress.cep,
+      addressAddress: userAddress.address,
+      addressNumber: userAddress.number,
+      addressComplement: userAddress.complement,
+      addressNeighbourhood: userAddress.neighbourhood,
+      addressCity: userAddress.city,
+      addressState: userAddress.state,
+      addressIsDefault: userAddress.isDefaultAddress,
     });
   }
 
@@ -114,16 +141,27 @@ export class CheckoutController extends BaseController {
   }
 
   handleOpenSection(section) {
-    this.toState({
-      openedSection: section,
-      loginEmailOrCellphone: '',
-      loginPassword: '',
-      signupName: '',
-      signupLastName: '',
-      signupCpf: '',
-      signupEmail: '',
-      signupCellphone: ''
-    });
+    const toState = { openedSection: section };
+    switch(section) {
+      case 'user': 
+        toState.isUserSectionDone = false;
+        toState.loginEmailOrCellphone = '';
+        toState.loginPassword = '';
+        toState.signupName = '';
+        toState.signupLastName = '';
+        toState.signupCpf = '';
+        toState.signupEmail = '';
+        toState.signupCellphone = '';
+        break;
+      case 'address': {
+        toState.isAddressSectionDone = false;
+        toState.isUserSectionDone = true;
+        break;
+      }
+      case 'payment': toState.isPaymentSectionDone = false; break;
+    }
+
+    this.toState(toState);
   }
 
   handleChange(e, format) {
@@ -254,10 +292,71 @@ export class CheckoutController extends BaseController {
     this.toState({ addressSectionLoading: false });
   }
 
-  handleSelectUserAddress(userAddressId) {
+  async handleUpdateAddressSubmit() {
+    const { user, setUserAddressesAction, userAddresses, selectUserAddressAction } = this.getProps();
+    const { editingAddressId } = this.getState();
+    const values = this._getAddressValues();
+    values.resPartnerId = user.id;
+
+    this.toState({ addressSectionLoading: true });
+    
+    const toApi = StateToApi.createAddressCheckout(values);
+    const promise = await this.userAddressesRepo.update(toApi, editingAddressId);
+
+    if(!promise.err) {
+      let newUserAdresses = userAddresses.update(editingAddressId, promise.data);
+      if(promise.data.isDefaultAddress) newUserAdresses = newUserAdresses.fixDefaultAddress(promise.data.id);
+      const selected = newUserAdresses.getById(promise.data.id);
+
+      setUserAddressesAction(newUserAdresses);
+      selectUserAddressAction(selected);
+      this._clearAddressInfo();
+      this.toState({
+        currentAddressSection: 'list',
+        editingAddressId: null,
+        isEditingAddress: false
+      });
+    }
+    
+    this.toState({ addressSectionLoading: false });
+  }
+
+  handleSelectUserAddress(e) {
+    const userAddressId = e.target.value;
+
     const { selectUserAddressAction, userAddresses } = this.getProps();
     const userAddress = userAddresses.getById(userAddressId);
 
     selectUserAddressAction(userAddress);
+  }
+
+  handleViewUserAddresses() {
+    this.toState({
+      currentAddressSection: 'list',
+      isEditingAddress: false,
+      editingAddressId: null
+    });
+  }
+
+  handleNewAddressForm() {
+    this._clearAddressInfo();
+    this.toState({
+      currentAddressSection: 'form',
+      isEditingAddress: false,
+      editingAddressId: null
+    });
+  }
+
+  handleEditUserAddress(userAddress) {
+    this.setUserAddressInfo(userAddress);
+    this.toState({
+      currentAddressSection: 'form',
+      isEditingAddress: true,
+      editingAddressId: userAddress.id
+    });
+  }
+
+  handleCompleteAddressSection() {
+    this.toState({ isAddressSectionDone: true, openedSection: 'payment' });
   }
 }

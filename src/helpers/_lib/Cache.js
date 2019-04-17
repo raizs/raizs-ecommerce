@@ -9,4 +9,8 @@ export default class Cache {
 
     return JSON.parse(item);
   }
+
+  static removeItem(key) {
+    window.localStorage.removeItem(key);
+  }
 }

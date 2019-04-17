@@ -32,13 +32,17 @@ class Checkout extends BaseContainer {
   }
 
   state = {
-    openedSection: 'address',
+    openedSection: 'user',
     userSectionLoading: false,
     addressSectionLoading: false,
+    paymentSectionLoading: false,
+    
+    isUserSectionDone: false,
+    isAddressSectionDone: false,
+    isPaymentSectionDone: false,
 
     loginEmailOrCellphone: '',
     loginPassword: '',
-
     signupName: '',
     signupLastName: '',
     signupCpf: '',
@@ -47,6 +51,7 @@ class Checkout extends BaseContainer {
     signupPassword: '',
     signupNews: false,
 
+    currentAddressSection: 'form',
     addressName: '',
     addressReceiverName: '',
     addressCep: '',
@@ -57,6 +62,8 @@ class Checkout extends BaseContainer {
     addressCity: '',
     addressState: '',
     addressIsDefault: false,
+    isEditingAddress: false,
+    editingAddressId: null,
   }
 
   static propTypes = {
@@ -65,12 +72,29 @@ class Checkout extends BaseContainer {
 
   componentDidMount() {
     if(this.props.user) this.controller.setUserInfo(this.props.user);
+    if(this.props.userAddresses && this.props.userAddresses.all.length)
+      this.setState({
+        currentAddressSection: 'list',
+        isAddressSectionDone: true,
+        openedSection: 'payment'
+      });
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldUser = this.props.user, nextUser = nextProps.user;
-    if(!oldUser && nextUser) this.controller.setUserInfo(nextUser);
-    if(!nextUser && oldUser) this.controller.clearUserInfo();
+    const prevUser = this.props.user, nextUser = nextProps.user;
+    const prevUserAddresses = this.props.userAddresses, nextUserAddresses = nextProps.userAddresses;
+    if(!prevUser && nextUser) this.controller.setUserInfo(nextUser);
+    if(!nextUser && prevUser) {
+      this.controller.clearUserInfo();
+      this.setState({
+        openedSection: 'user',
+        isUserSectionDone: false,
+        isAddressSectionDone: false,
+        isPaymentSectionDone: false
+      });
+    }
+    if(!prevUserAddresses && nextUserAddresses && nextUserAddresses.all.length)
+      this.setState({ currentAddressSection: 'list' });
   }
 
   _renderInfo() {
@@ -83,7 +107,13 @@ class Checkout extends BaseContainer {
       handleEmailAndPasswordLogin,
       handleOpenSection,
       handleCepBlur,
-      handleNewAddressSubmit
+      handleNewAddressSubmit,
+      handleUpdateAddressSubmit,
+      handleSelectUserAddress,
+      handleViewUserAddresses,
+      handleNewAddressForm,
+      handleEditUserAddress,
+      handleCompleteAddressSection
     } = this.controller;
 
     const {
@@ -99,8 +129,12 @@ class Checkout extends BaseContainer {
       signupCellphone,
       signupPassword,
       signupNews,
+      isUserSectionDone,
 
+      currentAddressSection,
       addressSectionLoading,
+      addressName,
+      addressReceiverName,
       addressCep,
       addressAddress,
       addressNumber,
@@ -109,6 +143,8 @@ class Checkout extends BaseContainer {
       addressCity,
       addressState,
       addressIsDefault,
+      isEditingAddress,
+      isAddressSectionDone
     } = this.state;
 
     const { user, userAddresses, selectedUserAddress } = this.props;
@@ -131,18 +167,27 @@ class Checkout extends BaseContainer {
       signupCellphone,
       signupPassword,
       signupNews,
-      isOpen: openedSection === 'user',
-      isDone: user && user.isComplete && openedSection !== 'user'
+      openedSection,
+      isUserSectionDone
     };
 
     const toAddressSection = {
+      currentAddressSection,
       userAddresses,
       addressSectionLoading,
+      handleOpenSection,
       handleChange,
       handleCheckboxChange,
       handleRadioChange,
       handleCepBlur,
       handleNewAddressSubmit,
+      handleUpdateAddressSubmit,
+      handleSelectUserAddress,
+      handleViewUserAddresses,
+      handleNewAddressForm,
+      handleEditUserAddress,
+      addressName,
+      addressReceiverName,
       addressCep,
       addressAddress,
       addressNumber,
@@ -152,13 +197,24 @@ class Checkout extends BaseContainer {
       addressState,
       addressIsDefault,
       selectedUserAddress,
-      isOpen: openedSection === 'address'
-    }
+      isEditingAddress,
+      isAddressSectionDone,
+      isUserSectionDone,
+      openedSection,
+      handleCompleteAddressSection
+    };
+    
+    const toPaymentSection = {
+      openedSection,
+      isUserSectionDone,
+      isAddressSectionDone
+    };
 
     return (
       <FormSections
         toUserSection={toUserSection}
         toAddressSection={toAddressSection}
+        toPaymentSection={toPaymentSection}
       />
     );
   }
@@ -170,8 +226,6 @@ class Checkout extends BaseContainer {
 
   render() {
     const { classes } = this.props;
-
-    console.log(this.props.userAddresses);
 
     return (
       <div className={classes.wrapper}>
