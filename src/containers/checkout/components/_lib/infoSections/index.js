@@ -1,4 +1,5 @@
 export { AddressSection } from './AddressSection.component';
+export { AddressesList } from './AddressesList.component';
 export { AddressForm } from './AddressForm.component';
 
 export { UserSection } from './UserSection.component';

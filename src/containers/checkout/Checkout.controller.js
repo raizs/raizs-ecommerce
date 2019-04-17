@@ -16,6 +16,7 @@ export class CheckoutController extends BaseController {
     this.handleOpenSection = this.handleOpenSection.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.setUserInfo = this.setUserInfo.bind(this);
     this.clearUserInfo = this.clearUserInfo.bind(this);
 
@@ -24,6 +25,7 @@ export class CheckoutController extends BaseController {
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.handleNewAddressSubmit = this.handleNewAddressSubmit.bind(this);
+    this.handleSelectUserAddress = this.handleSelectUserAddress.bind(this);
   }
 
   _getUserSignupValues() {
@@ -131,6 +133,10 @@ export class CheckoutController extends BaseController {
   handleCheckboxChange(id) {
     const currentValue = this.getState()[id];
     this.toState(this.baseHandleCheckboxChange(id, currentValue));
+  }
+
+  handleRadioChange(e, id) {
+    this.toState({ [id]: e.target.value });
   }
 
   async handleGoogleSignin() {
@@ -246,5 +252,12 @@ export class CheckoutController extends BaseController {
     }
     
     this.toState({ addressSectionLoading: false });
+  }
+
+  handleSelectUserAddress(userAddressId) {
+    const { selectUserAddressAction, userAddresses } = this.getProps();
+    const userAddress = userAddresses.getById(userAddressId);
+
+    selectUserAddressAction(userAddress);
   }
 }

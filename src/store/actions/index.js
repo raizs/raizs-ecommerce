@@ -39,5 +39,7 @@ export {
 
 export {
   SET_USER_ADDRESSES,
-  setUserAddressesAction
+  SELECT_USER_ADDRESS,
+  setUserAddressesAction,
+  selectUserAddressAction
 } from './_lib/userAddresses.actions';

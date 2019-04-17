@@ -9,13 +9,14 @@ import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
 import styles from './checkout.styles';
 
-import { setUserAction, setUserAddressesAction } from '../../store/actions';
+import { setUserAction, setUserAddressesAction, selectUserAddressAction } from '../../store/actions';
 import { FormSections } from './components';
 import { withFirebase } from 'react-redux-firebase';
 
 const actions = {
   setUserAction,
-  setUserAddressesAction
+  setUserAddressesAction,
+  selectUserAddressAction
 };
 
 /**
@@ -55,7 +56,7 @@ class Checkout extends BaseContainer {
     addressNeighbourhood: '',
     addressCity: '',
     addressState: '',
-    addressIsDefault: false
+    addressIsDefault: false,
   }
 
   static propTypes = {
@@ -76,6 +77,7 @@ class Checkout extends BaseContainer {
     const {
       handleChange,
       handleCheckboxChange,
+      handleRadioChange,
       handleGoogleSignin,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
@@ -109,7 +111,7 @@ class Checkout extends BaseContainer {
       addressIsDefault,
     } = this.state;
 
-    const { user, userAddresses } = this.props;
+    const { user, userAddresses, selectedUserAddress } = this.props;
 
     const toUserSection = {
       user,
@@ -138,6 +140,7 @@ class Checkout extends BaseContainer {
       addressSectionLoading,
       handleChange,
       handleCheckboxChange,
+      handleRadioChange,
       handleCepBlur,
       handleNewAddressSubmit,
       addressCep,
@@ -148,6 +151,7 @@ class Checkout extends BaseContainer {
       addressCity,
       addressState,
       addressIsDefault,
+      selectedUserAddress,
       isOpen: openedSection === 'address'
     }
 
@@ -190,7 +194,8 @@ class Checkout extends BaseContainer {
 const mapStateToProps = state => ({
   cart: state.cart.current,
   user: state.user.current,
-  userAddresses: state.userAddresses.model
+  userAddresses: state.userAddresses.model,
+  selectedUserAddress: state.userAddresses.selected
 });
 
 export default compose(

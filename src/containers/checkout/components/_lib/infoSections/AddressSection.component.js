@@ -4,7 +4,7 @@ import { withStyles, Collapse } from '@material-ui/core';
 import { Loading, FacebookButton, GoogleButton } from '../../../../../molecules';
 import { Formatter } from '../../../../../helpers';
 
-import { AddressForm } from '.';
+import { AddressForm, AddressesList } from '.';
 
 const styles = theme => ({
   section: {
@@ -127,8 +127,12 @@ class AddressSection extends Component {
       addressIsDefault,
       handleChange,
       handleCheckboxChange,
+      handleRadioChange,
       handleCepBlur,
-      handleNewAddressSubmit
+      handleNewAddressSubmit,
+      
+      userAddresses,
+      selectedAddress
     } = this.props;
     
     const toAddressForm = {
@@ -146,13 +150,23 @@ class AddressSection extends Component {
       addressIsDefault
     };
 
+    const toAddressesList = {
+      handleRadioChange,
+      userAddresses,
+      selectedAddress
+    };
+
     return (
       <div>
         { addressSectionLoading && <Loading absolute /> }
 
         <div className={classes.whole}>
           <h3 className={classes.formTitle}>Endereço de Entrega</h3>
-          <AddressForm {...toAddressForm} />
+          {
+            userAddresses.all.length ? 
+            <AddressesList userAddresses={userAddresses} /> :
+            <AddressForm {...toAddressForm} />
+          }
         </div>
       </div>
     )

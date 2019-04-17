@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 
 const styles = theme => ({
-  wrapper: {
-  },
   textInput: {
     ...theme.inputs.text,
     '& + input': {

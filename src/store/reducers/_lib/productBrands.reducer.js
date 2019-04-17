@@ -5,7 +5,7 @@ import { ProductBrands } from "../../../entities";
 const cachedProductBrands = Cache.getItem('productBrands');
 
 const initialState = {
-	model: cachedProductBrands ? new ProductBrands(cachedProductBrands) : null
+	model: cachedProductBrands ? new ProductBrands(cachedProductBrands) : new ProductBrands([])
 };
 
 export const productBrandsReducer = (state = initialState, action) => {
