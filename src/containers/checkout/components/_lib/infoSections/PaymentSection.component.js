@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { withStyles, Collapse } from '@material-ui/core';
 import classnames from 'classnames'; 
 
-import { Loading } from '../../../../../molecules';
+import { Loading, PickABox } from '../../../../../molecules';
+import { paymentMethods } from '../../../../../assets';
 
 const styles = theme => ({
   section: {
@@ -111,7 +112,9 @@ class PaymentSection extends Component {
       classes,
       paymentSectionLoading,
       handleChange,
-      handleCheckboxChange
+      handleCheckboxChange,
+      handleSelectPaymentMethod,
+      selectedPaymentMethod
     } = this.props;
 
     return (
@@ -120,6 +123,12 @@ class PaymentSection extends Component {
 
         <div className={classes.whole}>
           <h3 className={classes.formTitle}>Escolha uma forma de pagamento</h3>
+          <PickABox
+            id='paymentMethod'
+            handleSelect={handleSelectPaymentMethod}
+            selectedId={selectedPaymentMethod}
+            options={paymentMethods}
+          />
         </div>
       </div>
     )

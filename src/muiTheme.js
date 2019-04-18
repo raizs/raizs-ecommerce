@@ -72,6 +72,12 @@ const theme = createMuiTheme({
       textAlign: 'center',
       marginBottom: 3 * SPACING_UNIT
     },
+    formSubtitle: {
+      fontSize: MD,
+      fontWeight: 700,
+      textAlign: 'center',
+      marginBottom: 2 * SPACING_UNIT
+    },
     textEllipsis: {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
@@ -274,6 +280,33 @@ const theme = createMuiTheme({
         border: `1px solid ${GREEN}`,
         outline: 'none'
       },
+    },
+    radio: {
+      userSelect: 'none',
+      '& span': {
+        fontWeight: 500
+      },
+      '& svg': {
+        fill: GREEN
+      }
+    },
+    checkbox: {
+      userSelect: 'none',
+      '& span': {
+        fontWeight: 700
+      },
+      '& svg': {
+        fill: GRAY
+      }
+    },
+    checkedCheckbox: {
+      userSelect: 'none',
+      '& span': {
+        fontWeight: 700
+      },
+      '& svg': {
+        fill: GREEN
+      }
     },
     small: {
       fontSize: SM,

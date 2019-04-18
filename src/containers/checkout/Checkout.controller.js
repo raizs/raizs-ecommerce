@@ -33,6 +33,7 @@ export class CheckoutController extends BaseController {
     this.handleNewAddressForm = this.handleNewAddressForm.bind(this);
     this.handleEditUserAddress = this.handleEditUserAddress.bind(this);
     this.handleCompleteAddressSection = this.handleCompleteAddressSection.bind(this);
+    this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
   }
 
   _getUserSignupValues() {
@@ -358,5 +359,9 @@ export class CheckoutController extends BaseController {
 
   handleCompleteAddressSection() {
     this.toState({ isAddressSectionDone: true, openedSection: 'payment' });
+  }
+
+  handleSelectPaymentMethod(id) {
+    this.toState({ selectedPaymentMethod: id });
   }
 }

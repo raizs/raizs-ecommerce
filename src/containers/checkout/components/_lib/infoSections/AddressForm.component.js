@@ -48,24 +48,8 @@ const styles = theme => ({
       display: 'inline-block'
     }
   },
-  checkboxInput: {
-    userSelect: 'none',
-    '& span': {
-      fontWeight: 700
-    },
-    '& svg': {
-      fill: theme.palette.gray.main
-    }
-  },
-  checkedCheckboxInput: {
-    userSelect: 'none',
-    '& span': {
-      fontWeight: 700
-    },
-    '& svg': {
-      fill: theme.palette.green.main
-    }
-  },
+  checkboxInput: theme.inputs.checkbox,
+  checkedCheckboxInput: theme.inputs.checkedCheckbox,
   button: {
     ...theme.buttons.primary,
     marginTop: 3 * theme.spacing.unit,

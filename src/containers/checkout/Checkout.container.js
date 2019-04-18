@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core';
-import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
@@ -64,10 +63,8 @@ class Checkout extends BaseContainer {
     addressIsDefault: false,
     isEditingAddress: false,
     editingAddressId: null,
-  }
 
-  static propTypes = {
-    classes: PropTypes.object,
+    selectedPaymentMethod: 'creditCard'
   }
 
   componentDidMount() {
@@ -113,7 +110,8 @@ class Checkout extends BaseContainer {
       handleViewUserAddresses,
       handleNewAddressForm,
       handleEditUserAddress,
-      handleCompleteAddressSection
+      handleCompleteAddressSection,
+      handleSelectPaymentMethod
     } = this.controller;
 
     const {
@@ -144,7 +142,9 @@ class Checkout extends BaseContainer {
       addressState,
       addressIsDefault,
       isEditingAddress,
-      isAddressSectionDone
+      isAddressSectionDone,
+      
+      selectedPaymentMethod
     } = this.state;
 
     const { user, userAddresses, selectedUserAddress } = this.props;
@@ -207,7 +207,9 @@ class Checkout extends BaseContainer {
     const toPaymentSection = {
       openedSection,
       isUserSectionDone,
-      isAddressSectionDone
+      isAddressSectionDone,
+      selectedPaymentMethod,
+      handleSelectPaymentMethod
     };
 
     return (

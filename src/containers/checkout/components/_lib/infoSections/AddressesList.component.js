@@ -17,15 +17,7 @@ const styles = theme => ({
       fontWeight: 700
     }
   },
-  radioInput: {
-    userSelect: 'none',
-    '& span': {
-      fontWeight: 500
-    },
-    '& svg': {
-      fill: theme.palette.green.main
-    }
-  },
+  radioInput: theme.inputs.radio,
   newAddress: {
     display: 'flex',
     alignItems: 'center',
