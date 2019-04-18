@@ -44,4 +44,25 @@ export class Formatter {
 
 		return phone.substring(0, 15);
 	};
+
+	static formatCreditCardNumber(value) {
+		value = this.extractNumbers(value);
+		if (value.length > 4 && value[4] !== "-") value = value.substring(0, 4) + "-" + value.substring(4, value.length);
+		if (value.length > 9 && value[9] !== "-") value = value.substring(0, 9) + "-" + value.substring(9, value.length);
+		if (value.length > 14 && value[14] !== "-") value = value.substring(0, 14) + "-" + value.substring(14, value.length);
+
+		return value.substring(0, 19);
+	};
+
+	static formatCreditCardExp(value) {
+		value = this.extractNumbers(value);
+		if (value.length > 2 && value[2] !== "/") value = value.substring(0, 2) + "/" + value.substring(2, value.length);
+
+		return value.substring(0, 7);
+	};
+
+	static formatCreditCardCvv(value) {
+		value = this.extractNumbers(value);
+		return value.substring(0, 4);
+	};
 }

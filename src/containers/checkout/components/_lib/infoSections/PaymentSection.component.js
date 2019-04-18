@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles, Collapse } from '@material-ui/core';
+import { withStyles, Collapse, Button } from '@material-ui/core';
 import classnames from 'classnames'; 
 
 import { Loading, PickABox } from '../../../../../molecules';
 import { paymentMethods } from '../../../../../assets';
+import { PaymentCreditCardForm } from '.';
 
 const styles = theme => ({
   section: {
@@ -98,6 +99,10 @@ const styles = theme => ({
     '&:hover': {
       color: theme.palette.green.main
     }
+  },
+  button: {
+    ...theme.buttons.secondary,
+    marginTop: 3 * theme.spacing.unit
   }
 });
 
@@ -107,12 +112,43 @@ class PaymentSection extends Component {
     prop: PropTypes.object,
   }
 
+  _renderSelectedMethodForm() {
+    const {
+      selectedPaymentMethod,
+      handleChange,
+      handleCheckboxChange,
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave
+    } = this.props;
+
+    const toCreditCardForm = {
+      handleChange,
+      handleCheckboxChange,
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave
+    };
+
+    const Comp = {
+      creditCard: PaymentCreditCardForm
+    }[selectedPaymentMethod];
+
+    const toComp = {
+      creditCard: toCreditCardForm
+    }[selectedPaymentMethod];
+
+    if(Comp) return <Comp {...toComp} />
+  }
+
   _renderCollapsibleContent() {
     const {
       classes,
       paymentSectionLoading,
-      handleChange,
-      handleCheckboxChange,
       handleSelectPaymentMethod,
       selectedPaymentMethod
     } = this.props;
@@ -129,6 +165,8 @@ class PaymentSection extends Component {
             selectedId={selectedPaymentMethod}
             options={paymentMethods}
           />
+          {this._renderSelectedMethodForm()}
+          <Button onClick={() => console.log('finalizar')} className={classes.button}>Finalizar Pedido</Button>
         </div>
       </div>
     )

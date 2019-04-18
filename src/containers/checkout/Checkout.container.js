@@ -64,7 +64,12 @@ class Checkout extends BaseContainer {
     isEditingAddress: false,
     editingAddressId: null,
 
-    selectedPaymentMethod: 'creditCard'
+    selectedPaymentMethod: 'creditCard',
+    creditCardNumber: '',
+    creditCardName: '',
+    creditCardExp: '',
+    creditCardCvv: '',
+    creditCardShouldSave: false
   }
 
   componentDidMount() {
@@ -144,7 +149,12 @@ class Checkout extends BaseContainer {
       isEditingAddress,
       isAddressSectionDone,
       
-      selectedPaymentMethod
+      selectedPaymentMethod,
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave
     } = this.state;
 
     const { user, userAddresses, selectedUserAddress } = this.props;
@@ -209,7 +219,14 @@ class Checkout extends BaseContainer {
       isUserSectionDone,
       isAddressSectionDone,
       selectedPaymentMethod,
-      handleSelectPaymentMethod
+      handleSelectPaymentMethod,
+      handleChange,
+      handleCheckboxChange,
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave
     };
 
     return (
