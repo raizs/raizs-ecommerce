@@ -92,7 +92,6 @@ class PickABox extends Component {
 
   render() {
     const { classes, id } = this.props;
-    console.log(this.state.width)
     return (
       <div className={classes.wrapper} id={`pick-a-box-${id}`}>
         {this._renderBoxes()}
