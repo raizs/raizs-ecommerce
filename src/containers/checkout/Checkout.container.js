@@ -65,10 +65,10 @@ class Checkout extends BaseContainer {
     editingAddressId: null,
 
     selectedPaymentMethod: 'creditCard',
-    creditCardNumber: '',
-    creditCardName: '',
-    creditCardExp: '',
-    creditCardCvv: '',
+    creditCardNumber: '5555-6666-7777-8884',
+    creditCardName: 'MARCELO TESTE',
+    creditCardExp: '12/2022',
+    creditCardCvv: '123',
     creditCardShouldSave: false
   }
 
@@ -116,7 +116,8 @@ class Checkout extends BaseContainer {
       handleNewAddressForm,
       handleEditUserAddress,
       handleCompleteAddressSection,
-      handleSelectPaymentMethod
+      handleSelectPaymentMethod,
+      handleSubmitPayment
     } = this.controller;
 
     const {
@@ -220,6 +221,7 @@ class Checkout extends BaseContainer {
       isAddressSectionDone,
       selectedPaymentMethod,
       handleSelectPaymentMethod,
+      handleSubmitPayment,
       handleChange,
       handleCheckboxChange,
       creditCardNumber,
@@ -245,6 +247,8 @@ class Checkout extends BaseContainer {
 
   render() {
     const { classes } = this.props;
+
+    console.log(this.props.user);
 
     return (
       <div className={classes.wrapper}>

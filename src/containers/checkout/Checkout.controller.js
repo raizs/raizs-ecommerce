@@ -1,6 +1,6 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper } from '../../helpers';
 import { User, UserAddresses } from '../../entities';
-import { UserRepository, UserAddressesRepository } from '../../repositories';
+import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
 
 export class CheckoutController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -8,9 +8,12 @@ export class CheckoutController extends BaseController {
 
     this.userRepo = new UserRepository();
     this.userAddressesRepo = new UserAddressesRepository();
+    this.paymentRepo = new PaymentRepository();
 
     this._getUserSignupValues = this._getUserSignupValues.bind(this);
     this._getAddressValues = this._getAddressValues.bind(this);
+    this._getCreateCreditCardInfo = this._getCreateCreditCardInfo.bind(this);
+    
     this._clearAddressInfo = this._clearAddressInfo.bind(this);
 
     this.handleOpenSection = this.handleOpenSection.bind(this);
@@ -34,6 +37,10 @@ export class CheckoutController extends BaseController {
     this.handleEditUserAddress = this.handleEditUserAddress.bind(this);
     this.handleCompleteAddressSection = this.handleCompleteAddressSection.bind(this);
     this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
+
+    this.handleSubmitPayment = this.handleSubmitPayment.bind(this);
+    this.handleCreateCreditCard = this.handleCreateCreditCard.bind(this);
+    
   }
 
   _getUserSignupValues() {
@@ -139,6 +146,25 @@ export class CheckoutController extends BaseController {
       signupEmail: '',
       signupCellphone: ''
     });
+  }
+
+  _getCreateCreditCardInfo() {
+    const {
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave
+    } = this.getState();
+
+    return {
+      creditCardNumber,
+      creditCardName,
+      creditCardExp,
+      creditCardCvv,
+      creditCardShouldSave,
+      mpid: this.getProps().user.mpid
+    };
   }
 
   handleOpenSection(section) {
@@ -363,5 +389,30 @@ export class CheckoutController extends BaseController {
 
   handleSelectPaymentMethod(id) {
     this.toState({ selectedPaymentMethod: id });
+  }
+
+  async handleSubmitPayment() {
+    const { selectedPaymentMethod } = this.getState();
+    console.log('in here', selectedPaymentMethod);
+    
+    const method = {
+      creditCard: this.handleCreateCreditCard
+    }[selectedPaymentMethod] || null;
+    console.log('in here after', method);
+
+    this.toState({ paymentSectionLoading: true });
+    const methodRes = await method(); 
+    
+    console.log('methodRes', methodRes);
+    this.toState({ paymentSectionLoading: false });
+  }
+
+  async handleCreateCreditCard() {
+    console.log('in second')
+    const toApi = StateToApi.createCreditCard(this._getCreateCreditCardInfo());
+
+    const promise = await this.paymentRepo.createCard(toApi);
+
+    return promise;
   }
 }

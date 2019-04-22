@@ -150,6 +150,7 @@ class PaymentSection extends Component {
       classes,
       paymentSectionLoading,
       handleSelectPaymentMethod,
+      handleSubmitPayment,
       selectedPaymentMethod
     } = this.props;
 
@@ -166,7 +167,7 @@ class PaymentSection extends Component {
             options={paymentMethods}
           />
           {this._renderSelectedMethodForm()}
-          <Button onClick={() => console.log('finalizar')} className={classes.button}>Finalizar Pedido</Button>
+          <Button onClick={handleSubmitPayment} className={classes.button}>Continuar</Button>
         </div>
       </div>
     )

@@ -9,6 +9,7 @@ export class User extends BaseModel {
     this.id = user.id;
     this.email = user.email || '';
     this.fuid = user.fuid;
+    this.mpid = user.mpid;
     this.name = user.name;
     this.phone = user.phone || '';
     this.lastName = user.lastName;

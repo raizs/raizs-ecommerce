@@ -36,8 +36,9 @@ export class StateToApi {
       lastName: values.signupLastName,
       cnpjCpf: parseInt(Formatter.extractNumbers(values.signupCpf)),
       email: values.signupEmail,
-      phone: Formatter.extractNumbers(values.signupCellphone)
-    }
+      phone: Formatter.extractNumbers(values.signupCellphone),
+      customer: true
+    };
   }
 
   static createAddressCheckout(values) {
@@ -54,5 +55,19 @@ export class StateToApi {
       state: values.addressState,
       isDefaultAddress: values.addressIsDefault
     }
+  }
+
+  static createCreditCard(values) {
+    return {
+      toMundipagg: {
+        number: values.creditCardNumber,
+        holder_name: values.creditCardName,
+        exp_month: values.creditCardExp.split('/')[0],
+        exp_year: values.creditCardExp.split('/')[1],
+        cvv: values.creditCardCvv
+      },
+      shouldSaveCard: values.creditCardShouldSave,
+      customer_id: values.mpid
+    };
   }
 }
