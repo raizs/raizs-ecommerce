@@ -17,7 +17,9 @@ import {
   setUserAction,
   setCategoriesAction,
   setUserAddressesAction,
-  selectUserAddressAction
+  selectUserAddressAction,
+  setCreditCardsAction,
+  selectCreditCardAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -36,7 +38,9 @@ const actions = {
   setUserAction,
   setUserAddressesAction,
   setCategoriesAction,
-  selectUserAddressAction
+  selectUserAddressAction,
+  setCreditCardsAction,
+  selectCreditCardAction
 };
 
 class App extends BaseContainer {
@@ -51,10 +55,12 @@ class App extends BaseContainer {
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
       if(user) this.controller.fetchPgUser(user);
       else {
         this.props.setUserAction(null);
         this.props.setUserAddressesAction(null);
+        this.props.setCreditCardsAction(null);
         this.props.selectUserAddressAction(null);
       }
     });

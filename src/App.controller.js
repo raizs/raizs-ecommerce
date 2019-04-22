@@ -1,6 +1,6 @@
 import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
-import { User, Categories, UserAddresses } from './entities';
-import { UserRepository, UserAddressesRepository, CategoriesRepository } from './repositories';
+import { User, Categories, UserAddresses, CreditCards } from './entities';
+import { UserRepository, UserAddressesRepository, CategoriesRepository, PaymentRepository } from './repositories';
 
 export class AppController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -9,6 +9,7 @@ export class AppController extends BaseController {
     this.userRepo = new UserRepository();
     this.userAddressesRepo = new UserAddressesRepository();
     this.categoriesRepo = new CategoriesRepository();
+    this.paymentRepo = new PaymentRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.fetchPgUser = this.fetchPgUser.bind(this);
@@ -39,9 +40,17 @@ export class AppController extends BaseController {
   }
 
   async fetchPgUser(user) {
-    const { setUserAction, setUserAddressesAction, selectUserAddressAction } = this.getProps();
+    const {
+      setUserAction,
+      setUserAddressesAction,
+      selectUserAddressAction,
+      setCreditCardsAction,
+      selectCreditCardAction,
+    } = this.getProps();
 
-    const pgUser = await this.userRepo.getUser(user.uid);
+    let pgUser = await this.userRepo.getUser(user.uid);
+
+    if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
 
     if(!pgUser.err) {
       const newUser = new User(pgUser.data);
@@ -52,6 +61,13 @@ export class AppController extends BaseController {
         const newUserAddresses = new UserAddresses(userAddresses.data);
         setUserAddressesAction(newUserAddresses);
         selectUserAddressAction(newUserAddresses.getDefaultUserAddress());
+      }
+
+      const userCreditCards = await this.paymentRepo.listCards(newUser.mpid);
+      if(!userCreditCards.err) {
+        const newCreditCards = new CreditCards(userCreditCards.data.data);
+        setCreditCardsAction(newCreditCards);
+        selectCreditCardAction(newCreditCards.getDefaultCreditCard());
       }
     }
   }

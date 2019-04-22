@@ -102,7 +102,7 @@ class PaymentCreditCardForm extends Component {
       handleSelectCreditCard,
     } = this.props;
 
-    const value = selectedCreditCard ? selectedCreditCard.idString : 'new';
+    const value = selectedCreditCard ? selectedCreditCard.id : 'new';
 
     return (
       <form className={classes.wrapper}>
@@ -117,10 +117,11 @@ class PaymentCreditCardForm extends Component {
           {creditCards.all.map(creditCard => {
             return (
               <FormControlLabel
+                key={creditCard.id}
                 className={classes.radioInput}
-                value={creditCard.idString}
-                control={<Radio checked={creditCard.idString === value} />}
-                label={creditCard.displayName}
+                value={creditCard.id}
+                control={<Radio checked={creditCard.id === value} />}
+                label={creditCard.finalString}
               />
             );
           })}

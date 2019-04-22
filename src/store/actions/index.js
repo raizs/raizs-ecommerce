@@ -9,6 +9,13 @@ export {
 } from './_lib/categories.actions';
 
 export {
+  SET_CREDIT_CARDS,
+  SELECT_CREDIT_CARD,
+  setCreditCardsAction,
+  selectCreditCardAction
+} from './_lib/creditCards.actions';
+
+export {
   TOGGLE_USER_POPPER,
   OPEN_USER_POPPER,
   CLOSE_USER_POPPER,

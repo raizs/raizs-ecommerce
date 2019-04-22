@@ -67,7 +67,8 @@ const styles = theme => ({
     borderRadius: theme.spacing.unit,
     display: 'flex',
     justifyContent: 'space-between',
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   },
   doneNumber: {
     display: 'inline-block',
@@ -117,32 +118,38 @@ class PaymentSection extends Component {
       selectedPaymentMethod,
       handleChange,
       handleCheckboxChange,
+      handleSelectCreditCard,
+      creditCards,
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
-      creditCardShouldSave
+      creditCardShouldSave,
+      selectedCreditCard
     } = this.props;
 
     const toCreditCardForm = {
       handleChange,
       handleCheckboxChange,
+      handleSelectCreditCard,
+      creditCards,
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
-      creditCardShouldSave
+      creditCardShouldSave,
+      selectedCreditCard
     };
 
     const Comp = {
       creditCard: PaymentCreditCardForm
     }[selectedPaymentMethod];
 
-    const toComp = {
+    const compProps = {
       creditCard: toCreditCardForm
     }[selectedPaymentMethod];
 
-    if(Comp) return <Comp {...toComp} />
+    if(Comp) return <Comp {...compProps} />
   }
 
   _renderCollapsibleContent() {
@@ -151,7 +158,8 @@ class PaymentSection extends Component {
       paymentSectionLoading,
       handleSelectPaymentMethod,
       handleSubmitPayment,
-      selectedPaymentMethod
+      selectedPaymentMethod,
+      selectedCreditCard
     } = this.props;
 
     return (
@@ -167,7 +175,12 @@ class PaymentSection extends Component {
             options={paymentMethods}
           />
           {this._renderSelectedMethodForm()}
-          <Button onClick={handleSubmitPayment} className={classes.button}>Continuar</Button>
+          <Button
+            onClick={handleSubmitPayment}
+            className={classes.button}
+          >
+            Continuar
+          </Button>
         </div>
       </div>
     )
@@ -221,14 +234,11 @@ class PaymentSection extends Component {
   }
 
   _renderDoneInfo() {
-    const { classes, selectedPayment } = this.props;
-    return selectedPayment ? (
+    const { classes, selectedCreditCard } = this.props;
+    return selectedCreditCard ? (
       <div>
-        <div className={classes.doneInfo}>{selectedPayment.name}</div>
-        <div className={classes.doneInfo}>{selectedPayment.receiverName}</div>
-        <div className={classes.doneInfo}>{selectedPayment.cep}</div>
-        <div className={classes.doneInfo}>{selectedPayment.formattedPayment}</div>
-        <div className={classes.doneInfo}>{selectedPayment.formattedPayment2}</div>
+        <div className={classes.doneInfo}>CARTÃO DE CRÉDITO</div>
+        <div className={classes.doneInfo}>{selectedCreditCard.finalString}</div>
       </div>
     ) : null;
   }

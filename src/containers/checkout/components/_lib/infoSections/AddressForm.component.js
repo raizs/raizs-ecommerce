@@ -162,7 +162,7 @@ class AddressForm extends Component {
           className={classes.checkboxInput}
           control={
             <Checkbox
-              checked={addressIsDefault}
+              checked={addressIsDefault || !hasAddresses}
               classes={{
                 checked: classes.checkedCheckboxInput
               }}
@@ -179,7 +179,7 @@ class AddressForm extends Component {
           >
             {isEditingAddress ? 'Salvar' : 'Continuar'}
           </Button>
-          {hasAddresses && <Button onClick={handleViewUserAddresses} className={classes.secondaryButton}>Ver Endereços</Button>}
+          {hasAddresses ? <Button onClick={handleViewUserAddresses} className={classes.secondaryButton}>Ver Endereços</Button> : null}
         </div>
       </form>
     )

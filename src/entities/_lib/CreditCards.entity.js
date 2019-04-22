@@ -7,6 +7,8 @@ export class CreditCards extends BaseModel {
     
     this.original = creditCards;
     this.all = creditCards.map(creditCard => new CreditCard(creditCard));
+
+    this.getDefaultCreditCard = this.getDefaultCreditCard.bind(this);
   }
 
   add(newCreditCard) {
@@ -19,5 +21,9 @@ export class CreditCards extends BaseModel {
       if(creditCard.id === id) item = creditCard;
     });
     return item;
+  }
+
+  getDefaultCreditCard() {
+    return this.all[0];
   }
 }

@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper } from '../../helpers';
-import { User, UserAddresses } from '../../entities';
+import { User, CreditCards } from '../../entities';
 import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
 
 export class CheckoutController extends BaseController {
@@ -40,6 +40,8 @@ export class CheckoutController extends BaseController {
 
     this.handleSubmitPayment = this.handleSubmitPayment.bind(this);
     this.handleCreateCreditCard = this.handleCreateCreditCard.bind(this);
+    this.handleSelectCreditCard = this.handleSelectCreditCard.bind(this);
+    this.handleContinuePayment = this.handleContinuePayment.bind(this);
     
   }
 
@@ -224,11 +226,14 @@ export class CheckoutController extends BaseController {
         if(!pgUser.err) {
           const newUser = new User(pgUser.data);
           setUserAction(newUser);
-          if(newUser.isComplete) toState.openedSection = 'address';
+          if(newUser.isComplete) {
+            toState.openedSection = 'address';
+            toState.isUserSectionDone = true;
+          }
         }
       }
     }
-
+    
     this.toState(toState);
   }
 
@@ -242,6 +247,7 @@ export class CheckoutController extends BaseController {
     let promise = await this.userRepo.updateFirebaseUser(toApi, fuid);
     if(promise.err) {
       this.toState({ userSectionLoading: false });
+      console.log(promise.err);
       throw 'Error updating firebase user';
     }
     
@@ -253,7 +259,7 @@ export class CheckoutController extends BaseController {
       setUserAction(new User(promise.data));
     }
     
-    this.toState({ userSectionLoading: false, openedSection: 'address' });
+    this.toState({ userSectionLoading: false, openedSection: 'address', isUserSectionDone: true });
   }
   
   async handleEmailAndPasswordLogin() {
@@ -301,22 +307,25 @@ export class CheckoutController extends BaseController {
   }
 
   async handleNewAddressSubmit() {
-    const { user, setUserAddressesAction, userAddresses } = this.getProps();
+    const { user, setUserAddressesAction, selectUserAddressAction, userAddresses } = this.getProps();
     const values = this._getAddressValues();
     values.resPartnerId = user.id;
 
     this.toState({ addressSectionLoading: true });
-    
+
+    const toState = { addressSectionLoading: false };
     const toApi = StateToApi.createAddressCheckout(values);
     const promise = await this.userAddressesRepo.create(toApi);
 
     if(!promise.err) {
       const newUserAdresses = userAddresses.add(promise.data);
+      toState.currentAddressSection = 'list';
       setUserAddressesAction(newUserAdresses);
+      selectUserAddressAction(newUserAdresses.getDefaultUserAddress());
       this._clearAddressInfo();
     }
     
-    this.toState({ addressSectionLoading: false });
+    this.toState(toState);
   }
 
   async handleUpdateAddressSubmit() {
@@ -393,26 +402,48 @@ export class CheckoutController extends BaseController {
 
   async handleSubmitPayment() {
     const { selectedPaymentMethod } = this.getState();
-    console.log('in here', selectedPaymentMethod);
+    const { selectedCreditCard } = this.getProps();
     
-    const method = {
+    let method = {
       creditCard: this.handleCreateCreditCard
     }[selectedPaymentMethod] || null;
-    console.log('in here after', method);
+
+    if(selectedPaymentMethod === 'creditCard' && selectedCreditCard)
+      method = this.handleContinuePayment
 
     this.toState({ paymentSectionLoading: true });
     const methodRes = await method(); 
     
-    console.log('methodRes', methodRes);
     this.toState({ paymentSectionLoading: false });
   }
 
   async handleCreateCreditCard() {
-    console.log('in second')
+    const { creditCards, setCreditCardsAction, selectCreditCardAction } = this.getProps();
     const toApi = StateToApi.createCreditCard(this._getCreateCreditCardInfo());
 
     const promise = await this.paymentRepo.createCard(toApi);
 
+    console.log(promise);
+
+    if(!promise.err) {
+      const newCreditCards = creditCards.add(promise.data);
+      setCreditCardsAction(newCreditCards);
+      selectCreditCardAction(newCreditCards.getDefaultCreditCard());
+    }
+
     return promise;
+  }
+
+  handleSelectCreditCard(e) {
+    const creditCardId = e.target.value;
+
+    const { selectCreditCardAction, creditCards } = this.getProps();
+    const creditCard = creditCards.getById(creditCardId);
+
+    selectCreditCardAction(creditCard);
+  }
+
+  handleContinuePayment() {
+    this.toState({ isPaymentSectionDone: true });
   }
 }

@@ -8,14 +8,22 @@ import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
 import styles from './checkout.styles';
 
-import { setUserAction, setUserAddressesAction, selectUserAddressAction } from '../../store/actions';
+import {
+  setUserAction,
+  setUserAddressesAction,
+  selectUserAddressAction,
+  setCreditCardsAction,
+  selectCreditCardAction
+} from '../../store/actions';
 import { FormSections } from './components';
 import { withFirebase } from 'react-redux-firebase';
 
 const actions = {
   setUserAction,
   setUserAddressesAction,
-  selectUserAddressAction
+  selectUserAddressAction,
+  setCreditCardsAction,
+  selectCreditCardAction
 };
 
 /**
@@ -69,23 +77,34 @@ class Checkout extends BaseContainer {
     creditCardName: 'MARCELO TESTE',
     creditCardExp: '12/2022',
     creditCardCvv: '123',
-    creditCardShouldSave: false
+    creditCardShouldSave: true
   }
 
   componentDidMount() {
-    if(this.props.user) this.controller.setUserInfo(this.props.user);
+    if(this.props.user) {
+      console.log('indas', this.props.user);
+      this.controller.setUserInfo(this.props.user);
+    }
     if(this.props.userAddresses && this.props.userAddresses.all.length)
       this.setState({
         currentAddressSection: 'list',
         isAddressSectionDone: true,
         openedSection: 'payment'
       });
+    if(this.props.creditCards && this.props.creditCards.all.length)
+      this.setState({
+        isPaymentSectionDone: true,
+        openedSection: null
+      });
   }
 
   componentWillReceiveProps(nextProps) {
     const prevUser = this.props.user, nextUser = nextProps.user;
     const prevUserAddresses = this.props.userAddresses, nextUserAddresses = nextProps.userAddresses;
-    if(!prevUser && nextUser) this.controller.setUserInfo(nextUser);
+    if(!prevUser && nextUser) {
+      console.log('in here', nextUser);
+      this.controller.setUserInfo(nextUser);
+    }
     if(!nextUser && prevUser) {
       this.controller.clearUserInfo();
       this.setState({
@@ -117,7 +136,8 @@ class Checkout extends BaseContainer {
       handleEditUserAddress,
       handleCompleteAddressSection,
       handleSelectPaymentMethod,
-      handleSubmitPayment
+      handleSubmitPayment,
+      handleSelectCreditCard
     } = this.controller;
 
     const {
@@ -150,6 +170,8 @@ class Checkout extends BaseContainer {
       isEditingAddress,
       isAddressSectionDone,
       
+      isPaymentSectionDone,
+      paymentSectionLoading,
       selectedPaymentMethod,
       creditCardNumber,
       creditCardName,
@@ -158,7 +180,13 @@ class Checkout extends BaseContainer {
       creditCardShouldSave
     } = this.state;
 
-    const { user, userAddresses, selectedUserAddress } = this.props;
+    const {
+      user,
+      userAddresses,
+      selectedUserAddress,
+      creditCards,
+      selectedCreditCard
+    } = this.props;
 
     const toUserSection = {
       user,
@@ -216,19 +244,25 @@ class Checkout extends BaseContainer {
     };
     
     const toPaymentSection = {
+      isPaymentSectionDone,
+      handleOpenSection,
+      creditCards,
       openedSection,
+      paymentSectionLoading,
       isUserSectionDone,
       isAddressSectionDone,
       selectedPaymentMethod,
       handleSelectPaymentMethod,
       handleSubmitPayment,
+      handleSelectCreditCard,
       handleChange,
       handleCheckboxChange,
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
-      creditCardShouldSave
+      creditCardShouldSave,
+      selectedCreditCard
     };
 
     return (
@@ -241,14 +275,14 @@ class Checkout extends BaseContainer {
   }
 
   _renderSummary() {
-    return  <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at felis aliquam quam maximus rhoncus. Maecenas sodales leo eu ante ultricies gravida. Etiam dignissim rhoncus mollis. Nam a lacus euismod, tempus dolor sit amet, gravida tellus. Vivamus gravida, dolor vitae porta cursus, felis ligula ultricies ante, eu tempor arcu nunc id orci. Vivamus gravida mollis sem et tincidunt. Aliquam tincidunt neque a elit molestie tincidunt.
-    </div>;
+    return  (
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at felis aliquam quam maximus rhoncus. Maecenas sodales leo eu ante ultricies gravida. Etiam dignissim rhoncus mollis. Nam a lacus euismod, tempus dolor sit amet, gravida tellus. Vivamus gravida, dolor vitae porta cursus, felis ligula ultricies ante, eu tempor arcu nunc id orci. Vivamus gravida mollis sem et tincidunt. Aliquam tincidunt neque a elit molestie tincidunt.
+    </div>
+    );
   }
 
   render() {
     const { classes } = this.props;
-
-    console.log(this.props.user);
 
     return (
       <div className={classes.wrapper}>
@@ -272,7 +306,9 @@ const mapStateToProps = state => ({
   cart: state.cart.current,
   user: state.user.current,
   userAddresses: state.userAddresses.model,
-  selectedUserAddress: state.userAddresses.selected
+  selectedUserAddress: state.userAddresses.selected,
+  creditCards: state.creditCards.model,
+  selectedCreditCard: state.creditCards.selected,
 });
 
 export default compose(
