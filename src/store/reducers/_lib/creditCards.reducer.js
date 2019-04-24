@@ -5,8 +5,6 @@ import { CreditCards } from "../../../entities";
 const cachedCreditCards = Cache.getItem('creditCards');
 const model = cachedCreditCards ? new CreditCards(cachedCreditCards) : new CreditCards([]);
 
-console.log('mode', model)
-
 const initialState = {
 	model,
 	selected: model.all.length ? model.getDefaultCreditCard() : null

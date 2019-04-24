@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
@@ -81,10 +81,7 @@ class Checkout extends BaseContainer {
   }
 
   componentDidMount() {
-    if(this.props.user) {
-      console.log('indas', this.props.user);
-      this.controller.setUserInfo(this.props.user);
-    }
+    if(this.props.user) this.controller.setUserInfo(this.props.user);
     if(this.props.userAddresses && this.props.userAddresses.all.length)
       this.setState({
         currentAddressSection: 'list',
@@ -137,7 +134,8 @@ class Checkout extends BaseContainer {
       handleCompleteAddressSection,
       handleSelectPaymentMethod,
       handleSubmitPayment,
-      handleSelectCreditCard
+      handleSelectCreditCard,
+      handleConfirmOrder
     } = this.controller;
 
     const {
@@ -182,6 +180,7 @@ class Checkout extends BaseContainer {
 
     const {
       user,
+      classes,
       userAddresses,
       selectedUserAddress,
       creditCards,
@@ -266,11 +265,20 @@ class Checkout extends BaseContainer {
     };
 
     return (
-      <FormSections
-        toUserSection={toUserSection}
-        toAddressSection={toAddressSection}
-        toPaymentSection={toPaymentSection}
-      />
+      <div>
+        <FormSections
+          toUserSection={toUserSection}
+          toAddressSection={toAddressSection}
+          toPaymentSection={toPaymentSection}
+        />
+        {
+          isUserSectionDone && isAddressSectionDone && isPaymentSectionDone ?
+          <Button className={classes.button} onClick={handleConfirmOrder}>
+            Finalizar Pedido    
+          </Button> 
+          : null
+        }
+      </div>
     );
   }
 
@@ -283,6 +291,8 @@ class Checkout extends BaseContainer {
 
   render() {
     const { classes } = this.props;
+
+    console.log(this.props.cart);
 
     return (
       <div className={classes.wrapper}>

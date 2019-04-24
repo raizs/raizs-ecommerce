@@ -20,6 +20,8 @@ export class UserAddress {
 
     this.formattedAddress = this._formatAddress(userAddress);
     this.formattedAddress2 = this._formatAddress2(userAddress);
+
+    this.getMpFormattedShipping = this.getMpFormattedShipping.bind(this);
   }
 
   _mapToCheckoutForm(userAddress) {
@@ -44,5 +46,20 @@ export class UserAddress {
 
   _formatAddress2({ neighbourhood, city, state }) {
     return `${neighbourhood}, ${city} - ${state}`;
+  }
+
+  getMpFormattedShipping() {
+    return {
+      amount: 990,
+      description: this.name,
+      recipient_name: this.receiverName,
+      address: {
+          line_1: this.formattedAddress,
+          zip_code: this.cep,
+          city: this.city,
+          state: this.state,
+          country: "BR"
+      }
+    };
   }
 }

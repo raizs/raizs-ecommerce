@@ -70,4 +70,18 @@ export class StateToApi {
       customer_id: values.mpid
     };
   }
+
+  static checkout({ user, cart, selectedUserAddress, selectedCreditCard }) {
+    return {
+      toPg: {
+        resPartnerId: user.id
+      },
+      toMp: {
+        customer_id: user.mpid,
+        items: cart.getMpFormattedItems(),
+        shipping: selectedUserAddress.getMpFormattedShipping(),
+        payments: [selectedCreditCard.getMpFormattedPayment({})]
+      }
+    };
+  }
 }

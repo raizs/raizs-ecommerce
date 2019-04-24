@@ -23,5 +23,10 @@ export default theme => ({
   summary: {
     width: `calc(33% - ${2 * theme.spacing.unit}px)`,
     marginLeft: 2 * theme.spacing.unit,
+  },
+  button: {
+    ...theme.buttons.primary,
+    fontSize: theme.fontSizes.LG,
+    marginTop: 3 * theme.spacing.unit
   }
 });

@@ -69,6 +69,9 @@ export class AppController extends BaseController {
         setCreditCardsAction(newCreditCards);
         selectCreditCardAction(newCreditCards.getDefaultCreditCard());
       }
+    } else {
+      await setUserAction(new User({}));
+      setUserAction(null);
     }
   }
 

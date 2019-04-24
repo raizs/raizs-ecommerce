@@ -13,6 +13,7 @@ export class Product {
     this.imageUrl = `https://raizs-stag.odoo.com/product/image?template_id=${this.templateId}`;
 
     this.fullPrice = this._getFullPrice(this.price, this.weight, this.uomId);
+    this.mpPrice = parseInt(this.price * 100);
   }
 
   _getFullPrice(price, weight, uomId) {

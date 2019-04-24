@@ -55,13 +55,13 @@ class App extends BaseContainer {
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
       if(user) this.controller.fetchPgUser(user);
       else {
         this.props.setUserAction(null);
         this.props.setUserAddressesAction(null);
-        this.props.setCreditCardsAction(null);
         this.props.selectUserAddressAction(null);
+        this.props.setCreditCardsAction(null);
+        this.props.selectCreditCardAction(null);
       }
     });
 

@@ -14,6 +14,8 @@ export class Cart {
     this.productQuantities = this._getProductQuantitiesObj(items);
     this.productPartialPrices = this._getProductPartialPricesObj(items);
     this.subtotal = this._getSubtotal(items);
+
+    this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
   }
   
   update(product, quantity) {
@@ -72,6 +74,21 @@ export class Cart {
       value += item.product.price * item.quantity
     });
 
-    return value;
+    return parseFloat(value.toFixed(2));
+  }
+
+  getMpFormattedItems() {
+    const arr = [];
+
+    this.items.forEach(({ product, quantity }) => {
+      arr.push({
+        amount: product.mpPrice,
+        description: product.name,
+        code: product.id,
+        quantity
+      })
+    });
+
+    return arr;
   }
 }
