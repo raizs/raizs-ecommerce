@@ -179,7 +179,7 @@ class AddressForm extends Component {
           >
             {isEditingAddress ? 'Salvar' : 'Continuar'}
           </Button>
-          {hasAddresses ? <Button onClick={handleViewUserAddresses} className={classes.secondaryButton}>Ver Endereços</Button> : null}
+          {hasAddresses ? <Button onClick={handleViewUserAddresses} className={classes.secondaryButton}>Meus Endereços</Button> : null}
         </div>
       </form>
     )

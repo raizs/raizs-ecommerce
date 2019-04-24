@@ -43,17 +43,16 @@ export class StateToApi {
 
   static createAddressCheckout(values) {
     return {
-      resPartnerId: values.resPartnerId,
-      name: values.addressName,
-      receiverName: values.addressReceiverName,
-      cep: values.addressCep,
-      address: values.addressAddress,
+      addressName: values.addressName,
+      addressReceiverName: values.addressReceiverName,
+      zip: values.addressCep,
+      street: values.addressAddress,
       number: values.addressNumber,
-      complement: values.addressComplement,
-      neighbourhood: values.addressNeighbourhood,
+      street2: values.addressComplement,
+      district: values.addressNeighbourhood,
       city: values.addressCity,
       state: values.addressState,
-      isDefaultAddress: values.addressIsDefault
+      addressIsDefault: values.addressIsDefault
     }
   }
 

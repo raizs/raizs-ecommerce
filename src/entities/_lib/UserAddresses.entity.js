@@ -2,11 +2,13 @@ import { BaseModel } from '../../helpers';
 import { UserAddress } from '..';
 
 export class UserAddresses extends BaseModel {
-  constructor(userAddresses) {
+  constructor(users) {
     super();
     
-    this.original = userAddresses;
-    this.all = userAddresses.map(userAddress => new UserAddress(userAddress));
+    this.original = users;
+    this.all = users.map(user => new UserAddress(user));
+
+    this.hasAddresses = this.all.length > 1 || this._checkAddress(this.all[0]);
   }
 
   add(newUserAddress) {
@@ -41,5 +43,9 @@ export class UserAddresses extends BaseModel {
       if(ua.id !== id) ua.isDefaultAddress = false;
     }
     return new UserAddresses(copy);
+  }
+
+  _checkAddress(address) {
+    return address.name && address.address && address.receiverName;
   }
 }

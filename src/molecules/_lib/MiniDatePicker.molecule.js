@@ -1,37 +1,100 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core';
+import { withStyles, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import classnames from 'classnames';
+
 import { SimplePopper } from '..';
 import { MiniDatePickerHelper } from '../../helpers';
+
+const styles = theme => ({
+  radioInput: {
+    ...theme.inputs.radio,
+    marginLeft: 0,
+    '& > span': {
+      padding: 0
+    },
+    '& svg': {
+      fill: theme.palette.gray.main,
+      width: '.75em',
+      marginRight: theme.spacing.unit
+    },
+    '&:hover': {
+      '& span': {
+        fontWeight: 700
+      }
+    },
+    '&.-selected': {
+      '& svg': {
+        fill: theme.palette.green.main
+      },
+      '& span': {
+        color: theme.palette.green.main
+      }
+    }
+  },
+});
 
 class MiniDatePicker extends Component {
   state = {
     options: MiniDatePickerHelper.generateDatesObject(),
     selected: MiniDatePickerHelper.generateDatesObject()[0],
-    value: 0,
+    value: 0
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.selected !== this.state.selected) 
+      this.setState({
+        value: nextProps.selected,
+        selected: this.state.options[nextProps.selected]
+      });
+  }
+  
   _renderOptions() {
-    return this.state.options.map(option => {
-      return (
-        <div
-          key={option.value}
-          id={option.value}
-          onClick={() => this.setState({ value: option.id, selected: option })}>{option.date}</div>
-      );
-    })
+    const { handleSelectDate, classes } = this.props;
+    const { options } = this.state;
+    let { value } = this.state;
+
+    value = value.toString();
+
+    return (
+      <RadioGroup
+        name="date"
+        inputref='div'
+        value={value}
+        onChange={handleSelectDate}
+      >
+        {options.map(option => {
+          const formControlClasses = [classes.radioInput];
+          if(option.value.toString() === value) formControlClasses.push('-selected');
+
+          return (
+            <FormControlLabel
+              className={classnames(formControlClasses)}
+              value={option.value}
+              control={
+                <Radio
+                  onClick={handleSelectDate}
+                  checked={option.value.toString() === value}
+                />
+              }
+              label={option.date}
+            />
+          );
+        })}
+      </RadioGroup>
+    );
   }
 
   render() {
     const { selected } = this.state;
 
     return (
-      <SimplePopper label={`Comprando para ${selected.suffix}`}>
+      <SimplePopper from='miniDatePicker' label={`Comprando para ${selected.bigSuffix}`}>
         {this._renderOptions()}
       </SimplePopper>
     )
   }
 }
 
-MiniDatePicker = withStyles({})(MiniDatePicker);
+MiniDatePicker = withStyles(styles)(MiniDatePicker);
 
 export { MiniDatePicker };

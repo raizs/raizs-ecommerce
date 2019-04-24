@@ -110,7 +110,6 @@ class AddressSection extends Component {
     const {
       classes,
       currentAddressSection,
-      isAddressSectionDone,
       addressSectionLoading,
       addressName,
       addressReceiverName,
@@ -175,7 +174,7 @@ class AddressSection extends Component {
       list: toAddressesList
     }[currentAddressSection];
 
-    const hasAddresses = userAddresses && userAddresses.all.length;
+    const hasAddresses = userAddresses.hasAddresses;
 
     if(!hasAddresses) {
       Comp = AddressForm;

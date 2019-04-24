@@ -11,6 +11,10 @@ export class UserAddressesRepository extends BaseRepository {
     return this.post('userAddresses/create', body);
   }
 
+  createFirst(body, id) {
+    return this.put(`resPartner?id=${id}`, body);
+  }
+
   update(body, id) {
     return this.put(`userAddresses/update?id=${id}`, body);
   }

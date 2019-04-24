@@ -17,6 +17,8 @@ export class AppController extends BaseController {
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
     this.logout = this.logout.bind(this);
 
+    this.handleSelectDate = this.handleSelectDate.bind(this);
+
     // handles
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
   }
@@ -56,12 +58,12 @@ export class AppController extends BaseController {
       const newUser = new User(pgUser.data);
       setUserAction(newUser);
 
-      const userAddresses = await this.userAddressesRepo.list(newUser.id);
-      if(!userAddresses.err) {
-        const newUserAddresses = new UserAddresses(userAddresses.data);
-        setUserAddressesAction(newUserAddresses);
-        selectUserAddressAction(newUserAddresses.getDefaultUserAddress());
-      }
+      const children = await this.userRepo.getUserChildren(newUser.id);
+      const allUsers = [pgUser.data, ...children.data];
+
+      const newUserAddresses = new UserAddresses(allUsers);
+      setUserAddressesAction(newUserAddresses);
+      selectUserAddressAction(newUserAddresses.getDefaultUserAddress());
 
       const userCreditCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCreditCards.err) {
@@ -116,5 +118,12 @@ export class AppController extends BaseController {
   handleTextInputChange(e) {
     const { id, value } = e.target;
     this.toState({ [id]: value });
+  }
+
+  handleSelectDate(e) {
+    const { selectDateAction } = this.getProps();
+    const { value } = e.target;
+
+    selectDateAction(value);
   }
 }

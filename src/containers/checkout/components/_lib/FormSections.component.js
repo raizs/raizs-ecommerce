@@ -1,26 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core';
+import React from 'react'
 import { UserSection, AddressSection, PaymentSection } from './infoSections';
 
-class FormSections extends Component {
-  static propTypes = {
-    prop: PropTypes.object,
-  }
+let FormSections = props => {
+  const { toUserSection, toAddressSection, toPaymentSection } = props;
 
-  render() {
-    const { toUserSection, toAddressSection, toPaymentSection } = this.props;
-
-    return (
-      <div>
-        <UserSection {...toUserSection} />
-        <AddressSection {...toAddressSection} />
-        <PaymentSection {...toPaymentSection} />
-      </div>
-    )
-  }
-}
-
-FormSections = withStyles({})(FormSections);
+  return (
+    <div>
+      <UserSection {...toUserSection} />
+      <AddressSection {...toAddressSection} />
+      <PaymentSection {...toPaymentSection} />
+    </div>
+  )
+};
 
 export { FormSections };

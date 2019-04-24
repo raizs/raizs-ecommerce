@@ -33,6 +33,7 @@ const nXL = 36;
 
 const SPACING_UNIT = 8;
 const HEADER_HEIGHT = '64px';
+const TOP_HEADER_HEIGHT = '32px';
 
 const theme = createMuiTheme({
   typography: {
@@ -314,7 +315,8 @@ const theme = createMuiTheme({
     }
   },
   sizes: {
-    HEADER_HEIGHT
+    HEADER_HEIGHT,
+    TOP_HEADER_HEIGHT
   },
   shape: {
     borderRadius: '8px',

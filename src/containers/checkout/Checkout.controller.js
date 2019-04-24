@@ -287,14 +287,21 @@ export class CheckoutController extends BaseController {
   async handleNewAddressSubmit() {
     const { user, setUserAddressesAction, selectUserAddressAction, userAddresses } = this.getProps();
     const values = this._getAddressValues();
+    let method = 'create';
+
     values.resPartnerId = user.id;
-    if(!userAddresses || !userAddresses.all.length) values.creditCardShouldSave = true;
+    if(!userAddresses.hasAddresses) {
+      values.creditCardShouldSave = true;
+      method = 'createFirst';
+    }
+
+    console.log(method);
 
     this.toState({ addressSectionLoading: true });
 
     const toState = { addressSectionLoading: false };
     const toApi = StateToApi.createAddressCheckout(values);
-    const promise = await this.userAddressesRepo.create(toApi);
+    const promise = await this.userAddressesRepo[method](toApi, user.id);
 
     if(!promise.err) {
       const newUserAdresses = userAddresses.add(promise.data);

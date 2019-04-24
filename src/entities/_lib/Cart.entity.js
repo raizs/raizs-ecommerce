@@ -14,6 +14,7 @@ export class Cart {
     this.productQuantities = this._getProductQuantitiesObj(items);
     this.productPartialPrices = this._getProductPartialPricesObj(items);
     this.subtotal = this._getSubtotal(items);
+    this.productCount = this._getProductCount(items);
 
     this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
   }
@@ -70,11 +71,17 @@ export class Cart {
   _getSubtotal(items) {
     let value = 0;
 
-    items.forEach(item => {
-      value += item.product.price * item.quantity
-    });
+    items.forEach(item => { value += item.product.price * item.quantity });
 
     return parseFloat(value.toFixed(2));
+  }
+
+  _getProductCount(items) {
+    let value = 0;
+
+    items.forEach(item => { value += item.quantity });
+
+    return value;
   }
 
   getMpFormattedItems() {

@@ -47,9 +47,12 @@ class PickABox extends Component {
   _resizeEvent(context) {
     const { id, options: { length } } = context.props;
     const wrapper = document.querySelector(`#pick-a-box-${id}`);
-    const width = Math.floor(wrapper.clientWidth / length) - (length - 1) * 8;
 
-    context.setState({ width });
+    if(wrapper) {
+      const width = Math.floor(wrapper.clientWidth / length) - (length - 1) * 8;
+  
+      context.setState({ width });
+    }
   }
 
   componentDidMount() {

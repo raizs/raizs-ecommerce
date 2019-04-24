@@ -1,51 +1,50 @@
 export class UserAddress {
-  constructor(userAddress) {
-    this.original = userAddress;
+  constructor(user) {
+    this.original = user;
 
-    this.id = userAddress.id;
-    this.idString = typeof userAddress.id === 'number' ? userAddress.id.toString() : userAddress.id;
-    this.name = userAddress.name;
-    this.receiverName = userAddress.receiverName;
-    this.cep = userAddress.cep;
-    this.address = userAddress.address;
-    this.number = userAddress.number;
-    this.complement = userAddress.complement;
-    this.receiverName = userAddress.receiverName;
-    this.neighbourhood = userAddress.neighbourhood;
-    this.city = userAddress.city;
-    this.state = userAddress.state;
-    this.isDefaultAddress = userAddress.isDefaultAddress;
+    this.id = user.id;
+    this.idString = typeof user.id === 'number' ? user.id.toString() : user.id;
+    this.name = user.addressName;
+    this.receiverName = user.addressReceiverName;
+    this.cep = user.zip;
+    this.address = user.street;
+    this.number = user.number;
+    this.complement = user.street2;
+    this.neighbourhood = user.district;
+    this.city = user.city;
+    this.state = user.state;
+    this.isDefaultAddress = user.addressIsDefault;
 
-    this.toCheckoutForm = this._mapToCheckoutForm(userAddress);
+    this.toCheckoutForm = this._mapToCheckoutForm(user);
 
-    this.formattedAddress = this._formatAddress(userAddress);
-    this.formattedAddress2 = this._formatAddress2(userAddress);
+    this.formattedAddress = this._formatAddress(user);
+    this.formattedAddress2 = this._formatAddress2(user);
 
     this.getMpFormattedShipping = this.getMpFormattedShipping.bind(this);
   }
 
-  _mapToCheckoutForm(userAddress) {
+  _mapToCheckoutForm(user) {
     return {
-      addressCep: userAddress.cep,
-      addressAddress: userAddress.address,
-      addressNumber: userAddress.number,
-      addressComplement: userAddress.complement,
-      addressNeighbourhood: userAddress.neighbourhood,
-      addressCity: userAddress.city,
-      addressState: userAddress.state,
-      addressIsDefault: userAddress.isDefaultAddress
+      addressCep: user.zip,
+      addressAddress: user.street,
+      addressNumber: user.number,
+      addressComplement: user.street2,
+      addressNeighbourhood: user.district,
+      addressCity: user.city,
+      addressState: user.state,
+      addressIsDefault: user.addressIsDefault
     };
   }
 
-  _formatAddress({ address, number, complement }) {
-    let string = address;
+  _formatAddress({ street, number, street2 }) {
+    let string = street;
     if(number) string += `, ${number}`;
-    if(complement) string += `, ${complement}`;
+    if(street2) string += `, ${street2}`;
     return string;
   }
 
-  _formatAddress2({ neighbourhood, city, state }) {
-    return `${neighbourhood}, ${city} - ${state}`;
+  _formatAddress2({ district, city, state }) {
+    return `${district}, ${city} - ${state}`;
   }
 
   getMpFormattedShipping() {

@@ -15,7 +15,7 @@ import {
   setCreditCardsAction,
   selectCreditCardAction
 } from '../../store/actions';
-import { FormSections } from './components';
+import { FormSections, SummarySection } from './components';
 import { withFirebase } from 'react-redux-firebase';
 
 const actions = {
@@ -283,16 +283,14 @@ class Checkout extends BaseContainer {
   }
 
   _renderSummary() {
-    return  (
-    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at felis aliquam quam maximus rhoncus. Maecenas sodales leo eu ante ultricies gravida. Etiam dignissim rhoncus mollis. Nam a lacus euismod, tempus dolor sit amet, gravida tellus. Vivamus gravida, dolor vitae porta cursus, felis ligula ultricies ante, eu tempor arcu nunc id orci. Vivamus gravida mollis sem et tincidunt. Aliquam tincidunt neque a elit molestie tincidunt.
-    </div>
-    );
+    const { selectedDate, cart } = this.props;
+    return <SummarySection selectedDate={selectedDate} cart={cart} />;
   }
 
   render() {
     const { classes } = this.props;
 
-    console.log(this.props.cart);
+    console.log(this.props.userAddresses);
 
     return (
       <div className={classes.wrapper}>
@@ -319,6 +317,7 @@ const mapStateToProps = state => ({
   selectedUserAddress: state.userAddresses.selected,
   creditCards: state.creditCards.model,
   selectedCreditCard: state.creditCards.selected,
+  selectedDate: state.datePicker.selected
 });
 
 export default compose(

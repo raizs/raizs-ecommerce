@@ -1,3 +1,5 @@
+const CONTENT_MAX_WIDTH = 1100;
+
 export default theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
@@ -10,7 +12,8 @@ export default theme => ({
   title: theme.typography.bigTitle,
   content: {
     marginTop: 8 * theme.spacing.unit,
-    maxWidth: '1100px',
+    width: '100%',
+    maxWidth: `${CONTENT_MAX_WIDTH}px`,
     '& > div': {
       display: 'inline-block',
       verticalAlign: 'top'
@@ -18,11 +21,11 @@ export default theme => ({
   },
   info: {
     width: `calc(66% - ${2 * theme.spacing.unit}px)`,
-    marginRight: 2 * theme.spacing.unit,
+    marginRight: 2 * theme.spacing.unit
   },
   summary: {
     width: `calc(33% - ${2 * theme.spacing.unit}px)`,
-    marginLeft: 2 * theme.spacing.unit,
+    marginLeft: 2 * theme.spacing.unit
   },
   button: {
     ...theme.buttons.primary,

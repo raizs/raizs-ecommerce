@@ -24,6 +24,7 @@ let HeaderUserButton = props => {
   return (
     <SimplePopper
       id='user'
+      from='headerUserButton'
       label={label}
       open={isUserPopperOpen}
       shouldCloseOnInsideClick={isAuth}

@@ -16,6 +16,11 @@ export {
 } from './_lib/creditCards.actions';
 
 export {
+  SELECT_DATE,
+  selectDateAction
+} from './_lib/datePicker.actions';
+
+export {
   TOGGLE_USER_POPPER,
   OPEN_USER_POPPER,
   CLOSE_USER_POPPER,

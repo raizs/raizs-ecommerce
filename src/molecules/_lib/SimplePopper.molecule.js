@@ -10,13 +10,55 @@ import {
   Fade,
   Paper
 } from '@material-ui/core';
+import classnames from 'classnames';
 
-import styles from './styles/simplePopper.styles';
 import {
   openUserPopperAction,
   closeUserPopperAction,
   toggleUserPopperAction
 } from '../../store/actions';
+
+const styles = theme => ({
+  typography: {
+    padding: theme.spacing.unit * 2,
+    '&.-miniDatePicker': {
+      marginTop: theme.spacing.unit / 2,
+      width: '225px'
+    }
+  },
+  miniDatePicker: {
+    backgroundColor: 'white',
+    padding: `0 ${theme.spacing.unit * 2}px`,
+    fontSize: theme.fontSizes.XS,
+    fontWeight: 700,
+    height: '24px',
+    '& span': {
+      color: theme.palette.black.main
+    },
+    '&:hover': {
+      backgroundColor: 'white',
+      '& span': {
+        color: theme.palette.green.main
+      }
+    }
+  },
+  headerUserButton: {
+    backgroundColor: 'transparent',
+    padding: `0 ${theme.spacing.unit * 2}px`,
+    fontSize: theme.fontSizes.XS,
+    fontWeight: 700,
+    height: theme.sizes.HEADER_HEIGHT,
+    '& span': {
+      color: theme.palette.gray.main
+    },
+    '&:hover': {
+      backgroundColor: 'transparent',
+      '& span': {
+        color: theme.palette.green.main
+      }
+    }
+  },
+});
 
 class SimplePopper extends Component {
   state = {
@@ -72,16 +114,19 @@ class SimplePopper extends Component {
   }
 
   render() {
-    let { classes, id, children, label, fadeTimeout } = this.props;
+    let { classes, id, children, label, fadeTimeout, from } = this.props;
     const { anchorEl, connected } = this.state;
 
     const open = connected ? this.props.open : this.state.open;
     id = open ? id : null;
 
+    const typographyClasses = [classes.typography];
+    if(from === 'miniDatePicker') typographyClasses.push('-miniDatePicker');
+
     return (
       <div>
         <Button
-          className={classes.button}
+          className={classes[from]}
           aria-describedby={id}
           onClick={this._handleClick}
           disableRipple
@@ -98,7 +143,7 @@ class SimplePopper extends Component {
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={fadeTimeout || 350}>
               <Paper>
-                <Typography component='div' className={classes.typography}>
+                <Typography component='div' className={classnames(typographyClasses)}>
                   {children}
                 </Typography>
               </Paper>

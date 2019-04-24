@@ -25,6 +25,14 @@ export class User extends BaseModel {
     this.createDate = user.createDate;
     this.writeDate = user.writeDate;
 
+    this.zip = user.zip;
+    this.street = user.street;
+    this.number = user.number;
+    this.street2 = user.street2;
+    this.district = user.district;
+    this.city = user['city_name.name'];
+    this.state = user['state_name.code'];
+
     this.createdAt = this.createDate ? new Date(this.createDate) : null;
     this.updatedAt = this.writeDate ? new Date(this.writeDate) : null;
 

@@ -16,6 +16,10 @@ export class UserRepository extends BaseRepository {
     return this.get(`resPartner?fuid=${fuid}`);
   }
 
+  getUserChildren(parent_id) {
+    return this.get(`children?parent_id=${parent_id}`);
+  }
+
   updateUser(body, userId) {
     return this.post(`resPartner/completeSignup?id=${userId}`, body);
   }

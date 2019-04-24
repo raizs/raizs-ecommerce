@@ -19,7 +19,8 @@ import {
   setUserAddressesAction,
   selectUserAddressAction,
   setCreditCardsAction,
-  selectCreditCardAction
+  selectCreditCardAction,
+  selectDateAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -40,7 +41,8 @@ const actions = {
   setCategoriesAction,
   selectUserAddressAction,
   setCreditCardsAction,
-  selectCreditCardAction
+  selectCreditCardAction,
+  selectDateAction
 };
 
 class App extends BaseContainer {
@@ -75,12 +77,13 @@ class App extends BaseContainer {
 
 	render() {
     const { email, password } = this.state;
-    const { history, storeFirebase, isUserPopperOpen } = this.props;
+    const { history, storeFirebase, isUserPopperOpen, selectedDate } = this.props;
     const {
       logout,
       handleTextInputChange,
       signInWithEmailAndPassword,
-      signInWithGoogle
+      signInWithGoogle,
+      handleSelectDate
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
@@ -104,7 +107,11 @@ class App extends BaseContainer {
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <div className="App">
-          <TopHeader history={history} />
+          <TopHeader
+            history={history}
+            handleSelectDate={handleSelectDate}
+            selectedDate={selectedDate}
+          />
           <Header {...headerProps} />
           <Switch>
             <Route path="/catalogo" exact component={Catalog} />
@@ -124,7 +131,8 @@ const mapStateToProps = state => {
     storeFirebase: state.firebase,
     categories: state.categories.model,
     isUserPopperOpen: state.header.isUserPopperOpen,
-    user: state.user.current
+    user: state.user.current,
+    selectedDate: state.datePicker.selected
   };
 }
 

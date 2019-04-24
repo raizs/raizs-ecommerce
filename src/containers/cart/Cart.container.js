@@ -41,13 +41,17 @@ class Cart extends BaseContainer {
     cepLoading: false,
     cepSuccess: false,
     cepError: false,
-    subtotalError: false
+    subtotalError: true
   }
 
   static propTypes = {
     classes: PropTypes.object,
   }
 
+  componentDidMount() {
+    if(this.props.cart && this.props.cart.subtotal >= MINIMUM_VALUE) this.setState({ subtotalError: false });
+  }
+  
   componentWillReceiveProps(nextProps) {
     if(nextProps.cart.subtotal < MINIMUM_VALUE && !this.state.subtotalError)
     this.setState({ subtotalError: true });
