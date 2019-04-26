@@ -4,7 +4,17 @@ import PropTypes from 'prop-types'
 import { withStyles, Button, Menu, MenuItem } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-import styles from './styles/dropdownMenu.styles';
+const styles = theme => ({
+  button: theme.buttons.header,
+  menuItem: {
+    '& span': {
+      color: theme.palette.green.main
+    },
+    '& li': {
+      color: theme.palette.gray.main
+    }
+  }
+});
 
 // const defaultItem = {
 //   id: PropTypes.string,

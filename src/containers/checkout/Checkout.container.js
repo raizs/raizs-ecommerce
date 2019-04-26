@@ -6,7 +6,6 @@ import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
-import styles from './checkout.styles';
 
 import {
   setUserAction,
@@ -17,6 +16,42 @@ import {
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
 import { withFirebase } from 'react-redux-firebase';
+
+const CONTENT_MAX_WIDTH = 1100;
+
+const styles = theme => ({
+  wrapper: {
+    backgroundColor: theme.palette.gray.bg,
+    width: '100%',
+    padding: 3 * theme.spacing.unit,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  title: theme.typography.bigTitle,
+  content: {
+    marginTop: 8 * theme.spacing.unit,
+    width: '100%',
+    maxWidth: `${CONTENT_MAX_WIDTH}px`,
+    '& > div': {
+      display: 'inline-block',
+      verticalAlign: 'top'
+    }
+  },
+  info: {
+    width: `calc(66% - ${2 * theme.spacing.unit}px)`,
+    marginRight: 2 * theme.spacing.unit
+  },
+  summary: {
+    width: `calc(33% - ${2 * theme.spacing.unit}px)`,
+    marginLeft: 2 * theme.spacing.unit
+  },
+  button: {
+    ...theme.buttons.primary,
+    fontSize: theme.fontSizes.LG,
+    marginTop: 3 * theme.spacing.unit
+  }
+});
 
 const actions = {
   setUserAction,
@@ -47,7 +82,6 @@ class Checkout extends BaseContainer {
     isUserSectionDone: false,
     isAddressSectionDone: false,
     isPaymentSectionDone: false,
-
     loginEmailOrCellphone: '',
     loginPassword: '',
     signupName: '',
@@ -80,28 +114,46 @@ class Checkout extends BaseContainer {
     creditCardShouldSave: true
   }
 
+  /**
+   * componentDidMount - checks if user is logged in and if it has
+   * adresses and credit cards. if so, handles the state to suit the actual
+   * status.
+   *
+   * @memberof Checkout
+   */
   componentDidMount() {
-    if(this.props.user) this.controller.setUserInfo(this.props.user);
-    if(this.props.userAddresses && this.props.userAddresses.all.length)
-      this.setState({
-        currentAddressSection: 'list',
-        isAddressSectionDone: true,
-        openedSection: 'payment'
-      });
-    if(this.props.creditCards && this.props.creditCards.all.length)
-      this.setState({
-        isPaymentSectionDone: true,
-        openedSection: null
-      });
+    const { user } = this.props;
+    if(user) {
+      this.controller.setUserInfo(user);
+      if(user.addresses && user.addresses.all.length) {
+        this.setState({
+          currentAddressSection: 'list',
+          isAddressSectionDone: true,
+          openedSection: 'payment'
+        });
+        if(this.props.creditCards && this.props.creditCards.all.length)
+          this.setState({
+            isPaymentSectionDone: true,
+            openedSection: null
+          });
+      }
+    }
   }
 
+  /**
+   * componentWillReceiveProps - checks if user is logged in and if it has
+   * adresses and credit cards. if so, handles the state to suit the actual
+   * status.
+   *
+   * @memberof Checkout
+   */
   componentWillReceiveProps(nextProps) {
     const prevUser = this.props.user, nextUser = nextProps.user;
-    const prevUserAddresses = this.props.userAddresses, nextUserAddresses = nextProps.userAddresses;
-    if(!prevUser && nextUser) {
-      console.log('in here', nextUser);
-      this.controller.setUserInfo(nextUser);
-    }
+    let prevUserAddresses, nextUserAddresses;
+    if(prevUser) prevUserAddresses = this.props.user.addresses
+    if(nextUser) nextUserAddresses = nextProps.user.addresses;
+    
+    if(!prevUser && nextUser) this.controller.setUserInfo(nextUser);
     if(!nextUser && prevUser) {
       this.controller.clearUserInfo();
       this.setState({
@@ -115,7 +167,16 @@ class Checkout extends BaseContainer {
       this.setState({ currentAddressSection: 'list' });
   }
 
-  _renderInfo() {
+  /**
+   * _renderForms - renders the form related components, which are 'users',
+   * 'addresses' and 'payment'
+   *
+   * @returns {JSX} which contains the FormSection component and a Button if the forms are
+   * complete
+   * 
+   * @memberof Checkout
+   */
+  _renderForms() {
     const {
       handleChange,
       handleCheckboxChange,
@@ -181,11 +242,12 @@ class Checkout extends BaseContainer {
     const {
       user,
       classes,
-      userAddresses,
       selectedUserAddress,
       creditCards,
       selectedCreditCard
     } = this.props;
+
+    const userAddresses = user.addresses;
 
     const toUserSection = {
       user,
@@ -210,8 +272,9 @@ class Checkout extends BaseContainer {
     };
 
     const toAddressSection = {
-      currentAddressSection,
+      user,
       userAddresses,
+      currentAddressSection,
       addressSectionLoading,
       handleOpenSection,
       handleChange,
@@ -275,13 +338,19 @@ class Checkout extends BaseContainer {
           isUserSectionDone && isAddressSectionDone && isPaymentSectionDone ?
           <Button className={classes.button} onClick={handleConfirmOrder}>
             Finalizar Pedido    
-          </Button> 
+          </Button>
           : null
         }
       </div>
     );
   }
 
+  /**
+   * _renderSummary - renders the cart summary section
+   *
+   * @returns {SummarySection}
+   * @memberof Checkout
+   */
   _renderSummary() {
     const { selectedDate, cart } = this.props;
     return <SummarySection selectedDate={selectedDate} cart={cart} />;
@@ -290,8 +359,6 @@ class Checkout extends BaseContainer {
   render() {
     const { classes } = this.props;
 
-    console.log(this.props.userAddresses);
-
     return (
       <div className={classes.wrapper}>
         <h1 className={classes.title}>
@@ -299,7 +366,7 @@ class Checkout extends BaseContainer {
         </h1>
         <div className={classes.content}>
           <div className={classes.info}>
-            {this._renderInfo()}
+            {this._renderForms()}
           </div>
           <div className={classes.summary}>
             {this._renderSummary()}

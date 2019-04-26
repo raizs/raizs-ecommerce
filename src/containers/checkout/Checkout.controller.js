@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper } from '../../helpers';
-import { User, CreditCards } from '../../entities';
+import { User, UserAddresses } from '../../entities';
 import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
 
 export class CheckoutController extends BaseController {
@@ -30,6 +30,8 @@ export class CheckoutController extends BaseController {
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.handleNewAddressSubmit = this.handleNewAddressSubmit.bind(this);
+    this._handleFirstAddress = this._handleFirstAddress.bind(this);
+    this._handleNewAddress = this._handleNewAddress.bind(this);
     this.handleUpdateAddressSubmit = this.handleUpdateAddressSubmit.bind(this);
     this.handleSelectUserAddress = this.handleSelectUserAddress.bind(this);
     this.handleViewUserAddresses = this.handleViewUserAddresses.bind(this);
@@ -105,7 +107,8 @@ export class CheckoutController extends BaseController {
       addressNeighbourhood: '',
       addressCity: '',
       addressState: '',
-      addressIsDefault: false
+      addressIsDefault: false,
+      addressSectionLoading: false
     });
   }
 
@@ -171,11 +174,20 @@ export class CheckoutController extends BaseController {
     };
   }
 
+  /**
+   * handleOpenSection - handles the action to reopen a section which is
+   * already done
+   *
+   * @param {String} section - the section to be open (user|address|payment)
+   * @memberof CheckoutController
+   */
   handleOpenSection(section) {
     const toState = { openedSection: section };
     switch(section) {
       case 'user': 
         toState.isUserSectionDone = false;
+        toState.isAddressSectionDone = false;
+        toState.isPaymentSectionDone = false;
         toState.loginEmailOrCellphone = '';
         toState.loginPassword = '';
         toState.signupName = '';
@@ -186,6 +198,7 @@ export class CheckoutController extends BaseController {
         break;
       case 'address': {
         toState.isAddressSectionDone = false;
+        toState.isPaymentSectionDone = false;
         toState.isUserSectionDone = true;
         break;
       }
@@ -209,12 +222,17 @@ export class CheckoutController extends BaseController {
   }
 
   async handleGoogleSignin() {
-    const { firebase, setUserAction } = this.getProps();
+    const { firebase } = this.getProps();
     this.toState({ userSectionLoading: true });
   
-    const { success, error, user, isNewUser } = await SocialMediaHelper.signInWithGoogle(firebase);
+    await SocialMediaHelper.signInWithGoogle(firebase);
   }
 
+  /**
+   * handleCompleteSignup - handles the complete user action
+   *
+   * @memberof CheckoutController
+   */
   async handleCompleteSignup() {
     const { user: { id, fuid }, firebase, setUserAction } = this.getProps(); 
     const values = this._getUserSignupValues();
@@ -284,70 +302,130 @@ export class CheckoutController extends BaseController {
     else this.toState({ addressSectionLoading: false, cepError: msg });
   }
 
+  /**
+   * handleNewAddressSubmit - chooses whether to call _handleFirstAddress or _handleNewAddress
+   * according to user.hasAddress value
+   *
+   * @memberof CheckoutController
+   */
   async handleNewAddressSubmit() {
-    const { user, setUserAddressesAction, selectUserAddressAction, userAddresses } = this.getProps();
+    const { user } = this.getProps();
     const values = this._getAddressValues();
-    let method = 'create';
+    let toApi;
 
-    values.resPartnerId = user.id;
-    if(!userAddresses.hasAddresses) {
-      values.creditCardShouldSave = true;
-      method = 'createFirst';
+    if(!user.hasAddress) {
+      values.addressIsDefault = true;
+      toApi = StateToApi.createAddressCheckout(values);
+      
+      this.toState({ addressSectionLoading: true });
+      
+      await this._handleFirstAddress(toApi);
+    } else {
+      values.parentId = user.id;
+      toApi = StateToApi.createAddressCheckout(values);
+
+      this.toState({ addressSectionLoading: true });
+
+      await this._handleNewAddress(toApi);
     }
+  }
 
-    console.log(method);
+  /**
+   * _handleFirstAddress - invoked if current user has no addresses
+   * creates the user's first address in db
+   *
+   * @param {Object} valuesToApi - object with db keys and values
+   * @memberof CheckoutController
+   */
+  async _handleFirstAddress(valuesToApi) {
+    const { setUserAction, selectUserAddressAction } = this.getProps();
 
-    this.toState({ addressSectionLoading: true });
-
-    const toState = { addressSectionLoading: false };
-    const toApi = StateToApi.createAddressCheckout(values);
-    const promise = await this.userAddressesRepo[method](toApi, user.id);
+    const promise = await this.userAddressesRepo.createFirst(valuesToApi);
 
     if(!promise.err) {
-      const newUserAdresses = userAddresses.add(promise.data);
-      toState.currentAddressSection = 'list';
-      setUserAddressesAction(newUserAdresses);
-      selectUserAddressAction(newUserAdresses.getDefaultUserAddress());
+      const newUser = new User(promise.data);
+      setUserAction(newUser);
+      selectUserAddressAction(newUser.addresses.getDefaultUserAddress());
       this._clearAddressInfo();
+      this.toState({
+        isAddressSectionDone: true,
+        currentAddressSection: 'list',
+        addressSectionLoading: false
+      });
+    } else {
+      this.toState({ addressSectionLoading: false });
+    }
+  }
+
+  /**
+   * _handleNewAddress - invoked if current user already has one or more addresses
+   * creates the new user's address in db
+   *
+   * @param {Object} valuesToApi - object with db keys and values
+   * @memberof CheckoutController
+   */
+  async _handleNewAddress(valuesToApi) {
+    const { user, setUserAction, selectUserAddressAction } = this.getProps();
+
+    const promise = await this.userAddressesRepo.create(valuesToApi);
+
+    if(!promise.err) {
+      const userOriginal = user.original;
+      promise.data['city_name.name'] = valuesToApi.city;
+      promise.data['state_name.code'] = valuesToApi.state;
+      userOriginal.children.push(promise.data);
+
+      const newUser = new User(userOriginal);
+      setUserAction(newUser);
+      selectUserAddressAction(newUser.addresses.getById(promise.data.id));
+      
+      this._clearAddressInfo();
+      this.toState({
+        isAddressSectionDone: true,
+        currentAddressSection: 'list',
+        addressSectionLoading: false
+      });
+    } else {
+      this.toState({ addressSectionLoading: false });
+    }
+  }
+
+  async handleUpdateAddressSubmit() {
+    const { user, setUserAction, selectUserAddressAction } = this.getProps();
+    const { editingAddressId } = this.getState();
+    const values = this._getAddressValues();
+
+    this.toState({ addressSectionLoading: true });
+    
+    if(editingAddressId !== user.id) values.parentId = user.id;
+    const toApi = StateToApi.createAddressCheckout(values);
+    const promise = await this.userAddressesRepo.update(toApi, editingAddressId);
+
+    let toState = { addressSectionLoading: false };
+    if(!promise.err) {
+      const updatedOriginal = user.getUpdatedChildren(promise.data);
+      const newUser = new User(updatedOriginal);
+      const selected = newUser.addresses.getById(editingAddressId);
+
+      setUserAction(newUser);
+      selectUserAddressAction(selected);
+      this._clearAddressInfo();
+      toState = {
+        ...toState,
+        currentAddressSection: 'list',
+        editingAddressId: null,
+        isEditingAddress: false
+      };
     }
     
     this.toState(toState);
   }
 
-  async handleUpdateAddressSubmit() {
-    const { user, setUserAddressesAction, userAddresses, selectUserAddressAction } = this.getProps();
-    const { editingAddressId } = this.getState();
-    const values = this._getAddressValues();
-    values.resPartnerId = user.id;
-
-    this.toState({ addressSectionLoading: true });
-    
-    const toApi = StateToApi.createAddressCheckout(values);
-    const promise = await this.userAddressesRepo.update(toApi, editingAddressId);
-
-    if(!promise.err) {
-      let newUserAdresses = userAddresses.update(editingAddressId, promise.data);
-      if(promise.data.isDefaultAddress) newUserAdresses = newUserAdresses.fixDefaultAddress(promise.data.id);
-      const selected = newUserAdresses.getById(promise.data.id);
-
-      setUserAddressesAction(newUserAdresses);
-      selectUserAddressAction(selected);
-      this._clearAddressInfo();
-      this.toState({
-        currentAddressSection: 'list',
-        editingAddressId: null,
-        isEditingAddress: false
-      });
-    }
-    
-    this.toState({ addressSectionLoading: false });
-  }
-
   handleSelectUserAddress(e) {
     const userAddressId = e.target.value;
 
-    const { selectUserAddressAction, userAddresses } = this.getProps();
-    const userAddress = userAddresses.getById(userAddressId);
+    const { selectUserAddressAction, user } = this.getProps();
+    const userAddress = user.addresses.getById(userAddressId);
 
     selectUserAddressAction(userAddress);
   }
@@ -398,9 +476,7 @@ export class CheckoutController extends BaseController {
       method = this.handleContinuePayment
 
     this.toState({ paymentSectionLoading: true });
-    const methodRes = await method(); 
-    
-    
+    await method(); 
   }
 
   async handleCreateCreditCard() {

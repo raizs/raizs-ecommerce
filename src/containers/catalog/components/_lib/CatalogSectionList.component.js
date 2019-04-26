@@ -3,10 +3,21 @@ import { withStyles } from '@material-ui/core';
 import chunk from 'lodash.chunk';
 import 'img-2';
 
-import styles, { MIN_ROW_HEIGHT } from './styles/catalogSection.styles'
 import { CatalogProduct } from '..';
 
 const PRODUCT_WIDTH = 256 + 24;
+const MIN_ROW_HEIGHT = 336;
+const styles = theme => ({
+  row: {
+    minHeight: `${MIN_ROW_HEIGHT}px`,
+    '& > *': {
+      verticalAlign: 'middle'
+    }
+  },
+  title: {
+    padding: `${theme.spacing.unit}px 0`
+  }
+});
 
 class CatalogSectionList extends Component {
   constructor(props) {
@@ -105,9 +116,10 @@ class CatalogSectionList extends Component {
   }
 
   render() {
+    const { id, classes, title } = this.props;
     return (
-      <div id={this.props.id}>
-        <h2 className={this.props.classes.title}>{this.props.title}</h2>
+      <div id={id}>
+        <h2 className={classes.title}>{title}</h2>
         {this._renderProducts()}
       </div>
     )

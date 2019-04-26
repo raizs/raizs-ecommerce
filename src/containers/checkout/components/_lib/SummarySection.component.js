@@ -104,7 +104,7 @@ class SummarySection extends Component {
     const { cart, classes } = this.props;
     
     return cart.items.map(({ product, quantity }) =>
-      <div className={classes.product}>
+      <div key={product.id} className={classes.product}>
         <div className={classes.productName}>{product.name}</div>
         <div className={classes.productQuantity}>{quantity}</div>
         <div className={classes.productValue}>{Formatter.currency(product.price * quantity)}</div>

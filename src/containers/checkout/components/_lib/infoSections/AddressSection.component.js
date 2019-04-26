@@ -109,6 +109,7 @@ class AddressSection extends Component {
   _renderCollapsibleContent() {
     const {
       classes,
+      user,
       currentAddressSection,
       addressSectionLoading,
       addressName,
@@ -127,7 +128,6 @@ class AddressSection extends Component {
       handleNewAddressSubmit,
       handleUpdateAddressSubmit,
       handleViewUserAddresses,
-      userAddresses,
       selectedUserAddress,
       handleSelectUserAddress,
       handleNewAddressForm,
@@ -157,9 +157,9 @@ class AddressSection extends Component {
     };
 
     const toAddressesList = {
+      user,
       handleSelectUserAddress,
       handleNewAddressForm,
-      userAddresses,
       selectedUserAddress,
       handleEditUserAddress,
       handleCompleteAddressSection
@@ -174,7 +174,7 @@ class AddressSection extends Component {
       list: toAddressesList
     }[currentAddressSection];
 
-    const hasAddresses = userAddresses.hasAddresses;
+    const hasAddresses = user && user.hasAddress;
 
     if(!hasAddresses) {
       Comp = AddressForm;

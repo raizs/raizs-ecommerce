@@ -70,6 +70,7 @@ class MiniDatePicker extends Component {
             <FormControlLabel
               className={classnames(formControlClasses)}
               value={option.value}
+              key={option.value}
               control={
                 <Radio
                   onClick={handleSelectDate}

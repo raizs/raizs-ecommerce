@@ -52,18 +52,18 @@ export class AppController extends BaseController {
 
     let pgUser = await this.userRepo.getUser(user.uid);
 
-    if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
-
+    
+    // if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
+    
     if(!pgUser.err) {
+      const children = await this.userRepo.getUserChildren(pgUser.data.id);
+      pgUser.data.children = children.data;
+      
       const newUser = new User(pgUser.data);
       setUserAction(newUser);
 
-      const children = await this.userRepo.getUserChildren(newUser.id);
-      const allUsers = [pgUser.data, ...children.data];
-
-      const newUserAddresses = new UserAddresses(allUsers);
-      setUserAddressesAction(newUserAddresses);
-      selectUserAddressAction(newUserAddresses.getDefaultUserAddress());
+      if(newUser.addresses && newUser.addresses.all.length) 
+        selectUserAddressAction(newUser.addresses.getDefaultUserAddress());
 
       const userCreditCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCreditCards.err) {

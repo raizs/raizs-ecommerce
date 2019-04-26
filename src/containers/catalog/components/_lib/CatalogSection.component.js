@@ -1,9 +1,6 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core';
 
-import styles from './styles/catalogSection.styles'
 import { CatalogSectionList } from './CatalogSectionList.component';
-
 
 const _renderSubcategories = ({
   subcategories,
@@ -32,7 +29,6 @@ const _renderSubcategories = ({
 let CatalogSection = props => {
   const {
     id,
-    classes,
     subcategories,
     products,
     availableWidth,
@@ -42,7 +38,7 @@ let CatalogSection = props => {
   } = props;
 
   return (
-    <div id={id} className={classes.wrapper} >
+    <div id={id}>
       {_renderSubcategories({
         subcategories,
         products,
@@ -54,7 +50,5 @@ let CatalogSection = props => {
     </div>
   )
 };
-
-CatalogSection = withStyles(styles)(CatalogSection);
 
 export { CatalogSection };

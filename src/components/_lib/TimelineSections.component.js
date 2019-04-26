@@ -2,7 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core';
 
-import styles from './styles/timeline.styles';
+const styles = theme => ({
+  sections: {
+    padding: `${2 * theme.spacing.unit}px 0`,
+    display: 'inline-block',
+  }
+});
 
 let TimelineSections = props => {
   const { classes, width, timelineWidth, fixed, children } = props;

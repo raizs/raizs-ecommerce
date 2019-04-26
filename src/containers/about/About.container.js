@@ -9,8 +9,14 @@ import { AboutUs, Ethics, WhyOrganics, SmallProducerFund } from './components';
 
 import '../../../node_modules/video-react/dist/video-react.css';
 
-import styles from './about.styles';
 import { withTimeline } from '../withTimeline';
+
+const styles = theme => ({
+  wrapper: {
+    backgroundColor: theme.palette.gray.bg,
+    width: '100%'
+  }
+});
 
 /**
  * About - Container 'Quem Somos'

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core';
 
-import styles from './catalog.styles';
-
 import { CatalogController } from './Catalog.controller';
 import { BaseContainer } from '../../helpers';
 
@@ -19,6 +17,13 @@ import {
   setProductBrandsAction,
   updateCartAction
 } from '../../store/actions';
+
+const styles = theme => ({
+  wrapper: {
+    backgroundColor: theme.palette.gray.bg,
+    width: '100%'
+  }
+});
 
 const actions = {
   setProductsAction,

@@ -18,7 +18,7 @@ export class UserAddress {
     this.toCheckoutForm = this._mapToCheckoutForm(user);
 
     this.formattedAddress = this._formatAddress(user);
-    this.formattedAddress2 = this._formatAddress2(user);
+    this.formattedAddress2 = this._formatAddress2();
 
     this.getMpFormattedShipping = this.getMpFormattedShipping.bind(this);
   }
@@ -43,8 +43,9 @@ export class UserAddress {
     return string;
   }
 
-  _formatAddress2({ district, city, state }) {
-    return `${district}, ${city} - ${state}`;
+  _formatAddress2() {
+    const { neighbourhood, city, state } = this;
+    return `${neighbourhood}, ${city} - ${state}`;
   }
 
   getMpFormattedShipping() {

@@ -13,7 +13,12 @@ export const setUserAddressesAction = userAddresses => {
   }
 };
 
-export const selectUserAddressAction = userAddress => ({
-  type: SELECT_USER_ADDRESS,
-  data: userAddress
-});
+export const selectUserAddressAction = userAddress => {
+  if(userAddress) Cache.setItem('selectedUserAddress', userAddress);
+  else Cache.removeItem('selectedUserAddress');
+
+  return {
+    type: SELECT_USER_ADDRESS,
+    data: userAddress
+  };
+};

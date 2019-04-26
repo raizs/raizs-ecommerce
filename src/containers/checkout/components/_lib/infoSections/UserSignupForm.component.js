@@ -6,7 +6,7 @@ const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   textInput: {
     ...theme.inputs.text,

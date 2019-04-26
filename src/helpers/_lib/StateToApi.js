@@ -42,7 +42,7 @@ export class StateToApi {
   }
 
   static createAddressCheckout(values) {
-    return {
+    const to = {
       addressName: values.addressName,
       addressReceiverName: values.addressReceiverName,
       zip: values.addressCep,
@@ -53,7 +53,14 @@ export class StateToApi {
       city: values.addressCity,
       state: values.addressState,
       addressIsDefault: values.addressIsDefault
+    };
+
+    if(values.parentId) {
+      to.name = values.addressReceiverName;
+      to.parentId = values.parentId;
     }
+
+    return to;
   }
 
   static createCreditCard(values) {

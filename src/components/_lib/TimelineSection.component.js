@@ -2,7 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core';
 
-import styles from './styles/timeline.styles';
+const styles = theme => ({
+  section: {
+    padding: 2 * theme.spacing.unit,
+    marginTop: 8 * theme.spacing.unit,
+    '&:first-child': {
+      marginTop: 2 * theme.spacing.unit
+    }
+  }
+});
 
 let TimelineSection = props => {
   const { classes, id, children } = props;

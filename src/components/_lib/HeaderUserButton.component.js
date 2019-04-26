@@ -2,9 +2,20 @@ import React from 'react'
 import { withStyles } from '@material-ui/core';
 import ReactSvg from 'react-svg';
 
-import styles from './styles/header.styles';
 import { HeaderUserPopper } from '..';
 import { SimplePopper } from '../../molecules';
+
+const styles = theme => ({
+  headerIcon: {
+    height: 40,
+    width: 40,
+    verticalAlign: 'middle',
+    display: 'inline-block',
+    '&:hover *': {
+      stroke: theme.palette.green.main
+    }
+  }
+});
 
 let HeaderUserButton = props => {
   const { classes, isAuth, toForm, isUserPopperOpen, toLoggedIn } = props;

@@ -47,7 +47,7 @@ class AddressesList extends Component {
   _renderOptions() {
     const {
       classes,
-      userAddresses,
+      user,
       selectedUserAddress,
       handleSelectUserAddress,
       handleEditUserAddress
@@ -63,7 +63,7 @@ class AddressesList extends Component {
         value={value}
         onChange={e => handleSelectUserAddress(e)}
       >
-        {userAddresses.hasAddresses && userAddresses.all.map(userAddress => {
+        {user && user.addresses && user.addresses.all.map(userAddress => {
           let label = userAddress.name;
           if(userAddress.isDefaultAddress) label += ' (endereço padrão)';
           return (

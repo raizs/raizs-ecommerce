@@ -2,13 +2,29 @@ import { BaseModel } from '../../helpers';
 import { UserAddress } from '..';
 
 export class UserAddresses extends BaseModel {
-  constructor(users) {
+  constructor(user) {
     super();
     
-    this.original = users;
-    this.all = users.map(user => new UserAddress(user));
+    this.original = user;
 
-    this.hasAddresses = this.all.length > 1 || this._checkAddress(this.all[0]);
+    const users = [user];
+    if(user.children && user.children.length) users.push(...user.children);
+
+    const addresses = users.map(u => ({
+      id: u.id,
+      addressName: u.addressName,
+      addressReceiverName: u.addressReceiverName,
+      zip: u.zip,
+      street: u.street,
+      number: u.number,
+      street2: u.street2,
+      district: u.district,
+      city: u.city,
+      state: u.state,
+      addressIsDefault : u.addressIsDefault 
+    }));
+
+    this.all = addresses.map(address => new UserAddress(address));
   }
 
   add(newUserAddress) {
@@ -43,9 +59,5 @@ export class UserAddresses extends BaseModel {
       if(ua.id !== id) ua.isDefaultAddress = false;
     }
     return new UserAddresses(copy);
-  }
-
-  _checkAddress(address) {
-    return address.name && address.address && address.receiverName;
   }
 }

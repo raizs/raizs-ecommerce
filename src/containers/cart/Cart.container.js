@@ -7,12 +7,29 @@ import { withStyles } from '@material-ui/core';
 
 import { CartController } from './Cart.controller';
 import { BaseContainer } from '../../helpers';
-import styles from './cart.styles';
-
-import {
-  updateCartAction
-} from '../../store/actions';
+import { updateCartAction } from '../../store/actions';
 import { CartProduct, CartCheckout } from './components';
+
+const styles = theme => ({
+  wrapper: {
+    backgroundColor: theme.palette.gray.bg,
+    width: '100%',
+    padding: 3 * theme.spacing.unit
+  },
+  title: theme.typography.bigTitle,
+  items: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 4 * theme.spacing.unit
+  },
+  checkout: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 4 * theme.spacing.unit
+  }
+});
 
 const actions = {
   updateCartAction

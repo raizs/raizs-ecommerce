@@ -1,5 +1,5 @@
 import React from 'react'
-import { TIMELINE_MAX_WIDTH } from '../../components/_lib/styles/timeline.styles';
+import { TIMELINE_MAX_WIDTH } from '../../components/_lib/Timeline.component';
 
 const withTimeline = WrappedComponent => {
   return class extends React.Component {
