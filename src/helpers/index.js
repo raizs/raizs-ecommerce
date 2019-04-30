@@ -11,6 +11,7 @@ export {
 };
 
 export { CepHelper } from './_lib/Cep.helper';
+export { CreditCardHelper } from './_lib/CreditCard.helper';
 export { Formatter } from './_lib/Formatter';
 export { HeaderHelper } from './_lib/Header.helper';
 export { MiniDatePickerHelper } from './_lib/MiniDatePicker.helper';

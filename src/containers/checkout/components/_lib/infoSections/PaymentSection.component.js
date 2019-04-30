@@ -102,7 +102,7 @@ const styles = theme => ({
     }
   },
   button: {
-    ...theme.buttons.secondary,
+    ...theme.buttons.primary,
     marginTop: 3 * theme.spacing.unit
   }
 });
@@ -115,10 +115,13 @@ class PaymentSection extends Component {
 
   _renderSelectedMethodForm() {
     const {
+      errors,
       selectedPaymentMethod,
       handleChange,
       handleCheckboxChange,
       handleSelectCreditCard,
+      handleCreditCardNumberBlur,
+      handleCreditCardExpDateBlur,
       creditCards,
       creditCardNumber,
       creditCardName,
@@ -129,9 +132,12 @@ class PaymentSection extends Component {
     } = this.props;
 
     const toCreditCardForm = {
+      errors,
       handleChange,
       handleCheckboxChange,
       handleSelectCreditCard,
+      handleCreditCardNumberBlur,
+      handleCreditCardExpDateBlur,
       creditCards,
       creditCardNumber,
       creditCardName,

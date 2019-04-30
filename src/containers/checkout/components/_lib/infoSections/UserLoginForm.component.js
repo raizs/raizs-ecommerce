@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, Button } from '@material-ui/core';
+import { TextInput } from '../../../../../molecules';
 
 const styles = theme => ({
   wrapper: {
@@ -27,6 +28,7 @@ class UserLoginForm extends Component {
 
   render() {
     const {
+      errors,
       classes,
       loginEmailOrCellphone,
       loginPassword,
@@ -35,23 +37,32 @@ class UserLoginForm extends Component {
     } = this.props;
 
     return (
-      <form className={classes.wrapper}>
-        <input
+      <form onSubmit={e => { e.preventDefault(); handleSubmit(); }} className={classes.wrapper}>
+        <TextInput
           className={classes.textInput}
           id='loginEmailOrCellphone'
           value={loginEmailOrCellphone}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='E-mail ou Celular'
-        />
-        <input
+          error={errors.loginEmailOrCellphone}
+          />
+        <TextInput
           className={classes.textInput}
           type='password'
           id='loginPassword'
           value={loginPassword}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Senha'
+          error={errors.loginPassword}
         />
-        <Button onClick={handleSubmit} className={classes.button}>Entrar</Button>
+        <Button
+          id='loginAndPasswordButton'
+          type='submit'
+          onClick={handleSubmit}
+          className={classes.button}
+        >
+          Entrar
+        </Button>
       </form>
     )
   }

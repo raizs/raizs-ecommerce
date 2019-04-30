@@ -8,7 +8,7 @@ export class CepHelper {
     await cep(value)
     .then(res => {
       if(res.city !== 'São Paulo') {
-        response.msg = 'Não atendemos sua região =(';
+        response.msg = 'Não atendemos sua região.';
       }
       else {
         response.success = true;

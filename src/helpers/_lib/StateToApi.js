@@ -30,13 +30,14 @@ export class StateToApi {
     };
   }
 
-  static completeSignupUser(values) {
+  static signupUser(values) {
     return {
       name: values.signupName,
       lastName: values.signupLastName,
       cnpjCpf: parseInt(Formatter.extractNumbers(values.signupCpf)),
       email: values.signupEmail,
       phone: Formatter.extractNumbers(values.signupCellphone),
+      password: values.signupPassword,
       customer: true
     };
   }

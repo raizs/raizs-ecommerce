@@ -6,3 +6,4 @@ export { MiniDatePicker } from './_lib/MiniDatePicker.molecule';
 export { PickABox } from './_lib/PickABox.molecule';
 export { QuantitySelector } from './_lib/QuantitySelector.molecule';
 export { SimplePopper } from './_lib/SimplePopper.molecule';
+export { TextInput } from './_lib/TextInput.molecule';

@@ -124,11 +124,13 @@ class UserSection extends Component {
   _renderCollapsibleContent() {
     const {
       user,
+      errors,
       classes,
       userSectionLoading,
       handleChange,
       handleCheckbox,
       handleGoogleSignin,
+      handleSignup,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
       handleOpenSection,
@@ -145,8 +147,10 @@ class UserSection extends Component {
 
     const toSignupForm = {
       user,
+      errors,
       handleChange,
       handleCheckbox,
+      handleSignup,
       handleCompleteSignup,
       signupName,
       signupLastName,
@@ -175,13 +179,14 @@ class UserSection extends Component {
           <FacebookButton
             id='facebook-login'
             className={classes.facebookButton}
-            clickAction={() => console.log('sd')} />
+            clickAction={() => handleGoogleSignin(true)} />
           <GoogleButton
             id='google-login'
             className={classes.googleButton}
-            clickAction={handleGoogleSignin} />
+            clickAction={() => handleGoogleSignin(false)} />
           <div className={classes.textWithLineBehind}><span>ou entre com sua conta</span></div>
           <UserLoginForm
+            errors={errors}
             loginEmailOrCellphone={loginEmailOrCellphone}
             loginPassword={loginPassword}
             handleChange={handleChange}
@@ -194,11 +199,11 @@ class UserSection extends Component {
           <FacebookButton
             id='facebook-signup'
             className={classes.facebookButton}
-            clickAction={() => console.log('sd')} />
+            clickAction={() => handleGoogleSignin(true)} />
           <GoogleButton
             id='google-signup'
             className={classes.googleButton}
-            clickAction={handleGoogleSignin} />
+            clickAction={() => handleGoogleSignin(false)} />
           <div className={classes.textWithLineBehind}><span>ou cadastre-se com o email</span></div>
           <UserSignupForm {...toSignupForm} />
         </div>

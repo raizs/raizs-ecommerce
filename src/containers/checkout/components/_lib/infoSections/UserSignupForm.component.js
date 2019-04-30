@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, Button } from '@material-ui/core';
+import { TextInput } from '../../../../../molecules';
 
 const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'center'
   },
   textInput: {
     ...theme.inputs.text,
@@ -23,7 +24,7 @@ const styles = theme => ({
   },
   button: {
     ...theme.buttons.secondary,
-    marginTop: 3 * theme.spacing.unit
+    marginTop: 3 * theme.spacing.unit,
   }
 });
 
@@ -35,6 +36,7 @@ class UserSignupForm extends Component {
   render() {
     const {
       classes,
+      errors,
       isCompleteForm,
       signupName,
       signupLastName,
@@ -45,59 +47,68 @@ class UserSignupForm extends Component {
       signupNews,
       handleCheckbox,
       handleChange,
+      handleSignup,
       handleCompleteSignup
     } = this.props;
 
     const inputClass = isCompleteForm ? classes.textInputHalf : classes.textInput;
 
     return (
-      <form className={classes.wrapper}>
-        <input
+      <form className={classes.wrapper} onSubmit={e => { e.preventDefault(); isCompleteForm ? handleCompleteSignup() : handleSignup(); }}>
+        <TextInput
           className={inputClass}
           id='signupName'
           value={signupName}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Nome'
+          error={errors.signupName}
         />
-        <input
+        <TextInput
           className={inputClass}
           id='signupLastName'
           value={signupLastName}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Sobrenome'
+          error={errors.signupLastName}
         />
-        <input
+        <TextInput
           className={inputClass}
           id='signupCpf'
           value={signupCpf}
-          onChange={e => handleChange(e, 'formatCpf')}
+          handleChange={e => handleChange(e, 'formatCpf')}
           placeholder='CPF'
+          error={errors.signupCpf}
         />
-        <input
+        <TextInput
           className={inputClass}
           id='signupEmail'
           value={signupEmail}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='E-mail'
+          error={errors.signupEmail}
+          disabled={isCompleteForm}
         />
-        <input
+        <TextInput
           className={inputClass}
           id='signupCellphone'
           value={signupCellphone}
-          onChange={e => handleChange(e, 'formatPhone')}
+          handleChange={e => handleChange(e, 'formatPhone')}
           placeholder='Celular'
+          error={errors.signupCellphone}
         />
-        <input
+        <TextInput
           className={inputClass}
           type='password'
           id='signupPassword'
           value={signupPassword}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Senha'
+          error={errors.signupPassword}
         />
         <Button
+          id='signupButton'
+          type='submit'
           className={classes.button}
-          onClick={isCompleteForm ? handleCompleteSignup : () => console.log('todo create signup')}
         >
           {isCompleteForm ? 'Completar cadastro' : 'Cadastrar'}
         </Button>

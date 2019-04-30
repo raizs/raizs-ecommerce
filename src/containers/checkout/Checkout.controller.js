@@ -1,6 +1,7 @@
-import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper } from '../../helpers';
-import { User, UserAddresses } from '../../entities';
+import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CreditCardHelper } from '../../helpers';
+import { User } from '../../entities';
 import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
+import { CheckoutValidation } from '../../validation';
 
 export class CheckoutController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -26,6 +27,7 @@ export class CheckoutController extends BaseController {
     this.setUserAddressInfo = this.setUserAddressInfo.bind(this);
 
     this.handleGoogleSignin = this.handleGoogleSignin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.handleCompleteSignup = this.handleCompleteSignup.bind(this);
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
@@ -41,6 +43,8 @@ export class CheckoutController extends BaseController {
     this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
 
     this.handleSubmitPayment = this.handleSubmitPayment.bind(this);
+    this.handleCreditCardNumberBlur = this.handleCreditCardNumberBlur.bind(this);
+    this.handleCreditCardExpDateBlur = this.handleCreditCardExpDateBlur.bind(this);
     this.handleCreateCreditCard = this.handleCreateCreditCard.bind(this);
     this.handleSelectCreditCard = this.handleSelectCreditCard.bind(this);
     this.handleContinuePayment = this.handleContinuePayment.bind(this);
@@ -151,7 +155,8 @@ export class CheckoutController extends BaseController {
       signupLastName: '',
       signupCpf: '',
       signupEmail: '',
-      signupCellphone: ''
+      signupCellphone: '',
+      signupPassword: ''
     });
   }
 
@@ -209,7 +214,8 @@ export class CheckoutController extends BaseController {
   }
 
   handleChange(e, format) {
-    this.toState(this.baseHandleChange(e, format));
+    const { errors } = this.getState();
+    this.toState(this.baseHandleChange(e, format, errors));
   }
 
   handleCheckboxChange(id) {
@@ -221,11 +227,33 @@ export class CheckoutController extends BaseController {
     this.toState({ [id]: e.target.value });
   }
 
-  async handleGoogleSignin() {
+  async handleGoogleSignin(isFacebook = false) {
     const { firebase } = this.getProps();
     this.toState({ userSectionLoading: true });
   
-    await SocialMediaHelper.signInWithGoogle(firebase);
+    const method = isFacebook ? 'signInWithFacebook' : 'signInWithGoogle';
+    const { error } = await SocialMediaHelper[method](firebase);
+
+    if(error) this.toState({ userSectionLoading: false });
+  }
+
+  async handleSignup() {
+    const { firebase } = this.getProps();
+    const values = this._getUserSignupValues();
+
+    const { errors, isValidated } = CheckoutValidation.signup(values);
+
+    if(!isValidated) return this.toState({ errors });
+
+    const toApi = StateToApi.signupUser(values);
+
+    this.toState({ userSectionLoading: true });
+    const promise = await this.userRepo.createUser(toApi);
+
+    if(!promise.err)
+      await SocialMediaHelper.signInWithEmailAndPassword(firebase, values.signupEmail, values.signupPassword);
+
+    this.toState({ userSectionLoading: false });
   }
 
   /**
@@ -249,7 +277,7 @@ export class CheckoutController extends BaseController {
     
     await SocialMediaHelper.signInWithEmailAndPassword(firebase, values.signupEmail, values.signupPassword);
     
-    toApi = StateToApi.completeSignupUser(values);
+    toApi = StateToApi.signupUser(values);
     promise = await this.userRepo.updateUser(toApi, id);
     if(!promise.err) {
       setUserAction(new User(promise.data));
@@ -261,6 +289,10 @@ export class CheckoutController extends BaseController {
   async handleEmailAndPasswordLogin() {
     const { firebase, setUserAction } = this.getProps(); 
     const { loginEmailOrCellphone, loginPassword } = this.getState();
+
+    const { errors, isValidated } = CheckoutValidation.emailAndPassword({ loginEmailOrCellphone, loginPassword });
+
+    if(!isValidated) return this.toState({ errors });
 
     this.toState({ userSectionLoading: true });
     const promise = await SocialMediaHelper.signInWithEmailAndPassword(firebase, loginEmailOrCellphone, loginPassword);
@@ -281,10 +313,12 @@ export class CheckoutController extends BaseController {
   }
 
   async handleCepBlur(e) {
-    const { value } = e.target;
+    const { value, id } = e.target;
+    const { errors } = this.getState();
     if(value.length < 9) {
       if(!value.length) return;
-      return this.toState({ cepError: 'CEP inválido.' })
+      errors[id] = 'CEP inválido.';
+      return this.toState({ errors })
     }
 
     this.toState({ addressSectionLoading: true });
@@ -299,7 +333,10 @@ export class CheckoutController extends BaseController {
         addressSectionLoading: false
       });
     }
-    else this.toState({ addressSectionLoading: false, cepError: msg });
+    else {
+      errors[id] = msg;
+      this.toState({ addressSectionLoading: false, errors });
+    }
   }
 
   /**
@@ -310,8 +347,14 @@ export class CheckoutController extends BaseController {
    */
   async handleNewAddressSubmit() {
     const { user } = this.getProps();
+    const stateErrors = this.getState().errors;
+
     const values = this._getAddressValues();
     let toApi;
+
+    const { isValidated, errors } = CheckoutValidation.address(values);
+
+    if(!isValidated) return this.toState({ errors: { ...stateErrors, ...errors } });
 
     if(!user.hasAddress) {
       values.addressIsDefault = true;
@@ -338,9 +381,9 @@ export class CheckoutController extends BaseController {
    * @memberof CheckoutController
    */
   async _handleFirstAddress(valuesToApi) {
-    const { setUserAction, selectUserAddressAction } = this.getProps();
+    const { setUserAction, selectUserAddressAction, user } = this.getProps();
 
-    const promise = await this.userAddressesRepo.createFirst(valuesToApi);
+    const promise = await this.userAddressesRepo.createFirst(valuesToApi, user.id);
 
     if(!promise.err) {
       const newUser = new User(promise.data);
@@ -371,8 +414,6 @@ export class CheckoutController extends BaseController {
 
     if(!promise.err) {
       const userOriginal = user.original;
-      promise.data['city_name.name'] = valuesToApi.city;
-      promise.data['state_name.code'] = valuesToApi.state;
       userOriginal.children.push(promise.data);
 
       const newUser = new User(userOriginal);
@@ -481,10 +522,18 @@ export class CheckoutController extends BaseController {
 
   async handleCreateCreditCard() {
     const { creditCards, setCreditCardsAction, selectCreditCardAction } = this.getProps();
-    const toApi = StateToApi.createCreditCard(this._getCreateCreditCardInfo());
+    
+    const values = this._getCreateCreditCardInfo();
+    const { isValidated, errors } = CheckoutValidation.creditCard(values);
 
+    if(!isValidated) {
+      const stateErrors = this.getState().errors;
+      return this.toState({ errors: { ...stateErrors, ...errors }, paymentSectionLoading: false });
+    }
+    
+    const toApi = StateToApi.createCreditCard(values);
     const promise = await this.paymentRepo.createCard(toApi);
-
+    
     const toState = { paymentSectionLoading: false };
 
     if(!promise.err) {
@@ -509,6 +558,30 @@ export class CheckoutController extends BaseController {
 
   handleContinuePayment() {
     this.toState({ isPaymentSectionDone: true });
+  }
+
+  handleCreditCardNumberBlur(e) {
+    const { id, value } = e.target;
+    const { isValid } = CreditCardHelper.checkNumber(value);
+    
+    if(!isValid) {
+      const { errors } = this.getState();
+      errors[id] = 'Número inválido.'
+      return this.toState({ errors });
+    }
+    return null;
+  }
+
+  handleCreditCardExpDateBlur(e) {
+    const { id, value } = e.target;
+    const { isValid } = CreditCardHelper.checkExpDate(value);
+    
+    if(!isValid) {
+      const { errors } = this.getState();
+      errors[id] = 'Data inválida.'
+      return this.toState({ errors });
+    }
+    return null;
   }
 
   async handleConfirmOrder() {

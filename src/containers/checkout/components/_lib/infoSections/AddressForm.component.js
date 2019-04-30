@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { TextInput } from '../../../../../molecules';
 
 const styles = theme => ({
   textInput: {
@@ -8,42 +9,42 @@ const styles = theme => ({
     '& + input': {
       marginTop: theme.spacing.unit
     },
-    '&#addressReceiverName': {
+    '&#text-input-addressReceiverName': {
       width: '50%',
       display: 'block'
     },
-    '&#addressCep': {
+    '&#text-input-addressCep': {
       width: '25%',
       display: 'block'
     },
-    '&#addressAddress': {
-      width: `calc(60% - ${theme.spacing.unit}px)`,
+    '&#text-input-addressAddress': {
+      width: `calc(57% - ${theme.spacing.unit}px)`,
       marginRight: theme.spacing.unit,
       display: 'inline-block'
     },
-    '&#addressNumber': {
-      width: `calc(15% - ${2 * theme.spacing.unit}px)`,
+    '&#text-input-addressNumber': {
+      width: `calc(20% - ${2 * theme.spacing.unit}px)`,
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
       display: 'inline-block'
     },
-    '&#addressComplement': {
-      width: `calc(25% - ${3 * theme.spacing.unit}px)`,
+    '&#text-input-addressComplement': {
+      width: `calc(23% - ${3 * theme.spacing.unit}px)`,
       marginLeft: theme.spacing.unit,
       display: 'inline-block'
     },
-    '&#addressNeighbourhood': {
+    '&#text-input-addressNeighbourhood': {
       width: `calc(33% - ${theme.spacing.unit}px)`,
       marginRight: theme.spacing.unit,
       display: 'inline-block'
     },
-    '&#addressCity': {
+    '&#text-input-addressCity': {
       width: `calc(33% - ${2 * theme.spacing.unit}px)`,
       marginRight: theme.spacing.unit,
       marginLeft: theme.spacing.unit,
       display: 'inline-block'
     },
-    '&#addressState': {
+    '&#text-input-addressState': {
       width: '15%',
       display: 'inline-block'
     }
@@ -72,6 +73,7 @@ class AddressForm extends Component {
   render() {
     const {
       classes,
+      errors,
       hasAddresses,
       addressName,
       addressReceiverName,
@@ -94,69 +96,78 @@ class AddressForm extends Component {
 
     return (
       <form className={classes.wrapper}>
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressName'
           value={addressName}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Dê um nome para este endereço (Casa, Trabalho, Filhos...)'
+          error={errors.addressName}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressReceiverName'
           value={addressReceiverName}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Nome do recebedor'
+          error={errors.addressReceiverName}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressCep'
           value={addressCep}
-          onChange={e => handleChange(e, 'formatCEP')}
-          onBlur={handleCepBlur}
+          handleChange={e => handleChange(e, 'formatCEP')}
+          handleBlur={handleCepBlur}
+          error={errors.addressCep}
           placeholder='CEP'
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressAddress'
           value={addressAddress}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Endereço'
+          error={errors.addressAddress}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressNumber'
           value={addressNumber}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Número'
+          error={errors.addressNumber}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressComplement'
           value={addressComplement}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Complemento'
+          error={errors.addressComplement}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressNeighbourhood'
           value={addressNeighbourhood}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Bairro'
+          error={errors.addressNeighbourhood}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressCity'
           value={addressCity}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Cidade'
+          error={errors.addressCity}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='addressState'
           value={addressState}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Estado'
+          error={errors.addressState}
         />
         <FormControlLabel
           className={classes.checkboxInput}

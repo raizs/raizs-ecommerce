@@ -44,7 +44,6 @@ export class AppController extends BaseController {
   async fetchPgUser(user) {
     const {
       setUserAction,
-      setUserAddressesAction,
       selectUserAddressAction,
       setCreditCardsAction,
       selectCreditCardAction,
@@ -52,9 +51,8 @@ export class AppController extends BaseController {
 
     let pgUser = await this.userRepo.getUser(user.uid);
 
-    
-    // if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
-    
+    if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
+
     if(!pgUser.err) {
       const children = await this.userRepo.getUserChildren(pgUser.data.id);
       pgUser.data.children = children.data;

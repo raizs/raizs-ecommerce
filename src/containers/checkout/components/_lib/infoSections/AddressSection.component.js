@@ -110,6 +110,7 @@ class AddressSection extends Component {
     const {
       classes,
       user,
+      errors,
       currentAddressSection,
       addressSectionLoading,
       addressName,
@@ -137,6 +138,7 @@ class AddressSection extends Component {
     } = this.props;
     
     const toAddressForm = {
+      errors,
       handleChange,
       handleCheckboxChange,
       handleCepBlur,

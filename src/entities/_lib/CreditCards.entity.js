@@ -4,7 +4,7 @@ import { CreditCard } from '..';
 export class CreditCards extends BaseModel {
   constructor(creditCards) {
     super();
-    
+
     this.original = creditCards;
     this.all = creditCards.map(creditCard => new CreditCard(creditCard));
 

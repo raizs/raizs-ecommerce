@@ -7,13 +7,13 @@ export default class BaseController {
 		this.getProps = getProps;
 	}
 
-	baseHandleChange(e, format) {
+	baseHandleChange(e, format, errors = {}) {
     const { id } = e.target;
     let { value } = e.target;
 
     if(format) value = Formatter[format](value);
 
-    return { [id]: value };
+    return { [id]: value, errors: { ...errors, [id]: '' } };
 	}
 	
 	baseHandleCheckboxChange(id, currentValue) {

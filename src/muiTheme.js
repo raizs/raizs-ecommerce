@@ -269,18 +269,38 @@ const theme = createMuiTheme({
   },
   inputs: {
     text: {
-      height: '48px',
       width: `calc(100% - ${2 * SPACING_UNIT}px)`,
-      border: `1px solid ${GRAY_BORDER}`,
-      padding: SPACING_UNIT,
-      fontSize: MD,
-      borderRadius: SPACING_UNIT,
-      transition: '.3s',
-      '&:focus, &:active': {
+      verticalAlign: 'top',
+      '& > input': {
+        width: '100%',
+        height: '48px',
+        border: `1px solid ${GRAY_BORDER}`,
         padding: SPACING_UNIT,
-        border: `1px solid ${GREEN}`,
-        outline: 'none'
+        fontSize: MD,
+        borderRadius: SPACING_UNIT,
+        transition: '.3s',
+        '&:focus, &:active': {
+          padding: SPACING_UNIT,
+          border: `1px solid ${GREEN}`,
+          outline: 'none'
+        },
       },
+      '&.-error > input': {
+        border: `1px solid ${RED}`,
+        '&:focus, &:active': {
+          padding: SPACING_UNIT,
+          border: `1px solid ${RED}`,
+          outline: 'none'
+        }
+      },
+      '& > div.error': {
+        fontSize: XXS,
+        color: RED,
+        lineHeight: MD
+      },
+      '& + div.text-input': {
+        marginTop: SPACING_UNIT
+      }
     },
     radio: {
       userSelect: 'none',
@@ -312,7 +332,7 @@ const theme = createMuiTheme({
     small: {
       fontSize: SM,
       height: '36px'
-    }
+    },
   },
   sizes: {
     HEADER_HEIGHT,

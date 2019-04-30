@@ -111,7 +111,31 @@ class Checkout extends BaseContainer {
     creditCardName: 'MARCELO TESTE',
     creditCardExp: '12/2022',
     creditCardCvv: '123',
-    creditCardShouldSave: true
+    creditCardShouldSave: true,
+    
+    errors: {
+      loginEmailOrCellphone: '',
+      loginPassword: '',
+      signupName: '',
+      signupLastName: '',
+      signupCpf: '',
+      signupEmail: '',
+      signupCellphone: '',
+      signupPassword: '',
+      addressName: '',
+      addressReceiverName: '',
+      addressCep: '',
+      addressAddress: '',
+      addressNumber: '',
+      addressComplement: '',
+      addressNeighbourhood: '',
+      addressCity: '',
+      addressState: '',
+      creditCardNumber: '',
+      creditCardName: '',
+      creditCardExp: '',
+      creditCardCvv: ''
+    }
   }
 
   /**
@@ -149,6 +173,7 @@ class Checkout extends BaseContainer {
    */
   componentWillReceiveProps(nextProps) {
     const prevUser = this.props.user, nextUser = nextProps.user;
+    const prevCreditCards = this.props.creditCards, nextCreditCards = nextProps.creditCards;
     let prevUserAddresses, nextUserAddresses;
     if(prevUser) prevUserAddresses = this.props.user.addresses
     if(nextUser) nextUserAddresses = nextProps.user.addresses;
@@ -163,8 +188,19 @@ class Checkout extends BaseContainer {
         isPaymentSectionDone: false
       });
     }
-    if(!prevUserAddresses && nextUserAddresses && nextUserAddresses.all.length)
-      this.setState({ currentAddressSection: 'list' });
+    if(nextUser && !prevUserAddresses && nextUserAddresses && nextUserAddresses.all.length)
+      this.setState({
+        currentAddressSection: 'list',
+        isAddressSectionDone: true,
+        openedSection: 'payment'
+      });
+      
+    if(nextUser && nextUserAddresses && nextUserAddresses.all.length && !prevCreditCards && nextCreditCards && nextCreditCards.all.length) {
+      this.setState({
+        openedSection: null,
+        isPaymentSectionDone: true
+      });
+    }
   }
 
   /**
@@ -182,6 +218,7 @@ class Checkout extends BaseContainer {
       handleCheckboxChange,
       handleRadioChange,
       handleGoogleSignin,
+      handleSignup,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
       handleOpenSection,
@@ -196,10 +233,13 @@ class Checkout extends BaseContainer {
       handleSelectPaymentMethod,
       handleSubmitPayment,
       handleSelectCreditCard,
+      handleCreditCardNumberBlur,
+      handleCreditCardExpDateBlur,
       handleConfirmOrder
     } = this.controller;
 
     const {
+      errors,
       openedSection,
 
       userSectionLoading,
@@ -247,14 +287,14 @@ class Checkout extends BaseContainer {
       selectedCreditCard
     } = this.props;
 
-    const userAddresses = user.addresses;
-
     const toUserSection = {
       user,
+      errors,
       userSectionLoading,
       handleChange,
       handleCheckboxChange,
       handleGoogleSignin,
+      handleSignup,
       handleCompleteSignup,
       handleEmailAndPasswordLogin,
       handleOpenSection,
@@ -273,7 +313,7 @@ class Checkout extends BaseContainer {
 
     const toAddressSection = {
       user,
-      userAddresses,
+      errors,
       currentAddressSection,
       addressSectionLoading,
       handleOpenSection,
@@ -306,6 +346,7 @@ class Checkout extends BaseContainer {
     };
     
     const toPaymentSection = {
+      errors,
       isPaymentSectionDone,
       handleOpenSection,
       creditCards,
@@ -315,6 +356,8 @@ class Checkout extends BaseContainer {
       isAddressSectionDone,
       selectedPaymentMethod,
       handleSelectPaymentMethod,
+      handleCreditCardNumberBlur,
+      handleCreditCardExpDateBlur,
       handleSubmitPayment,
       handleSelectCreditCard,
       handleChange,

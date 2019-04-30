@@ -1,20 +1,17 @@
 import React, { Component } from 'react'
 import { withStyles, RadioGroup, FormControlLabel, Radio, Checkbox } from '@material-ui/core';
+import { TextInput } from '../../../../../molecules';
 
 const styles = theme => ({
-  wrapper: {
-  },
   textInput: {
     ...theme.inputs.text,
     width: `calc(50% - ${theme.spacing.unit}px)`,
+    display: 'inline-block',
     marginRight: theme.spacing.unit,
-    '&:focus, &:active': {
-      marginRight: theme.spacing.unit,
-      padding: theme.spacing.unit,
-      border: `1px solid ${theme.palette.green.main}`,
-      outline: 'none'
+    '& + div.text-input': {
+      marginTop: 0
     },
-    '& + input': {
+    '&#text-input-creditCardExp, &#text-input-creditCardCvv': {
       marginTop: theme.spacing.unit
     }
   },
@@ -35,10 +32,13 @@ class PaymentCreditCardForm extends Component {
 
   _renderNewCreditCardForm() {
     const {
+      errors,
       classes,
       selectedCreditCard,
       handleChange,
       handleCheckboxChange,
+      handleCreditCardNumberBlur,
+      handleCreditCardExpDateBlur,
       creditCardNumber,
       creditCardName,
       creditCardExp,
@@ -48,33 +48,39 @@ class PaymentCreditCardForm extends Component {
 
     return !selectedCreditCard ? (
       <div>
-        <input
+        <TextInput
           className={classes.textInput}
           id='creditCardNumber'
           value={creditCardNumber}
-          onChange={e => handleChange(e, 'formatCreditCardNumber')}
+          handleChange={e => handleChange(e, 'formatCreditCardNumber')}
+          handleBlur={handleCreditCardNumberBlur}
           placeholder='Número do Cartão'
+          error={errors.creditCardNumber}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='creditCardName'
           value={creditCardName}
-          onChange={handleChange}
+          handleChange={handleChange}
           placeholder='Nome (como está no cartão)'
+          error={errors.creditCardName}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='creditCardExp'
           value={creditCardExp}
-          onChange={e => handleChange(e, 'formatCreditCardExp')}
+          handleChange={e => handleChange(e, 'formatCreditCardExp')}
+          handleBlur={handleCreditCardExpDateBlur}
           placeholder='MM/AAAA'
+          error={errors.creditCardExp}
         />
-        <input
+        <TextInput
           className={classes.textInput}
           id='creditCardCvv'
           value={creditCardCvv}
-          onChange={e => handleChange(e, 'formatCreditCardCvv')}
+          handleChange={e => handleChange(e, 'formatCreditCardCvv')}
           placeholder='CVV'
+          error={errors.creditCardCvv}
         />
         <FormControlLabel
           className={classes.checkboxInput}
@@ -105,7 +111,7 @@ class PaymentCreditCardForm extends Component {
     const value = selectedCreditCard ? selectedCreditCard.id : 'new';
 
     return (
-      <form className={classes.wrapper}>
+      <form>
         <h6 className={classes.formSubtitle}>Cartões Salvos</h6>
         <RadioGroup
           name="creditCards"

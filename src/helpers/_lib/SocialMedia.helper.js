@@ -32,4 +32,23 @@ export class SocialMediaHelper {
 
     return response;
   }
+
+  static async signInWithFacebook(firebase) {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    const response = { success: false, error: null, user: null, isNewUser: false };
+
+    await firebase.auth().signInWithPopup(provider).then(async res => {
+      const { user, additionalUserInfo: { isNewUser } } = res;
+
+      response.success = true;
+      response.user = user;
+      response.isNewUser = isNewUser
+      
+    }).catch(function(error) {
+      console.warn('google signin error:\n', error);
+      response.error = error;
+    });
+
+    return response;
+  }
 }
