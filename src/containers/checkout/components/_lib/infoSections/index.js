@@ -7,4 +7,5 @@ export { UserLoginForm } from './UserLoginForm.component';
 export { UserSignupForm } from './UserSignupForm.component';
 
 export { PaymentSection } from './PaymentSection.component';
+export { PaymentDebitCardForm } from './PaymentDebitCardForm.component';
 export { PaymentCreditCardForm } from './PaymentCreditCardForm.component';

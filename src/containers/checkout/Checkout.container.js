@@ -11,8 +11,8 @@ import {
   setUserAction,
   setUserAddressesAction,
   selectUserAddressAction,
-  setCreditCardsAction,
-  selectCreditCardAction
+  setCardsAction,
+  selectCardAction
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
 import { withFirebase } from 'react-redux-firebase';
@@ -57,8 +57,8 @@ const actions = {
   setUserAction,
   setUserAddressesAction,
   selectUserAddressAction,
-  setCreditCardsAction,
-  selectCreditCardAction
+  setCardsAction,
+  selectCardAction
 };
 
 /**
@@ -112,6 +112,12 @@ class Checkout extends BaseContainer {
     creditCardExp: '12/2022',
     creditCardCvv: '123',
     creditCardShouldSave: true,
+
+    debitCardNumber: '',
+    debitCardName: '',
+    debitCardExp: '',
+    debitCardCvv: '',
+    debitCardShouldSave: '',
     
     errors: {
       loginEmailOrCellphone: '',
@@ -155,7 +161,7 @@ class Checkout extends BaseContainer {
           isAddressSectionDone: true,
           openedSection: 'payment'
         });
-        if(this.props.creditCards && this.props.creditCards.all.length)
+        if(this.props.cards && this.props.cards.all.length)
           this.setState({
             isPaymentSectionDone: true,
             openedSection: null
@@ -173,7 +179,7 @@ class Checkout extends BaseContainer {
    */
   componentWillReceiveProps(nextProps) {
     const prevUser = this.props.user, nextUser = nextProps.user;
-    const prevCreditCards = this.props.creditCards, nextCreditCards = nextProps.creditCards;
+    const prevCards = this.props.cards, nextCards = nextProps.cards;
     let prevUserAddresses, nextUserAddresses;
     if(prevUser) prevUserAddresses = this.props.user.addresses
     if(nextUser) nextUserAddresses = nextProps.user.addresses;
@@ -195,7 +201,7 @@ class Checkout extends BaseContainer {
         openedSection: 'payment'
       });
       
-    if(nextUser && nextUserAddresses && nextUserAddresses.all.length && !prevCreditCards && nextCreditCards && nextCreditCards.all.length) {
+    if(nextUser && nextUserAddresses && nextUserAddresses.all.length && !prevCards && nextCards && nextCards.all.length) {
       this.setState({
         openedSection: null,
         isPaymentSectionDone: true
@@ -204,8 +210,8 @@ class Checkout extends BaseContainer {
   }
 
   /**
-   * _renderForms - renders the form related components, which are 'users',
-   * 'addresses' and 'payment'
+   * _renderForms - renders the form related components, which are 'user',
+   * 'address' and 'payment'
    *
    * @returns {JSX} which contains the FormSection component and a Button if the forms are
    * complete
@@ -232,9 +238,9 @@ class Checkout extends BaseContainer {
       handleCompleteAddressSection,
       handleSelectPaymentMethod,
       handleSubmitPayment,
-      handleSelectCreditCard,
-      handleCreditCardNumberBlur,
-      handleCreditCardExpDateBlur,
+      handleSelectCard,
+      handleCardNumberBlur,
+      handleCardExpDateBlur,
       handleConfirmOrder
     } = this.controller;
 
@@ -276,15 +282,20 @@ class Checkout extends BaseContainer {
       creditCardName,
       creditCardExp,
       creditCardCvv,
-      creditCardShouldSave
+      creditCardShouldSave,
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave
     } = this.state;
 
     const {
       user,
       classes,
       selectedUserAddress,
-      creditCards,
-      selectedCreditCard
+      cards,
+      selectedCard
     } = this.props;
 
     const toUserSection = {
@@ -347,19 +358,20 @@ class Checkout extends BaseContainer {
     
     const toPaymentSection = {
       errors,
+      selectedCard,
       isPaymentSectionDone,
       handleOpenSection,
-      creditCards,
+      cards,
       openedSection,
       paymentSectionLoading,
       isUserSectionDone,
       isAddressSectionDone,
       selectedPaymentMethod,
       handleSelectPaymentMethod,
-      handleCreditCardNumberBlur,
-      handleCreditCardExpDateBlur,
+      handleCardNumberBlur,
+      handleCardExpDateBlur,
       handleSubmitPayment,
-      handleSelectCreditCard,
+      handleSelectCard,
       handleChange,
       handleCheckboxChange,
       creditCardNumber,
@@ -367,7 +379,11 @@ class Checkout extends BaseContainer {
       creditCardExp,
       creditCardCvv,
       creditCardShouldSave,
-      selectedCreditCard
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave
     };
 
     return (
@@ -402,6 +418,8 @@ class Checkout extends BaseContainer {
   render() {
     const { classes } = this.props;
 
+    console.log(this.props.cards);
+
     return (
       <div className={classes.wrapper}>
         <h1 className={classes.title}>
@@ -425,8 +443,8 @@ const mapStateToProps = state => ({
   user: state.user.current,
   userAddresses: state.userAddresses.model,
   selectedUserAddress: state.userAddresses.selected,
-  creditCards: state.creditCards.model,
-  selectedCreditCard: state.creditCards.selected,
+  cards: state.cards.model,
+  selectedCard: state.cards.selected,
   selectedDate: state.datePicker.selected
 });
 

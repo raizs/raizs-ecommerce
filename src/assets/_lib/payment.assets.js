@@ -6,10 +6,17 @@ export const paymentMethods = [
     id: 'payPal',
     label: 'PayPal' 
   }, {
-    id: 'boleto',
-    label: 'Boleto'
+    id: 'debitCard',
+    label: 'Cartão de Débito'
   }, {
     id: 'onDelivery',
     label: 'Pagar na Entrega'
   }
-]
+];
+
+export const paymentMethodsStrings = {
+  creditCard: 'CARTÃO DE CRÉDITO',
+  payPal: 'PAYPAL',
+  debitCard: 'CARTÃO DE DÉBITO',
+  onDelivery: 'PAGAR NA ENTREGA',
+}

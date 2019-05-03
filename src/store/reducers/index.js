@@ -3,7 +3,7 @@ import { firebaseReducer } from 'react-redux-firebase';
 
 import { cartReducer } from "./_lib/cart.reducer"
 import { categoriesReducer } from "./_lib/categories.reducer"
-import { creditCardsReducer } from "./_lib/creditCards.reducer"
+import { creditCardsReducer } from "./_lib/cards.reducer"
 import { datePickerReducer } from "./_lib/datePicker.reducer"
 import { headerReducer } from "./_lib/header.reducer"
 import { productBrandsReducer } from "./_lib/productBrands.reducer"
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   brands: productBrandsReducer,
   cart: cartReducer,
   categories: categoriesReducer,
-  creditCards: creditCardsReducer,
+  cards: creditCardsReducer,
   datePicker: datePickerReducer,
   header: headerReducer,
   products: productsReducer,

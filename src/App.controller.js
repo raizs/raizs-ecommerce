@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
-import { User, Categories, UserAddresses, CreditCards } from './entities';
+import { User, Categories, UserAddresses, Cards } from './entities';
 import { UserRepository, UserAddressesRepository, CategoriesRepository, PaymentRepository } from './repositories';
 
 export class AppController extends BaseController {
@@ -45,8 +45,8 @@ export class AppController extends BaseController {
     const {
       setUserAction,
       selectUserAddressAction,
-      setCreditCardsAction,
-      selectCreditCardAction,
+      setCardsAction,
+      selectCardAction,
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -63,11 +63,11 @@ export class AppController extends BaseController {
       if(newUser.addresses && newUser.addresses.all.length) 
         selectUserAddressAction(newUser.addresses.getDefaultUserAddress());
 
-      const userCreditCards = await this.paymentRepo.listCards(newUser.mpid);
-      if(!userCreditCards.err) {
-        const newCreditCards = new CreditCards(userCreditCards.data.data);
-        setCreditCardsAction(newCreditCards);
-        selectCreditCardAction(newCreditCards.getDefaultCreditCard());
+      const userCards = await this.paymentRepo.listCards(newUser.mpid);
+      if(!userCards.err) {
+        const newCards = new Cards(userCards.data.data);
+        setCardsAction(newCards);
+        selectCardAction(newCards.getDefaultCard());
       }
     } else {
       await setUserAction(new User({}));

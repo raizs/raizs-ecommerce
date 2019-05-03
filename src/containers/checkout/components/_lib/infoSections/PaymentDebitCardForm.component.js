@@ -17,7 +17,7 @@ const styles = theme => ({
     '& + div.text-input': {
       marginTop: 0
     },
-    '&#text-input-creditCardExp, &#text-input-creditCardCvv': {
+    '&#text-input-debitCardExp, &#text-input-debitCardCvv': {
       marginTop: theme.spacing.unit
     }
   },
@@ -31,10 +31,7 @@ const styles = theme => ({
   checkedCheckboxInput: theme.inputs.checkedCheckbox,
 });
 
-class PaymentCreditCardForm extends Component {
-  static defaultProps = {
-    cards: {all: []}
-  }
+class PaymentDebitCardForm extends Component {
 
   _renderNewCardForm() {
     const {
@@ -45,59 +42,59 @@ class PaymentCreditCardForm extends Component {
       handleCheckboxChange,
       handleCardNumberBlur,
       handleCardExpDateBlur,
-      creditCardNumber,
-      creditCardName,
-      creditCardExp,
-      creditCardCvv,
-      creditCardShouldSave
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave
     } = this.props;
 
     return !selectedCard ? (
       <div>
         <TextInput
           className={classes.textInput}
-          id='creditCardNumber'
-          value={creditCardNumber}
+          id='debitCardNumber'
+          value={debitCardNumber}
           handleChange={e => handleChange(e, 'formatCardNumber')}
           handleBlur={handleCardNumberBlur}
           placeholder='Número do Cartão'
-          error={errors.creditCardNumber}
+          error={errors.debitCardNumber}
         />
         <TextInput
           className={classes.textInput}
-          id='creditCardName'
-          value={creditCardName}
+          id='debitCardName'
+          value={debitCardName}
           handleChange={handleChange}
           placeholder='Nome (como está no cartão)'
-          error={errors.creditCardName}
+          error={errors.debitCardName}
         />
         <TextInput
           className={classes.textInput}
-          id='creditCardExp'
-          value={creditCardExp}
+          id='debitCardExp'
+          value={debitCardExp}
           handleChange={e => handleChange(e, 'formatCardExp')}
           handleBlur={handleCardExpDateBlur}
           placeholder='MM/AAAA'
-          error={errors.creditCardExp}
+          error={errors.debitCardExp}
         />
         <TextInput
           className={classes.textInput}
-          id='creditCardCvv'
-          value={creditCardCvv}
+          id='debitCardCvv'
+          value={debitCardCvv}
           handleChange={e => handleChange(e, 'formatCardCvv')}
           placeholder='CVV'
-          error={errors.creditCardCvv}
+          error={errors.debitCardCvv}
         />
         <FormControlLabel
           className={classes.checkboxInput}
           control={
             <Checkbox
-              checked={creditCardShouldSave}
+              checked={debitCardShouldSave}
               classes={{
                 checked: classes.checkedCheckboxInput
               }}
-              onChange={() => handleCheckboxChange('creditCardShouldSave')}
-              value="creditCardShouldSave"
+              onChange={() => handleCheckboxChange('debitCardShouldSave')}
+              value="debitCardShouldSave"
             />
           }
           label="Salvar Cartão"
@@ -118,7 +115,7 @@ class PaymentCreditCardForm extends Component {
 
     return (
       <form>
-        <h6 className={classes.formSubtitle}>Cartões de Crédito Salvos</h6>
+        <h6 className={classes.formSubtitle}>Cartões de Débito Salvos</h6>
         <RadioGroup
           name="cards"
           className={classes.group}
@@ -126,7 +123,7 @@ class PaymentCreditCardForm extends Component {
           value={value}
           onChange={e => handleSelectCard(e)}
         >
-          {cards.creditCards.map(card => {
+          {cards.debitCards.map(card => {
             return (
               <FormControlLabel
                 key={card.id}
@@ -141,7 +138,7 @@ class PaymentCreditCardForm extends Component {
             className={classes.radioInput}
             value='new'
             control={<Radio checked={'new' === value} />}
-            label='Adicione um novo cartão de crédito'
+            label='Adicione um novo cartão de débito'
           />
         </RadioGroup>
         {this._renderNewCardForm()}
@@ -150,6 +147,6 @@ class PaymentCreditCardForm extends Component {
   }
 }
 
-PaymentCreditCardForm = withStyles(styles)(PaymentCreditCardForm);
+PaymentDebitCardForm = withStyles(styles)(PaymentDebitCardForm);
 
-export { PaymentCreditCardForm };
+export { PaymentDebitCardForm };

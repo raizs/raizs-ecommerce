@@ -64,21 +64,24 @@ export class StateToApi {
     return to;
   }
 
-  static createCreditCard(values) {
+  static createCard(values, type) {
     return {
       toMundipagg: {
-        number: values.creditCardNumber,
-        holder_name: values.creditCardName,
-        exp_month: values.creditCardExp.split('/')[0],
-        exp_year: values.creditCardExp.split('/')[1],
-        cvv: values.creditCardCvv
+        number: values.cardNumber,
+        holder_name: values.cardName,
+        exp_month: values.cardExp.split('/')[0],
+        exp_year: values.cardExp.split('/')[1],
+        cvv: values.cardCvv,
+        metadata: {
+          type
+        }
       },
-      shouldSaveCard: values.creditCardShouldSave,
+      shouldSaveCard: values.cardShouldSave,
       customer_id: values.mpid
     };
   }
 
-  static checkout({ user, cart, selectedUserAddress, selectedCreditCard }) {
+  static checkout({ user, cart, selectedUserAddress, selectedCard }) {
     return {
       toPg: {
         resPartnerId: user.id
@@ -87,7 +90,7 @@ export class StateToApi {
         customer_id: user.mpid,
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),
-        payments: [selectedCreditCard.getMpFormattedPayment({})]
+        payments: [selectedCard.getMpFormattedPayment({})]
       }
     };
   }

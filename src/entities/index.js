@@ -1,6 +1,6 @@
 export { Cart } from './_lib/Cart.entity';
-export { CreditCard } from './_lib/CreditCard.entity';
-export { CreditCards } from './_lib/CreditCards.entity';
+export { Card } from './_lib/Card.entity';
+export { Cards } from './_lib/Cards.entity';
 export { Categories } from './_lib/Categories.entity';
 export { Category } from './_lib/Category.entity';
 export { Product } from './_lib/Product.entity';

@@ -9,11 +9,11 @@ export {
 } from './_lib/categories.actions';
 
 export {
-  SET_CREDIT_CARDS,
-  SELECT_CREDIT_CARD,
-  setCreditCardsAction,
-  selectCreditCardAction
-} from './_lib/creditCards.actions';
+  SET_CARDS,
+  SELECT_CARD,
+  setCardsAction,
+  selectCardAction
+} from './_lib/cards.actions';
 
 export {
   SELECT_DATE,

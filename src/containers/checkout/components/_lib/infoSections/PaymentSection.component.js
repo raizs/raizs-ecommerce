@@ -4,8 +4,8 @@ import { withStyles, Collapse, Button } from '@material-ui/core';
 import classnames from 'classnames'; 
 
 import { Loading, PickABox } from '../../../../../molecules';
-import { paymentMethods } from '../../../../../assets';
-import { PaymentCreditCardForm } from '.';
+import { paymentMethods, paymentMethodsStrings } from '../../../../../assets';
+import { PaymentCreditCardForm, PaymentDebitCardForm } from '.';
 
 const styles = theme => ({
   section: {
@@ -116,46 +116,69 @@ class PaymentSection extends Component {
   _renderSelectedMethodForm() {
     const {
       errors,
+      selectedCard,
       selectedPaymentMethod,
       handleChange,
       handleCheckboxChange,
-      handleSelectCreditCard,
-      handleCreditCardNumberBlur,
-      handleCreditCardExpDateBlur,
-      creditCards,
+      handleSelectCard,
+      handleCardNumberBlur,
+      handleCardExpDateBlur,
+      cards,
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
       creditCardShouldSave,
-      selectedCreditCard
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave
     } = this.props;
 
     const toCreditCardForm = {
       errors,
       handleChange,
       handleCheckboxChange,
-      handleSelectCreditCard,
-      handleCreditCardNumberBlur,
-      handleCreditCardExpDateBlur,
-      creditCards,
+      handleSelectCard,
+      handleCardNumberBlur,
+      handleCardExpDateBlur,
+      cards,
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
       creditCardShouldSave,
-      selectedCreditCard
+      selectedCard
+    };
+
+    const toDebitCardForm = {
+      errors,
+      handleChange,
+      handleCheckboxChange,
+      handleSelectCard,
+      handleCardNumberBlur,
+      handleCardExpDateBlur,
+      cards,
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave,
+      selectedCard
     };
 
     const Comp = {
-      creditCard: PaymentCreditCardForm
+      creditCard: PaymentCreditCardForm,
+      debitCard: PaymentDebitCardForm
     }[selectedPaymentMethod];
 
     const compProps = {
-      creditCard: toCreditCardForm
+      creditCard: toCreditCardForm,
+      debitCard: toDebitCardForm
     }[selectedPaymentMethod];
 
-    if(Comp) return <Comp {...compProps} />
+    if(Comp) return <Comp {...compProps} />;
   }
 
   _renderCollapsibleContent() {
@@ -164,8 +187,7 @@ class PaymentSection extends Component {
       paymentSectionLoading,
       handleSelectPaymentMethod,
       handleSubmitPayment,
-      selectedPaymentMethod,
-      selectedCreditCard
+      selectedPaymentMethod
     } = this.props;
 
     return (
@@ -240,11 +262,11 @@ class PaymentSection extends Component {
   }
 
   _renderDoneInfo() {
-    const { classes, selectedCreditCard } = this.props;
-    return selectedCreditCard ? (
+    const { classes, selectedCard, selectedPaymentMethod } = this.props;
+    return selectedCard ? (
       <div>
-        <div className={classes.doneInfo}>CARTÃO DE CRÉDITO</div>
-        <div className={classes.doneInfo}>{selectedCreditCard.finalString}</div>
+        <div className={classes.doneInfo}>{paymentMethodsStrings[selectedPaymentMethod]}</div>
+        <div className={classes.doneInfo}>{selectedCard.finalString}</div>
       </div>
     ) : null;
   }

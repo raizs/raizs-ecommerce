@@ -1,6 +1,6 @@
 import cardValidator from 'card-validator';
 
-export class CreditCardHelper {
+export class CardHelper {
   static checkNumber(number) {
     return cardValidator.number(number);
   }

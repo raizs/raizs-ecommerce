@@ -1,4 +1,4 @@
-import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CreditCardHelper } from '../../helpers';
+import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CardHelper } from '../../helpers';
 import { User } from '../../entities';
 import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
 import { CheckoutValidation } from '../../validation';
@@ -13,7 +13,7 @@ export class CheckoutController extends BaseController {
 
     this._getUserSignupValues = this._getUserSignupValues.bind(this);
     this._getAddressValues = this._getAddressValues.bind(this);
-    this._getCreateCreditCardInfo = this._getCreateCreditCardInfo.bind(this);
+    this._getCreateCardInfo = this._getCreateCardInfo.bind(this);
     
     this._clearAddressInfo = this._clearAddressInfo.bind(this);
 
@@ -43,10 +43,10 @@ export class CheckoutController extends BaseController {
     this.handleSelectPaymentMethod = this.handleSelectPaymentMethod.bind(this);
 
     this.handleSubmitPayment = this.handleSubmitPayment.bind(this);
-    this.handleCreditCardNumberBlur = this.handleCreditCardNumberBlur.bind(this);
-    this.handleCreditCardExpDateBlur = this.handleCreditCardExpDateBlur.bind(this);
-    this.handleCreateCreditCard = this.handleCreateCreditCard.bind(this);
-    this.handleSelectCreditCard = this.handleSelectCreditCard.bind(this);
+    this.handleCardNumberBlur = this.handleCardNumberBlur.bind(this);
+    this.handleCardExpDateBlur = this.handleCardExpDateBlur.bind(this);
+    this.handleCreateCard = this.handleCreateCard.bind(this);
+    this.handleSelectCard = this.handleSelectCard.bind(this);
     this.handleContinuePayment = this.handleContinuePayment.bind(this);
     
     this.handleConfirmOrder = this.handleConfirmOrder.bind(this);
@@ -160,23 +160,38 @@ export class CheckoutController extends BaseController {
     });
   }
 
-  _getCreateCreditCardInfo() {
+  _getCreateCardInfo(type) {
     const {
       creditCardNumber,
       creditCardName,
       creditCardExp,
       creditCardCvv,
-      creditCardShouldSave
+      creditCardShouldSave,
+      debitCardNumber,
+      debitCardName,
+      debitCardExp,
+      debitCardCvv,
+      debitCardShouldSave
     } = this.getState();
 
     return {
-      creditCardNumber,
-      creditCardName,
-      creditCardExp,
-      creditCardCvv,
-      creditCardShouldSave,
-      mpid: this.getProps().user.mpid
-    };
+      credit: {
+        cardNumber: creditCardNumber,
+        cardName: creditCardName,
+        cardExp: creditCardExp,
+        cardCvv: creditCardCvv,
+        cardShouldSave: creditCardShouldSave,
+        mpid: this.getProps().user.mpid
+      },
+      debit: {
+        cardNumber: debitCardNumber,
+        cardName: debitCardName,
+        cardExp: debitCardExp,
+        cardCvv: debitCardCvv,
+        cardShouldSave: debitCardShouldSave,
+        mpid: this.getProps().user.mpid
+      }
+    }[type];
   }
 
   /**
@@ -502,44 +517,57 @@ export class CheckoutController extends BaseController {
   }
 
   handleSelectPaymentMethod(id) {
+    const { cards, selectCardAction } = this.getProps();
+    
+    if(id === 'debitCard') {
+      if(!cards.debitCards.length) selectCardAction(null);
+      else selectCardAction(cards.getDefaultDebitCard());
+    }
+    
+    if(id === 'creditCard') {
+      if(!cards.creditCards.length) selectCardAction(null);
+      else selectCardAction(cards.getDefaultCreditCard());
+    }
+    
     this.toState({ selectedPaymentMethod: id });
   }
 
   async handleSubmitPayment() {
     const { selectedPaymentMethod } = this.getState();
-    const { selectedCreditCard } = this.getProps();
+    const { selectedCard } = this.getProps();
     
     let method = {
-      creditCard: this.handleCreateCreditCard
+      creditCard: () => this.handleCreateCard('credit'),
+      debitCard: () => this.handleCreateCard('debit')
     }[selectedPaymentMethod] || null;
 
-    if(selectedPaymentMethod === 'creditCard' && selectedCreditCard)
+    if(['creditCard', 'debitCard'].includes(selectedPaymentMethod) && selectedCard)
       method = this.handleContinuePayment
 
     this.toState({ paymentSectionLoading: true });
     await method(); 
   }
 
-  async handleCreateCreditCard() {
-    const { creditCards, setCreditCardsAction, selectCreditCardAction } = this.getProps();
+  async handleCreateCard(type) {
+    const { cards, setCardsAction, selectCardAction } = this.getProps();
     
-    const values = this._getCreateCreditCardInfo();
-    const { isValidated, errors } = CheckoutValidation.creditCard(values);
+    const values = this._getCreateCardInfo(type);
+    const { isValidated, errors } = CheckoutValidation.card(values, type);
 
     if(!isValidated) {
       const stateErrors = this.getState().errors;
       return this.toState({ errors: { ...stateErrors, ...errors }, paymentSectionLoading: false });
     }
     
-    const toApi = StateToApi.createCreditCard(values);
+    const toApi = StateToApi.createCard(values, type);
     const promise = await this.paymentRepo.createCard(toApi);
     
     const toState = { paymentSectionLoading: false };
 
     if(!promise.err) {
-      const newCreditCards = creditCards.add(promise.data);
-      setCreditCardsAction(newCreditCards);
-      selectCreditCardAction(newCreditCards.getDefaultCreditCard());
+      const newCards = cards.add(promise.data);
+      setCardsAction(newCards);
+      selectCardAction(newCards.getDefaultCard());
       toState.isPaymentSectionDone = true;
     }
 
@@ -547,22 +575,22 @@ export class CheckoutController extends BaseController {
     return promise;
   }
 
-  handleSelectCreditCard(e) {
+  handleSelectCard(e) {
     const creditCardId = e.target.value;
 
-    const { selectCreditCardAction, creditCards } = this.getProps();
-    const creditCard = creditCards.getById(creditCardId);
+    const { selectCardAction, cards } = this.getProps();
+    const card = cards.getById(creditCardId);
 
-    selectCreditCardAction(creditCard);
+    selectCardAction(card);
   }
 
   handleContinuePayment() {
     this.toState({ isPaymentSectionDone: true });
   }
 
-  handleCreditCardNumberBlur(e) {
+  handleCardNumberBlur(e) {
     const { id, value } = e.target;
-    const { isValid } = CreditCardHelper.checkNumber(value);
+    const { isValid } = CardHelper.checkNumber(value);
     
     if(!isValid) {
       const { errors } = this.getState();
@@ -572,9 +600,9 @@ export class CheckoutController extends BaseController {
     return null;
   }
 
-  handleCreditCardExpDateBlur(e) {
+  handleCardExpDateBlur(e) {
     const { id, value } = e.target;
-    const { isValid } = CreditCardHelper.checkExpDate(value);
+    const { isValid } = CardHelper.checkExpDate(value);
     
     if(!isValid) {
       const { errors } = this.getState();
@@ -585,9 +613,9 @@ export class CheckoutController extends BaseController {
   }
 
   async handleConfirmOrder() {
-    const { cart, user, selectedUserAddress, selectedCreditCard } = this.getProps();
+    const { cart, user, selectedUserAddress, selectedCard } = this.getProps();
 
-    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCreditCard });
+    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard });
 
     const promise = await this.paymentRepo.createOrder(toApi);
 

@@ -18,8 +18,8 @@ import {
   setCategoriesAction,
   setUserAddressesAction,
   selectUserAddressAction,
-  setCreditCardsAction,
-  selectCreditCardAction,
+  setCardsAction,
+  selectCardAction,
   selectDateAction
 } from './store/actions';
 
@@ -40,8 +40,8 @@ const actions = {
   setUserAddressesAction,
   setCategoriesAction,
   selectUserAddressAction,
-  setCreditCardsAction,
-  selectCreditCardAction,
+  setCardsAction,
+  selectCardAction,
   selectDateAction
 };
 
@@ -62,8 +62,8 @@ class App extends BaseContainer {
         this.props.setUserAction(null);
         this.props.setUserAddressesAction(null);
         this.props.selectUserAddressAction(null);
-        this.props.setCreditCardsAction(null);
-        this.props.selectCreditCardAction(null);
+        this.props.setCardsAction(null);
+        this.props.selectCardAction(null);
       }
     });
 

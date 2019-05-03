@@ -57,17 +57,41 @@ export class CheckoutValidation {
     return { errors, isValidated: !Object.keys(errors).length };
 	}
 
-	static creditCard(values) {
+	/**
+	 *
+	 *
+	 * @static
+	 * @param {Object} values
+	 * @param {String} type - credit|debit
+	 * @returns
+	 * @memberof CheckoutValidation
+	 */
+	static card(values, type) {
 		const errors = {};
 		const required = [
-			'creditCardNumber',
-			'creditCardName',
-			'creditCardExp',
-			'creditCardCvv'
+			'cardNumber',
+			'cardName',
+			'cardExp',
+			'cardCvv'
 		];
-
-		for(let i of required) {
-			if(!values[i]) errors[i] = 'Campo obrigatório.';
+		
+		const ids = {
+			credit: [
+				'creditCardNumber',
+				'creditCardName',
+				'creditCardExp',
+				'creditCardCvv'
+			],
+			debit: [
+				'debitCardNumber',
+				'debitCardName',
+				'debitCardExp',
+				'debitCardCvv'
+			]
+		}[type];
+		
+		for(let i in required) {
+			if(!values[required[i]]) errors[ids[i]] = 'Campo obrigatório.';
     }
     
     return { errors, isValidated: !Object.keys(errors).length };
