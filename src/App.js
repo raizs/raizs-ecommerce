@@ -30,6 +30,7 @@ import { About } from './containers/about';
 import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
 import { Checkout } from './containers/checkout';
+import { Landing } from './containers/landing';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -69,7 +70,7 @@ class App extends BaseContainer {
 
     this.controller.initialFetch();
 
-    const scroll = new SmoothScroll('a[href^="#"]', {
+    new SmoothScroll('a[href^="#"]', {
       speed: 750,
       speedAsDuration: true
     });
@@ -106,7 +107,7 @@ class App extends BaseContainer {
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>
-        <div className="App">
+        <div className='App'>
           <TopHeader
             history={history}
             handleSelectDate={handleSelectDate}
@@ -114,10 +115,11 @@ class App extends BaseContainer {
           />
           <Header {...headerProps} />
           <Switch>
-            <Route path="/catalogo" exact component={Catalog} />
-            <Route path="/carrinho" exact component={Cart} />
-            <Route path="/checkout" exact component={Checkout} />
-            <Route path="/quem-somos" exact component={About} />
+            <Route path='/' exact component={Landing} />
+            <Route path='/catalogo' exact component={Catalog} />
+            <Route path='/carrinho' exact component={Cart} />
+            <Route path='/checkout' exact component={Checkout} />
+            <Route path='/quem-somos' exact component={About} />
           </Switch>
           <Footer history={history} />
         </div>

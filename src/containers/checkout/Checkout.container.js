@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles, Button } from '@material-ui/core';
+import { withFirebase } from 'react-redux-firebase';
 import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
@@ -15,7 +16,6 @@ import {
   selectCardAction
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
-import { withFirebase } from 'react-redux-firebase';
 
 const CONTENT_MAX_WIDTH = 1100;
 
