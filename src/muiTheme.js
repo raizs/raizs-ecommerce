@@ -81,6 +81,13 @@ const theme = createMuiTheme({
       textAlign: 'center',
       marginBottom: 2 * SPACING_UNIT
     },
+    raizs: {
+      fontWeight: 400,
+      fontSize: XXL,
+      lineHeight: '54px',
+      fontFamily: 'raizs',
+      textAlign: 'center'
+    },
     textEllipsis: {
       textOverflow: 'ellipsis',
       overflow: 'hidden',

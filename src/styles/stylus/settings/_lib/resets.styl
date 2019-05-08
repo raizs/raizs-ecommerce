@@ -18,12 +18,20 @@ th, td, tr, aside, caption, sup, sub, q, small
 a
 	text-decoration none
 
+@font-face {
+	font-family: 'raizs';
+	src: url('/fonts/raizs.eot');
+  src: url('/fonts/raizs.woff2') format('woff2'),
+      url('/fonts/raizs.woff') format('woff'),
+      url('/fonts/raizs.otf') format('truetype');
+}
 input:focus
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 select:focus
 textarea:focus
 button:focus

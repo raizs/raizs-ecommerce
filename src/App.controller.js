@@ -1,6 +1,12 @@
 import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
-import { User, Categories, UserAddresses, Cards } from './entities';
-import { UserRepository, UserAddressesRepository, CategoriesRepository, PaymentRepository } from './repositories';
+import { User, Categories, Cards, Products } from './entities';
+import {
+  UserRepository,
+  UserAddressesRepository,
+  CategoriesRepository,
+  PaymentRepository,
+  ProductsRepository
+} from './repositories';
 
 export class AppController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -9,6 +15,7 @@ export class AppController extends BaseController {
     this.userRepo = new UserRepository();
     this.userAddressesRepo = new UserAddressesRepository();
     this.categoriesRepo = new CategoriesRepository();
+    this.productsRepo = new ProductsRepository();
     this.paymentRepo = new PaymentRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
@@ -17,27 +24,35 @@ export class AppController extends BaseController {
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
     this.logout = this.logout.bind(this);
 
-    this.handleSelectDate = this.handleSelectDate.bind(this);
-
+    
     // handles
+    this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
   }
 
   async initialFetch() {
-    const { setCategoriesAction } = this.getProps();
+    const { setCategoriesAction, setPopularProductsAction } = this.getProps();
     
     const promises = [
-      this.categoriesRepo.fetchCategories()
+      this.categoriesRepo.fetchCategories(),
+      this.productsRepo.fetchPopularProducts()
     ];
 
     const [
-      categoriesPromise
+      categoriesPromise,
+      popularProductsPromise
     ] = await Promise.all(promises);
 
     if(!categoriesPromise.err) {
       const categories = new Categories(categoriesPromise.data);
       
       setCategoriesAction(categories);
+    }
+
+    if(!popularProductsPromise.err) {
+      const popularProducts = new Products(popularProductsPromise.data, 'popularProducts');
+
+      setPopularProductsAction(popularProducts);
     }
   }
 

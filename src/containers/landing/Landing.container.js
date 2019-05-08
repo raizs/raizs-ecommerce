@@ -4,30 +4,39 @@ import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core';
 import { withFirebase } from 'react-redux-firebase';
 import compose from 'recompose/compose';
-import { abSections } from '../../assets';
+import Slider from 'react-slick';
 
-const actions = {};
+import { abSections } from '../../assets';
+import { updateCartAction } from '../../store/actions';
+import { CatalogProduct, SliderArrow } from '../../molecules';
+import { LandingController } from './Landing.controller';
+import { BaseContainer } from '../../helpers';
+
+const actions = { updateCartAction };
 
 const styles = theme => ({
-  topSection: {
-    height: window.innerHeight - 96,
-    textAlign: 'center',
+  wrapper: {
     backgroundColor: theme.palette.gray.bg
   },
-  h1: {
-    paddingTop: '144px',
-    fontSize: theme.fontSizes.XXL,
-    lineHeight: '54px',
-    fontWeight: 400
+  topSection: {
+    height: window.innerHeight - 96,
+    textAlign: 'center'
   },
-  h2: {
+  title: {
+    ...theme.typography.raizs,
+    marginTop: 6 * theme.spacing.unit
+  },
+  topH1: {
+    ...theme.typography.raizs,
+    paddingTop: '120px'
+  },
+  topH2: {
     marginTop: '48px',
     fontSize: theme.fontSizes.LG,
     fontWeight: 700,
     lineHeight: '32px'
   },
   abSections: {
-    backgroundColor: theme.palette.gray.bg,
     padding: '64px',
     display: 'flex',
     justifyContent: 'center', 
@@ -41,11 +50,7 @@ const styles = theme => ({
     height: '320px',
     '& > div': {
       display: 'inline-block',
-      verticalAlign: 'middle',
-      '& > img': {
-        height: '100%',
-        width: '100%'
-      }
+      verticalAlign: 'middle'
     },
     '& + div': {
       marginTop: 3 * theme.spacing.unit
@@ -60,15 +65,38 @@ const styles = theme => ({
     '& > .description': {
       fontSize: theme.fontSizes.MD,
       color: theme.palette.gray.main,
-      fontWeight: 400
+      fontWeight: 400,
+      lineHeight: theme.fontSizes.MMD,
+      whiteSpace: 'pre-wrap'
     }
   },
   abImage: {
-    height: '100%'
+    height: '100%',
+    '& > img': {
+      height: '100%',
+      maxWidth: '100%',
+      borderRadius: theme.spacing.unit
+    }
+  },
+  sliderWrapper: {
+    position: 'relative',
+    height: '360px',
+    padding: '0 64px',
+    '& .slick-slide': {
+      display: 'inline-block',
+      verticalAlign: 'top',
+      '& > div:focus, & > div > div:focus': {
+        outline: 'none'
+      }
+    }
   }
 });
 
-class Landing extends Component {
+class Landing extends BaseContainer {
+  constructor(props) {
+    super(props, LandingController);
+  }
+
   state = {
     showTopButton: true 
   }
@@ -80,7 +108,7 @@ class Landing extends Component {
   _renderAbSections() {
     const { classes } = this.props;
 
-    return abSections.map(({ a, b }) => {
+    return abSections.map(({ a, b, key }) => {
 
       const contentTypes = {
         text: el => (
@@ -103,30 +131,61 @@ class Landing extends Component {
               [`margin${el.section === 'a' ? 'Right' : 'Left'}`]: '24px'
             }}
           >
-            <img src={el.src} alt={el.alt} />
+            <img src={el.src} alt={el.alt} style={{ float: el.section === 'b' ? 'right' : 'left' }} />
           </div>
         )
       };
 
       return (
-        <div className={classes.abSection}>
+        <div key={key} className={classes.abSection}>
           {contentTypes[a.type](a)}
           {contentTypes[b.type](b)}
         </div>
       )
     });
   }
+
+  _renderPopularProducts() {
+    const { classes, popularProducts, cart } = this.props;
+    const { handleUpdateCart } = this.controller;
+
+    const settings = {
+      slidesToShow: Math.floor(window.innerWidth / 256) - 1,
+      slidesToScroll: Math.floor(window.innerWidth / 256) - 1,
+      prevArrow: <SliderArrow to='prev' />,
+      nextArrow: <SliderArrow to='next' />,
+      infinite: false,
+      draggable: false,
+    };
+
+    return popularProducts && popularProducts.all.length ? (
+      <Slider {...settings}>
+        {popularProducts.all.map(product => {
+          return (
+            <div>
+              <CatalogProduct
+                cart={cart}
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateCart}
+               />
+            </div>
+          )
+        })}
+      </Slider>
+    ) : null
+  }
   
   render() {
     const { classes } = this.props;
 
     return (
-      <div>
-        <section className={classes.topSection}>
-          <h1 className={classes.h1}>
+      <div className={classes.wrapper}>
+        <section id='top' className={classes.topSection}>
+          <h1 className={classes.topH1}>
             ORGÂNICOS CERTIFICADOS,<br/>DE PEQUENOS PRODUTORES,<br/>NA PORTA DA SUA CASA
           </h1>
-          <h2 className={classes.h2}>
+          <h2 className={classes.topH2}>
             Você escolhe o dia que quer receber, de segunda a sábado.<br/>
             Simples, rápido e seguro.
           </h2>
@@ -136,13 +195,20 @@ class Landing extends Component {
             {this._renderAbSections()}
           </div>
         </section>
+        <section id='ourProducts'>
+          <h3 className={classes.title}>Conheça nossos produtos</h3>
+          <div className={classes.sliderWrapper}>
+            {this._renderPopularProducts()}
+          </div>
+        </section>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-
+  popularProducts: state.products.popularProducts,
+  cart: state.cart.current
 });
 
 export default compose(

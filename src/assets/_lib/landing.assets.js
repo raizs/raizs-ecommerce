@@ -13,14 +13,15 @@ export const abSections = [
       type: 'image',
       src: 'https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/news/policy/eu-auditors-to-scrutinise-organic-food-supply-chain/7912780-1-eng-GB/EU-auditors-to-scrutinise-organic-food-supply-chain_wrbm_large.jpg',
       alt: 'receba em casa'
-    }
+    },
+    key: 1
   },
   {
     a: {
       section: 'a',
       width: '60%',
       type: 'image',
-      src: 'https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/news/policy/eu-auditors-to-scrutinise-organic-food-supply-chain/7912780-1-eng-GB/EU-auditors-to-scrutinise-organic-food-supply-chain_wrbm_large.jpg',
+      src: 'http://seletti.com.br/wp-content/uploads/2014/02/verduras-590x340.jpg',
       alt: 'receba em casa'
     },
     b: {
@@ -29,7 +30,8 @@ export const abSections = [
       type: 'text',
       title: 'Verduras colhidas no dia da sua entrega',
       description: 'As verduras chegam de pequenos produtores na madrugada, logo antes de te enviarmos.\nMais fresco que isso só na roça!'
-    }
+    },
+    key: 2
   },
   {
     a: {
@@ -43,8 +45,9 @@ export const abSections = [
       section: 'b',
       width: '60%',
       type: 'image',
-      src: 'https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/news/policy/eu-auditors-to-scrutinise-organic-food-supply-chain/7912780-1-eng-GB/EU-auditors-to-scrutinise-organic-food-supply-chain_wrbm_large.jpg',
+      src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2vBFdNLeCtejbfnNMFHdmVJHClfsokW7hDqTw4a_rHFw5cyaW',
       alt: 'receba em casa'
-    }
+    },
+    key: 3
   }
 ]

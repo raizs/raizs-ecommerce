@@ -36,7 +36,9 @@ export {
 
 export {
   SET_PRODUCTS,
-  setProductsAction
+  SET_POPULAR_PRODUCTS,
+  setProductsAction,
+  setPopularProductsAction
 } from './_lib/products.actions';
 
 export {

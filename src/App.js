@@ -20,7 +20,8 @@ import {
   selectUserAddressAction,
   setCardsAction,
   selectCardAction,
-  selectDateAction
+  selectDateAction,
+  setPopularProductsAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -43,7 +44,8 @@ const actions = {
   selectUserAddressAction,
   setCardsAction,
   selectCardAction,
-  selectDateAction
+  selectDateAction,
+  setPopularProductsAction
 };
 
 class App extends BaseContainer {
