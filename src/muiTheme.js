@@ -22,6 +22,7 @@ const MD = '16px';
 const MMD = '20px';
 const LG = '24px';
 const XL = '36px';
+const XXL = '48px';
 
 const nXXS = 11;
 const nXS = 12;
@@ -30,6 +31,7 @@ const nMD = 16;
 const nMMD = 20;
 const nLG = 24;
 const nXL = 36;
+const nXXL = 48;
 
 const SPACING_UNIT = 8;
 const HEADER_HEIGHT = '64px';
@@ -108,7 +110,7 @@ const theme = createMuiTheme({
       }
     }
   },
-  fontSizes: { XXS, XS, SM, MD, MMD, LG, XL, nXXS, nXS, nSM, nMD, nMMD, nLG, nXL },
+  fontSizes: { XXS, XS, SM, MD, MMD, LG, XL, XXL, nXXS, nXS, nSM, nMD, nMMD, nLG, nXL, nXXL },
   palette: {
     green: {
       main: GREEN

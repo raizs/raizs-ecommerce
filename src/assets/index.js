@@ -3,5 +3,6 @@ export * from './_lib/catalog.assets';
 export * from './_lib/categories.assets';
 export * from './_lib/checkout.assets';
 export * from './_lib/footer.assets';
+export * from './_lib/landing.assets';
 export * from './_lib/payment.assets';
 export * from './_lib/userMenu.assets';

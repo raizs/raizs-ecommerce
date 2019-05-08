@@ -115,7 +115,7 @@ class App extends BaseContainer {
           />
           <Header {...headerProps} />
           <Switch>
-            <Route path='/' exact component={Landing} />
+            <Route onEnter={(a,b,c) => console.log('on enter', a,b,c)} path='/' exact component={Landing} />
             <Route path='/catalogo' exact component={Catalog} />
             <Route path='/carrinho' exact component={Cart} />
             <Route path='/checkout' exact component={Checkout} />
