@@ -16,7 +16,8 @@ export class MiniDatePickerHelper {
         'dddd'
       ];
 
-      const date = moment().add(i, 'd').format(`DD/MM - ${momentSuffix[i]}`);
+      const momentDate = moment().add(i, 'd')
+      const date = momentDate.format(`DD/MM - ${momentSuffix[i]}`);
       const prefix = date.split(' ')[0];
       const suffix = date.split(' ').pop();
       let bigSuffix = suffix;
@@ -28,7 +29,8 @@ export class MiniDatePickerHelper {
         prefix,
         suffix,
         bigSuffix,
-        value: i
+        value: i,
+        momentDate
       });
     }
 

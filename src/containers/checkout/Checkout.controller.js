@@ -613,9 +613,9 @@ export class CheckoutController extends BaseController {
   }
 
   async handleConfirmOrder() {
-    const { cart, user, selectedUserAddress, selectedCard } = this.getProps();
+    const { cart, user, selectedUserAddress, selectedCard, momentDate } = this.getProps();
 
-    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard });
+    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate });
 
     const promise = await this.paymentRepo.createOrder(toApi);
 

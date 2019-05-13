@@ -81,10 +81,12 @@ export class StateToApi {
     };
   }
 
-  static checkout({ user, cart, selectedUserAddress, selectedCard }) {
+  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate }) {
     return {
       toPg: {
-        resPartnerId: user.id
+        resPartnerId: user.id,
+        date:momentDate.format("YYYY-MM-DD"),
+        address: selectedUserAddress
       },
       toMp: {
         customer_id: user.mpid,

@@ -445,7 +445,8 @@ const mapStateToProps = state => ({
   selectedUserAddress: state.userAddresses.selected,
   cards: state.cards.model,
   selectedCard: state.cards.selected,
-  selectedDate: state.datePicker.selected
+  selectedDate: state.datePicker.selected,
+  momentDate: state.datePicker.momentDate
 });
 
 export default compose(
