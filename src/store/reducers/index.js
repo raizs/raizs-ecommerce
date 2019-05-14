@@ -11,10 +11,11 @@ import { productsReducer } from "./_lib/products.reducer"
 import { unitsOfMeasureReducer } from "./_lib/unitsOfMeasure.reducer"
 import { userReducer } from "./_lib/user.reducer"
 import { userAddressesReducer } from "./_lib/userAddresses.reducer"
+import { saleOrdersReducer } from "./_lib/saleOrders.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
-  
+  saleOrders: saleOrdersReducer,
   brands: productBrandsReducer,
   cart: cartReducer,
   categories: categoriesReducer,

@@ -9,8 +9,4 @@ export class PaymentRepository extends BaseRepository {
   listCards(customer_id) {
     return this.get(`payment/cards?customer_id=${customer_id}`);
   }
-
-  createOrder(body) {
-    return this.post('payment/createOrder', body);
-  }
 }

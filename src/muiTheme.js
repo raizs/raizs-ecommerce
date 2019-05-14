@@ -9,6 +9,7 @@ const DARK_GRAY_BG = '#DEDEDE';
 const GRAY_BG = '#EFEFEF';
 
 const GRAY_BORDER = '#D1DBE3';
+const GRAY_LIGHT = '#BFBFBF';
 
 const RED = '#FF6E60';
 
@@ -126,7 +127,8 @@ const theme = createMuiTheme({
       main: GRAY,
       bg: GRAY_BG,
       darkBg: DARK_GRAY_BG,
-      border: GRAY_BORDER
+      border: GRAY_BORDER,
+      light: GRAY_LIGHT
     },
     grey: {
       main: GRAY,
