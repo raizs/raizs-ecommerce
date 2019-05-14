@@ -1,0 +1,1 @@
+export { DashboardGeneral } from './_lib/DashboardGeneral.component';
