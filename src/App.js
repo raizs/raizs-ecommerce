@@ -34,6 +34,7 @@ import { Catalog } from './containers/catalog';
 import { Checkout } from './containers/checkout';
 import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
+import { NotFound } from './containers/notFound';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -126,6 +127,8 @@ class App extends BaseContainer {
             <Route path='/checkout' exact component={Checkout} />
             <Route path='/quem-somos' exact component={About} />
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
+            <Route path='*' component={NotFound} />
+
           </Switch>
           <Footer history={history} />
         </div>
