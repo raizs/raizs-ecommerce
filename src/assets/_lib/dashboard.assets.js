@@ -17,3 +17,25 @@ export const dashboardSections = [
   },
 
 ];
+
+
+export const dashboardGeneralWhiteBoxes = [
+  {
+    subtitle:"Total doado a pequenos produtores",
+    id:"donation",
+    img:"/icons/agricultor1.png",
+    price:true
+  },
+  {
+    subtitle:"Total de orgânicos consumidos",
+    id:"totalItems",
+    img:"/icons/agricultor1.png",
+    price:false
+  },
+  {
+    subtitle:"Total de agrotóxicos a menos gerados",
+    id:"savedAgrotoxics",
+    img:"/icons/agricultor1.png",
+    price:false
+  },
+];

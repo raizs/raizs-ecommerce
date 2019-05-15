@@ -8,7 +8,7 @@ import classnames from "classnames"
 const styles = theme => ({
   box:{
     display:"inline-block",
-    width:"300px",
+    width:"250px",
     height:"800px",
     // backgroundColor:"red",
     paddingLeft:"100px",
@@ -30,7 +30,7 @@ const styles = theme => ({
   },
   selectedLink:{
     fontWeight:800
-  }
+  },
 });
 
 class SideMenu extends Component{

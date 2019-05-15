@@ -128,7 +128,7 @@ class App extends BaseContainer {
             <Route path='/checkout' exact component={Checkout} />
             <Route path='/quem-somos' exact component={About} />
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
-            <Route path='/painel/*' component={Dashboard} />
+            <Route path='/painel' component={Dashboard} />
             <Route path='*' component={NotFound} />
 
           </Switch>
