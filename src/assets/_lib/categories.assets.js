@@ -156,3 +156,26 @@ export const subcategories = {
     }
   ]
 };
+
+export const categoryImages = {
+  'nossa-horta': {
+    src: 'https://pbs.twimg.com/profile_images/691691850881732608/b5xc_7Vz.png',
+    alt: 'nossa horta'
+  },
+  'mercearia': {
+    src: 'https://pbs.twimg.com/profile_images/691691850881732608/b5xc_7Vz.png',
+    alt: 'mercearia'
+  },
+  'ovos-e-carnes': {
+    src: 'https://pbs.twimg.com/profile_images/691691850881732608/b5xc_7Vz.png',
+    alt: 'ovos e carnes'
+  },
+  'bebidas-e-laticinios': {
+    src: 'https://pbs.twimg.com/profile_images/691691850881732608/b5xc_7Vz.png',
+    alt: 'bebidas e laticinios'
+  },
+  'corpo-e-casa': {
+      src: 'https://pbs.twimg.com/profile_images/691691850881732608/b5xc_7Vz.png',
+      alt: 'corpo e casa'
+  }
+};

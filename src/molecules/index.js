@@ -1,4 +1,6 @@
 export { CatalogProduct } from './_lib/CatalogProduct.molecule';
+export { CategoryItem } from './_lib/CategoryItem.molecule';
+export { ClientComment } from './_lib/ClientComment.molecule';
 export { CollapsibleTimelineItem } from './_lib/CollapsibleTimelineItem.molecule';
 export { FacebookButton } from './_lib/FacebookButton.molecule';
 export { GoogleButton } from './_lib/GoogleButton.molecule';
