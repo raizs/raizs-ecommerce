@@ -23,7 +23,8 @@ import {
   setCardsAction,
   selectCardAction,
   selectDateAction,
-  setPopularProductsAction
+  setPopularProductsAction,
+  setSaleOrdersAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -34,6 +35,9 @@ import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
 import { Checkout } from './containers/checkout';
 import { Landing } from './containers/landing';
+import { OrderCompleted } from './containers/orderCompleted';
+import { NotFound } from './containers/notFound';
+import { Dashboard } from './containers/dashboard';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -47,7 +51,8 @@ const actions = {
   setCardsAction,
   selectCardAction,
   selectDateAction,
-  setPopularProductsAction
+  setPopularProductsAction,
+  setSaleOrdersAction
 };
 
 class App extends BaseContainer {
@@ -129,6 +134,10 @@ class App extends BaseContainer {
             <Route path='/carrinho' exact component={Cart} />
             <Route path='/checkout' exact component={Checkout} />
             <Route path='/quem-somos' exact component={About} />
+            <Route path='/pedido-finalizado' exact component={OrderCompleted} />
+            <Route path='/painel' component={Dashboard} />
+            <Route path='*' component={NotFound} />
+
           </Switch>
           <Footer history={history} />
         </div>

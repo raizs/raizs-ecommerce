@@ -6,3 +6,4 @@ export * from './_lib/footer.assets';
 export * from './_lib/landing.assets';
 export * from './_lib/payment.assets';
 export * from './_lib/userMenu.assets';
+export * from './_lib/dashboard.assets';

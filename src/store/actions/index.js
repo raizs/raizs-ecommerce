@@ -57,3 +57,8 @@ export {
   setUserAddressesAction,
   selectUserAddressAction
 } from './_lib/userAddresses.actions';
+
+export {
+  SET_SALE_ORDERS,
+  setSaleOrdersAction,
+} from './_lib/saleOrders.actions';

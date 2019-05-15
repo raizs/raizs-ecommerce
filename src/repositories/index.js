@@ -8,3 +8,4 @@ export { ProductBrandsRepository } from './_lib/ProductBrands.repository';
 export { UnitsOfMeasureRepository } from './_lib/UnitsOfMeasure.repository';
 export { UserRepository } from './_lib/User.repository';
 export { UserAddressesRepository } from './_lib/UserAddresses.repository';
+export { SaleOrdersRepository } from './_lib/SaleOrders.repository';

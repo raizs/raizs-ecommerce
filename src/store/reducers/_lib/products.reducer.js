@@ -6,7 +6,7 @@ const cachedProducts = Cache.getItem('products');
 const cachedPopularProducts = Cache.getItem('popularProducts');
 
 const initialState = {
-	model: cachedProducts ? new Products(cachedProducts) : null,
+	model: cachedProducts ? new Products(cachedProducts) : new Products([]),
 	popularProducts: cachedPopularProducts ? new Products(cachedPopularProducts) : null
 };
 

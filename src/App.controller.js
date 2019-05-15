@@ -1,11 +1,12 @@
 import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
-import { User, Categories, Cards, Products } from './entities';
+import { User, Categories, Cards, Products, SaleOrders } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,
   CategoriesRepository,
   PaymentRepository,
-  ProductsRepository
+  ProductsRepository,
+  SaleOrdersRepository,
 } from './repositories';
 
 export class AppController extends BaseController {
@@ -17,6 +18,7 @@ export class AppController extends BaseController {
     this.categoriesRepo = new CategoriesRepository();
     this.productsRepo = new ProductsRepository();
     this.paymentRepo = new PaymentRepository();
+    this.saleOrdersRepo = new SaleOrdersRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.fetchPgUser = this.fetchPgUser.bind(this);
@@ -62,6 +64,7 @@ export class AppController extends BaseController {
       selectUserAddressAction,
       setCardsAction,
       selectCardAction,
+      setSaleOrdersAction
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -84,6 +87,20 @@ export class AppController extends BaseController {
         setCardsAction(newCards);
         selectCardAction(newCards.getDefaultCard());
       }
+      const ordersPromise = await this.saleOrdersRepo.getOrders(pgUser.data.id)
+      if(!ordersPromise.err) {
+        const saleOrders = new SaleOrders(ordersPromise.data)
+        setSaleOrdersAction(saleOrders)
+      }
+
+
+
+
+
+
+
+
+
     } else {
       await setUserAction(new User({}));
       setUserAction(null);
