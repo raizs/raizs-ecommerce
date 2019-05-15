@@ -4,12 +4,14 @@ import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withFirebase } from 'react-redux-firebase';
+import { ToastContainer } from 'react-toastify';
 import compose from 'recompose/compose';
 import SmoothScroll from 'smooth-scroll';
 
 import 'img-2';
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   closeUserPopperAction,
@@ -115,6 +117,11 @@ class App extends BaseContainer {
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <div className='App'>
+          <ToastContainer
+            autoClose={5000}
+            toastClassName='raizs-toast'
+            progressClassName='raizs-toast-progress'
+          />
           <TopHeader
             history={history}
             handleSelectDate={handleSelectDate}
@@ -122,7 +129,7 @@ class App extends BaseContainer {
           />
           <Header {...headerProps} />
           <Switch>
-            <Route onEnter={(a,b,c) => console.log('on enter', a,b,c)} path='/' exact component={Landing} />
+            <Route path='/' exact component={Landing} />
             <Route path='/catalogo' exact component={Catalog} />
             <Route path='/carrinho' exact component={Cart} />
             <Route path='/checkout' exact component={Checkout} />

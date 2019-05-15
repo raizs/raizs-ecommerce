@@ -50,6 +50,11 @@ class About extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.querySelector('body').style.overflow = 'auto';
+    document.querySelector('html').style.overflow = 'auto';
+  }
+
   /**
    * _renderTimelineSections - renders the correct section based on the
    * section id

@@ -186,7 +186,12 @@ class Header extends Component {
   render() {
     return (
       <header className='app-header'>
-        <img alt='brand-logo' className='logo' src='https://raizs.vteximg.com.br/arquivos/logotipo-raizs.png?v=635947045802400000' />
+        <img
+          alt='brand-logo'
+          className='logo'
+          src='https://raizs.vteximg.com.br/arquivos/logotipo-raizs.png?v=635947045802400000'
+          onClick={() => this.props.history.push('/')}
+        />
         <div className='left-content'>
           {this._renderLeftContent()}
         </div>
