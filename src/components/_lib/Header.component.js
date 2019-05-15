@@ -172,7 +172,7 @@ class Header extends Component {
         />
         <HeaderUserButton {...headerUserButtonProps} />
         <div
-          onClick={() => history.push('carrinho')}
+          onClick={() => history.push('/carrinho')}
         >
           <ReactSvg
             src='/icons/cesta.svg'

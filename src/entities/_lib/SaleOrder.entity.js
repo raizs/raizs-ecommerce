@@ -4,7 +4,6 @@ import moment from "moment";
 export class SaleOrder extends BaseModel {
   constructor(order) {
     super();
-    console.log(order)
     this.shippingEstimatedDate = moment(order.shippingEstimatedDate, "YYYY-MM-DD");
     this.id = order.id;
     this.amountTotal = parseFloat(order.amountTotal);
