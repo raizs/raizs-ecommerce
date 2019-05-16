@@ -4,11 +4,11 @@ export const dashboardSections = [
     title: "Geral"
   },
   {
-    route:"/painel/user",
+    route:"/painel/usuario",
     title: "Usuário"
   },
   {
-    route:"/painel/subscription",
+    route:"/painel/assinaturas",
     title: "Assinaturas"
   },
   {
@@ -39,3 +39,49 @@ export const dashboardGeneralWhiteBoxes = [
     price:false
   },
 ];
+
+export const dashboardUserPersonalData = [
+  {
+    label: "NOME",
+    id: "name"
+  },
+  {
+    label: "EMAIL",
+    id: "email"
+  },
+  {
+    label: "CPF",
+    id: "cpfString"
+  },
+  {
+    label: "TELEFONE",
+    id: "phoneString"
+  },
+  {
+    label: "SOBRENOME",
+    id: "lastName"
+  },
+]
+
+
+export const dashboardGeneralForm = [
+  {
+    label: "NOME",
+    id: "name"
+  },
+  {
+    label: "CPF",
+    id: "cpfString",
+    format: "formatCpf"
+  },
+  {
+    label: "TELEFONE",
+    id: "phone",
+    format: "formatPhone"
+  },
+  {
+    label: "SOBRENOME",
+    id: "lastName",
+  },
+]
+

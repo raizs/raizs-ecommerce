@@ -1,4 +1,4 @@
-import { BaseModel } from "../../helpers";
+import { BaseModel, Formatter } from "../../helpers";
 import { UserAddresses } from "./UserAddresses.entity";
 
 export class User extends BaseModel {
@@ -13,8 +13,10 @@ export class User extends BaseModel {
     this.mpid = user.mpid;
     this.name = user.name;
     this.phone = user.phone || '';
+    this.phoneString = Formatter.formatPhone(this.phone) || "Sem telefone"
     this.lastName = user.lastName;
     this.cpf = this._checkCpf(user.cnpjCpf);
+    this.cpfString = Formatter.formatCpf(this.cpf)
     this.cnpj = this._checkCnpj(user.cnpjCpf);
     this.active = user.active;
     this.isSupplier = user.supplier;
@@ -70,7 +72,7 @@ export class User extends BaseModel {
   }
 
   _checkCpf(value) {
-    if(!value) return '';
+    if(!value) return '42061251803';
     const length = typeof value === 'number' ? value.toSrting().length : value.length;
     if(length <= 11) return value;
     return '';

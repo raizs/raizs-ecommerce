@@ -63,8 +63,14 @@ class DashboardGeneral extends Component{
     loading:true
   }
 
-    componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps){
     if (nextProps.saleOrders){
+      this.setState({loading:false})
+    }
+  }
+
+  componentWillMount(){
+    if (this.props.saleOrders){
       this.setState({loading:false})
     }
   }
@@ -72,9 +78,9 @@ class DashboardGeneral extends Component{
 
   _renderWhiteBoxes(){
     const { classes } = this.props;
-    return dashboardGeneralWhiteBoxes.map(box=>{
+    return dashboardGeneralWhiteBoxes.map((box, key)=>{
       return(
-        <div className={classes.whiteBox}>
+        <div className={classes.whiteBox} key={key}>
           <div className={classes.whiteBoxSection}>
             <h2 className={classes.whiteBoxTitle}>
               {box.subtitle}

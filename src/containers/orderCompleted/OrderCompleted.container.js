@@ -193,7 +193,7 @@ class OrderCompleted extends Component{
 					<div className={shippingTimeValue}>{order.shippingTimeRange} </div>
 				</div>
 				<div className={buttonBox}>
-					<Button className={button} onClick={()=>this.props.history.push("dashboard/sale-orders")} >
+					<Button className={button} onClick={()=>this.props.history.push("/dashboard/sale-orders")} >
 						Visualizar Pedido    
 					</Button>
 				</div>

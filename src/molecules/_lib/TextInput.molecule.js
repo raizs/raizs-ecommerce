@@ -11,7 +11,9 @@ const TextInput = props => {
     handleBlur,
     placeholder,
     error,
-    disabled
+    disabled,
+    labelClassName,
+    label
   } = props;
 
   const classNames = ['text-input', className];
@@ -19,6 +21,7 @@ const TextInput = props => {
 
   return (
     <div id={`text-input-${id}`} className={classnames(classNames)}>
+      {!label || <div className={labelClassName}>{label}</div>}
       <input
         id={id}
         value={value}
