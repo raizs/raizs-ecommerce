@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { withStyles, Icon, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
-import classnames from 'classnames'
 
 import { SideMenu } from '../../molecules';
 import { Route, Switch,Redirect } from 'react-router-dom';
@@ -28,9 +27,17 @@ const styles = theme => ({
 
 class Dashboard extends Component{
 
+  constructor(props){
+    super(props)
+  }
+
+  state = {
+    name:""
+  }
+
 	
 	render() {
-		const { wrapper, withMenuComponent } = this.props.classes;
+    const { wrapper, withMenuComponent } = this.props.classes;
 
 	    return (
 			<div className={wrapper}>
@@ -43,7 +50,7 @@ class Dashboard extends Component{
             <DashboardUser />
           </div></Route>
           <Route path='/painel/editar/:form' ><div className={withMenuComponent}>
-            <DashboardForms />
+            <DashboardForms controller={this.controller}/>
           </div></Route>
           <Route path="/painel*" component={() => <Redirect to="/painel/geral" />} />
 

@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import classnames from "classnames";
 import { connect } from "react-redux";
-import { dashboardGeneralWhiteBoxes } from "../../../../assets";
 import { Loading, TextInput } from '../../../../molecules';
+import { DashboardFormsController } from "../../DashboardForms.controller"
+import { BaseContainer } from '../../../../helpers';
+import { dashboardGeneralForm } from "../../../../assets";
+
 
 
 
 const styles = theme => ({
+  wrapper: {
+  	display:"flex",
+  	justifyContent:"center",
+  	alignItems:"center",
+  	flexDirection: "column",
+    width:"100%",
+  },
   form:{
     width:"100%",
     maxWidth:"800px",
@@ -19,7 +29,9 @@ const styles = theme => ({
     borderRadius: theme.spacing.unit,
   },
   inputBox:{
-    width:"33%"
+    width:"50%",
+    display:"inline-block",
+    marginBottom: 2*theme.spacing.unit
   },
   inputLabel:{
     fontSize: theme.fontSizes.XS,
@@ -34,60 +46,77 @@ const styles = theme => ({
       height: "40px"
 
     }
+  },
+  buttonBox:{
+  	textAlign:"center"
+  },
+  button: {
+    ...theme.buttons.primary,
+    fontSize: theme.fontSizes.MD,
+    marginTop: 3 * theme.spacing.unit,
+    width:"200px"
   }
 
 });
 
-class DashboardGeneralForm extends Component{
+class DashboardGeneralForm extends BaseContainer{
   constructor(props){
-    super(props)
+    super(props, DashboardFormsController)
 
   }
 
   state={
-    loading:true,
-    user:{
-
+    loading:true
+  }
+  
+  
+  componentWillMount(){
+    if (this.props.user){
+      this.controller.userApiToState(this.props.user)
     }
   }
+
 
   componentWillReceiveProps(nextProps){
     if (nextProps.user){
-      this.setState({loading:false, user: nextProps.user})
+      this.controller.userApiToState(nextProps.user)
     }
   }
-  componentWillMount(){
-    if (this.props.user){
-      this.setState({loading:false, user: this.props.user})
-    }
-  }
+  
+  
+  _renderInputs(){
+    const { handleChange } = this.controller
+    const { classes } = this.props;
+    return dashboardGeneralForm.map(field=>{
+      return <div className={classes.inputBox}>
+      <TextInput 
+        className={classes.inputValue}
+        id={field.id}
+        value={this.state[field.id]}
+        handleChange={e => handleChange(e, field.format)}
+        label={field.label}
+        labelClassName={classes.inputLabel}
+        />
+    </div>
 
-  render(){
-    const { to, classes, title } = this.props;
+})
 
-    if (this.state.loading){
-      return <div className={classes.form}>
-        <Loading/>
-      </div>
-    }
+}
 
-    const { name } = this.state.user;
-
+render(){
+  const { updateUser } = this.controller
+    const { classes } = this.props
     return (
-      <form className={classes.form}>
-
-        <div className={classes.inputBox}>
-          <TextInput 
-            className={classes.inputValue}
-            id='name'
-            value={name}
-            handleChange={()=>console.log("changing")}
-            label="Label"
-            labelClassName={classes.inputLabel}
-          />
-        </div>
-
-      </form>
+      <div className={classes.wrapper}>
+        <form className={classes.form}>
+          {this._renderInputs()}
+          <div className={classes.buttonBox}>
+            <Button className={classes.button} onClick={updateUser} >
+              Salvar    
+            </Button>
+          </div>
+        </form>
+      </div>
     )
   }
 };

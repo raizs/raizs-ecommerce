@@ -62,3 +62,26 @@ export const dashboardUserPersonalData = [
     id: "lastName"
   },
 ]
+
+
+export const dashboardGeneralForm = [
+  {
+    label: "NOME",
+    id: "name"
+  },
+  {
+    label: "CPF",
+    id: "cpfString",
+    format: "formatCpf"
+  },
+  {
+    label: "TELEFONE",
+    id: "phone",
+    format: "formatPhone"
+  },
+  {
+    label: "SOBRENOME",
+    id: "lastName",
+  },
+]
+

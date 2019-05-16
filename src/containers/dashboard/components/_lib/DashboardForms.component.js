@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter, Route, Switch } from 'react-router';
-import classnames from "classnames";
 import { connect } from "react-redux";
-import { } from "../../../../assets";
-import { Loading } from '../../../../molecules';
+
 import { DashboardGeneralForm } from "../"
-// import { DashboardFormsController } from '../DashboardForms.controller';
+import { DashboardFormsController } from "../../DashboardForms.controller"
+import { BaseContainer } from '../../../../helpers';
+
 
 
 
@@ -48,8 +48,19 @@ class DashboardForms extends Component{
 
   }
 
+  state = {
+    name:""
+  }
+
   render(){
-    const { to, classes } = this.props;
+    const { classes } = this.props;
+    const { name } = this.state;
+
+    const toGeneralForm = {
+      name
+    }
+
+
     const { form } = this.props.match.params
 
     let title = ""
@@ -59,6 +70,7 @@ class DashboardForms extends Component{
       default: title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
 
     }
+    
 
 
     return (
@@ -68,7 +80,7 @@ class DashboardForms extends Component{
           <div className={classes.backButtonText}>Voltar</div>
         </div>
         <h1 className={classes.pageTitle}>{title}</h1>
-        <FormComponent/>
+        <FormComponent  />
       </div>
     )
   }
