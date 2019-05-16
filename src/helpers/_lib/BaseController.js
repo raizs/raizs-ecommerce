@@ -18,5 +18,10 @@ export default class BaseController {
 	
 	baseHandleCheckboxChange(id, currentValue) {
     return { [id]: !currentValue };
-  }
+	}
+	
+	baseHandleUpdateCart({ item, quantity }, cart, updateCartAction) {
+		const newCart = cart.update(item, quantity);
+		updateCartAction(newCart);
+	}
 }

@@ -52,10 +52,8 @@ export class CatalogController extends BaseController {
     }
   }
 
-  async handleUpdateCart({ item, quantity }) {
+  handleUpdateCart({ item, quantity }) {
     const { cart, updateCartAction } = this.getProps();
-
-    const newCart = cart.update(item, quantity);
-    updateCartAction(newCart);
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
   }
 }

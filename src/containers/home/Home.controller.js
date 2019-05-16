@@ -1,13 +1,9 @@
-import React from 'react'
 import { BaseController } from "../../helpers";
-import { NewsletterTargetsRepository } from "../../repositories";
 import { toast } from "react-toastify";
 
-export class LandingController extends BaseController {
-  constructor ({ toState, getState, getProps }) {
-    super({ toState, getState, getProps });
-
-    this.nlRepo = new NewsletterTargetsRepository();
+export class HomeController extends BaseController {
+  constructor({ toState, getProps, getState }) {
+    super({ toState, getProps, getState });
 
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
     this.handleSubmitNewsletter = this.handleSubmitNewsletter.bind(this);

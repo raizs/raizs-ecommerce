@@ -6,11 +6,17 @@ import { withFirebase } from 'react-redux-firebase';
 import compose from 'recompose/compose';
 import Slider from 'react-slick';
 
-import { abSections, categoryImages, mediaObjects } from '../../assets';
+import { abSections, mediaObjects } from '../../assets';
 import { updateCartAction } from '../../store/actions';
-import { CatalogProduct, SliderArrow, CategoryItem, ClientComment, Loading } from '../../molecules';
-import { LandingController } from './Landing.controller';
+import {
+  PopularProductsSlider,
+  CategoriesMosaic,
+  ClientCommentsSlider,
+  MediaSlider,
+  NewsletterSection
+} from '../../components';
 import { BaseContainer } from '../../helpers';
+import { LandingController } from './Landing.controller';
 
 const actions = { updateCartAction };
 
@@ -18,6 +24,11 @@ const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     userSelect: 'none'
+  },
+  primaryButton: {
+    ...theme.buttons.primary,
+    fontSize: theme.fontSizes.LG,
+    display: 'inline-block'
   },
   topSection: {
     height: window.innerHeight - 96,
@@ -80,29 +91,6 @@ const styles = theme => ({
       borderRadius: theme.spacing.unit
     }
   },
-  
-  popularProductsSliderWrapper: {
-    padding: '0 64px 24px 64px',
-    position: 'relative',
-    marginTop: 4 * theme.spacing.unit,
-    '& .slick-slide': {
-      display: 'inline-block',
-      verticalAlign: 'top',
-      '& > div:focus, & > div > div:focus': {
-        outline: 'none'
-      }
-    }
-  },
-  primaryButton: {
-    ...theme.buttons.primary,
-    fontSize: theme.fontSizes.LG,
-    display: 'inline-block'
-  },
-  subtitle: {
-    fontSize: theme.fontSizes.LG,
-    fontWeight: 700,
-    marginTop: 6 * theme.spacing.unit
-  },
 
   subscriptionSection: {
     height: '420px',
@@ -125,108 +113,9 @@ const styles = theme => ({
   commentsSection: {
     padding: '64px 0'
   },
-  commentsSliderWrapper: {
-    position: 'relative',
-    marginTop: 4 * theme.spacing.unit,
-    '& .slick-slider': {
-      padding: `0 ${.48 * window.innerWidth - 332}px !important`
-    },
-    '& .slick-slide': {
-      display: 'inline-block',
-      verticalAlign: 'top',
-      '& > div:focus, & > div > div:focus': {
-        outline: 'none'
-      },
-      '&.slick-active div.wrapper': {
-        border: `1px solid ${theme.palette.green.main}`
-      }
-    },
-    '& .slick-dots': {
-      textAlign: 'center',
-      marginTop: 3 * theme.spacing.unit,
-      '& li': {
-        width: 'auto',
-        display: 'inline-block',
-        margin: '0 4px',
-        cursor: 'pointer',
-        backgroundColor: 'transparent',
-        height: '8px',
-        width: '8px',
-        borderRadius: '50%',
-        '& button': {
-          position: 'absolute',
-          color: 'transparent',
-          backgroundColor: theme.palette.gray.main,
-          height: '8px',
-          width: '8px',
-          borderRadius: '50%',
-          cursor: 'pointer',
-        },
-        '&.slick-active button': {
-          backgroundColor: theme.palette.green.main,
-        }
-      }
-    }
-  },
-
+  
   mediaSection: {
     padding: '80px 0'
-  },
-  mediaSliderWrapper: {
-    position: 'relative',
-    marginTop: 12 * theme.spacing.unit,
-    '& .slick-slide': {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      '& a': {
-        cursor: 'default',
-        textAlign: 'center',
-        '& img': {
-          cursor: 'pointer'
-        },
-        '&:focus': {
-          outline: 'none'
-        }
-      }
-    },
-  },
-
-  newsletterSection: {
-    position: 'relative',
-    width: '100%',
-    backgroundColor: theme.palette.green.main,
-    textAlign: 'center',
-    '& > h5': {
-      color: 'white',
-      fontSize: theme.fontSizes.LG,
-      lineHeight: '28px',
-      fontWeight: 700,
-      marginBottom: 3 * theme.spacing.unit,
-      paddingTop: 6 * theme.spacing.unit
-    },
-    '& > div.input-wrapper': {
-      position: 'relative',
-      display: 'inline-block',
-      width: '720px',
-      paddingBottom: 6 * theme.spacing.unit,
-      '&  > input': {
-        width: '100%',
-        padding: 4 * theme.spacing.unit,
-        borderRadius: theme.spacing.unit,
-        fontSize: theme.fontSizes.MD,
-        '&:focus': {
-          outline: 'none'
-        }
-      },
-      '& > button': {
-        ...theme.buttons.secondary,
-        fontSize: theme.fontSizes.MD,
-        height: '45px',
-        position: 'absolute',
-        right: '32px',
-        top: '20px',
-      }
-    }
   },
 
   familiesSection: {
@@ -256,7 +145,7 @@ class Landing extends BaseContainer {
 
   componentWillMount() {
     // if(window.localStorage.getItem('is_first_login'))
-    //   this.props.history.push('quem-somos');
+    //   this.props.history.push('home');
   }
 
   componentDidMount() {
@@ -302,98 +191,11 @@ class Landing extends BaseContainer {
       )
     });
   }
-
-  _renderPopularProducts() {
-    const { popularProducts, cart } = this.props;
-    const { handleUpdateCart } = this.controller;
-
-    const settings = {
-      slidesToShow: Math.floor(window.innerWidth / 256) - 1,
-      slidesToScroll: Math.floor(window.innerWidth / 256) - 1,
-      prevArrow: <SliderArrow to='prev' />,
-      nextArrow: <SliderArrow to='next' />,
-      infinite: false,
-      draggable: false
-    };
-
-    return popularProducts && popularProducts.all.length ? (
-      <Slider {...settings}>
-        {popularProducts.all.map(product => {
-          return (
-            <div>
-              <CatalogProduct
-                cart={cart}
-                key={product.id}
-                product={product}
-                handleUpdateCart={handleUpdateCart}
-               />
-            </div>
-          )
-        })}
-      </Slider>
-    ) : null;
-  }
-  
-  _renderCategories() {
-    if(!this.props.categories) return;
-
-    return this.props.categories.catalogSectionsArr.map(category => {
-      const { src, alt } = categoryImages[category.id];
-      return (
-        <CategoryItem
-          title={category.parentName}
-          src={src}
-          alt={alt}
-        />
-      );
-    });
-  }
-
-  _renderClientComments() {
-    const settings = {
-      slidesToShow: 1,
-      centerMode: true,
-      arrows: false,
-      dots: true,
-      infinite: true,
-      draggable: false,
-      autoplay: true,
-      autoplaySpeed: 5000
-    };
-
-    return (
-      <Slider {...settings}>
-        {[1,2,3,4,5].map(comment => {
-          return <ClientComment />;
-        })}
-      </Slider>
-    );
-  }
-
-  _renderMediaObjects() {
-    const settings = {
-      slidesToShow: 3,
-      centerMode: true,
-      arrows: false,
-      infinite: true,
-      draggable: false,
-      autoplay: true,
-      autoplaySpeed: 3000
-    };
-
-    return (
-      <Slider {...settings}>
-        {mediaObjects.map(obj => {
-          return <a target='blank' href={obj.url}><img src={obj.src} /></a>;
-        })}
-      </Slider>
-    );
-  }
   
   render() {
-    const { classes, history } = this.props;
+    const { classes, history, cart, popularProducts, categories } = this.props;
     const { newsletterEmail, newsletterLoading } = this.state;
-    const { handleSubmitNewsletter } = this.controller;
+    const { handleSubmitNewsletter, handleUpdateCart } = this.controller;
 
     return (
       <div className={classes.wrapper}>
@@ -414,11 +216,13 @@ class Landing extends BaseContainer {
           </div>
         </section>
 
-        <section id='ourProducts'>
+        <section id='ourProducts' style={{ marginBottom: '64px' }}>
           <h3 className={classes.title}>Conheça nossos produtos</h3>
-          <div className={classes.popularProductsSliderWrapper}>
-            {this._renderPopularProducts()}
-          </div>
+          <PopularProductsSlider
+            cart={cart}
+            handleUpdateCart={handleUpdateCart}
+            popularProducts={popularProducts}
+          />
           <div style={{ textAlign: 'center' }}>
             <Button
               onClick={() => history.push('catalogo')}
@@ -428,12 +232,7 @@ class Landing extends BaseContainer {
               Veja Mais
             </Button>
           </div>
-          <h5 className={classes.subtitle} style={{ paddingLeft: '64px', marginBottom: '16px' }}>
-            Categorias
-          </h5>
-          <div style={{ paddingLeft: '64px', paddingBottom: '64px' }}>
-            {this._renderCategories()}
-          </div>
+          <CategoriesMosaic categories={categories} />
         </section>
 
         <section className={classes.subscriptionSection}>
@@ -447,38 +246,20 @@ class Landing extends BaseContainer {
         </section>
 
         <section className={classes.commentsSection}>
-          <h3 className={classes.title} style={{ marginTop: 0, marginBottom: '36px' }}>
-            Veja o que outros clientes tem a dizer!
-          </h3>
-          <div className={classes.commentsSliderWrapper}>
-            {this._renderClientComments()}
-          </div>
+          <ClientCommentsSlider />
         </section>
 
         <section className={classes.mediaSection}>
-          <h3 className={classes.title} style={{ marginTop: 0, marginBottom: '36px' }}>
-            Raízs na mídia
-          </h3>
-          <div className={classes.mediaSliderWrapper}>
-            {this._renderMediaObjects()}
-          </div>
+          <MediaSlider />
         </section>
         
-        <section className={classes.newsletterSection}>
-          {newsletterLoading && <Loading absolute />}
-          <h5>Fique por dentro de novidades e promoções,<br/>inscreva-se na nossa newsletter.</h5>
-          <div className='input-wrapper'>
-            <input
-              id='newsletterEmail'
-              value={newsletterEmail}
-              placeholder='Digite seu e-mail aqui'
-              onChange={e => this.setState({ newsletterEmail: e.target.value })}
-            />
-            <Button id='sendNewsletter' onClick={handleSubmitNewsletter} >
-              Enviar
-            </Button>
-          </div>
-        </section>
+        <NewsletterSection
+          id='newsletterEmail'
+          value={newsletterEmail}
+          handleSubmit={handleSubmitNewsletter}
+          handleChange={e => this.setState({ [e.target.id]: e.target.value })}
+          loading={newsletterLoading}
+        />
 
         <section className={classes.familiesSection}>
           <h3 className={classes.title}>

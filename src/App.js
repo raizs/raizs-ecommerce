@@ -34,6 +34,8 @@ import { About } from './containers/about';
 import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
 import { Checkout } from './containers/checkout';
+import { Home } from './containers/home';
+import { Home2 } from './containers/home2';
 import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
 import { NotFound } from './containers/notFound';
@@ -130,6 +132,8 @@ class App extends BaseContainer {
           <Header {...headerProps} />
           <Switch>
             <Route path='/' exact component={Landing} />
+            <Route path='/home' exact component={Home} />
+            <Route path='/home2' exact component={Home2} />
             <Route path='/catalogo' exact component={Catalog} />
             <Route path='/carrinho' exact component={Cart} />
             <Route path='/checkout' exact component={Checkout} />

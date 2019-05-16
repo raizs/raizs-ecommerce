@@ -9,11 +9,9 @@ export class CartController extends BaseController {
     this.handleCepBlur = this.handleCepBlur.bind(this);
   }
 
-  async handleUpdateCart({ item, quantity }) {
+  handleUpdateCart({ item, quantity }) {
     const { cart, updateCartAction } = this.getProps();
-
-    const newCart = cart.update(item, quantity);
-    updateCartAction(newCart);
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
   }
 
   handleChange(e) {
