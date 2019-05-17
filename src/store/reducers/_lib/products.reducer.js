@@ -1,13 +1,15 @@
-import { SET_PRODUCTS, SET_POPULAR_PRODUCTS } from "../../actions";
+import { SET_PRODUCTS, SET_POPULAR_PRODUCTS, SET_NEW_PRODUCTS } from "../../actions";
 import { Cache } from "../../../helpers";
 import { Products } from "../../../entities";
 
 const cachedProducts = Cache.getItem('products');
 const cachedPopularProducts = Cache.getItem('popularProducts');
+const cachedNewProducts = Cache.getItem('newProducts');
 
 const initialState = {
 	model: cachedProducts ? new Products(cachedProducts) : new Products([]),
-	popularProducts: cachedPopularProducts ? new Products(cachedPopularProducts) : null
+	popularProducts: cachedPopularProducts ? new Products(cachedPopularProducts) : new Products([]),
+	newProducts: cachedNewProducts ? new Products(cachedNewProducts) : new Products([])
 };
 
 export const productsReducer = (state = initialState, action) => {
@@ -21,6 +23,11 @@ export const productsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				popularProducts: action.data
+			};
+		case SET_NEW_PRODUCTS:
+			return {
+				...state,
+				newProducts: action.data
 			};
 		default:
 			return state;

@@ -1,4 +1,5 @@
 export { CategoriesMosaic } from './_lib/CategoriesMosaic.component';
+export { Characteristics } from './_lib/Characteristics.component';
 export { ClientCommentsSlider } from './_lib/ClientCommentsSlider.component';
 export { DropdownMenu } from './_lib/DropdownMenu.component';
 export { Footer } from './_lib/Footer.component';
@@ -9,7 +10,7 @@ export { HeaderUserPopper } from './_lib/HeaderUserPopper.component';
 export { HeaderPopper } from './_lib/HeaderPopper.component';
 export { MediaSlider } from './_lib/MediaSlider.component';
 export { NewsletterSection } from './_lib/NewsletterSection.component';
-export { PopularProductsSlider } from './_lib/PopularProductsSlider.component';
+export { ProductsSlider } from './_lib/ProductsSlider.component';
 export { Slider } from './_lib/Slider.component';
 export { Timeline } from './_lib/Timeline.component';
 export { TimelineSection } from './_lib/TimelineSection.component';

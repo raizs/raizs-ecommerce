@@ -4,16 +4,16 @@ import { withRouter } from 'react-router';
 import { withStyles, Button } from '@material-ui/core';
 import { withFirebase } from 'react-redux-firebase';
 import compose from 'recompose/compose';
-import Slider from 'react-slick';
 
-import { abSections, mediaObjects } from '../../assets';
+import { abSections } from '../../assets';
 import { updateCartAction } from '../../store/actions';
 import {
-  PopularProductsSlider,
+  ProductsSlider,
   CategoriesMosaic,
   ClientCommentsSlider,
   MediaSlider,
-  NewsletterSection
+  NewsletterSection,
+  Characteristics
 } from '../../components';
 import { BaseContainer } from '../../helpers';
 import { LandingController } from './Landing.controller';
@@ -217,11 +217,12 @@ class Landing extends BaseContainer {
         </section>
 
         <section id='ourProducts' style={{ marginBottom: '64px' }}>
-          <h3 className={classes.title}>Conheça nossos produtos</h3>
-          <PopularProductsSlider
+          <h3 className={classes.title} style={{ marginBottom: '48px' }}>Conheça nossos produtos</h3>
+          <Characteristics />
+          <ProductsSlider
             cart={cart}
             handleUpdateCart={handleUpdateCart}
-            popularProducts={popularProducts}
+            products={popularProducts}
           />
           <div style={{ textAlign: 'center' }}>
             <Button

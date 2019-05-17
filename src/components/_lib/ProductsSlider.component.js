@@ -18,8 +18,8 @@ const styles = theme => ({
   }
 });
 
-let PopularProductsSlider = props => {
-  const { popularProducts, cart, handleUpdateCart, classes } = props;
+let ProductsSlider = props => {
+  const { products, cart, handleUpdateCart, classes } = props;
 
   const settings = {
     slidesToShow: Math.floor(window.innerWidth / 256) - 1,
@@ -30,10 +30,10 @@ let PopularProductsSlider = props => {
     draggable: false
   };
 
-  return popularProducts && popularProducts.all.length ? (
+  return products && products.all.length ? (
     <div className={classes.wrapper}>
       <Slider {...settings}>
-        {popularProducts.all.map(product =>
+        {products.all.map(product =>
             <CatalogProduct
               cart={cart}
               key={product.id}
@@ -46,6 +46,6 @@ let PopularProductsSlider = props => {
   ) : null;
 };
 
-PopularProductsSlider = withStyles(styles)(PopularProductsSlider);
+ProductsSlider = withStyles(styles)(ProductsSlider);
 
-export { PopularProductsSlider };
+export { ProductsSlider };

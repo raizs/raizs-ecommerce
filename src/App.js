@@ -24,7 +24,8 @@ import {
   selectCardAction,
   selectDateAction,
   setPopularProductsAction,
-  setSaleOrdersAction
+  setSaleOrdersAction,
+  setNewProductsAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -36,6 +37,7 @@ import { Catalog } from './containers/catalog';
 import { Checkout } from './containers/checkout';
 import { Home } from './containers/home';
 import { Home2 } from './containers/home2';
+import { Home3 } from './containers/home3';
 import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
 import { NotFound } from './containers/notFound';
@@ -54,7 +56,8 @@ const actions = {
   selectCardAction,
   selectDateAction,
   setPopularProductsAction,
-  setSaleOrdersAction
+  setSaleOrdersAction,
+  setNewProductsAction
 };
 
 class App extends BaseContainer {
@@ -99,11 +102,13 @@ class App extends BaseContainer {
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
+    const isSubscription = this.props.location.pathname.split('/')[1] === 'assinatura';
 
     const headerProps = {
       isAuth,
       history,
       isUserPopperOpen,
+      isSubscription,
       toForm: {
         email,
         password,
@@ -134,6 +139,7 @@ class App extends BaseContainer {
             <Route path='/' exact component={Landing} />
             <Route path='/home' exact component={Home} />
             <Route path='/home2' exact component={Home2} />
+            <Route path='/home3' exact component={Home3} />
             <Route path='/catalogo' exact component={Catalog} />
             <Route path='/carrinho' exact component={Cart} />
             <Route path='/checkout' exact component={Checkout} />
