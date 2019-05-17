@@ -21,6 +21,15 @@ export class StateToApi {
     return body;
   }
 
+  static updateUserData(values) {
+    return {
+      name: values.name,
+      lastName: values.lastName,
+      phone: Formatter.extractNumbers(values.phone),
+      cnpjCpf: parseInt(Formatter.extractNumbers(values.cpf))
+     }
+  }
+
   static updateFirebaseUser(values) {
     return {
       email: values.signupEmail,

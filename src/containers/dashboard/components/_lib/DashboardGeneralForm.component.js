@@ -9,6 +9,10 @@ import { DashboardFormsController } from "../../DashboardForms.controller"
 import { BaseContainer } from '../../../../helpers';
 import { dashboardGeneralForm } from "../../../../assets";
 
+import {
+  setUserAction,
+} from '../../../../store/actions';
+
 
 
 
@@ -31,7 +35,8 @@ const styles = theme => ({
   inputBox:{
     width:"50%",
     display:"inline-block",
-    marginBottom: 2*theme.spacing.unit
+    verticalAlign:"top",
+    height:"76px"
   },
   inputLabel:{
     fontSize: theme.fontSizes.XS,
@@ -66,7 +71,10 @@ class DashboardGeneralForm extends BaseContainer{
   }
 
   state={
-    loading:true
+    loading:true,
+    errors:{
+
+    }
   }
   
   
@@ -92,6 +100,7 @@ class DashboardGeneralForm extends BaseContainer{
       <TextInput 
         className={classes.inputValue}
         id={field.id}
+        error={this.state.errors[field.id]}
         value={this.state[field.id]}
         handleChange={e => handleChange(e, field.format)}
         label={field.label}
@@ -129,6 +138,6 @@ const mapStateToProps = state => ({
 DashboardGeneralForm = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, { setUserAction })
   )(DashboardGeneralForm);
   export { DashboardGeneralForm }

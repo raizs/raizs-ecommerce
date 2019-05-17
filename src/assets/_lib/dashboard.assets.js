@@ -71,7 +71,7 @@ export const dashboardGeneralForm = [
   },
   {
     label: "CPF",
-    id: "cpfString",
+    id: "cpf",
     format: "formatCpf"
   },
   {
