@@ -1,7 +1,7 @@
 import { BaseController, Formatter, StateToApi } from '../../helpers';
 import { User } from '../../entities';
 import { UserRepository } from '../../repositories';
-// import { CheckoutValidation } from '../../validation';
+import { UpdateUserValidation } from '../../validation';
 
 export class DashboardFormsController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -13,7 +13,7 @@ export class DashboardFormsController extends BaseController {
   
   handleChange(e, format) {
     const { errors } = this.getState();
-    this.toState(this.baseHandleChange(e, format, {}));
+    this.toState(this.baseHandleChange(e, format, errors));
   }
 
   userApiToState(user){
@@ -24,10 +24,16 @@ export class DashboardFormsController extends BaseController {
     this.toState(state)
   }
 
-  async updateUser(){ 
+  async updateUser(){
+    console.log(this.getState()) 
     const { user: { id }, setUserAction } = this.getProps()
-    console.log(id) 
-    const toApi = StateToApi.updateUserData(this.getState())
+    console.log(id)
+    const { errors, isValidated } = UpdateUserValidation.user(this.getState());
+    console.log(errors, isValidated)
+    if (!isValidated){
+      return this.toState({errors})
+    }
+    const toApi = StateToApi.updateUserData(this.getState()) 
     const promise = await this.userRepo.updateUser(toApi, id)
     console.log(promise)
     console.log(toApi)
