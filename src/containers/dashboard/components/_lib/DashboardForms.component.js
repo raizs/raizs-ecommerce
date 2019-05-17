@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
-import { withRouter, Route, Switch } from 'react-router';
+import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 
-import { DashboardGeneralForm } from "../"
-import { DashboardFormsController } from "../../DashboardForms.controller"
-import { BaseContainer } from '../../../../helpers';
+import { DashboardGeneralForm, DashboardAddressForm } from "../"
 
 
 
@@ -56,17 +54,13 @@ class DashboardForms extends Component{
     const { classes } = this.props;
     const { name } = this.state;
 
-    const toGeneralForm = {
-      name
-    }
-
-
     const { form } = this.props.match.params
 
     let title = ""
     let FormComponent = null;
     switch(form){
       case "dados-pessoais": title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
+      case "endereco": title = "Endereço"; FormComponent = DashboardAddressForm; break;
       default: title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
 
     }

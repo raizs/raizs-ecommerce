@@ -85,3 +85,49 @@ export const dashboardGeneralForm = [
   },
 ]
 
+
+export const dashboardAddressForm = [
+  {
+    label: "Nome do endereço",
+    id: "name"
+  },
+  {
+    label: "Nome do recebedor",
+    id: "receiverName",
+  },
+  {
+    label: "CEP",
+    id: "cep",
+    format: "formatCEP"
+  },
+  {
+    label: "Endereço",
+    id: "street",
+    className:"big"    
+  },
+  {
+    label: "Número",
+    id: "number",
+    className:"small"
+  },
+  {
+    label: "Bairro",
+    id: "neighbourhood",
+  },
+  {
+    label: "Complemento",
+    id: "complement",
+  },
+  {
+    label: "Cidade",
+    id: "city",
+  },
+  {
+    label: "Estado",
+    id: "state",
+    className:"small",
+  },
+]
+
+
+

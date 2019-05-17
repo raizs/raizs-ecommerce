@@ -169,7 +169,7 @@ class AddressForm extends Component {
           placeholder='Estado'
           error={errors.addressState}
         />
-        <FormControlLabel
+        {/* <FormControlLabel
           className={classes.checkboxInput}
           control={
             <Checkbox
@@ -182,7 +182,7 @@ class AddressForm extends Component {
             />
           }
           label="Salvar como Endereço Padrão"
-        />
+        /> */}
         <div>
           <Button
             onClick={isEditingAddress ? handleUpdateAddressSubmit : handleNewAddressSubmit}

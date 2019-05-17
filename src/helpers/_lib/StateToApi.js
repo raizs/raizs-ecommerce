@@ -51,6 +51,28 @@ export class StateToApi {
     };
   }
 
+
+  static manageAddress(values) {
+    console.log(values)
+    
+    return {
+      addressName: values.name,
+      name:values.name,
+      receiverName: values.receiverName,
+      zip: values.cep,
+      street: values.street,
+      number: values.number,
+      street2: values.complement,
+      district: values.neighbourhood,
+      city: values.city,
+      parentId: values.parentId,
+      state: values.state,
+      addressIsDefault: false
+    };
+
+
+  }
+
   static createAddressCheckout(values) {
     const to = {
       addressName: values.addressName,
@@ -62,7 +84,7 @@ export class StateToApi {
       district: values.addressNeighbourhood,
       city: values.addressCity,
       state: values.addressState,
-      addressIsDefault: values.addressIsDefault
+      addressIsDefault: false
     };
 
     if(values.parentId) {

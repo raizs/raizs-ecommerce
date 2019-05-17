@@ -5,6 +5,7 @@ export class UserAddressesRepository extends BaseRepository {
     super();
 
     this.list = this.list.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   create(body) {
@@ -21,5 +22,10 @@ export class UserAddressesRepository extends BaseRepository {
 
   list(res_partner_id) {
     return this.get(`userAddresses?res_partner_id=${res_partner_id}`);
+  }
+
+  remove(id){
+    return this.delete(`userAddresses?address_id=${id}`);
+
   }
 }

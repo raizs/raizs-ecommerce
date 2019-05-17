@@ -49,7 +49,7 @@ class Dashboard extends Component{
           <Route path='/painel/usuario' ><div className={withMenuComponent}>
             <DashboardUser />
           </div></Route>
-          <Route path='/painel/editar/:form' ><div className={withMenuComponent}>
+          <Route path='/painel/editar/:form/:id' ><div className={withMenuComponent}>
             <DashboardForms controller={this.controller}/>
           </div></Route>
           <Route path="/painel*" component={() => <Redirect to="/painel/geral" />} />

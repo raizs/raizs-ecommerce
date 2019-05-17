@@ -7,13 +7,13 @@ export class UserAddresses extends BaseModel {
     
     this.original = user;
 
-    const users = [user];
+    const users = [];
     if(user.children && user.children.length) users.push(...user.children);
-
+    console.log(user)
     const addresses = users.map(u => ({
       id: u.id,
       addressName: u.addressName,
-      addressReceiverName: u.addressReceiverName,
+      receiverName: u.receiverName,
       zip: u.zip,
       street: u.street,
       number: u.number,
@@ -48,7 +48,7 @@ export class UserAddresses extends BaseModel {
 
   getDefaultUserAddress() {
     for(let ua of this.all) {
-      if(ua.isDefaultAddress) return ua;
+      return ua;
     }
     return null;
   }

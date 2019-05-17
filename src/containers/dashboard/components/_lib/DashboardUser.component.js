@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import classnames from "classnames";
 import { connect } from "react-redux";
 import { dashboardUserPersonalData } from "../../../../assets";
 import { Loading } from '../../../../molecules';
+import { UserAddressesRepository } from '../../../../repositories';
+import {
+  setUserAction,
+} from '../../../../store/actions';
+import { User } from '../../../../entities';
+
 
 
 
@@ -94,6 +100,26 @@ const styles = theme => ({
   },
   underlineButtonsBox:{
     marginTop:4*theme.spacing.unit
+  },
+  addNew:{
+    position:"absolute",
+    top: 2*theme.spacing.unit,
+    right:2*theme.spacing.unit,
+    cursor:"pointer"
+  },
+  addNewIcon:{
+    display:"inline-block",
+    verticalAlign:"middle",
+    color: theme.palette.green.main
+
+  },
+  addNewText:{
+    display:"inline-block",
+    verticalAlign:"middle",
+    color: theme.palette.green.main,
+    marginLeft: theme.spacing.unit,
+    textDecoration:"underline",
+    fontWeight:800
   }
 });
 
@@ -132,22 +158,34 @@ class DashboardUser extends Component{
 
   }
 
+  async deleteAddress(id, key){
+    const adressRepo = new UserAddressesRepository();
+    const { user } = this.props;
+    const promise = await adressRepo.remove(id)
+    const userOriginal = user.original;
+    userOriginal.children.splice(key,1)
+    console.log(userOriginal.children)
+
+    const newUser = new User(userOriginal);
+    this.props.setUserAction(newUser)
+  }
+
 
   _renderAddresses(){
     const { user, classes } = this.props;
-    console.log(user.addresses.all)
+    if (!user.addresses.all.length) return <div>Você ainda não tem interessos cadastrados</div>
     return user.addresses.all.map((adr, key)=>{
       return <span key={key}>
         {key == 0 || <div className={classes.separator}></div>}
         <div className={classes.addressBox}>
-          <div className={classes.addressName}>{adr.name}&nbsp;{!adr.isDefaultAddress || "- Padrão"}</div>
+          <div className={classes.addressName}>{adr.name}</div>
           <div className={classes.addressLine}>{adr.formattedAddress}</div>
           <div className={classes.addressLine}>{adr.neighbourhood}</div>
           <div className={classes.addressLine}>CEP: {adr.cep}</div>
           <div className={classes.addressLine}>Complemento: {adr.complement || "-"}</div>
           <div className={classes.underlineButtonsBox}>
-            <div className={classes.underlineButton}>alterar</div>
-            <div className={classes.underlineButton}>excluir</div>
+            <div className={classes.underlineButton} onClick={()=>this.props.history.push(`/painel/editar/endereco/${adr.id}`)}>alterar</div>
+            <div className={classes.underlineButton} onClick={()=>this.deleteAddress(adr.id, key)}>excluir</div>
           </div>
         </div>
       </span>
@@ -181,6 +219,12 @@ class DashboardUser extends Component{
         <div className={classes.whiteBox}>
           <div className={classes.whiteBoxTitle}>ENDEREÇOS SALVOS</div>
           {this._renderAddresses()}
+          <div className={classes.addNew} onClick={()=>this.props.history.push("/painel/editar/endereco/novo")}>
+            <Icon className={classes.addNewIcon}>add_circle_outline</Icon>
+            <div className={classes.addNewText}>
+              Adicione um novo endereço
+            </div>
+          </div>
         </div>
 
       </div>
@@ -196,6 +240,6 @@ const mapStateToProps = state => ({
 DashboardUser = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {setUserAction})
   )(DashboardUser);
 export { DashboardUser }

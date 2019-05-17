@@ -5,15 +5,17 @@ export class UserAddress {
     this.id = user.id;
     this.idString = typeof user.id === 'number' ? user.id.toString() : user.id;
     this.name = user.addressName;
-    this.receiverName = user.addressReceiverName;
+    this.receiverName = user.receiverName;
     this.cep = user.zip;
     this.address = user.street;
+    this.street = user.street;
     this.number = user.number;
     this.complement = user.street2;
     this.neighbourhood = user.district;
     this.city = user.city;
     this.state = user.state;
     this.isDefaultAddress = user.addressIsDefault;
+    this.addressIsDefault = user.addressIsDefault;
 
     this.toCheckoutForm = this._mapToCheckoutForm(user);
 
