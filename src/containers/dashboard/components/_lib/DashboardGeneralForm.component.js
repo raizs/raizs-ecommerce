@@ -9,6 +9,10 @@ import { DashboardFormsController } from "../../DashboardForms.controller"
 import { BaseContainer } from '../../../../helpers';
 import { dashboardGeneralForm } from "../../../../assets";
 
+import {
+  setUserAction,
+} from '../../../../store/actions';
+
 
 
 
@@ -129,6 +133,6 @@ const mapStateToProps = state => ({
 DashboardGeneralForm = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, { setUserAction })
   )(DashboardGeneralForm);
   export { DashboardGeneralForm }

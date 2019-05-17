@@ -1,12 +1,13 @@
-import { BaseController, Formatter } from '../../helpers';
-
+import { BaseController, Formatter, StateToApi } from '../../helpers';
+import { User } from '../../entities';
 import { UserRepository } from '../../repositories';
-
+// import { CheckoutValidation } from '../../validation';
 
 export class DashboardFormsController extends BaseController {
   constructor({ toState, getState, getProps }) {
     super({ toState, getState, getProps });
     this.handleChange = this.handleChange.bind(this);
+    this.updateUser = this.updateUser.bind(this);
     this.userRepo = new UserRepository();
   }
   
@@ -23,7 +24,15 @@ export class DashboardFormsController extends BaseController {
     this.toState(state)
   }
 
-  updateUser(){
-    console.log("UPDATING USER")
+  async updateUser(){ 
+    const { user: { id }, setUserAction } = this.getProps()
+    console.log(id) 
+    const toApi = StateToApi.updateUserData(this.getState())
+    const promise = await this.userRepo.updateUser(toApi, id)
+    console.log(promise)
+    console.log(toApi)
+    if(!promise.err) {
+      setUserAction(new User(promise.data));
+    }
   }
 }
