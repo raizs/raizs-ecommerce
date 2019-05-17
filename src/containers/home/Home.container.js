@@ -8,7 +8,7 @@ import { updateCartAction } from '../../store/actions';
 import { HomeController } from './Home.controller';
 import { BaseContainer } from '../../helpers';
 import {
-  PopularProductsSlider,
+  ProductsSlider,
   CategoriesMosaic,
   ClientCommentsSlider,
   MediaSlider,
@@ -162,8 +162,8 @@ class Home extends BaseContainer {
 
         <section id='ourProducts'>
           <CategoriesMosaic categories={categories} />
-          <PopularProductsSlider
-            popularProducts={popularProducts}
+          <ProductsSlider
+            products={popularProducts}
             cart={cart}
             handleUpdateCart={handleUpdateCart}
           />

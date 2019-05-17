@@ -10,6 +10,10 @@ import { Button, withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   headerButton: theme.buttons.header,
+  centerContent: {
+    width: 'calc(100% - 150px)',
+    height: '100%'
+  },
   rightContent: {
     position: 'relative',
     float: 'right',
@@ -96,7 +100,9 @@ class Header extends Component {
    */
   _renderLeftContent() {
     const { availableCenterWidth } = this.state;
-    const { history, classes } = this.props;
+    const { history, classes, isSubscription } = this.props;
+
+    if(isSubscription) return null;
 
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
@@ -140,7 +146,11 @@ class Header extends Component {
   }
   
   _renderCenterContent() {
-    return null;
+    const { isSubscription, classes } = this.props;
+    
+    if(!isSubscription) return null;
+
+    return <div className={classes.centerContent}>Subs</div>;
   }
   
   /**
@@ -149,13 +159,23 @@ class Header extends Component {
    * @returns {JSX} Containing the desired right header content
    */
   _renderRightContent() {
-    const { classes, isAuth, isUserPopperOpen, toForm, toLoggedIn, history } = this.props;
+    const {
+      classes,
+      isAuth,
+      isUserPopperOpen,
+      toForm,
+      toLoggedIn,
+      history,
+      isSubscription
+    } = this.props;
     const headerUserButtonProps = {
       isAuth,
       toForm,
       isUserPopperOpen,
       toLoggedIn
     };
+
+    if(isSubscription) return <div id='right-content'></div>;
 
     return (
       <div id='right-content' className={classes.rightContent}>

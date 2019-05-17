@@ -9,4 +9,8 @@ export class ProductsRepository extends BaseRepository {
   fetchPopularProducts() {
     return this.get('popularProducts');
   }
+
+  fetchNewProducts() {
+    return this.get('newProducts');
+  }
 }

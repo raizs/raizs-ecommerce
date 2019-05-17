@@ -2,6 +2,7 @@ import { Cache } from "../../../helpers";
 
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const SET_POPULAR_PRODUCTS = 'SET_POPULAR_PRODUCTS';
+export const SET_NEW_PRODUCTS = 'SET_NEW_PRODUCTS';
 
 export const setProductsAction = products => {
   Cache.setItem('products', products.original);
@@ -17,6 +18,15 @@ export const setPopularProductsAction = products => {
 
   return {
     type: SET_POPULAR_PRODUCTS,
+    data: products
+  }
+};
+
+export const setNewProductsAction = products => {
+  Cache.setItem('newProducts', products.original);
+
+  return {
+    type: SET_NEW_PRODUCTS,
     data: products
   }
 };

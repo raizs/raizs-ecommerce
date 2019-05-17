@@ -85,3 +85,25 @@ export const mediaObjects = [
     url: 'https://revistatrip.uol.com.br/trip/entrevista-com-tomas-abrahao-e-bruno-reboucas-do-site-raizs-alimentos-organicos-produtores?utm_source=trip.com.br&utm_medium=home-box&utm_campaign=%2F'
   }
 ];
+
+export const characteristicsItems = [
+  {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }, {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }, {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }, {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }, {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }, {
+    src: '/icons/twitter.svg',
+    label: 'Label'
+  }
+];

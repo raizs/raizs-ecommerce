@@ -5,7 +5,9 @@ export class Products extends BaseModel {
   constructor(products, from = null) {
     super();
 
-    if(from === 'popularProducts') products = this._fixPopularProducts(products);
+    if(['popularProducts', 'newProducts'].includes(from)) {
+      products = this._fixPopularProducts(products);
+    }
     
     this.original = products;
     this.all = products.map(product => new Product(product));

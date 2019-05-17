@@ -33,16 +33,18 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction, setPopularProductsAction } = this.getProps();
+    const { setCategoriesAction, setPopularProductsAction, setNewProductsAction } = this.getProps();
     
     const promises = [
       this.categoriesRepo.fetchCategories(),
-      this.productsRepo.fetchPopularProducts()
+      this.productsRepo.fetchPopularProducts(),
+      this.productsRepo.fetchNewProducts(),
     ];
 
     const [
       categoriesPromise,
-      popularProductsPromise
+      popularProductsPromise,
+      newProductsPromise
     ] = await Promise.all(promises);
 
     if(!categoriesPromise.err) {
@@ -55,6 +57,12 @@ export class AppController extends BaseController {
       const popularProducts = new Products(popularProductsPromise.data, 'popularProducts');
 
       setPopularProductsAction(popularProducts);
+    }
+
+    if(!newProductsPromise.err) {
+      const newProducts = new Products(newProductsPromise.data, 'newProducts');
+
+      setNewProductsAction(newProducts);
     }
   }
 
@@ -87,20 +95,12 @@ export class AppController extends BaseController {
         setCardsAction(newCards);
         selectCardAction(newCards.getDefaultCard());
       }
+
       const ordersPromise = await this.saleOrdersRepo.getOrders(pgUser.data.id)
       if(!ordersPromise.err) {
         const saleOrders = new SaleOrders(ordersPromise.data)
         setSaleOrdersAction(saleOrders)
       }
-
-
-
-
-
-
-
-
-
     } else {
       await setUserAction(new User({}));
       setUserAction(null);
