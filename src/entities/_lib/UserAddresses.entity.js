@@ -9,7 +9,6 @@ export class UserAddresses extends BaseModel {
 
     const users = [];
     if(user.children && user.children.length) users.push(...user.children);
-    console.log(user)
     const addresses = users.map(u => ({
       id: u.id,
       addressName: u.addressName,

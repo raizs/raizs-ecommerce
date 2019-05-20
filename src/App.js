@@ -42,6 +42,7 @@ import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
 import { NotFound } from './containers/notFound';
 import { Dashboard } from './containers/dashboard';
+import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
 import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
@@ -162,6 +163,7 @@ class App extends BaseContainer {
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
             <Route path='/painel' component={Dashboard} />
             <Route path='/assinatura' component={Subscription} />
+            <Route path='/produto/:productId' component={Product} />
             <Route path='*' component={NotFound} />
 
           </Switch>

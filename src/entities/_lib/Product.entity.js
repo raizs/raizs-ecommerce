@@ -2,6 +2,7 @@ import { Formatter } from "../../helpers";
 
 export class Product {
   constructor(product) {
+    this.description = product.description || product['productTmpl.name']
     this.id = product.id;
     this.name = product['productTmpl.name'];
     this.categoryId = product['productTmpl.categ_id'];
