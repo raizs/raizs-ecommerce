@@ -21,7 +21,6 @@ const styles = theme => ({
     display:"inline-block",
     minHeight:"800px",
     verticalAlign:"top"
-
   }
 });
 
@@ -43,13 +42,13 @@ class Dashboard extends Component{
 			<div className={wrapper}>
         <SideMenu title="MEU PAINEL" sections={dashboardSections}/>
         <Switch>
-          <Route path='/painel/geral' ><div className={withMenuComponent}>
+          <Route path='/painel/geral'><div className={withMenuComponent}>
             <DashboardGeneral/>
           </div></Route>
-          <Route path='/painel/usuario' ><div className={withMenuComponent}>
+          <Route path='/painel/usuario'><div className={withMenuComponent}>
             <DashboardUser />
           </div></Route>
-          <Route path='/painel/editar/:form/:id' ><div className={withMenuComponent}>
+          <Route path='/painel/editar/:form/:id'><div className={withMenuComponent}>
             <DashboardForms controller={this.controller}/>
           </div></Route>
           <Route path="/painel*" component={() => <Redirect to="/painel/geral" />} />
