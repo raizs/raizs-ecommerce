@@ -6,6 +6,10 @@ export class ProductsRepository extends BaseRepository {
     return this.get('products');
   }
 
+  fetchProduct(id) {
+    return this.get(`product?productId=${id}`);
+  }
+
   fetchPopularProducts() {
     return this.get('popularProducts');
   }

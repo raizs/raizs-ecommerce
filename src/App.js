@@ -42,6 +42,7 @@ import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
 import { NotFound } from './containers/notFound';
 import { Dashboard } from './containers/dashboard';
+import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
 import { AppController } from './App.controller';
 
@@ -146,6 +147,7 @@ class App extends BaseContainer {
             <Route path='/quem-somos' exact component={About} />
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
             <Route path='/painel' component={Dashboard} />
+            <Route path='/produto/:productId' component={Product} />
             <Route path='*' component={NotFound} />
 
           </Switch>
