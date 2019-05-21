@@ -6,7 +6,8 @@ import { subscripionItems } from '../../../../assets';
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
-    userSelect: 'none'
+    userSelect: 'none',
+    paddingBottom: '120px'
   },
   top: {
     textAlign: 'center',
@@ -69,8 +70,8 @@ const styles = theme => ({
     }
   },
   item: {
-    width: '160px',
-    height: '160px',
+    width: '162px',
+    height: '240px',
     display: 'inline-block',
     margin: '0 16px',
     backgroundColor: 'white',
@@ -89,8 +90,8 @@ const styles = theme => ({
       }
     },
     '& > img': {
-      width: '100%',
-      height: '88px',
+      width: '160px',
+      height: '160px',
       borderRadius: theme.spacing.unit
     },
     '& > p': {
@@ -108,6 +109,9 @@ const styles = theme => ({
   },
   bottom: {
     textAlign: 'center',
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
     '& > div.summary': {
       backgroundColor: theme.palette.gray.darkBg,
       padding: theme.spacing.unit,
@@ -132,17 +136,17 @@ const styles = theme => ({
 class Generics extends Component {
 
   _renderItems() {
-    const { classes } = this.props;
-    return subscripionItems.map(item => {
+    const { classes, products } = this.props;
+    return products.map(product => {
       return (
-        <div key={item.id} className={classes.item}>
-          <img src='https://alimentacaoemfoco.org.br/wp-content/uploads/2018/01/melancias.jpg' />
+        <div key={product.id} className={classes.item}>
+          <img src={product.imageUrl} />
           <p>
-            {item.label}
+            {product.name}
             <Tooltip><Icon>help_outline</Icon></Tooltip>
           </p>
           <div className='qs-wrapper'>
-            <QuantitySelector changeAction={null} quantity={1} />
+            <QuantitySelector changeAction={null} quantity={0} shouldClose={false} />
           </div>
         </div>
       )

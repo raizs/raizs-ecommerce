@@ -30,7 +30,7 @@ export class Product {
 
       weightPart = weight.toString() + weightUnit;
 
-      return `${Formatter.currency(this.price)} / ${weightPart}`;
+      return `${Formatter.currency(price)} / ${weightPart}`;
     }
   }
 }

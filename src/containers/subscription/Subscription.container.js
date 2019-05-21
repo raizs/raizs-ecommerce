@@ -13,17 +13,24 @@ class Subscription extends BaseContainer {
   }
 
   render() {
+    const { subscriptionCart, products } = this.props;
+
     return (
       <Switch>
         <Route path='/assinatura/genericos'>
-          <Generics />
+          <Generics cart={subscriptionCart} products={products.genericProducts} />
         </Route>
       </Switch>
     )
   }
 }
 
+const mapStateToProps = state => ({
+  subscriptionCart: state.subscriptionCart.current,
+  products: state.products.model
+});
+
 export default compose(
   withRouter,
-  connect(null, null)
+  connect(mapStateToProps, null)
 )(Subscription);

@@ -44,6 +44,23 @@ export {
 } from './_lib/products.actions';
 
 export {
+  UPDATE_SUBSCRIPTION_CART,
+  updateSubscriptionCartAction
+} from './_lib/subscriptionCart.actions';
+
+export {
+  SET_SUBSCRIPTIONS,
+  SELECT_SUBSCRIPTION,
+  setSubscriptionsAction,
+  selectSubscriptionAction
+} from './_lib/subscriptions.actions';
+
+export {
+  SET_SALE_ORDERS,
+  setSaleOrdersAction,
+} from './_lib/saleOrders.actions';
+
+export {
   SET_UNITS_OF_MEASURE,
   setUnitsOfMeasureAction
 } from './_lib/unitsOfMeasure.actions';
@@ -59,8 +76,3 @@ export {
   setUserAddressesAction,
   selectUserAddressAction
 } from './_lib/userAddresses.actions';
-
-export {
-  SET_SALE_ORDERS,
-  setSaleOrdersAction,
-} from './_lib/saleOrders.actions';

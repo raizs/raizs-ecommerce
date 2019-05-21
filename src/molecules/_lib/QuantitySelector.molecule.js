@@ -99,15 +99,19 @@ class QuantitySelector extends Component {
 
   _renderContent() {
     const { quantity } = this.state;
-    const { classes } = this.props;
+    const { classes, shouldClose = true } = this.props;
 
-    return quantity ? (
+    const opened = (
       <div className={classes.open}>
         <div className='quantity'>{quantity}</div>
         <div className='subtract' onClick={() => this._handleClick(-1)}>-</div>
         <div className='add' onClick={() => this._handleClick(1)}>+</div>
       </div>
-    ) : (
+    )
+
+    if(!shouldClose) return opened;
+
+    return quantity ? opened : (
       <div className={classes.closed} onClick={() => this._handleClick(1)}>+</div>
     )
   }
