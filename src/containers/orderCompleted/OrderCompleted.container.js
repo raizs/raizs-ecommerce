@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles, Icon, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
-import classnames from 'classnames'
 
 import { Loading } from '../../molecules';
 import { Formatter } from '../../helpers';
