@@ -15,12 +15,14 @@ const styles = theme => ({
     fontSize: theme.fontSizes.XL,
   },
   closed: {
+    fontFamily: 'raizs',
     width: 5 * theme.spacing.unit,
     backgroundColor: theme.palette.green.main,
-    lineHeight: `${5 * theme.spacing.unit}px`,
+    lineHeight: `36px`,
     cursor: 'pointer',
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
+    height: 5 * theme.spacing.unit
   },
   open: {
     width: 20 * theme.spacing.unit,
@@ -34,6 +36,7 @@ const styles = theme => ({
       position: 'absolute'
     },
     '& > div.subtract': {
+      fontFamily: 'raizs',
       left: 0,
       height: '100%',
       borderRadius: 1.5 * theme.spacing.unit,
@@ -46,6 +49,7 @@ const styles = theme => ({
       color: theme.palette.green.main
     },
     '& > div.add': {
+      fontFamily: 'raizs',
       right: 0,
       height: '100%',
       borderRadius: 1.5 * theme.spacing.unit,

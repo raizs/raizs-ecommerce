@@ -44,6 +44,7 @@ import { NotFound } from './containers/notFound';
 import { Dashboard } from './containers/dashboard';
 import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
+import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
 
 const actions = {
@@ -90,16 +91,34 @@ class App extends BaseContainer {
       speedAsDuration: true
     });
   }
+  
+  _renderTopHeader(isSubscription) {
+    const { history, selectedDate } = this.props;
+    const { handleSelectDate } = this.controller;
+
+    return !isSubscription && (
+      <TopHeader
+        history={history}
+        handleSelectDate={handleSelectDate}
+        selectedDate={selectedDate}
+      />
+    );
+  }
+
+  _renderFooter(isSubscription) {
+    const { history } = this.props;
+
+    return !isSubscription && <Footer history={history} />;
+  }
 
 	render() {
     const { email, password } = this.state;
-    const { history, storeFirebase, isUserPopperOpen, selectedDate } = this.props;
+    const { history, storeFirebase, isUserPopperOpen } = this.props;
     const {
       logout,
       handleTextInputChange,
       signInWithEmailAndPassword,
-      signInWithGoogle,
-      handleSelectDate
+      signInWithGoogle
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
@@ -130,11 +149,7 @@ class App extends BaseContainer {
             toastClassName='raizs-toast'
             progressClassName='raizs-toast-progress'
           />
-          <TopHeader
-            history={history}
-            handleSelectDate={handleSelectDate}
-            selectedDate={selectedDate}
-          />
+          {this._renderTopHeader(isSubscription)}
           <Header {...headerProps} />
           <Switch>
             <Route path='/' exact component={Landing} />
@@ -147,11 +162,12 @@ class App extends BaseContainer {
             <Route path='/quem-somos' exact component={About} />
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
             <Route path='/painel' component={Dashboard} />
+            <Route path='/assinatura' component={Subscription} />
             <Route path='/produto/:productId' component={Product} />
             <Route path='*' component={NotFound} />
 
           </Switch>
-          <Footer history={history} />
+          {this._renderFooter(isSubscription)}
         </div>
       </MuiThemeProvider>
 		);

@@ -11,8 +11,12 @@ import { Button, withStyles } from '@material-ui/core';
 const styles = theme => ({
   headerButton: theme.buttons.header,
   centerContent: {
-    width: 'calc(100% - 150px)',
-    height: '100%'
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0
   },
   rightContent: {
     position: 'relative',
@@ -150,7 +154,11 @@ class Header extends Component {
     
     if(!isSubscription) return null;
 
-    return <div className={classes.centerContent}>Subs</div>;
+    return (
+      <div className={classes.centerContent}>
+        <div>Subs</div>
+      </div>
+    );
   }
   
   /**
@@ -204,8 +212,10 @@ class Header extends Component {
   }
   
   render() {
+    const { classes } = this.props;
     return (
       <header className='app-header'>
+        {this._renderCenterContent()}
         <img
           alt='brand-logo'
           className='logo'
@@ -215,8 +225,7 @@ class Header extends Component {
         <div className='left-content'>
           {this._renderLeftContent()}
         </div>
-        {this._renderCenterContent()}
-        {this._renderRightContent(this.props.classes)}
+        {this._renderRightContent()}
       </header>
     );
   }
