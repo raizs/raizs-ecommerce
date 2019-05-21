@@ -5,14 +5,15 @@ import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import classnames from 'classnames'
 
-import { Loading, ProductImage } from '../../molecules';
+import { Loading, ProductImage, ProductSummary } from '../../molecules';
+import { updateCartAction } from '../../store/actions';
+
 import {  BaseContainer } from '../../helpers';
 import { ProductController } from "./Product.controller";
 
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
-    minHeight: "400px",
     display:"flex",
   	justifyContent:"center",
   	alignItems:"center",
@@ -20,8 +21,19 @@ const styles = theme => ({
   whiteBox:{
     width:"1024px",
     backgroundColor:"white",
-  	minHeight: "400px",
-  }
+    display:"flex",
+  	justifyContent:"space-between",
+    alignItems:"center",
+    paddingRight:16*theme.spacing.unit,
+    paddingLeft:16*theme.spacing.unit,
+    paddingTop:6*theme.spacing.unit,
+    paddingBottom:6*theme.spacing.unit,
+
+  },
+  infoWhiteBox:{
+    width:"350px"
+  },
+
 
 });
 
@@ -42,7 +54,7 @@ class Product extends BaseContainer {
   }
 
 	render() {
-		const { classes } = this.props;
+		const { classes, cart } = this.props;
     const { product } = this.state;
 
 		if (!product){
@@ -55,6 +67,9 @@ class Product extends BaseContainer {
         <div className={classes.wrapper}>
           <div className={classes.whiteBox}>
             <ProductImage src={product.imageUrl} alt={product.description} />
+            <div className={classes.infoWhiteBox}>
+              <ProductSummary handleUpdateCart={this.controller.handleUpdateCart} product={product} cart={cart}/>
+            </div>
           </div>
 
         </div>
@@ -63,11 +78,12 @@ class Product extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-	saleOrders: state.saleOrders.orders
+  saleOrders: state.saleOrders.orders,
+  cart: state.cart.current
 })
 
 export default compose(
 	withStyles(styles),
 	withRouter,
-	connect(mapStateToProps, {}),
+	connect(mapStateToProps, { updateCartAction }),
 )(Product);

@@ -6,13 +6,12 @@ import 'img-2';
 
 
 const styles = theme => ({
-  box:{
-    display:"inline-block",
-    width:"250px",
-    height:"800px",
-    // backgroundColor:"red",
-    paddingLeft:"100px",
-    verticalAlign:"top"
+  imgBox:{
+    border: `1px solid ${theme.palette.gray.border}`,
+    height:"302px"
+    // padding:"25px"
+  },
+  image:{
   },
 });
 
@@ -25,17 +24,19 @@ class ProductImage extends Component{
 
   render(){
     const { classes, description, src } = this.props;
-    console.log(this.props)
     return (
-      <img-2
-        className={classes.image}
-        width={248}
-        height={224}
-        alt={description}
-        src={src}
-        src-preview={src}
-        >
-        </img-2>
+      <div className={classes.imgBox}>
+        <img-2
+          className={classes.image}
+          width={300}
+          height={300}
+          alt={description}
+          src={src}
+          src-preview={src}
+          >
+          </img-2>
+
+      </div>
     )
   }
 };
