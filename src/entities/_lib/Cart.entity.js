@@ -10,7 +10,6 @@ export class Cart {
    */
   constructor(items = []) {
     this.items = items;
-    console.log(items);
 
     this.productQuantities = this._getProductQuantitiesObj(items);
     this.productPartialPrices = this._getProductPartialPricesObj(items);

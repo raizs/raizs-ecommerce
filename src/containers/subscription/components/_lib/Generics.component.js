@@ -85,8 +85,7 @@ const styles = theme => ({
       bottom: 0,
       right: 0,
       '& .quantity-selector .quantity': {
-        width: 'auto',
-        transform: 'translateX(-5px)'
+        left: 0
       }
     },
     '& > img': {
@@ -98,6 +97,7 @@ const styles = theme => ({
       fontSize: theme.fontSizes.SM,
       lineHeight: '20px',
       fontWeight: 700,
+      marginTop: theme.spacing.unit,
       '& span': {
         verticalAlign: 'middle',
         fontSize: theme.fontSizes.SM,
@@ -136,7 +136,7 @@ const styles = theme => ({
 class Generics extends Component {
 
   _renderItems() {
-    const { classes, products } = this.props;
+    const { classes, products, cart, handleUpdate } = this.props;
     return products.map(product => {
       return (
         <div key={product.id} className={classes.item}>
@@ -146,7 +146,12 @@ class Generics extends Component {
             <Tooltip><Icon>help_outline</Icon></Tooltip>
           </p>
           <div className='qs-wrapper'>
-            <QuantitySelector changeAction={null} quantity={0} shouldClose={false} />
+            <QuantitySelector
+              item={product}
+              changeAction={handleUpdate}
+              quantity={cart.productQuantities[product.id] || 0}
+              shouldClose={false}
+            />
           </div>
         </div>
       )

@@ -90,11 +90,12 @@ class QuantitySelector extends Component {
   }
 
   _handleClick(direction) {
-    const { quantity } = this.state;
+    const stateQuantity = this.state.quantity;
     const { changeAction, item } = this.props;
+    const quantity = Math.max(0, stateQuantity + direction);
 
-    changeAction({ item, quantity: quantity + direction });
-    this.setState({ quantity: quantity + direction });
+    changeAction({ item, quantity });
+    this.setState({ quantity });
   }
 
   _renderContent() {

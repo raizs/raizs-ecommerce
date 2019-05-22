@@ -9,8 +9,13 @@ export class SubscriptionCart {
    * @param {Subscription} subscription
    * @memberof SubscriptionCart
    */
-  constructor(subscription = {}) {
-    this.subscription = new Subscription(subscription);
+  constructor(items = []) {
+    this.items = items;
+
+    this.productQuantities = this._getProductQuantitiesObj(items);
+    this.productPartialPrices = this._getProductPartialPricesObj(items);
+    this.subtotal = this._getSubtotal(items);
+    this.productCount = this._getProductCount(items);
   }
   
   update(product, quantity) {
@@ -44,6 +49,8 @@ export class SubscriptionCart {
 
   _getProductQuantitiesObj(items) {
     const obj = {};
+
+    console.log(items);
 
     items.forEach(item => {
       obj[item.product.id] = item.quantity;

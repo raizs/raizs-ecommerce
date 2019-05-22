@@ -187,7 +187,7 @@ class Header extends Component {
 
     return (
       <div id='right-content' className={classes.rightContent}>
-        <div className={classes.greenHover}>
+        <div className={classes.greenHover} onClick={() => history.push('/assinatura/genericos')}>
           <ReactSvg
             src='/icons/assinatura.svg'
             className={classes.headerIcon}

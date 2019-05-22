@@ -6,6 +6,9 @@ import compose from 'recompose/compose';
 import { Generics } from './components';
 import { BaseContainer } from '../../helpers';
 import { SubscriptionController } from './Subscription.controller';
+import { updateSubscriptionCartAction } from '../../store/actions';
+
+const actions = { updateSubscriptionCartAction };
 
 class Subscription extends BaseContainer {
   constructor(props) {
@@ -14,11 +17,16 @@ class Subscription extends BaseContainer {
 
   render() {
     const { subscriptionCart, products } = this.props;
+    const { handleUpdateSubscriptionCart } = this.controller;
 
     return (
       <Switch>
         <Route path='/assinatura/genericos'>
-          <Generics cart={subscriptionCart} products={products.genericProducts} />
+          <Generics
+            cart={subscriptionCart}
+            products={products.genericProducts}
+            handleUpdate={handleUpdateSubscriptionCart}
+          />
         </Route>
       </Switch>
     )
@@ -32,5 +40,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, actions)
 )(Subscription);
