@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import compose from 'recompose/compose';
-import { Generics } from './components';
+import { Generics, Complements } from './components';
 import { BaseContainer } from '../../helpers';
 import { SubscriptionController } from './Subscription.controller';
 import { updateSubscriptionCartAction } from '../../store/actions';
@@ -25,6 +25,13 @@ class Subscription extends BaseContainer {
           <Generics
             cart={subscriptionCart}
             products={products.genericProducts}
+            handleUpdate={handleUpdateSubscriptionCart}
+          />
+        </Route>
+        <Route path='/assinatura/complementos'>
+          <Complements
+            cart={subscriptionCart}
+            products={products.catalogProducts}
             handleUpdate={handleUpdateSubscriptionCart}
           />
         </Route>

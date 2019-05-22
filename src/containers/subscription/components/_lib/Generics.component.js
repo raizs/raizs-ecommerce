@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { withStyles, Button, Icon, Tooltip } from '@material-ui/core';
-import { QuantitySelector } from '../../../../molecules';
-import { subscripionItems } from '../../../../assets';
+import { withStyles, Button } from '@material-ui/core';
+import { toast } from "react-toastify";
+import { GenericProduct } from './GenericProduct.component';
+import { Formatter } from '../../../../helpers';
+import { ObservationsModal } from './ObservationsModal.component';
 
 const styles = theme => ({
   wrapper: {
@@ -37,7 +39,8 @@ const styles = theme => ({
       marginTop: 2 * theme.spacing.unit
     },
     '& > div.items': {
-      marginTop: 4 * theme.spacing.unit
+      marginTop: 4 * theme.spacing.unit,
+      marginBottom: 2 * theme.spacing.unit
     },
     '& > div.actions': {
       display: 'inline-block',
@@ -45,7 +48,8 @@ const styles = theme => ({
       maxWidth: '1100px',
       marginTop: 6 * theme.spacing.unit,
       '& > div': {
-        width: '50%',
+        // width: '50%',
+        width: '100%',
         display: 'inline-block',
         padding: 4 * theme.spacing.unit,
         verticalAlign: 'top',
@@ -66,44 +70,6 @@ const styles = theme => ({
           fontSize: theme.fontSizes.MD,
           marginTop: 2 * theme.spacing.unit
         }
-      }
-    }
-  },
-  item: {
-    width: '162px',
-    height: '240px',
-    display: 'inline-block',
-    margin: '0 16px',
-    backgroundColor: 'white',
-    borderRadius: theme.spacing.unit,
-    borderBottomRightRadius: 2 * theme.spacing.unit,
-    borderBottomLeftRadius: 2 * theme.spacing.unit,
-    border: `1px solid ${theme.palette.gray.border}`,
-    position: 'relative',
-    '& .qs-wrapper': {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      '& .quantity-selector .quantity': {
-        left: 0
-      }
-    },
-    '& > img': {
-      width: '160px',
-      height: '160px',
-      borderRadius: theme.spacing.unit
-    },
-    '& > p': {
-      fontSize: theme.fontSizes.SM,
-      lineHeight: '20px',
-      fontWeight: 700,
-      marginTop: theme.spacing.unit,
-      '& span': {
-        verticalAlign: 'middle',
-        fontSize: theme.fontSizes.SM,
-        marginLeft: theme.spacing.unit,
-        color: theme.palette.green.main,
-        cursor: 'pointer'
       }
     }
   },
@@ -134,40 +100,74 @@ const styles = theme => ({
 });
 
 class Generics extends Component {
+  state = {
+    isModalOpen: false,
+    restrictions: '',
+    preferences: '',
+    currentObservations: {
+      restrictions: '',
+      preferences: ''
+    }
+  }
 
   _renderItems() {
-    const { classes, products, cart, handleUpdate } = this.props;
-    return products.map(product => {
-      return (
-        <div key={product.id} className={classes.item}>
-          <img src={product.imageUrl} />
-          <p>
-            {product.name}
-            <Tooltip><Icon>help_outline</Icon></Tooltip>
-          </p>
-          <div className='qs-wrapper'>
-            <QuantitySelector
-              item={product}
-              changeAction={handleUpdate}
-              quantity={cart.productQuantities[product.id] || 0}
-              shouldClose={false}
-            />
-          </div>
-        </div>
-      )
-    })
+    const { products, cart, handleUpdate } = this.props;
+    return products.map(product =>
+      <GenericProduct
+        item={product}
+        quantity={cart.productQuantities[product.id] || 0}
+        changeAction={handleUpdate}
+      />
+    );
+  }
+
+  _handleSubmit() {
+    const { restrictions, preferences, currentObservations } = this.state;
+    
+    if(restrictions !== currentObservations.restrictions || preferences !== currentObservations.preferences)
+      toast('Alterações salvas!', { autoClose: 3000 });
+
+    this.setState({
+      isModalOpen: false,
+      currentObservations: { restrictions, preferences }
+    });
+  }
+
+  _handleClose() {
+    const { restrictions, preferences, currentObservations } = this.state;
+
+    if(restrictions !== currentObservations.restrictions || preferences !== currentObservations.preferences)
+      toast('Alterações descartadas.', { autoClose: 3000 });
+    
+    this.setState({
+      isModalOpen: false,
+      restrictions: '',
+      preferences: ''
+    });
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, cart } = this.props;
+    const { isModalOpen, restrictions, preferences, currentObservations } = this.state;
+
     return (
       <div className={classes.wrapper}>
+        <ObservationsModal
+          open={isModalOpen}
+          handleClose={this._handleClose.bind(this)}
+          handleChange={e => this.setState({ [e.target.id]: e.target.value })}
+          handleSubmit={this._handleSubmit.bind(this)}
+          restrictions={restrictions}
+          preferences={preferences}
+        />
+
         <section className={classes.top}>
           <h1>Assinatura</h1>
           <h2>Sua cesta de orgânicos personalizada,<br/>entregue em casa periodicamente.</h2>
         </section>
+
         <section className={classes.main}>
-          <h3>Seleção de Orgânicos</h3>
+          <h3>Seleção de Orgânicos Genéricos</h3>
           <h4>Enviamos o que tiver de melhor na semana, respeitando a maturidade e estação de cada hortaliça.<br/>Tentamos sempre enviar uma mistura de novidades e conforto, variando de semana a semana.</h4>
           <div className='items'>
             {this._renderItems()}
@@ -176,24 +176,38 @@ class Generics extends Component {
             <div>
               <h4>Observações</h4>
               <h5>Possui alguma preferência ou restrição?</h5>
-              <Button>Adicionar</Button>
+              <Button
+                id='observations'
+                onClick={() => this.setState({
+                  isModalOpen: true,
+                  restrictions: currentObservations.restrictions,
+                  preferences: currentObservations.preferences
+                })}
+              >
+                {
+                  currentObservations.preferences || currentObservations.restrictions ?
+                  'Editar' : 'Adicionar'
+                }
+              </Button>
             </div>
-            <div>
+            {/* <div>
               <h4>Precisa de ajuda para montar sua cesta?</h4>
               <h5>Responda a algumas perguntas para atendermos às suas necessidades.</h5>
               <Button>Faça o quiz</Button>
-            </div>
+            </div> */}
           </div>
         </section>
+
         <section className={classes.bottom}>
           <div className='summary'>
-            <p>Seleção de orgânicos: <b>8 itens</b></p>
-            <p>Subtotal: <b>8 itens</b></p>
+            <p>Orgânicos Genéricos: <b>{cart.productCount} ite{cart.productCount === 1 ? 'm' : 'ns'}</b></p>
+            <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
           </div>
           <div className='continue'>
             <Button>Continuar montando cesta</Button>
           </div>
         </section>
+
       </div>
     )
   }
