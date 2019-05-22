@@ -67,8 +67,7 @@ class ProductExtraInfos extends Component{
   }
 
   render(){
-    console.log(this.state)
-    const { classes, product  } = this.props;
+    const { classes  } = this.props;
     return (
       <div className={classes.extraInfo}>
         {this._renderMenuTopics()}

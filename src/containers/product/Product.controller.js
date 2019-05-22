@@ -11,13 +11,18 @@ export class ProductController extends BaseController {
   }
 
 
-  async fetchProduct(){
-    const { match } = this.getProps()
-
-    const promise = await this.productRepo.fetchProduct(match.params.productId)
-    if (!promise.err){
-      const product = new Product(promise.data)
-      this.toState({product})
+  async fetchProduct({match, product}){
+    if (product){
+      console.log(product)
+      return this.toState({product})
+    }
+    const { productId } = match.params
+    if (productId){
+      const promise = await this.productRepo.fetchProduct(productId)
+      if (!promise.err){
+        product = new Product(promise.data)
+        this.toState({product})
+      }
     }
   }
 

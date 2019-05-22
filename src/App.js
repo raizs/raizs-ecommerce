@@ -46,6 +46,7 @@ import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
 import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
+import ProductModal from './containers/product/ProductModal.container'
 
 const actions = {
   closeUserPopperAction,
@@ -144,6 +145,7 @@ class App extends BaseContainer {
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <div className='App'>
+          <ProductModal/>
           <ToastContainer
             autoClose={5000}
             toastClassName='raizs-toast'

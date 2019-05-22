@@ -8,7 +8,8 @@ const _renderSubcategories = ({
   availableWidth,
   brands,
   handleUpdateCart,
-  cart
+  cart,
+  openModalProductAction
 }) => {
   return subcategories.map(subcategory => {
     const groupedProducts = products.groupedByCategoryId[subcategory.subcategoryId] || [];
@@ -21,6 +22,7 @@ const _renderSubcategories = ({
         availableWidth={availableWidth}
         groupedProducts={groupedProducts}
         handleUpdateCart={handleUpdateCart}
+        openModalProductAction={openModalProductAction}
       />
     )
   });
@@ -34,7 +36,8 @@ let CatalogSection = props => {
     availableWidth,
     brands,
     handleUpdateCart,
-    cart
+    cart,
+    openModalProductAction
   } = props;
 
   return (
@@ -45,7 +48,8 @@ let CatalogSection = props => {
         availableWidth,
         brands,
         handleUpdateCart,
-        cart
+        cart,
+        openModalProductAction
       })}
     </div>
   )

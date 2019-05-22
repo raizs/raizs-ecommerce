@@ -76,3 +76,11 @@ export {
   setUserAddressesAction,
   selectUserAddressAction
 } from './_lib/userAddresses.actions';
+
+
+export {
+  OPEN_MODAL_PRODUCT,
+  CLOSE_MODAL_PRODUCT,
+  openModalProductAction,
+  closeModalProductAction
+} from './_lib/modal.actions';

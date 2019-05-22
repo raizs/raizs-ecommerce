@@ -91,7 +91,7 @@ class CatalogSectionList extends Component {
   
   _renderProducts() {
     const { perRow, rowsToRender } = this.state;
-    const { groupedProducts, brands, classes, handleUpdateCart, cart } = this.props;
+    const { groupedProducts, brands, classes, handleUpdateCart, cart, openModalProductAction } = this.props;
     let chunked = chunk(groupedProducts, perRow);
 
     chunked = chunked.slice(0, rowsToRender);
@@ -107,6 +107,7 @@ class CatalogSectionList extends Component {
                 key={product.id}
                 product={product}
                 handleUpdateCart={handleUpdateCart}
+                openModalProductAction={openModalProductAction}
               />
             );
           })}

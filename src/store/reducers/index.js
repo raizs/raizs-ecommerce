@@ -14,6 +14,7 @@ import { subscriptionsReducer } from "./_lib/subscriptions.reducer"
 import { unitsOfMeasureReducer } from "./_lib/unitsOfMeasure.reducer"
 import { userReducer } from "./_lib/user.reducer"
 import { userAddressesReducer } from "./_lib/userAddresses.reducer"
+import { modalReducer } from "./_lib/modal.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   subscriptions: subscriptionsReducer,
   unitsOfMeasure: unitsOfMeasureReducer,
   user: userReducer,
-  userAddresses: userAddressesReducer
+  userAddresses: userAddressesReducer,
+  modal: modalReducer
 });
 
 export default rootReducer;

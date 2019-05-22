@@ -13,7 +13,8 @@ const styles = theme => ({
     display: 'inline-block',
     margin: theme.spacing.unit,
     padding: theme.spacing.unit/2,
-    borderRadius: theme.spacing.unit
+    borderRadius: theme.spacing.unit,
+    cursor: "pointer"
   },
   imageWrapper: {
     position: 'relative',
@@ -77,10 +78,10 @@ class CatalogProduct extends Component {
 
   
   render() {
-    const { classes, product, handleUpdateCart, cart } = this.props;
+    const { classes, product, handleUpdateCart, cart, openModalProductAction } = this.props;
 
     return (
-      <div id={`product-${product.id}`} className={classes.wrapper} onClick={() => console.log(product)}>
+      <div id={`product-${product.id}`} className={classes.wrapper} onClick={()=>openModalProductAction(product)}>
         <div className={classes.imageWrapper}>
           <img-2
             className={classes.image}

@@ -15,7 +15,8 @@ import {
   setProductsAction,
   setUnitsOfMeasureAction,
   setProductBrandsAction,
-  updateCartAction
+  updateCartAction,
+  openModalProductAction
 } from '../../store/actions';
 
 const styles = theme => ({
@@ -29,7 +30,8 @@ const actions = {
   setProductsAction,
   setUnitsOfMeasureAction,
   setProductBrandsAction,
-  updateCartAction
+  updateCartAction,
+  openModalProductAction
 };
 
 /**
@@ -60,9 +62,8 @@ class Catalog extends BaseContainer {
    * @memberof Catalog
    */
   _renderTimelineSections() {
-    const { categories, products, availableWidth, brands, cart } = this.props;
+    const { categories, products, availableWidth, brands, cart, openModalProductAction } = this.props;
     const { handleUpdateCart } = this.controller;
-
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
@@ -73,6 +74,8 @@ class Catalog extends BaseContainer {
             availableWidth={availableWidth}
             handleUpdateCart={handleUpdateCart}
             cart={cart}
+            openModalProductAction={openModalProductAction}
+
           />
         </TimelineSection>
       );
