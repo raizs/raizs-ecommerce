@@ -4,11 +4,10 @@ import compose from 'recompose/compose';
 import 'img-2';
 
 
-
 const styles = theme => ({
   imgBox:{
     border: `1px solid ${theme.palette.gray.border}`,
-    height:"302px"
+    height:"402px"
     // padding:"25px"
   },
   image:{
@@ -28,8 +27,8 @@ class ProductImage extends Component{
       <div className={classes.imgBox}>
         <img-2
           className={classes.image}
-          width={300}
-          height={300}
+          width={400}
+          height={400}
           alt={description}
           src={src}
           src-preview={src}

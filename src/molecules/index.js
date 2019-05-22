@@ -7,6 +7,8 @@ export { GoogleButton } from './_lib/GoogleButton.molecule';
 export { Loading } from './_lib/Loading.molecule';
 export { MiniDatePicker } from './_lib/MiniDatePicker.molecule';
 export { PickABox } from './_lib/PickABox.molecule';
+export { ProductExtraInfos } from './_lib/ProductExtraInfos.molecule';
+export { ProductFamilies } from './_lib/ProductFamilies.molecule';
 export { ProductImage } from './_lib/ProductImage.molecule';
 export { ProductSummary } from './_lib/ProductSummary.molecule';
 export { QuantitySelector } from './_lib/QuantitySelector.molecule';

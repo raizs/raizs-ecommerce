@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import classnames from 'classnames'
 
-import { Loading, ProductImage, ProductSummary } from '../../molecules';
+import { Loading, ProductImage, ProductSummary, ProductFamilies, ProductExtraInfos } from '../../molecules';
 import { updateCartAction } from '../../store/actions';
 
 import {  BaseContainer } from '../../helpers';
@@ -16,21 +16,22 @@ const styles = theme => ({
     backgroundColor: theme.palette.gray.bg,
     display:"flex",
   	justifyContent:"center",
-  	alignItems:"center",
+    alignItems:"center",
+    minHeight:"600px"
   },
   whiteBox:{
     width:"1024px",
     backgroundColor:"white",
     display:"flex",
   	justifyContent:"space-between",
-    alignItems:"center",
-    paddingRight:16*theme.spacing.unit,
-    paddingLeft:16*theme.spacing.unit,
+    alignItems:"top",
+    paddingRight:10*theme.spacing.unit,
+    paddingLeft:10*theme.spacing.unit,
     paddingTop:6*theme.spacing.unit,
     paddingBottom:6*theme.spacing.unit,
 
   },
-  infoWhiteBox:{
+  rightBox:{
     width:"350px"
   },
 
@@ -62,16 +63,22 @@ class Product extends BaseContainer {
 				<Loading/>
 			</div>
 		}
-    console.log(product)
 	    return (
         <div className={classes.wrapper}>
           <div className={classes.whiteBox}>
-            <ProductImage src={product.imageUrl} alt={product.description} />
-            <div className={classes.infoWhiteBox}>
-              <ProductSummary handleUpdateCart={this.controller.handleUpdateCart} product={product} cart={cart}/>
-            </div>
-          </div>
 
+            <div className={classes.leftBox}>
+              <ProductImage src={product.imageUrl} alt={product.description} />
+              <ProductFamilies product={product}/>
+            </div>
+
+
+            <div className={classes.rightBox}>
+              <ProductSummary handleUpdateCart={this.controller.handleUpdateCart} product={product} cart={cart}/>
+              <ProductExtraInfos product={product} />
+            </div>
+
+          </div>
         </div>
 	    )
   }

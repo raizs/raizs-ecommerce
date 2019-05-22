@@ -50,10 +50,10 @@ const styles = theme => ({
 });
 
 let SliderArrow = props => {
-  const { to, classes, onClick } = props;
+  const { to, classes, onClick, height, styles } = props;
 
   return (
-    <button type="button" onClick={onClick} className={classes[to]} aria-label={to}>
+    <button style={ styles || {} } type="button" onClick={onClick} className={classes[to]} aria-label={to}>
       <Icon fontSize='large'>{{ prev: 'keyboard_arrow_left', next: 'keyboard_arrow_right' }[to]}</Icon>
     </button>
   )

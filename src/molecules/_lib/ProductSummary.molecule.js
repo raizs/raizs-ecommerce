@@ -12,28 +12,29 @@ import { QuantitySelector } from './QuantitySelector.molecule';
 const styles = theme => ({
   summary:{
     position:"relative",
-    height: "350px"
+    height: "400px",
+    width:"350px"
   },
   smallGrey:{
     fontSize: theme.fontSizes.XXS,
     color: theme.palette.gray.main,
-    marginBottom:theme.spacing.unit
+    marginBottom:2*theme.spacing.unit
   },
   title:{
     fontSize: theme.fontSizes.LG,
     color: theme.palette.black.main,
-    marginBottom:theme.spacing.unit
+    marginBottom:2*theme.spacing.unit
   },
   price:{
     fontSize: theme.fontSizes.MMD,
     color: theme.palette.gray.main,
-    marginBottom:theme.spacing.unit
+    marginBottom:2*theme.spacing.unit
 
   },
   subtitle:{
     fontSize: theme.fontSizes.XS,
     color: theme.palette.gray.main,
-    marginBottom:theme.spacing.unit,
+    marginBottom:2*theme.spacing.unit,
     fontWeight:400,
     marginBottom: 4*theme.spacing.unit
   },
@@ -41,7 +42,7 @@ const styles = theme => ({
     color: theme.palette.black.main,
     fontWeight:800,
     fontSize: theme.fontSizes.XS,
-    marginBottom: theme.spacing.unit
+    marginBottom: 2*theme.spacing.unit
 
   },
   inLineDateBox:{
@@ -73,7 +74,7 @@ const styles = theme => ({
     fontSize:theme.fontSizes.XS
   },
   selectorBox:{
-    paddingTop: 4*theme.spacing.unit
+    paddingTop: 8*theme.spacing.unit
   }
   
 });
