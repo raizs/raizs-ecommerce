@@ -16,7 +16,7 @@ class Subscription extends BaseContainer {
   }
 
   render() {
-    const { subscriptionCart, products } = this.props;
+    const { subscriptionCart, products, categories } = this.props;
     const { handleUpdateSubscriptionCart } = this.controller;
 
     return (
@@ -33,6 +33,7 @@ class Subscription extends BaseContainer {
             cart={subscriptionCart}
             products={products.catalogProducts}
             handleUpdate={handleUpdateSubscriptionCart}
+            categories={categories}
           />
         </Route>
       </Switch>
@@ -42,7 +43,8 @@ class Subscription extends BaseContainer {
 
 const mapStateToProps = state => ({
   subscriptionCart: state.subscriptionCart.current,
-  products: state.products.model
+  products: state.products.model,
+  categories: state.categories.model
 });
 
 export default compose(

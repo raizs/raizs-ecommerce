@@ -28,7 +28,7 @@ const withTimeline = WrappedComponent => {
     }
     
     componentDidUpdate(prevProps, prevState) {
-      if(this.props.location.hash && !prevState.initialScroll) {
+      if(this.props.location && this.props.location.hash && !prevState.initialScroll) {
         const el = document.querySelector(this.props.location.hash);
         if(el) window.scrollTo(el.offsetLeft, el.offsetTop);
         this.setState({ initialScroll: true });

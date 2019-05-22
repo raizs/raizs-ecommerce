@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router';
 import { withStyles, Button } from '@material-ui/core';
-import { toast } from "react-toastify";
 import { Formatter } from '../../../../helpers';
+import { withTimeline } from '../../../withTimeline';
+import compose from 'recompose/compose';
+import { Timeline, TimelineSections, TimelineSection } from '../../../../components';
 
 const styles = theme => ({
   wrapper: {
@@ -22,7 +25,7 @@ const styles = theme => ({
     }
   },
   main: {
-    padding: 6 * theme.spacing.unit
+    padding: 0
   },
   bottom: {
     textAlign: 'center',
@@ -52,8 +55,28 @@ const styles = theme => ({
 
 class Complements extends Component {
 
+  _renderTimelineSections() {
+    const { categories } = this.props;
+    return categories.catalogSectionsArr.map(item => {
+      console.log(item);
+      return (
+        <TimelineSection key={item} id={item}>
+          a
+        </TimelineSection>
+      );
+    });
+  }
+
   render() {
-    const { classes, cart } = this.props;
+    const {
+      classes,
+      history,
+      cart,
+      availableWidth,
+      timelineWidth,
+      shouldFixTimeline,
+      categories: { timelineObj }
+    } = this.props;
 
     return (
       <div className={classes.wrapper}>
@@ -64,7 +87,14 @@ class Complements extends Component {
         </section>
 
         <section className={classes.main}>
-         
+          <Timeline
+            history={history}
+            content={{ items: timelineObj }}
+            fixed={shouldFixTimeline}
+          />
+          <TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
+            {this._renderTimelineSections()}
+          </TimelineSections>
         </section>
 
         <section className={classes.bottom}>
@@ -83,6 +113,10 @@ class Complements extends Component {
   }
 }
 
-Complements = withStyles(styles)(Complements);
+Complements = compose(
+  withTimeline,
+  withStyles(styles),
+  withRouter
+)(Complements);
 
 export { Complements };
