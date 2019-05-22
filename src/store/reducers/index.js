@@ -8,14 +8,15 @@ import { datePickerReducer } from "./_lib/datePicker.reducer"
 import { headerReducer } from "./_lib/header.reducer"
 import { productBrandsReducer } from "./_lib/productBrands.reducer"
 import { productsReducer } from "./_lib/products.reducer"
+import { saleOrdersReducer } from "./_lib/saleOrders.reducer"
+import { subscriptionCartReducer } from "./_lib/subscriptionCart.reducer"
+import { subscriptionsReducer } from "./_lib/subscriptions.reducer"
 import { unitsOfMeasureReducer } from "./_lib/unitsOfMeasure.reducer"
 import { userReducer } from "./_lib/user.reducer"
 import { userAddressesReducer } from "./_lib/userAddresses.reducer"
-import { saleOrdersReducer } from "./_lib/saleOrders.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
-  saleOrders: saleOrdersReducer,
   brands: productBrandsReducer,
   cart: cartReducer,
   categories: categoriesReducer,
@@ -23,6 +24,9 @@ const rootReducer = combineReducers({
   datePicker: datePickerReducer,
   header: headerReducer,
   products: productsReducer,
+  saleOrders: saleOrdersReducer,
+  subscriptionCart: subscriptionCartReducer,
+  subscriptions: subscriptionsReducer,
   unitsOfMeasure: unitsOfMeasureReducer,
   user: userReducer,
   userAddresses: userAddressesReducer

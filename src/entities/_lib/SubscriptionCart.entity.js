@@ -1,12 +1,13 @@
 import clonedeep from 'lodash.clonedeep';
+import { Subscription } from '..';
 
-export class Cart {
+export class SubscriptionCart {
 
   /**
-   * Creates an instance of Cart.
+   * Creates an instance of SubscriptionCart.
    * 
-   * @param {Array} items - Array of { product: {Product}, quantity: {Number}, partialValue: {Number} }
-   * @memberof Cart
+   * @param {Subscription} subscription
+   * @memberof SubscriptionCart
    */
   constructor(items = []) {
     this.items = items;
@@ -15,8 +16,6 @@ export class Cart {
     this.productPartialPrices = this._getProductPartialPricesObj(items);
     this.subtotal = this._getSubtotal(items);
     this.productCount = this._getProductCount(items);
-
-    this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
   }
   
   update(product, quantity) {
@@ -45,11 +44,13 @@ export class Cart {
       else items[index].quantity = quantity;
     }
 
-    return new Cart(items);
+    return new SubscriptionCart(items);
   }
 
   _getProductQuantitiesObj(items) {
     const obj = {};
+
+    console.log(items);
 
     items.forEach(item => {
       obj[item.product.id] = item.quantity;

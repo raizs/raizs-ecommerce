@@ -4,10 +4,11 @@ export class SubscriptionController extends BaseController {
   constructor({ toState, getState, getProps }) {
     super({ toState, getState, getProps });
 
-    this.handleUpdateSubscription = this.handleUpdateSubscription.bind(this);
+    this.handleUpdateSubscriptionCart = this.handleUpdateSubscriptionCart.bind(this);
   }
 
-  handleUpdateSubscription() {
-    
+  handleUpdateSubscriptionCart({ item, quantity }) {
+    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, subscriptionCart, updateSubscriptionCartAction);
   }
 }

@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import ReactSvg from 'react-svg'
 
-import { HeaderHelper } from '../../helpers';
-
+import { HeaderHelper, StringMapper } from '../../helpers';
 import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
-import { StringMapper } from '../../helpers/_lib/StringMapper';
+
 import { Button, withStyles } from '@material-ui/core';
+import { SubscriptionStepper } from './SubscriptionStepper.component';
 
 const styles = theme => ({
   headerButton: theme.buttons.header,
   centerContent: {
-    width: '100%',
+    width: '40%',
     height: '100%',
     textAlign: 'center',
     position: 'absolute',
     top: 0,
-    left: 0
+    left: '30%'
   },
   rightContent: {
     position: 'relative',
@@ -156,7 +156,7 @@ class Header extends Component {
 
     return (
       <div className={classes.centerContent}>
-        <div>Subs</div>
+        <SubscriptionStepper />
       </div>
     );
   }
@@ -187,7 +187,7 @@ class Header extends Component {
 
     return (
       <div id='right-content' className={classes.rightContent}>
-        <div className={classes.greenHover}>
+        <div className={classes.greenHover} onClick={() => history.push('/assinatura/genericos')}>
           <ReactSvg
             src='/icons/assinatura.svg'
             className={classes.headerIcon}

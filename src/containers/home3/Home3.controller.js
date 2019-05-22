@@ -1,5 +1,4 @@
 import { BaseController } from "../../helpers";
-import { toast } from "react-toastify";
 
 export class Home3Controller extends BaseController {
   constructor({ toState, getProps, getState }) {

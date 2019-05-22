@@ -28,6 +28,7 @@ export class Product {
 
   _getFullPrice(price, weight, uomId) {
     let weightPart = '';
+    let string = Formatter.currency(price);
 
     if(uomId === 1 && Boolean(weight)) {
       const weightUnit = weight < 1 ? 'g' : 'kg';
@@ -38,8 +39,10 @@ export class Product {
       }[weightUnit];
 
       weightPart = weight.toString() + weightUnit;
-
-      return `${Formatter.currency(this.price)} / ${weightPart}`;
+      string += ` / ${weightPart}`;
     }
+
+
+    return string;
   }
 }

@@ -1,5 +1,6 @@
 import { BaseModel } from '../../helpers';
 import { Product } from '..';
+import sortby from 'lodash.sortby';
 
 export class Products extends BaseModel {
   constructor(products, from = null) {
@@ -8,9 +9,15 @@ export class Products extends BaseModel {
     if(['popularProducts', 'newProducts'].includes(from)) {
       products = this._fixPopularProducts(products);
     }
+
+    const catalogFilter = p => ![1,2,3,4].includes(p.id);
+    const genericFilter = p => [1,2,3,4].includes(p.id);
+    const mapper = p => new Product(p);
     
     this.original = products;
     this.all = products.map(product => new Product(product));
+    this.catalogProducts = products.filter(catalogFilter).map(mapper);
+    this.genericProducts = sortby(products.filter(genericFilter).map(mapper), 'id');
 
     this.groupedByCategoryId = this._groupByCategoryId(this.all);
   }

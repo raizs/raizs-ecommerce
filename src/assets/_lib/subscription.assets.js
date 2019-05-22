@@ -1,23 +1,30 @@
-export const subscripionItems = [
-  {
-    src: '/icons/twitter.svg',
-    label: 'Verduras',
-    id: 'verduras'
-  }, {
-    src: '/icons/twitter.svg',
-    label: 'Legumes',
-    id: 'legumes'
-  }, {
-    src: '/icons/twitter.svg',
-    label: 'Frutas',
-    id: 'frutas'
-  }, {
-    src: '/icons/twitter.svg',
-    label: 'Temperos',
-    id: 'temperos'
-  }, {
-    src: '/icons/twitter.svg',
-    label: 'Higienizados',
-    id: 'higienizados'
-  }
-];
+export const genericExamples = {
+  1: [
+    'Berinjela 600g',
+    'Batata Doce 600g',
+    'Abobrinha 600g',
+    'Cenoura 600g',
+    'Tomate 500g'
+  ],
+  2: [
+    'Berinjela 600g',
+    'Batata Doce 600g',
+    'Abobrinha 600g',
+    'Cenoura 600g',
+    'Tomate 500g'
+  ],
+  3: [
+    'Berinjela 600g',
+    'Batata Doce 600g',
+    'Abobrinha 600g',
+    'Cenoura 600g',
+    'Tomate 500g'
+  ],
+  4: [
+    'Berinjela 600g',
+    'Batata Doce 600g',
+    'Abobrinha 600g',
+    'Cenoura 600g',
+    'Tomate 500g'
+  ],
+}
