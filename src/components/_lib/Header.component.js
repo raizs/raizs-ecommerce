@@ -5,8 +5,11 @@ import ReactSvg from 'react-svg'
 import { HeaderHelper, StringMapper } from '../../helpers';
 import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
 
+import classnames from "classnames"
+
 import { Button, withStyles } from '@material-ui/core';
 import { SubscriptionStepper } from './SubscriptionStepper.component';
+import { SearchBar } from './SearchBar.component';
 
 const styles = theme => ({
   headerButton: theme.buttons.header,
@@ -46,18 +49,33 @@ const styles = theme => ({
   },
   headerIcon: {
     height: 40,
+    transition: "0.2s",
     width: 40,
     verticalAlign: 'middle',
     display: 'inline-block',
     '&:hover *': {
       stroke: theme.palette.green.main
-    }
+    },
+  },
+  noWidthIcon:{
+    width: 0
   },
   greenHover: {
     '&:hover *': {
       color: theme.palette.green.main,
       stroke: theme.palette.green.main
     }
+  },
+  backdrop:{
+    position:"fixed",
+    top:0,
+    zIndex:3,
+    backgroundColor:"rgba(0,0,0, 0.1)",
+    // opacity: "0.3",
+    width:"100%",
+    height:"100vh",
+    top:12*theme.spacing.unit,
+
   }
 });
 
@@ -69,7 +87,8 @@ const styles = theme => ({
  */
 class Header extends Component {
   state = {
-    windowWidth: 1024
+    windowWidth: 1024,
+    searching:true
   }
 
   /**
@@ -85,6 +104,9 @@ class Header extends Component {
       const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
       context.setState({ windowWidth, availableCenterWidth });
     });
+    // window.addEventListener('scroll', () => {
+    //   this.setState({searching:false})
+    // });
     
     const {
       windowWidth,
@@ -111,6 +133,7 @@ class Header extends Component {
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
     const to = toShow.map(({ id, label }) => {
+      console.log(id, label)
       if(id === 'all')
         return (
           <Button
@@ -185,6 +208,12 @@ class Header extends Component {
 
     if(isSubscription) return <div id='right-content'></div>;
 
+
+    let searchClassName = [classes.headerIcon]
+    if (this.state.searching){
+      searchClassName.push(classes.noWidthIcon)
+    }
+
     return (
       <div id='right-content' className={classes.rightContent}>
         <div className={classes.greenHover} onClick={() => history.push('/assinatura/genericos')}>
@@ -196,7 +225,8 @@ class Header extends Component {
         </div>
         <ReactSvg
           src='/icons/pesquisa.svg'
-          className={classes.headerIcon}
+          className={classnames(searchClassName)}
+          onClick={()=>this.setState({searching:true})}
         />
         <HeaderUserButton {...headerUserButtonProps} />
         <div
@@ -210,12 +240,23 @@ class Header extends Component {
       </div>
     );
   }
+
+  _renderBackdrop(){
+    if (this.state.searching){
+      return <div className={this.props.classes.backdrop}>
+
+      </div>
+    }
+  }
+
   
   render() {
     const { classes } = this.props;
+    const { searching, availableCenterWidth } = this.state
     return (
       <header className='app-header'>
         {this._renderCenterContent()}
+        {this._renderBackdrop()}
         <img
           alt='brand-logo'
           className='logo'
@@ -223,7 +264,8 @@ class Header extends Component {
           onClick={() => this.props.history.push('/')}
         />
         <div className='left-content'>
-          {this._renderLeftContent()}
+          <SearchBar searching={searching} width={availableCenterWidth} />
+          {searching ? null : this._renderLeftContent()}
         </div>
         {this._renderRightContent()}
       </header>

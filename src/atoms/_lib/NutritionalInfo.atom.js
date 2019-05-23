@@ -35,7 +35,6 @@ class NutritionalInfo extends Component{
 
   _renderBody(){
     const { info, classes } = this.props;
-    console.log(info)
     return Object.keys(info).map((key, i)=>{
       return <tr>
         <td className={classes.bodyItem}key={i}>{nutritionVocabulary[key]}</td>
