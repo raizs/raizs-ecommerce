@@ -110,6 +110,16 @@ class Generics extends Component {
     }
   }
 
+  componentDidMount() {
+    const { currentObservations } = this.props;
+    if(currentObservations) this.setState({ currentObservations });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { currentObservations } = nextProps, prevObservations = this.props.currentObservations;
+    if(currentObservations && !prevObservations) this.setState({ currentObservations });
+  }
+  
   _renderItems() {
     const { products, cart, handleUpdate } = this.props;
     return products.map(product =>
@@ -147,7 +157,7 @@ class Generics extends Component {
   }
 
   render() {
-    const { classes, cart } = this.props;
+    const { classes, cart, handleContinueAction } = this.props;
     const { isModalOpen, restrictions, preferences, currentObservations } = this.state;
 
     return (
@@ -168,7 +178,10 @@ class Generics extends Component {
 
         <section className={classes.main}>
           <h3>Seleção de Orgânicos Genéricos</h3>
-          <h4>Enviamos o que tiver de melhor na semana, respeitando a maturidade e estação de cada hortaliça.<br/>Tentamos sempre enviar uma mistura de novidades e conforto, variando de semana a semana.</h4>
+          <h4>
+            Enviamos o que tiver de melhor na semana, respeitando a maturidade e estação de cada hortaliça.<br/>
+            Tentamos sempre enviar uma mistura de novidades e conforto, variando de semana a semana.
+          </h4>
           <div className='items'>
             {this._renderItems()}
           </div>
@@ -204,7 +217,12 @@ class Generics extends Component {
             <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
           </div>
           <div className='continue'>
-            <Button>Continuar montando cesta</Button>
+            <Button
+              id='continue'
+              onClick={() => handleContinueAction(currentObservations)}
+            >
+              Continuar montando cesta
+            </Button>
           </div>
         </section>
 

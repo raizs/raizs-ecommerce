@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   wrapper: {
-    padding: '0 64px 24px 64px',
     position: 'relative',
     marginTop: 4 * theme.spacing.unit,
     '& .slick-slide': {
@@ -19,21 +18,24 @@ const styles = theme => ({
 });
 
 let ProductsSlider = props => {
-  const { products, cart, handleUpdateCart, classes } = props;
+  const { products, cart, handleUpdateCart, classes, isArrowSmall, all } = props;
 
   const settings = {
-    slidesToShow: Math.floor(window.innerWidth / 256) - 1,
-    slidesToScroll: Math.floor(window.innerWidth / 256) - 1,
-    prevArrow: <SliderArrow to='prev' />,
-    nextArrow: <SliderArrow to='next' />,
+    slidesToShow: Math.floor(window.innerWidth / 272) - 1,
+    slidesToScroll: Math.floor(window.innerWidth / 272) - 1,
+    prevArrow: <SliderArrow isSmall={isArrowSmall} to='prev' />,
+    nextArrow: <SliderArrow isSmall={isArrowSmall} to='next' />,
     infinite: false,
     draggable: false
   };
 
+  const allProducts = all || 'all';
+  const sliced = products && products[allProducts].length ? products[allProducts].slice(0, 50) : [];
+
   return products && products.all.length ? (
     <div className={classes.wrapper}>
       <Slider {...settings}>
-        {products.all.map(product =>
+        {sliced.map(product =>
             <CatalogProduct
               cart={cart}
               key={product.id}

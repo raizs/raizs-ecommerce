@@ -4,7 +4,8 @@ import { withStyles, Button } from '@material-ui/core';
 import { Formatter } from '../../../../helpers';
 import { withTimeline } from '../../../withTimeline';
 import compose from 'recompose/compose';
-import { Timeline, TimelineSections, TimelineSection } from '../../../../components';
+import { Timeline, TimelineSections, TimelineSection, ProductsSlider } from '../../../../components';
+import { ComplementsSection } from './ComplementsSection.component';
 
 const styles = theme => ({
   wrapper: {
@@ -32,6 +33,7 @@ const styles = theme => ({
     position: 'fixed',
     bottom: 0,
     width: '100%',
+    zIndex: 10,
     '& > div.summary': {
       backgroundColor: theme.palette.gray.darkBg,
       padding: theme.spacing.unit,
@@ -56,15 +58,36 @@ const styles = theme => ({
 class Complements extends Component {
 
   _renderTimelineSections() {
-    const { categories } = this.props;
-    return categories.catalogSectionsArr.map(item => {
-      console.log(item);
+    const { categories, cart, newProducts, products, handleUpdate } = this.props;
+    const to = categories.complementsSectionsArr.map(item => {
       return (
-        <TimelineSection key={item} id={item}>
-          a
+        <TimelineSection style={{ marginTop: 0 }} key={item.id} id={item.id}>
+          <ComplementsSection
+            section={item}
+            cart={cart}
+            products={products}
+            handleUpdateCart={handleUpdate}
+          />
         </TimelineSection>
       );
     });
+
+    to.unshift(
+      <TimelineSection key='novidades' id='novidades'>
+        <div>
+          <h3>Novidades</h3>
+          <ProductsSlider
+            cart={cart}
+            all='allWithoutFLV'
+            products={newProducts}
+            handleUpdateCart={handleUpdate}
+            isArrowSmall={true}
+          />
+        </div>
+      </TimelineSection>
+    );
+
+    return to;
   }
 
   render() {
@@ -75,8 +98,21 @@ class Complements extends Component {
       availableWidth,
       timelineWidth,
       shouldFixTimeline,
-      categories: { timelineObj }
+      categories: { complementsTimelineObj }
     } = this.props;
+
+    const timelineContent = {
+      items: [
+        {
+          id: "novidades",
+          label: "NOVIDADES",
+          order: 0,
+          url: "#novidades",
+          isBig: true
+        },
+        ...complementsTimelineObj
+      ]
+    };
 
     return (
       <div className={classes.wrapper}>
@@ -89,7 +125,7 @@ class Complements extends Component {
         <section className={classes.main}>
           <Timeline
             history={history}
-            content={{ items: timelineObj }}
+            content={timelineContent}
             fixed={shouldFixTimeline}
           />
           <TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
@@ -99,8 +135,8 @@ class Complements extends Component {
 
         <section className={classes.bottom}>
           <div className='summary'>
-            <p>Orgânicos Genéricos: <b>{cart.productCount} ite{cart.productCount === 1 ? 'm' : 'ns'}</b></p>
-            <p>Complementos: <b>{cart.productCount} ite{cart.productCount === 1 ? 'm' : 'ns'}</b></p>
+            <p>Orgânicos Genéricos: <b>{cart.genericsCount} ite{cart.genericsCount === 1 ? 'm' : 'ns'}</b></p>
+            <p>Complementos: <b>{cart.complementsCount} ite{cart.complementsCount === 1 ? 'm' : 'ns'}</b></p>
             <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
           </div>
           <div className='continue'>

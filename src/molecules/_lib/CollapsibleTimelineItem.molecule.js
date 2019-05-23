@@ -18,8 +18,10 @@ const styles = theme => ({
     justifyContent: 'space-between',
     '& > *': {
       lineHeight: theme.fontSizes.MD
+    },
+    '&:hover > span': {
+      color: theme.palette.green.main
     }
-
   },
   subtitle: {
     fontSize: theme.fontSizes.XS,

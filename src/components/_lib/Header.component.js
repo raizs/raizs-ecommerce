@@ -88,7 +88,7 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     windowWidth: 1024,
-    searching:true
+    searching: false
   }
 
   /**
@@ -133,7 +133,6 @@ class Header extends Component {
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
     const to = toShow.map(({ id, label }) => {
-      console.log(id, label)
       if(id === 'all')
         return (
           <Button
@@ -208,10 +207,9 @@ class Header extends Component {
 
     if(isSubscription) return <div id='right-content'></div>;
 
-
-    let searchClassName = [classes.headerIcon]
-    if (this.state.searching){
-      searchClassName.push(classes.noWidthIcon)
+    let searchClassName = [classes.headerIcon];
+    if(this.state.searching) {
+      searchClassName.push(classes.noWidthIcon);
     }
 
     return (
@@ -251,7 +249,6 @@ class Header extends Component {
 
   
   render() {
-    const { classes } = this.props;
     const { searching, availableCenterWidth } = this.state
     return (
       <header className='app-header'>

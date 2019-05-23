@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles, Icon } from '@material-ui/core';
-import { slickNext } from 'react-slick';
+import classnames from 'classnames';
 
 const styles = theme => ({
   prev: {
@@ -23,6 +23,9 @@ const styles = theme => ({
       '& span': {
         color: theme.palette.green.main
       }
+    },
+    '&.-small': {
+      height: '36px'
     }
   },
   next: {
@@ -45,15 +48,27 @@ const styles = theme => ({
       '& span': {
         color: theme.palette.green.main
       }
+    },
+    '&.-small': {
+      height: '36px'
     }
   }
 });
 
 let SliderArrow = props => {
-  const { to, classes, onClick, height, styles } = props;
+  const { to, classes, onClick, styles, isSmall } = props;
+  const classNames = [classes[to]];
+
+  if(isSmall) classNames.push('-small');
 
   return (
-    <button style={ styles || {} } type="button" onClick={onClick} className={classes[to]} aria-label={to}>
+    <button
+      style={styles || {}}
+      type="button"
+      onClick={onClick}
+      className={classnames(classNames)}
+      aria-label={to}
+    >
       <Icon fontSize='large'>{{ prev: 'keyboard_arrow_left', next: 'keyboard_arrow_right' }[to]}</Icon>
     </button>
   )

@@ -75,7 +75,6 @@ class Catalog extends BaseContainer {
             handleUpdateCart={handleUpdateCart}
             cart={cart}
             openModalProductAction={openModalProductAction}
-
           />
         </TimelineSection>
       );
@@ -89,7 +88,7 @@ class Catalog extends BaseContainer {
       availableWidth,
       timelineWidth,
       shouldFixTimeline,
-      categories: { timelineObj }
+      categories: { catalogTimelineObj }
     } = this.props;
 
     return (
@@ -97,7 +96,7 @@ class Catalog extends BaseContainer {
         <Timeline
           history={history}
           fixed={shouldFixTimeline}
-          content={{ items: timelineObj }}
+          content={{ items: catalogTimelineObj }}
         />
         <TimelineSections
           width={availableWidth}
