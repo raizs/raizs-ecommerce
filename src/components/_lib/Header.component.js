@@ -251,7 +251,6 @@ class Header extends Component {
     return (
       <header className='app-header'>
         {this._renderCenterContent()}
-        {this._renderBackdrop()}
         <img
           alt='brand-logo'
           className='logo'
