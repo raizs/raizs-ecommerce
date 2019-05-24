@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Icon, withStyles, Modal as MuiModal } from '@material-ui/core';
 
 const styles = theme => ({
@@ -12,7 +12,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
     outline: 'none',
     margin: 'auto',
-    top: '15%',
     borderRadius: theme.spacing.unit
   },
   closeButton:{
@@ -24,20 +23,55 @@ const styles = theme => ({
   }
 });
 
-let Modal = props => {
-  const { closeIcon, classes, open, handleClose, children, width = 800 } = props;
-  return (
-    <MuiModal
-      open={open}
-      onClose={handleClose}
-      style={{ alignItems: 'center', justifyContent: 'center', transition: "1s" }}
-    >
-      <div className={classes.inner} style={{ width }}>
-        {closeIcon && <Icon onClick={handleClose} className={classes.closeButton}>close</Icon>}
-        {children}
-      </div>
-    </MuiModal>
-  )
+class Modal extends Component{
+
+  constructor(props){
+    super(props)
+  }
+
+  state={
+    top:"-300%",
+  }
+
+  componentWillReceiveProps(){
+    if (this.state.top != "-300%"){
+      this.setState({top:"-300%"})
+    }
+  }
+
+  componentDidUpdate(){
+    if (this.state.top == "-300%"){    
+      setTimeout( () => {
+        let modal = document.querySelector("#modalComponent")
+        if (modal){
+          console.log("AEWWWWW", modal);
+          console.log(modal.offsetHeight)
+          let top = Math.floor((window.innerHeight - modal.offsetHeight)/2).toString()+"px"
+          this.setState({top})
+        }
+
+      }, 50)
+    }
+
+  }
+
+  render(){
+    const { closeIcon, classes, open, handleClose, children, width = 800 } = this.props;
+    console.log("TOP", this.state.top)
+    return (
+      <MuiModal
+        open={open}
+        onClose={handleClose}
+        style={{ alignItems: 'center', justifyContent: 'center', transition: "1s" }}
+      >
+        
+        <div id="modalComponent" className={classes.inner} style={{ width, top: this.state.top }}>
+          {closeIcon && <Icon onClick={handleClose} className={classes.closeButton}>close</Icon>}
+          {children}
+        </div>
+      </MuiModal>
+    )
+  }
 }
 
 Modal = withStyles(styles)(Modal);

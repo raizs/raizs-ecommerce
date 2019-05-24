@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import ReactSvg from 'react-svg'
+import compose from 'recompose/compose';
+import { connect } from "react-redux"
 
 import { HeaderHelper, StringMapper } from '../../helpers';
+import { toggleSearchBarAction } from '../../store/actions';
+
+
 import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
 
 import classnames from "classnames"
@@ -65,17 +70,6 @@ const styles = theme => ({
       color: theme.palette.green.main,
       stroke: theme.palette.green.main
     }
-  },
-  backdrop:{
-    position:"fixed",
-    top:0,
-    zIndex:3,
-    backgroundColor:"rgba(0,0,0, 0.1)",
-    // opacity: "0.3",
-    width:"100%",
-    height:"100vh",
-    top:12*theme.spacing.unit,
-
   }
 });
 
@@ -88,7 +82,6 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     windowWidth: 1024,
-    searching:true
   }
 
   /**
@@ -104,9 +97,6 @@ class Header extends Component {
       const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
       context.setState({ windowWidth, availableCenterWidth });
     });
-    // window.addEventListener('scroll', () => {
-    //   this.setState({searching:false})
-    // });
     
     const {
       windowWidth,
@@ -133,7 +123,6 @@ class Header extends Component {
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
     const to = toShow.map(({ id, label }) => {
-      console.log(id, label)
       if(id === 'all')
         return (
           <Button
@@ -210,7 +199,7 @@ class Header extends Component {
 
 
     let searchClassName = [classes.headerIcon]
-    if (this.state.searching){
+    if (this.props.searching){
       searchClassName.push(classes.noWidthIcon)
     }
 
@@ -226,7 +215,7 @@ class Header extends Component {
         <ReactSvg
           src='/icons/pesquisa.svg'
           className={classnames(searchClassName)}
-          onClick={()=>this.setState({searching:true})}
+          onClick={()=> this.props.toggleSearchBarAction(true)}
         />
         <HeaderUserButton {...headerUserButtonProps} />
         <div
@@ -241,22 +230,13 @@ class Header extends Component {
     );
   }
 
-  _renderBackdrop(){
-    if (this.state.searching){
-      return <div className={this.props.classes.backdrop}>
-
-      </div>
-    }
-  }
-
   
   render() {
-    const { classes } = this.props;
-    const { searching, availableCenterWidth } = this.state
+    const { classes, searching } = this.props;
+    const { availableCenterWidth } = this.state
     return (
       <header className='app-header'>
         {this._renderCenterContent()}
-        {this._renderBackdrop()}
         <img
           alt='brand-logo'
           className='logo'
@@ -264,7 +244,7 @@ class Header extends Component {
           onClick={() => this.props.history.push('/')}
         />
         <div className='left-content'>
-          <SearchBar searching={searching} width={availableCenterWidth} />
+          <SearchBar width={availableCenterWidth} />
           {searching ? null : this._renderLeftContent()}
         </div>
         {this._renderRightContent()}
@@ -273,19 +253,15 @@ class Header extends Component {
   }
 }
 
-// Header.propTypes = {
-//   leftContent: PropTypes.arrayOf(PropTypes.object).isRequired,
-//   centerContent: PropTypes.arrayOf(PropTypes.object).isRequired,
-//   rightContent: PropTypes.arrayOf(PropTypes.object).isRequired,
-//   actions: PropTypes.object.isRequired,
-// };
+const mapStateToProps = state => {
+  return {
+    searching: state.header.isSearchBarOpen,
+  };
+}
 
-// Header.defaultProps = {
-//   leftContent: [],
-//   centerContent: [],
-//   rightContent: [],
-// }
+Header = compose(
+  withStyles(styles),
+  connect(mapStateToProps, { toggleSearchBarAction })
+)(Header);
 
-Header = withStyles(styles)(Header);
- 
 export { Header };

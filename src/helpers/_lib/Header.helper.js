@@ -12,8 +12,8 @@ export class HeaderHelper {
    * @returns {Object} - Contains the window width and the availiable center width
    */
   static getWidths() {
-    const windowWidth = window.innerWidth;
-    const logoWidth = document.querySelector('header.app-header img.logo').clientWidth;
+    const windowWidth = window.innerWidth - 10; //10px of scrollbar
+    const logoWidth = document.querySelector('header.app-header img.logo').clientWidth + 16; //margin right and left of 8px;
     let rightContentWidth = document.querySelector('header.app-header div#right-content').clientWidth + 2*D;
     const availableCenterWidth = windowWidth - logoWidth - rightContentWidth;
 

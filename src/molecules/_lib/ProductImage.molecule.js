@@ -8,7 +8,6 @@ const styles = theme => ({
   imgBox:{
     border: `1px solid ${theme.palette.gray.border}`,
     height:"402px"
-    // padding:"25px"
   },
   image:{
   },

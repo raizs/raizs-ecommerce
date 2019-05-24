@@ -26,7 +26,9 @@ export {
   CLOSE_USER_POPPER,
   toggleUserPopperAction,
   openUserPopperAction,
-  closeUserPopperAction
+  closeUserPopperAction,
+  TOGGLE_SEARCH_BAR_ACTION,
+  toggleSearchBarAction,
 } from './_lib/header.actions';
 
 export {

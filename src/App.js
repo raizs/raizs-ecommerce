@@ -25,7 +25,9 @@ import {
   selectDateAction,
   setPopularProductsAction,
   setSaleOrdersAction,
-  setNewProductsAction
+  setNewProductsAction,
+  toggleSearchBarAction
+  
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -60,7 +62,9 @@ const actions = {
   selectDateAction,
   setPopularProductsAction,
   setSaleOrdersAction,
-  setNewProductsAction
+  setNewProductsAction,
+  toggleSearchBarAction
+  
 };
 
 class App extends BaseContainer {
@@ -153,22 +157,24 @@ class App extends BaseContainer {
           />
           {this._renderTopHeader(isSubscription)}
           <Header {...headerProps} />
-          <Switch>
-            <Route path='/' exact component={Landing} />
-            <Route path='/home' exact component={Home} />
-            <Route path='/home2' exact component={Home2} />
-            <Route path='/home3' exact component={Home3} />
-            <Route path='/catalogo' exact component={Catalog} />
-            <Route path='/carrinho' exact component={Cart} />
-            <Route path='/checkout' exact component={Checkout} />
-            <Route path='/quem-somos' exact component={About} />
-            <Route path='/pedido-finalizado' exact component={OrderCompleted} />
-            <Route path='/painel' component={Dashboard} />
-            <Route path='/assinatura' component={Subscription} />
-            <Route path='/produto/:productId' component={Product} />
-            <Route path='*' component={NotFound} />
+          <div onClick={()=>this.props.toggleSearchBarAction(false)}>
+            <Switch>
+              <Route path='/' exact component={Landing} />
+              <Route path='/home' exact component={Home} />
+              <Route path='/home2' exact component={Home2} />
+              <Route path='/home3' exact component={Home3} />
+              <Route path='/catalogo' exact component={Catalog} />
+              <Route path='/carrinho' exact component={Cart} />
+              <Route path='/checkout' exact component={Checkout} />
+              <Route path='/quem-somos' exact component={About} />
+              <Route path='/pedido-finalizado' exact component={OrderCompleted} />
+              <Route path='/painel' component={Dashboard} />
+              <Route path='/assinatura' component={Subscription} />
+              <Route path='/produto/:productId' component={Product} />
+              <Route path='*' component={NotFound} />
 
-          </Switch>
+            </Switch>
+          </div>
           {this._renderFooter(isSubscription)}
         </div>
       </MuiThemeProvider>

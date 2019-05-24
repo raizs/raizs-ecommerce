@@ -1,7 +1,8 @@
-import { TOGGLE_USER_POPPER, CLOSE_USER_POPPER, OPEN_USER_POPPER } from "../../actions";
+import { TOGGLE_USER_POPPER, CLOSE_USER_POPPER, OPEN_USER_POPPER, TOGGLE_SEARCH_BAR_ACTION } from "../../actions";
 
 const initialState = {
-	isUserPopperOpen: false
+	isUserPopperOpen: false,
+	isSearchBarOpen: false
 };
 
 export const headerReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const headerReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isUserPopperOpen: !state.isUserPopperOpen
+			};
+		case TOGGLE_SEARCH_BAR_ACTION:
+			return {
+				...state,
+				isSearchBarOpen: action.data
 			};
 		case OPEN_USER_POPPER:
       return {
@@ -25,4 +31,3 @@ export const headerReducer = (state = initialState, action) => {
 			return state;
 	}
 };
-

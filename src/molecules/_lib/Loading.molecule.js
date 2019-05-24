@@ -30,13 +30,13 @@ const styles = theme => ({
 });
 
 let Loading = props => {
-  const { classes, size } = props;
+  const { classes, size, noBg } = props;
   const wrapperClasses = [classes.wrapper];
   if(props.inline) wrapperClasses.push('inline');
   if(props.absolute) wrapperClasses.push('absolute');
 
   return (
-    <div className={classnames(...wrapperClasses)}>
+    <div className={classnames(...wrapperClasses)} >
       <CircularProgress className={classes.progress} size={size} />
     </div>
   );

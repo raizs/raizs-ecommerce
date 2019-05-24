@@ -13,7 +13,6 @@ export class ProductController extends BaseController {
 
   async fetchProduct({match, product}){
     if (product){
-      console.log(product)
       return this.toState({product})
     }
     const { productId } = match.params

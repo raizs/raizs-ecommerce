@@ -61,7 +61,6 @@ class Product extends BaseContainer {
   _renderModalContent(){
     const { classes,cart } = this.props;
     const { product } = this.state;
-    console.log(this.controller)
     return <div className={classes.whiteBox}>
             
     <div className={classes.leftBox}>

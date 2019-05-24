@@ -12,7 +12,7 @@ import { QuantitySelector } from './QuantitySelector.molecule';
 const styles = theme => ({
   summary:{
     position:"relative",
-    height: "400px",
+    height: "350px",
     width:"350px"
   },
   smallGrey:{

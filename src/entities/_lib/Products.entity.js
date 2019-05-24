@@ -34,6 +34,19 @@ export class Products extends BaseModel {
     return obj;
   }
 
+
+  _search(query){
+    let results = [];
+    for (var product of this.all){
+      if (
+        (product.name.toLowerCase().indexOf(query.toLowerCase()) > -1) ||
+        (product.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+        )
+        results.push(product)
+    }
+    return results
+  }
+
   _fixPopularProducts(products) {
     return products.map(p => ({
       id: p.productProductId,
