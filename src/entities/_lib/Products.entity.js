@@ -9,7 +9,7 @@ export class Products extends BaseModel {
     if(['popularProducts', 'newProducts'].includes(from)) {
       products = this._fixPopularProducts(products);
     }
-
+    console.log(products)
     const catalogFilter = p => ![1,2,3,4].includes(p.id);
     const genericFilter = p => [1,2,3,4].includes(p.id);
     const withoutFLVFilter = p => ![5,6,7].includes(p.categoryId);

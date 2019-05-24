@@ -21,6 +21,8 @@ export class Product {
       sodium: "3 toneladas",
       protein: "0"
     }
+    this.popularity = product.popularity
+    // console.log(product)
 
     this.fullPrice = this._getFullPrice(this.price, this.weight, this.uomId);
     this.mpPrice = parseInt(this.price * 100);

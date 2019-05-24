@@ -146,6 +146,7 @@ class SearchBar extends BaseContainer {
     const { classes } = this.props;
     const { results } = this.state;
     return results.map((product, key)=>{
+      console.log(product.popularity)
       return <div className={classes.productBox} onClick={()=>this.controller.goToProduct(product.id)}>
         <div className={classes.productImgBox}>
            <img-2
