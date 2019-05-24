@@ -35,3 +35,16 @@ export const catalogMacroSections = [
     url: '#etica-transparencia'
   }
 ];
+
+
+export const catalogFilters=[
+  {
+    id: 'popularity',
+    label: 'Popularidade'
+  },
+  {
+    id: 'price',
+    label: 'Preço'
+  },
+
+]
