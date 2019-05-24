@@ -1,5 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
 import { CollapsibleTimelineItem } from '../../molecules';
@@ -43,6 +44,14 @@ const styles = theme => ({
     display: 'block',
     '&:hover': {
       color: theme.palette.green.main
+    },
+    '&.-big': {
+      fontSize: theme.fontSizes.SM,
+      fontWeight: 700,
+      color: theme.palette.black.main,
+      '&:hover': {
+        color: theme.palette.green.main
+      },
     }
   }
 });
@@ -54,13 +63,15 @@ const _renderCollapsibleItem = item => {
 const _renderItems = (items, classes) => {
 
   return items.map(item => {
-    const { id, label, url, isCollapsible } = item;
+    const { id, label, url, isCollapsible, isBig } = item;
+    const classNames = [classes.item];
+    if(isBig) classNames.push('-big');
 
     return isCollapsible ? _renderCollapsibleItem(item) : (
       <a
         key={id}
-        className={classes.item}
-        href={url} 
+        className={classnames(classNames)}
+        href={url}
       >
         {label}
       </a>

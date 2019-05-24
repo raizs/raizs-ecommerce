@@ -13,10 +13,10 @@ const styles = theme => ({
 });
 
 let TimelineSection = props => {
-  const { classes, id, children } = props;
+  const { classes, id, children, style } = props;
 
   return (
-    <div className={classes.section} id={id}>
+    <div className={classes.section} id={id} style={style || {}}>
       {children}
     </div>
   );

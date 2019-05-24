@@ -77,11 +77,13 @@ class Home3 extends BaseContainer {
           <h5 className={classes.subtitle}>
             Novidades
           </h5>
-          <ProductsSlider
-            products={newProducts}
-            cart={cart}
-            handleUpdateCart={handleUpdateCart}
-          />
+          <div style={{ padding: '64px 24px 0 24px' }}>
+            <ProductsSlider
+              cart={cart}
+              handleUpdateCart={handleUpdateCart}
+              products={newProducts}
+            />
+          </div>
           <CategoriesMosaic categories={categories} />
         </section>
 

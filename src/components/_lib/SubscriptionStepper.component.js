@@ -13,7 +13,7 @@ const styles = theme => ({
     fontWeight: '700 !important'
   },
   completed: {
-    fontWeight: '600 !important',
+    fontWeight: '500 !important',
     color: `${theme.palette.green.main} !important`
   },
   label: {

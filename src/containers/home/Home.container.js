@@ -162,11 +162,13 @@ class Home extends BaseContainer {
 
         <section id='ourProducts'>
           <CategoriesMosaic categories={categories} />
-          <ProductsSlider
-            products={popularProducts}
-            cart={cart}
-            handleUpdateCart={handleUpdateCart}
-          />
+          <div style={{ padding: '64px 24px 0 24px' }}>
+            <ProductsSlider
+              cart={cart}
+              handleUpdateCart={handleUpdateCart}
+              products={popularProducts}
+            />
+          </div>
           <div style={{ textAlign: 'center', paddingBottom: '48px' }}>
             <Button
               onClick={() => history.push('catalogo')}

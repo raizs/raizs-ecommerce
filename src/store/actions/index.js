@@ -47,7 +47,9 @@ export {
 
 export {
   UPDATE_SUBSCRIPTION_CART,
-  updateSubscriptionCartAction
+  SET_CURRENT_OBSERVATIONS,
+  updateSubscriptionCartAction,
+  setCurrentObservationsAction
 } from './_lib/subscriptionCart.actions';
 
 export {

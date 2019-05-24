@@ -6,9 +6,9 @@ import compose from 'recompose/compose';
 import { Generics, Complements } from './components';
 import { BaseContainer } from '../../helpers';
 import { SubscriptionController } from './Subscription.controller';
-import { updateSubscriptionCartAction } from '../../store/actions';
+import { updateSubscriptionCartAction, setCurrentObservationsAction } from '../../store/actions';
 
-const actions = { updateSubscriptionCartAction };
+const actions = { updateSubscriptionCartAction, setCurrentObservationsAction };
 
 class Subscription extends BaseContainer {
   constructor(props) {
@@ -16,8 +16,17 @@ class Subscription extends BaseContainer {
   }
 
   render() {
-    const { subscriptionCart, products, categories } = this.props;
-    const { handleUpdateSubscriptionCart } = this.controller;
+    const {
+      subscriptionCart,
+      currentObservations,
+      products,
+      categories,
+      newProducts
+    } = this.props;
+    const {
+      handleUpdateSubscriptionCart,
+      handleContinueAction
+    } = this.controller;
 
     return (
       <Switch>
@@ -26,14 +35,17 @@ class Subscription extends BaseContainer {
             cart={subscriptionCart}
             products={products.genericProducts}
             handleUpdate={handleUpdateSubscriptionCart}
+            currentObservations={currentObservations}
+            handleContinueAction={handleContinueAction}
           />
         </Route>
         <Route path='/assinatura/complementos'>
           <Complements
             cart={subscriptionCart}
-            products={products.catalogProducts}
+            products={products}
             handleUpdate={handleUpdateSubscriptionCart}
             categories={categories}
+            newProducts={newProducts}
           />
         </Route>
       </Switch>
@@ -43,8 +55,10 @@ class Subscription extends BaseContainer {
 
 const mapStateToProps = state => ({
   subscriptionCart: state.subscriptionCart.current,
+  currentObservations: state.subscriptionCart.currentObservations,
   products: state.products.model,
-  categories: state.categories.model
+  categories: state.categories.model,
+  newProducts: state.products.newProducts
 });
 
 export default compose(

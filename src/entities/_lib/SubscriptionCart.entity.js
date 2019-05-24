@@ -16,6 +16,9 @@ export class SubscriptionCart {
     this.productPartialPrices = this._getProductPartialPricesObj(items);
     this.subtotal = this._getSubtotal(items);
     this.productCount = this._getProductCount(items);
+
+    this.genericsCount = this._getProductCount(items, 'generics');
+    this.complementsCount = this._getProductCount(items, 'complements');
   }
   
   update(product, quantity) {
@@ -77,10 +80,16 @@ export class SubscriptionCart {
     return parseFloat(value.toFixed(2));
   }
 
-  _getProductCount(items) {
+  _getProductCount(items, type) {
     let value = 0;
 
-    items.forEach(item => { value += item.quantity });
+    if(type) {
+      switch(type) {
+        case 'generics': items.forEach(item => { if([1,2,3,4].includes(item.product.id)) value += item.quantity }); break;
+        case 'complements': items.forEach(item => { if(![1,2,3,4].includes(item.product.id)) value += item.quantity }); break;
+      }
+    }
+    else items.forEach(item => { value += item.quantity });
 
     return value;
   }

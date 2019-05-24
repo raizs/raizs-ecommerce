@@ -219,11 +219,13 @@ class Landing extends BaseContainer {
         <section id='ourProducts' style={{ marginBottom: '64px' }}>
           <h3 className={classes.title} style={{ marginBottom: '48px' }}>Conheça nossos produtos</h3>
           <Characteristics />
-          <ProductsSlider
-            cart={cart}
-            handleUpdateCart={handleUpdateCart}
-            products={popularProducts}
-          />
+          <div style={{ padding: '64px 24px 0 24px' }}>
+            <ProductsSlider
+              cart={cart}
+              handleUpdateCart={handleUpdateCart}
+              products={popularProducts}
+            />
+          </div>
           <div style={{ textAlign: 'center' }}>
             <Button
               onClick={() => history.push('catalogo')}

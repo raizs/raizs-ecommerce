@@ -70,6 +70,17 @@ const styles = theme => ({
       color: theme.palette.green.main,
       stroke: theme.palette.green.main
     }
+  },
+  backdrop:{
+    position:"fixed",
+    top:0,
+    zIndex:3,
+    backgroundColor:"rgba(0,0,0, 0.1)",
+    // opacity: "0.3",
+    width:"100%",
+    height:"100vh",
+    top:12*theme.spacing.unit,
+
   }
 });
 
@@ -96,6 +107,9 @@ class Header extends Component {
     window.addEventListener('resize', () => {
       const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
       context.setState({ windowWidth, availableCenterWidth });
+    });
+    window.addEventListener('scroll', () => {
+      this.setState({searching:false})
     });
     
     const {
@@ -237,6 +251,7 @@ class Header extends Component {
     return (
       <header className='app-header'>
         {this._renderCenterContent()}
+        {this._renderBackdrop()}
         <img
           alt='brand-logo'
           className='logo'
