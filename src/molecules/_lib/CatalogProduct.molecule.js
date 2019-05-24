@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
+import classnames from 'classnames';
 
 import 'img-2';
 import { QuantitySelector } from '..';
 
 const MIN_PRODUCT_HEIGHT = 320;
+const MIN_SMALL_PRODUCT_HEGHT = 240;
+
 const styles = theme => ({
   wrapper: {
     width: '256px',
@@ -13,7 +16,11 @@ const styles = theme => ({
     display: 'inline-block',
     margin: theme.spacing.unit,
     padding: theme.spacing.unit/2,
-    borderRadius: theme.spacing.unit
+    borderRadius: theme.spacing.unit,
+    '&.-small': {
+      minHeight: `${MIN_SMALL_PRODUCT_HEGHT}px`,
+      width: '176px'
+    }
   },
   imageWrapper: {
     position: 'relative',
@@ -23,6 +30,10 @@ const styles = theme => ({
       position: 'absolute',
       bottom: theme.spacing.unit,
       right: theme.spacing.unit
+    },
+    '&.-small': {
+      height: '176px',
+      width: '176px',
     }
   },
   image: {
@@ -77,15 +88,25 @@ class CatalogProduct extends Component {
 
   
   render() {
-    const { classes, product, handleUpdateCart, cart } = this.props;
+    const { classes, product, handleUpdateCart, cart, isSmall } = this.props;
+    const wrapperClasses = [classes.wrapper];
+    const imageClasses = [classes.imageWrapper];
+    if(isSmall) {
+      wrapperClasses.push('-small');
+      imageClasses.push('-small');
+    }
 
     return (
-      <div id={`product-${product.id}`} className={classes.wrapper} onClick={() => console.log(product)}>
-        <div className={classes.imageWrapper}>
+      <div
+        id={`product-${product.id}`}
+        className={classnames(wrapperClasses)}
+        onClick={() => console.log(product)}
+      >
+        <div className={classnames(imageClasses)}>
           <img-2
             className={classes.image}
-            width={248}
-            height={224}
+            width={isSmall ? 168 : 248}
+            height={isSmall ? 168 : 224}
             alt={product.name}
             src={product.imageUrl}
             src-preview={product.imageUrl}

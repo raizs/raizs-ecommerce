@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core';
 const styles = theme => ({
   wrapper: {
     position: 'relative',
-    marginTop: 4 * theme.spacing.unit,
     '& .slick-slide': {
       display: 'inline-block',
       verticalAlign: 'top',

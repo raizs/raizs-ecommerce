@@ -53,8 +53,6 @@ export class SubscriptionCart {
   _getProductQuantitiesObj(items) {
     const obj = {};
 
-    console.log(items);
-
     items.forEach(item => {
       obj[item.product.id] = item.quantity;
     });
