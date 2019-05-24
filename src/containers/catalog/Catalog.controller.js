@@ -15,6 +15,7 @@ export class CatalogController extends BaseController {
   }
 
   async initialFetch() {
+    console.log("initialFetch")
     const {
       setProductsAction,
       setUnitsOfMeasureAction,
@@ -32,6 +33,9 @@ export class CatalogController extends BaseController {
       uomPromise,
       brandsPromise
     ] = await Promise.all(promises);
+
+
+      console.log("promise", productsPromise)
 
     if(!productsPromise.err) {
       const products = new Products(productsPromise.data);

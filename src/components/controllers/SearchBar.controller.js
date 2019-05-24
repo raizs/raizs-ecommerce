@@ -1,6 +1,7 @@
 import { BaseController } from '../../helpers';
 import { ProductsRepository } from "../../repositories"
 import { Product } from '../../entities';
+import sortby from 'lodash.sortby';
 
 
 export class SearchBarController extends BaseController {
@@ -27,7 +28,8 @@ export class SearchBarController extends BaseController {
   async handleSearch(){
   	const { search } = this.getState();
   	const { products } = this.getProps();	
-  	const results = products._search(search);
+  	const results = sortby(products._search(search), "popularity").reverse();
+
   	this.toState({results})
   }
 
