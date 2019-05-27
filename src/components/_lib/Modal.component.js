@@ -57,7 +57,6 @@ class Modal extends Component{
 
   render(){
     const { closeIcon, classes, open, handleClose, children, width = 800 } = this.props;
-    console.log("TOP", this.state.top)
     return (
       <MuiModal
         open={open}

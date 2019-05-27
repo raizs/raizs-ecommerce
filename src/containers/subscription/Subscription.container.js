@@ -21,7 +21,8 @@ class Subscription extends BaseContainer {
       currentObservations,
       products,
       categories,
-      newProducts
+      newProducts,
+      brands
     } = this.props;
     const {
       handleUpdateSubscriptionCart,
@@ -46,6 +47,7 @@ class Subscription extends BaseContainer {
             handleUpdate={handleUpdateSubscriptionCart}
             categories={categories}
             newProducts={newProducts}
+            brands={brands}
           />
         </Route>
       </Switch>
@@ -58,7 +60,8 @@ const mapStateToProps = state => ({
   currentObservations: state.subscriptionCart.currentObservations,
   products: state.products.model,
   categories: state.categories.model,
-  newProducts: state.products.newProducts
+  newProducts: state.products.newProducts,
+  brands: state.brands.model
 });
 
 export default compose(
