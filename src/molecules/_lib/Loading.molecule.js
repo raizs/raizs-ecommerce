@@ -20,6 +20,9 @@ const styles = theme => ({
       position: 'absolute',
       zIndex: 10,
       backgroundColor: 'rgba(255,255,255,.7)'
+    },
+    '&.noBg': {
+      backgroundColor: 'transparent'
     }
   },
   progress: {
@@ -34,6 +37,8 @@ let Loading = props => {
   const wrapperClasses = [classes.wrapper];
   if(props.inline) wrapperClasses.push('inline');
   if(props.absolute) wrapperClasses.push('absolute');
+  if(props.noBg) wrapperClasses.push('noBg')
+    console.log(wrapperClasses)
 
   return (
     <div className={classnames(...wrapperClasses)} >

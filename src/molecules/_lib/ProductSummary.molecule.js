@@ -33,6 +33,7 @@ const styles = theme => ({
   },
   subtitle:{
     fontSize: theme.fontSizes.XS,
+    lineHeight: theme.fontSizes.SM,
     color: theme.palette.gray.main,
     marginBottom:2*theme.spacing.unit,
     fontWeight:400,
@@ -74,7 +75,7 @@ const styles = theme => ({
     fontSize:theme.fontSizes.XS
   },
   selectorBox:{
-    paddingTop: 8*theme.spacing.unit
+    paddingTop: 4*theme.spacing.unit
   }
   
 });
