@@ -1,4 +1,4 @@
-import { BaseController, CepHelper } from '../../helpers';
+import { BaseController, CepHelper, Formatter } from '../../helpers';
 import { ProductsRepository } from "../../repositories"
 import { Product } from '../../entities';
 
@@ -15,16 +15,16 @@ export class CepCheckerController extends BaseController {
 
   async handleChange(e, format) {
     const { errors } = this.getState();
-    await this.toState(this.baseHandleChange(e, null, errors));
+    await this.toState(this.baseHandleChange(e, "formatCEP", errors));
 
   }
 
 
   async handleSubmit(){
     this.toState({loading:true});
-    const { success, msg } = await CepHelper.check(this.getState().cep);
+    const { success, msg, description } = await CepHelper.check(Formatter.extractNumbers(this.getState().cep).toString());
 
-    this.toState({loading:false, searched:true, success, msg});
+    this.toState({loading:false, searched:true, success, msg, description});
 
   }
 }

@@ -21,12 +21,13 @@ const styles = theme => ({
       fontWeight: 700,
       width:"320px",
       marginLeft:"calc(50% - 160px)",
-      marginBottom: 3 * theme.spacing.unit,
+      marginBottom: theme.spacing.unit,
     },
     '& button': {
       ...theme.buttons.primary,
       fontSize: theme.fontSizes.MD,
       height: '45px',
+      paddingBottom:theme.spacing.unit,
     },
     '& > div.anotherCep': {
       fontSize: theme.fontSizes.SM,
@@ -40,7 +41,7 @@ const styles = theme => ({
       position: 'relative',
       display: 'inline-block',
       width: '200px',
-      paddingBottom: 2 * theme.spacing.unit,
+      padding: `${2 * theme.spacing.unit}px 0`,
       '&  > input': {
         width: '100%',
         padding: theme.spacing.unit,
@@ -53,8 +54,12 @@ const styles = theme => ({
       },
     }
   },
-  icon:{
-    fontSize:20
+  description:{
+    padding:theme.spacing.unit,
+    fontSize:theme.fontSizes.SM,
+    width:"250px",
+    marginLeft:"calc(50% - 125px)",
+    color:theme.palette.gray.main
   }
 });
 
@@ -68,21 +73,25 @@ class CepChecker extends BaseContainer{
   state={
     loading:false,
     cep:"",
-    msg:"",
+    msg:"Digite seu CEP e veja se entregamos na sua região.",
     searched:false,
-    success:false
+    success:false, 
+    description:""
   }
 
   render(){ 
     const { classes } = this.props;
     const { handleChange, handleSubmit } = this.controller
-    const { cep , loading, searched, msg, success } = this.state;
+    const { cep , loading, searched, msg, success, description } = this.state;
 
     return (
       <section className={classes.wrapper}>
         {loading && <Loading absolute/>}
-        <h5>{searched ? msg : "Digite seu CEP e veja se entregamos na sua região."}</h5>
-        {searched || <div className='input-wrapper'>
+        <h5>{msg}</h5>
+        {searched ?
+          <div className={classes.description}>{description}</div>
+          :
+         <div className='input-wrapper'>
             <input
               id="cep"
               value={cep}
@@ -98,8 +107,7 @@ class CepChecker extends BaseContainer{
             !success||<Button id='goToCatalog' onClick={()=>this.props.history.push("/catalogo")} >Catalogo</Button>
           }
         </div>
-        {searched && !success && <Icon className={classes.icon}>sentiment_very_dissatisfied</Icon>}
-        {!searched || <div onClick={()=>this.setState({searched:false})}  className="anotherCep">TENTE OUTRO CEP</div>}
+        {!searched || <div onClick={()=>this.setState({searched:false, msg:"Digite seu CEP e veja se entregamos na sua região."})}  className="anotherCep">TENTE OUTRO CEP</div>}
       </section>
     );
   }
