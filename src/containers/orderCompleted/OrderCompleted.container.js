@@ -172,7 +172,6 @@ class OrderCompleted extends Component{
 
 		return (
 			<div className={infoBox}>
-
 				<div className={infoSection}>
 					<div className={greenTitle}>RESUMO</div>
 					<div className={priceUnit}>R$</div><div className={infoTitle}>{Formatter.currency(order.amountTotal).slice(2)}</div>

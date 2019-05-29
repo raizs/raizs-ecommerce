@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import { Loading, PickABox } from '../../../../../molecules';
 import { paymentMethods, paymentMethodsStrings } from '../../../../../assets';
-import { PaymentCreditCardForm, PaymentDebitCardForm } from '.';
+import { PaymentCreditCardForm, PaymentDebitCardForm, PayPalForm } from '.';
 
 const styles = theme => ({
   section: {
@@ -170,7 +170,8 @@ class PaymentSection extends Component {
 
     const Comp = {
       creditCard: PaymentCreditCardForm,
-      debitCard: PaymentDebitCardForm
+      debitCard: PaymentDebitCardForm,
+      payPal: PayPalForm
     }[selectedPaymentMethod];
 
     const compProps = {
