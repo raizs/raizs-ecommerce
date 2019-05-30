@@ -32,7 +32,7 @@ import {
 
 import defaultTheme from './muiTheme';
 
-import { Header, TopHeader, Footer } from './components';
+import { Header, TopHeader, Footer, FloatingCartResume } from './components';
 import { About } from './containers/about';
 import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
@@ -206,9 +206,10 @@ class App extends BaseContainer {
           {this._renderFooter(isSubscription)}
         </div>
       </MuiThemeProvider>
-		);
-	}
+    );
+  }
 }
+          {/*<FloatingCartResume />*/}
 
 const mapStateToProps = state => {
   return {
