@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withFirebase } from 'react-redux-firebase';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import compose from 'recompose/compose';
 import SmoothScroll from 'smooth-scroll';
 
@@ -79,12 +79,17 @@ class App extends BaseContainer {
     forgotPasswordEmail: '',
 
     loginLoading: false,
+    emailError: '',
+    passwordError: '',
     forgotPasswordError: ''
   }
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
-      if(user) this.controller.fetchPgUser(user);
+      if(user) {
+        this.controller.fetchPgUser(user);
+        toast(`Bem vindo(a), ${user.displayName}!`, { autoClose: 3500 });
+      }
       else {
         this.props.setUserAction(null);
         this.props.setUserAddressesAction(null);
@@ -122,13 +127,22 @@ class App extends BaseContainer {
   }
 
 	render() {
-    const { email, password, forgotPasswordEmail, forgotPasswordError } = this.state;
+    const {
+      email,
+      emailError,
+      password,
+      passwordError,
+      forgotPasswordEmail,
+      forgotPasswordError,
+      loginLoading
+    } = this.state;
     const { history, storeFirebase, isUserPopperOpen, searching } = this.props;
     const {
       logout,
       handleTextInputChange,
       signInWithEmailAndPassword,
       signInWithGoogle,
+      signInWithFacebook,
       handleSubmitForgotPassword
     } = this.controller;
 
@@ -142,20 +156,22 @@ class App extends BaseContainer {
       isSubscription,
       toForm: {
         email,
+        emailError,
         password,
+        passwordError,
         forgotPasswordEmail,
         forgotPasswordError,
         handleChange: handleTextInputChange,
         handleSubmit: signInWithEmailAndPassword,
         handleSubmitForgotPassword: handleSubmitForgotPassword,
-        handleGoogleSignIn: signInWithGoogle
+        handleGoogleSignIn: signInWithGoogle,
+        handleFacebookSignIn: signInWithFacebook,
+        loginLoading
       },
       toLoggedIn: {
         logout
       }
     };
-
-    console.log(this.state);
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>

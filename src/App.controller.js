@@ -25,6 +25,7 @@ export class AppController extends BaseController {
     this.fetchPgUser = this.fetchPgUser.bind(this);
     this.signInWithEmailAndPassword = this.signInWithEmailAndPassword.bind(this);
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
+    this.signInWithFacebook = this.signInWithFacebook.bind(this);
     this.handleSubmitForgotPassword = this.handleSubmitForgotPassword.bind(this);
     this.logout = this.logout.bind(this);
     
@@ -108,25 +109,45 @@ export class AppController extends BaseController {
     }
   }
 
-  signInWithEmailAndPassword() {
+  async signInWithEmailAndPassword() {
     const { email, password } = this.getState();
     const { firebase, closeUserPopperAction, openUserPopperAction } = this.getProps();
 
+    this.toState({ loginLoading: true });
+    const toState = { loginLoading: false };
     closeUserPopperAction();
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(res => {
-      console.log('success');
-    })
-    .catch(error => {
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(res => ({}))
+    .catch(({ code }) => {
       openUserPopperAction();
-      console.log(error);
+      if(code === 'auth/invalid-email') toState.emailError = 'E-mail inválido';
+      if(code === 'auth/user-not-found') toState.emailError = 'E-mail não está cadastrado';
+      if(code === 'auth/wrong-password') toState.passwordError = 'Senha incorreta';
     });
+    this.toState(toState);
   }
 
   async signInWithGoogle() {
     const { firebase, setUserAction } = this.getProps();
 
     const { success, error, user, isNewUser } = SocialMediaHelper.signInWithGoogle(firebase);
+
+    if(success && isNewUser) {
+      const { createUser } = this.userRepo;
+      const pgUser = await createUser(StateToApi.createUserFromGoogleSignIn(user));
+
+      if(!pgUser.err) setUserAction(new User(pgUser.data));
+    }
+
+    if(error) {
+      // handle error
+    }
+  }
+
+  async signInWithFacebook() {
+    const { firebase, setUserAction } = this.getProps();
+
+    const { success, error, user, isNewUser } = SocialMediaHelper.signInWithFacebook(firebase);
 
     if(success && isNewUser) {
       const { createUser } = this.userRepo;
@@ -148,7 +169,11 @@ export class AppController extends BaseController {
 
   handleTextInputChange(e) {
     const { id, value } = e.target;
-    this.toState({ [id]: value });
+    const toState = { [id]: value };
+    if(id === 'email') toState.emailError = '';
+    if(id === 'password') toState.passwordError = '';
+    if(id === 'forgotPasswordEmail') toState.forgotPasswordError = '';
+    this.toState(toState);
   }
 
   handleSelectDate(e) {
@@ -168,6 +193,7 @@ export class AppController extends BaseController {
     const toState = { loginLoading: false };
     await auth.sendPasswordResetEmail(forgotPasswordEmail).then(() => {
       toast(`E-mail enviado para ${forgotPasswordEmail}`);
+      toState.forgotPasswordEmail = '';
     }).catch(({ code }) => {
       console.log('aqui', code)
       if(code === 'auth/invalid-email') toState.forgotPasswordError = 'E-mail inválido';

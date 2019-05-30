@@ -4,6 +4,7 @@ export const UPDATE_SUBSCRIPTION_CART = 'UPDATE_SUBSCRIPTION_CART';
 export const SET_CURRENT_OBSERVATIONS = 'SET_CURRENT_OBSERVATIONS';
 export const SET_SUBSCRIPTION_NAME = 'SET_SUBSCRIPTION_NAME';
 export const ADD_SUBSCRIPTION_CART = 'ADD_SUBSCRIPTION_CART';
+export const REMOVE_SUBSCRIPTION_CART = 'REMOVE_SUBSCRIPTION_CART';
 
 export const updateSubscriptionCartAction = subscriptionCart => {
   Cache.setItem('subscriptionCart', subscriptionCart.items);
@@ -39,3 +40,12 @@ export const addSubscriptionCartToCartAction = () => {
     type: ADD_SUBSCRIPTION_CART,
   }
 };
+
+export const removeSubscriptionCartAction = () => {
+  Cache.setItem('isSubscriptionCartAdded', false);
+
+  return {
+    type: REMOVE_SUBSCRIPTION_CART,
+  }
+};
+

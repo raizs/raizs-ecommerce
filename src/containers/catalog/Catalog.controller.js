@@ -51,7 +51,7 @@ export class CatalogController extends BaseController {
     
     if(!brandsPromise.err) {
       const brands = new ProductBrands(brandsPromise.data);
-
+      
       setProductBrandsAction(brands);
     }
   }

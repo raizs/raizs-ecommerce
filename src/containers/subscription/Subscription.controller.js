@@ -53,7 +53,7 @@ export class SubscriptionController extends BaseController {
 
   handleCheckout(subscriptionName) {
     const { history, setSubscriptionNameAction, addSubscriptionCartToCartAction } = this.getProps();
-    setSubscriptionNameAction(subscriptionName);
+    setSubscriptionNameAction(subscriptionName || 'Minha cesta');
     addSubscriptionCartToCartAction();
     history.push('/carrinho');
   }

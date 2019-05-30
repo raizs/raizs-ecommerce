@@ -1,4 +1,4 @@
-import React, from 'react'
+import React from 'react'
 import { withRouter } from 'react-router';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';

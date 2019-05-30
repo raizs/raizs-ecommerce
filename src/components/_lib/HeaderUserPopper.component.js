@@ -58,6 +58,10 @@ const styles = theme => ({
     marginTop: 2 * theme.spacing.unit,
     '&:active': {
       boxShadow: '1px 1px 2px 0 #444'
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.gray.main,
+      cursor: 'not-allowed'
     }
   },
   infoText: {
@@ -103,8 +107,12 @@ class HeaderUserPopper extends Component {
       handleSubmit,
       handleSubmitForgotPassword,
       forgotPasswordError,
+      passwordError,
+      emailError,
       handleGoogleSignIn,
-      forgotPasswordEmail
+      handleFacebookSignIn,
+      forgotPasswordEmail,
+      loginLoading
     } = toForm;
     const { forgotPassword } = this.state;
 
@@ -113,7 +121,7 @@ class HeaderUserPopper extends Component {
         <FacebookButton
           id='facebook-login'
           className={classes.facebookButton}
-          clickAction={() => console.log('fb login')} />
+          clickAction={handleFacebookSignIn} />
         <GoogleButton
           id='google-login'
           className={classes.googleButton}
@@ -128,11 +136,12 @@ class HeaderUserPopper extends Component {
                 placeholder='Digite seu e-mail'
                 className={classes.textInput}
                 error={forgotPasswordError}
+                disabled={loginLoading}
               />
               <p className={classes.forgotPassword} onClick={() => this.setState({ forgotPassword: false })}>
                 Voltar
               </p>
-              <button type='submit' className={classes.loginButton}>Enviar</button>
+              <button disabled={loginLoading} type='submit' className={classes.loginButton}>Enviar</button>
             </form>
           ) : (
             <form onSubmit={e => { e.preventDefault(); handleSubmit(); }} className={classes.form}>
@@ -142,6 +151,8 @@ class HeaderUserPopper extends Component {
                 handleChange={handleChange}
                 placeholder='E-mail'
                 className={classes.textInput}
+                disabled={loginLoading}
+                error={emailError}
               />
               <TextInput
                 id='password'
@@ -150,9 +161,11 @@ class HeaderUserPopper extends Component {
                 type='password'
                 placeholder='Senha'
                 className={classes.textInput}
+                disabled={loginLoading}
+                error={passwordError}
               />
               <p className={classes.forgotPassword} onClick={() => this.setState({ forgotPassword: true })}>Esqueceu sua senha?</p>
-              <button type='submit' className={classes.loginButton}>Login</button>
+              <button disabled={loginLoading} type='submit' className={classes.loginButton}>Login</button>
             </form>
           )
         }
