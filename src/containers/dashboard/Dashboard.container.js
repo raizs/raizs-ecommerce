@@ -33,7 +33,6 @@ class Dashboard extends Component{
   state = {
     name:""
   }
-
 	
 	render() {
     const { wrapper, withMenuComponent } = this.props.classes;

@@ -20,15 +20,23 @@ export class SearchBarController extends BaseController {
     const { errors } = this.getState();
     await this.toState(this.baseHandleChange(e, null, errors));
 
-    // clearTimeout(this.timeout)
-    // this.timeout= setTimeout(this.handleSearch, 500)
-    this.handleSearch()
+    clearTimeout(this.timeout)
+    this.timeout= setTimeout(this.handleSearch, 500)
+    this.toState({loading:true})
+    // this.handleSearch()
   }
 
   async handleSearch(){
+    this.toState({loading:false})
   	const { search } = this.getState();
-  	const { products } = this.getProps();	
-  	const results = sortby(products._search(search), "popularity").reverse();
+  	const { products } = this.getProps();
+    let results = []
+    if (search){
+  	 results = sortby(products._search(search), "popularity").reverse();
+     // if (results.length >=50){
+     //  results.slice(0, 50)
+     // }
+    }	
 
   	this.toState({results})
   }

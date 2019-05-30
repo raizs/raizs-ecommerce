@@ -43,6 +43,7 @@ import { Home3 } from './containers/home3';
 import { Landing } from './containers/landing';
 import { OrderCompleted } from './containers/orderCompleted';
 import { NotFound } from './containers/notFound';
+import { HowItWorks } from './containers/howItWorks';
 import { Dashboard } from './containers/dashboard';
 import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
@@ -181,6 +182,7 @@ class App extends BaseContainer {
               <Route path='/painel' component={Dashboard} />
               <Route path='/assinatura' component={Subscription} />
               <Route path='/produto/:productId' component={Product} />
+              <Route path='/como-funciona' component={HowItWorks} />
               <Route path='*' component={NotFound} />
 
             </Switch>

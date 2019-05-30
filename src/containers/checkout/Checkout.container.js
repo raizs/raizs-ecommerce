@@ -112,7 +112,7 @@ class Checkout extends BaseContainer {
     isEditingAddress: false,
     editingAddressId: null,
 
-    selectedPaymentMethod: 'creditCard',
+    selectedPaymentMethod: 'payPal',
     creditCardNumber: '5555-6666-7777-8884',
     creditCardName: 'MARCELO TESTE',
     creditCardExp: '12/2022',

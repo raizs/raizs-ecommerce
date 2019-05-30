@@ -1,3 +1,4 @@
+export { AnchorMenu } from './_lib/AnchorMenu.molecule';
 export { CatalogProduct } from './_lib/CatalogProduct.molecule';
 export { CategoryItem } from './_lib/CategoryItem.molecule';
 export { ClientComment } from './_lib/ClientComment.molecule';

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, from 'react'
 import { withRouter } from 'react-router';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import { BaseContainer } from "../../helpers"
 import { toggleSearchBarAction } from "../../store/actions"
 import { SearchBarController } from "../controllers/SearchBar.controller.js"
-import { TextInput } from "../../molecules"
+import { TextInput, Loading } from "../../molecules"
 
 import classnames from "classnames"
 import "img-2"
@@ -122,9 +122,10 @@ class SearchBar extends BaseContainer {
 
   _renderResults() {
     const { classes } = this.props;
-    const { search, results } = this.state;
+    const { search, results, loading } = this.state;
 
-    if (!search) return null
+    if (!search) return null;
+    if (loading) return <Loading absolute noBg/>
 
     if (results.length) {
       return <div id="products-container" className={classes.productsBox}>

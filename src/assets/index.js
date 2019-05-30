@@ -9,3 +9,4 @@ export * from './_lib/payment.assets';
 export * from './_lib/subscription.assets';
 export * from './_lib/userMenu.assets';
 export * from './_lib/product.assets';
+export * from './_lib/howItWorks.assets';
