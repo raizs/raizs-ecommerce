@@ -37,9 +37,9 @@ class PayPalForm extends Component {
 
     const onApprove = (data, actions) => {
         console.log("APROVED", data, actions)
-      // return actions.order.capture().then(async function(details) {
+      return actions.order.capture().then(async function(details) {
         console.log("SUCESSO")
-      //   alert('Transaction completed by ' + details.payer.name.given_name);
+      })
       //   const promise = await this.payPalRepo.createTransaction({orderID: data.orderID})
       //   console.log(promise);
 
@@ -56,6 +56,7 @@ class PayPalForm extends Component {
   }
 
   componentDidMount(){
+    console.log("PASSANDO")
     this.setPayPalConfigs();
   }
 
