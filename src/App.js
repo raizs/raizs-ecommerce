@@ -187,13 +187,13 @@ class App extends BaseContainer {
 
             </Switch>
           </div>
-          <FloatingCartResume />
           {this._renderFooter(isSubscription)}
         </div>
       </MuiThemeProvider>
-		);
-	}
+    );
+  }
 }
+          {/*<FloatingCartResume />*/}
 
 const mapStateToProps = state => {
   return {
