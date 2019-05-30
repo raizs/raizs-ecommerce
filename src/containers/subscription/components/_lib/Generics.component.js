@@ -214,6 +214,7 @@ class Generics extends Component {
         <section className={classes.bottom}>
           <div className='summary'>
             <p>Orgânicos Genéricos: <b>{cart.productCount} ite{cart.productCount === 1 ? 'm' : 'ns'}</b></p>
+            <p>Complementos: <b>{cart.complementsCount} ite{cart.complementsCount === 1 ? 'm' : 'ns'}</b></p>
             <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
           </div>
           <div className='continue'>

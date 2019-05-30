@@ -48,8 +48,12 @@ export {
 export {
   UPDATE_SUBSCRIPTION_CART,
   SET_CURRENT_OBSERVATIONS,
+  SET_SUBSCRIPTION_NAME,
+  ADD_SUBSCRIPTION_CART,
   updateSubscriptionCartAction,
-  setCurrentObservationsAction
+  setCurrentObservationsAction,
+  setSubscriptionNameAction,
+  addSubscriptionCartToCartAction
 } from './_lib/subscriptionCart.actions';
 
 export {

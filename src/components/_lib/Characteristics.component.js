@@ -40,7 +40,7 @@ const styles = theme => ({
 
 const _renderItems = ({ classes }) => {
   return characteristicsItems.map(({ src, label }) =>
-    <div className={classes.item}>
+    <div className={classes.item} key={label}>
       <ReactSVG
         src={src}
         className={classes.svg}

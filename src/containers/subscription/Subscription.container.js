@@ -3,30 +3,62 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import compose from 'recompose/compose';
-import { Generics, Complements } from './components';
+import { Generics, Complements, Review } from './components';
 import { BaseContainer } from '../../helpers';
 import { SubscriptionController } from './Subscription.controller';
-import { updateSubscriptionCartAction, setCurrentObservationsAction } from '../../store/actions';
+import {
+  updateSubscriptionCartAction,
+  setCurrentObservationsAction,
+  setSubscriptionNameAction,
+  addSubscriptionCartToCartAction
+} from '../../store/actions';
 
-const actions = { updateSubscriptionCartAction, setCurrentObservationsAction };
+const actions = {
+  updateSubscriptionCartAction,
+  setCurrentObservationsAction,
+  setSubscriptionNameAction,
+  addSubscriptionCartToCartAction
+};
 
 class Subscription extends BaseContainer {
   constructor(props) {
     super(props, SubscriptionController);
   }
 
+  state = {
+    cep: '',
+    cepLoading: false,
+    cepSuccess: false,
+    cepError: false,
+    shippingValue: '',
+    coupon: ''
+  }
+
   render() {
+    const {
+      cep,
+      cepLoading,
+      cepSuccess,
+      cepError,
+      shippingValue,
+      coupon
+    } = this.state;
     const {
       subscriptionCart,
       currentObservations,
       products,
       categories,
       newProducts,
-      brands
+      brands,
+      history,
+      subscriptionName
     } = this.props;
     const {
       handleUpdateSubscriptionCart,
-      handleContinueAction
+      handleContinueAction,
+      handleChange,
+      handleCepBlur,
+      handleCheckout
     } = this.controller;
 
     return (
@@ -50,6 +82,24 @@ class Subscription extends BaseContainer {
             brands={brands}
           />
         </Route>
+        <Route path='/assinatura/revisao'>
+          <Review
+            cart={subscriptionCart}
+            products={products}
+            handleUpdateCart={handleUpdateSubscriptionCart}
+            history={history}
+            handleChange={handleChange}
+            handleCepBlur={handleCepBlur}
+            cep={cep}
+            cepLoading={cepLoading}
+            cepSuccess={cepSuccess}
+            cepError={cepError}
+            shippingValue={shippingValue}
+            coupon={coupon}
+            subscriptionName={subscriptionName}
+            handleCheckout={handleCheckout}
+          />
+        </Route>
       </Switch>
     )
   }
@@ -58,6 +108,7 @@ class Subscription extends BaseContainer {
 const mapStateToProps = state => ({
   subscriptionCart: state.subscriptionCart.current,
   currentObservations: state.subscriptionCart.currentObservations,
+  subscriptionName: state.subscriptionCart.subscriptionName,
   products: state.products.model,
   categories: state.categories.model,
   newProducts: state.products.newProducts,

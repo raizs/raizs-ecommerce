@@ -5,6 +5,7 @@ export class CartController extends BaseController {
     super({ toState, getState, getProps });
 
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
+    this.handleUpdateSubscriptionCart = this.handleUpdateSubscriptionCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
   }
@@ -12,6 +13,11 @@ export class CartController extends BaseController {
   handleUpdateCart({ item, quantity }) {
     const { cart, updateCartAction } = this.getProps();
     this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
+  }
+
+  handleUpdateSubscriptionCart({ item, quantity, periodicity }) {
+    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity, periodicity }, subscriptionCart.current, updateSubscriptionCartAction);
   }
 
   handleChange(e) {

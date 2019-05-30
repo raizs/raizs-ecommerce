@@ -21,16 +21,22 @@ const CONTENT_MAX_WIDTH = 1100;
 
 const styles = theme => ({
   wrapper: {
+    userSelect: 'none',
     backgroundColor: theme.palette.gray.bg,
     width: '100%',
     padding: 3 * theme.spacing.unit,
+    paddingBottom: 8 * theme.spacing.unit,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& > h1': theme.typography.raizs,
+    '& > h3': {
+      ...theme.typography.subtitle,
+      marginTop: 2 * theme.spacing.unit
+    }
   },
-  title: theme.typography.bigTitle,
   content: {
-    marginTop: 8 * theme.spacing.unit,
+    marginTop: 4 * theme.spacing.unit,
     width: '100%',
     maxWidth: `${CONTENT_MAX_WIDTH}px`,
     '& > div': {
@@ -321,7 +327,6 @@ class Checkout extends BaseContainer {
       openedSection,
       isUserSectionDone
     };
-
     const toAddressSection = {
       user,
       errors,
@@ -355,7 +360,6 @@ class Checkout extends BaseContainer {
       openedSection,
       handleCompleteAddressSection
     };
-    
     const toPaymentSection = {
       errors,
       selectedCard,
@@ -411,20 +415,19 @@ class Checkout extends BaseContainer {
    * @memberof Checkout
    */
   _renderSummary() {
-    const { selectedDate, cart } = this.props;
-    return <SummarySection selectedDate={selectedDate} cart={cart} />;
+    const { selectedDate, cart, subscriptionCart } = this.props;
+    return <SummarySection selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
   }
 
   render() {
     const { classes } = this.props;
 
-    console.log(this.props.cards);
-
     return (
       <div className={classes.wrapper}>
-        <h1 className={classes.title}>
+        <h1>
           CHECKOUT
         </h1>
+        <h3>Falta pouco para você finalizar o seu pedido!<br/>Basta preencher os dados abaixo:</h3>
         <div className={classes.content}>
           <div className={classes.info}>
             {this._renderForms()}
@@ -440,6 +443,7 @@ class Checkout extends BaseContainer {
 
 const mapStateToProps = state => ({
   cart: state.cart.current,
+  subscriptionCart: state.subscriptionCart,
   user: state.user.current,
   userAddresses: state.userAddresses.model,
   selectedUserAddress: state.userAddresses.selected,

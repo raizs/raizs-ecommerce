@@ -19,7 +19,6 @@ export class CatalogController extends BaseController {
   }
 
   async initialFetch() {
-    console.log("initialFetch")
     const {
       setProductsAction,
       setUnitsOfMeasureAction,
@@ -37,9 +36,6 @@ export class CatalogController extends BaseController {
       uomPromise,
       brandsPromise
     ] = await Promise.all(promises);
-
-
-      console.log("promise", productsPromise)
 
     if(!productsPromise.err) {
       const products = new Products(productsPromise.data);
@@ -72,8 +68,8 @@ export class CatalogController extends BaseController {
 
     let sorted;
 
-    if (filter=="price"){
-      sorted = sortby(products.original, product=>{
+    if (filter=="price") {
+      sorted = sortby(products.original, product => {
         return parseFloat(product['productTmpl.list_price'])
       });
     }
@@ -82,9 +78,7 @@ export class CatalogController extends BaseController {
 
     if (!ascending) sorted.reverse();
     const newProducts = new Products(sorted)
-    console.log(newProducts.all)
     return newProducts;
-
   }
 
   toggleSort(currentFilter){

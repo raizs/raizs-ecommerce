@@ -33,7 +33,6 @@ export class CheckoutController extends BaseController {
     this.handleEmailAndPasswordLogin = this.handleEmailAndPasswordLogin.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.handleNewAddressSubmit = this.handleNewAddressSubmit.bind(this);
-    this._handleFirstAddress = this._handleFirstAddress.bind(this);
     this._handleNewAddress = this._handleNewAddress.bind(this);
     this.handleUpdateAddressSubmit = this.handleUpdateAddressSubmit.bind(this);
     this.handleSelectUserAddress = this.handleSelectUserAddress.bind(this);
@@ -372,48 +371,12 @@ export class CheckoutController extends BaseController {
 
     if(!isValidated) return this.toState({ errors: { ...stateErrors, ...errors } });
 
-    if(!user.hasAddress) {
-      values.addressIsDefault = true;
-      toApi = StateToApi.createAddressCheckout(values);
-      
-      this.toState({ addressSectionLoading: true });
-      
-      await this._handleFirstAddress(toApi);
-    } else {
-      values.parentId = user.id;
-      toApi = StateToApi.createAddressCheckout(values);
+    values.parentId = user.id;
+    toApi = StateToApi.createAddressCheckout(values);
 
-      this.toState({ addressSectionLoading: true });
+    this.toState({ addressSectionLoading: true });
 
-      await this._handleNewAddress(toApi);
-    }
-  }
-
-  /**
-   * _handleFirstAddress - invoked if current user has no addresses
-   * creates the user's first address in db
-   *
-   * @param {Object} valuesToApi - object with db keys and values
-   * @memberof CheckoutController
-   */
-  async _handleFirstAddress(valuesToApi) {
-    const { setUserAction, selectUserAddressAction, user } = this.getProps();
-
-    const promise = await this.userAddressesRepo.createFirst(valuesToApi, user.id);
-
-    if(!promise.err) {
-      const newUser = new User(promise.data);
-      setUserAction(newUser);
-      selectUserAddressAction(newUser.addresses.getDefaultUserAddress());
-      this._clearAddressInfo();
-      this.toState({
-        isAddressSectionDone: true,
-        currentAddressSection: 'list',
-        addressSectionLoading: false
-      });
-    } else {
-      this.toState({ addressSectionLoading: false });
-    }
+    await this._handleNewAddress(toApi);
   }
 
   /**
@@ -430,6 +393,7 @@ export class CheckoutController extends BaseController {
 
     if(!promise.err) {
       const userOriginal = user.original;
+      if(!userOriginal.children) userOriginal.children = [];
       userOriginal.children.push(promise.data);
 
       const newUser = new User(userOriginal);
@@ -440,7 +404,8 @@ export class CheckoutController extends BaseController {
       this.toState({
         isAddressSectionDone: true,
         currentAddressSection: 'list',
-        addressSectionLoading: false
+        addressSectionLoading: false,
+        openedSection: 'payment'
       });
     } else {
       this.toState({ addressSectionLoading: false });
@@ -454,7 +419,7 @@ export class CheckoutController extends BaseController {
 
     this.toState({ addressSectionLoading: true });
     
-    if(editingAddressId !== user.id) values.parentId = user.id;
+    values.parentId = user.id;
     const toApi = StateToApi.createAddressCheckout(values);
     const promise = await this.userAddressesRepo.update(toApi, editingAddressId);
 

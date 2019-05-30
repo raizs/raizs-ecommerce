@@ -21,7 +21,7 @@ const TextInput = props => {
 
   return (
     <div id={`text-input-${id}`} className={classnames(classNames)}>
-      {!label || <div className={labelClassName}>{label}</div>}
+      {label && <div className={labelClassName}>{label}</div>}
       <input
         id={id}
         value={value}

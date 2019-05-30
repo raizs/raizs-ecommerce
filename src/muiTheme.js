@@ -83,6 +83,13 @@ const theme = createMuiTheme({
       textAlign: 'center',
       marginBottom: 2 * SPACING_UNIT
     },
+    subtitle: {
+      fontSize: MD,
+      color: GRAY,
+      textAlign: 'center',
+      fontWeight: 500,
+      lineHeight: MMD
+    },
     raizs: {
       fontWeight: 400,
       fontSize: XXL,
@@ -342,9 +349,39 @@ const theme = createMuiTheme({
         fill: GREEN
       }
     },
-    small: {
-      fontSize: SM,
-      height: '36px'
+    textSmall: {
+      width: `100%`,
+      verticalAlign: 'top',
+      '& > input': {
+        width: '100%',
+        height: '32px',
+        border: `1px solid ${GRAY_BORDER}`,
+        padding: SPACING_UNIT,
+        fontSize: SM,
+        borderRadius: SPACING_UNIT,
+        transition: '.3s',
+        '&:focus, &:active': {
+          padding: SPACING_UNIT,
+          border: `1px solid ${GREEN}`,
+          outline: 'none'
+        },
+      },
+      '&.-error > input': {
+        border: `1px solid ${RED}`,
+        '&:focus, &:active': {
+          padding: SPACING_UNIT,
+          border: `1px solid ${RED}`,
+          outline: 'none'
+        }
+      },
+      '& > div.error': {
+        fontSize: XXS,
+        color: RED,
+        lineHeight: MD
+      },
+      '& + div.text-input': {
+        marginTop: SPACING_UNIT
+      }
     },
   },
   sizes: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, from 'react'
 import { withRouter } from 'react-router';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
@@ -108,47 +108,40 @@ const styles = theme => ({
 })
 
 class SearchBar extends BaseContainer {
-
-  constructor(props){
-    super(props, SearchBarController)
-
+  constructor(props) {
+    super(props, SearchBarController);
   }
 
-  state={
-    search:"",
-    loading:false,
-    errors:{
-      search:null
+  state = {
+    search: "",
+    errors: {
+      search: null
     },
-    results:this.props.products.all
+    results: this.props.products.all
   }
 
-
-
-  _renderResults(){
+  _renderResults() {
     const { classes } = this.props;
     const { search, results, loading } = this.state;
 
     if (!search) return null;
     if (loading) return <Loading absolute noBg/>
 
-    if (results.length){
+    if (results.length) {
       return <div id="products-container" className={classes.productsBox}>
         {this._renderProductCards()}
       </div>
     }
 
     return <div className={classes.notFound}>
-        Ops! Não encontramos resultados para "{search}"
+        Ops! Não encontramos resultados para "{search}".
     </div>
   }
 
-
-  _renderProductCards(){
+  _renderProductCards() {
     const { classes } = this.props;
     const { results } = this.state;
-    return results.map((product, key)=>{
-      console.log(product.popularity)
+    return results.map(product => {
       return <div className={classes.productBox} onClick={()=>this.controller.goToProduct(product.id)}>
         <div className={classes.productImgBox}>
            <img-2
@@ -157,7 +150,7 @@ class SearchBar extends BaseContainer {
             alt={product.name}
             src={product.imageUrl}
             src-preview={product.imageUrl}
-            />
+          />
         </div>
         <div className={classes.productName}>
           {product.name}
@@ -172,14 +165,16 @@ class SearchBar extends BaseContainer {
 
 
   render() {
-    const { classes, history, searching, width, } = this.props;
-    const { handleChange, handleSearch } = this.controller
-    let wrapperClassName = [classes.wrapper] 
-    if (!searching){
-      wrapperClassName.push(classes.closedWrapper)
+    const { classes, searching, width, } = this.props;
+    const { handleChange, handleSearch } = this.controller;
+    
+    let wrapperClassName = [classes.wrapper];
+    if(!searching) {
+      wrapperClassName.push(classes.closedWrapper);
     }
+
     return (
-      <div style={{width: searching ? width + 1 : 0}} className={classnames(wrapperClassName)}>
+      <div style={{ width: searching ? width + 1 : 0 }} className={classnames(wrapperClassName)}>
         <div className={classes.searchBox}>
           <TextInput 
             className={classes.inputValue}

@@ -34,6 +34,7 @@ let CategoriesMosaic = props => {
               title={category.parentName}
               src={src}
               alt={alt}
+              key={category.id}
             />
           );
         })}

@@ -8,6 +8,7 @@ import {
   ProductsRepository,
   SaleOrdersRepository,
 } from './repositories';
+import { toast } from 'react-toastify';
 
 export class AppController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -24,8 +25,8 @@ export class AppController extends BaseController {
     this.fetchPgUser = this.fetchPgUser.bind(this);
     this.signInWithEmailAndPassword = this.signInWithEmailAndPassword.bind(this);
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
+    this.handleSubmitForgotPassword = this.handleSubmitForgotPassword.bind(this);
     this.logout = this.logout.bind(this);
-
     
     // handles
     this.handleSelectDate = this.handleSelectDate.bind(this);
@@ -155,5 +156,24 @@ export class AppController extends BaseController {
     const { value } = e.target;
 
     selectDateAction(value);
+  }
+
+  async handleSubmitForgotPassword() {
+    const { forgotPasswordEmail } = this.getState();
+    const { firebase } = this.getProps();
+    const auth = firebase.auth();
+    
+    this.toState({ loginLoading: true });
+
+    const toState = { loginLoading: false };
+    await auth.sendPasswordResetEmail(forgotPasswordEmail).then(() => {
+      toast(`E-mail enviado para ${forgotPasswordEmail}`);
+    }).catch(({ code }) => {
+      console.log('aqui', code)
+      if(code === 'auth/invalid-email') toState.forgotPasswordError = 'E-mail inválido';
+      if(code === 'auth/user-not-found') toState.forgotPasswordError = 'E-mail não está cadastrado';
+    });
+
+    this.toState(toState);
   }
 }

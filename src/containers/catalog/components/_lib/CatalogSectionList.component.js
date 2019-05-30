@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
-import chunk from 'lodash.chunk';
+import InfiniteScroll from 'react-infinite-scroller';
 import 'img-2';
 
-import { CatalogProduct } from '..';
+import { CatalogProduct } from '../../../../molecules';
 
-const PRODUCT_WIDTH = 256 + 24;
-const MIN_ROW_HEIGHT = 336;
+const PRODUCT_WIDTH = 256 + 32;
+const SMALL_PRODUCT_WIDHT = 176 + 32;
+
+const MIN_PRODUCT_HEIGHT = 328 + 32;
+const MIN_SMALL_PRODUCT_HEIGHT = 244 + 32;
+
 const styles = theme => ({
-  row: {
-    minHeight: `${MIN_ROW_HEIGHT}px`,
-    '& > *': {
-      verticalAlign: 'middle'
-    }
-  },
   title: {
     padding: `${theme.spacing.unit}px 0`
   }
@@ -27,99 +25,80 @@ class CatalogSectionList extends Component {
       perRow: 3,
       availableWidth: props.availableWidth,
       anchor: null,
-      rowsToRender: 3
+      items: [],
+      loaded: 3
     };
 
     this._renderProducts = this._renderProducts.bind(this);
-    this._calculateNumberOfRows = this._calculateNumberOfRows.bind(this);
+    this._loadMore = this._loadMore.bind(this);
   }
 
   componentDidMount = () => {
-    const context = this;
-    const id = `#${this.props.id}`;
+    const { id, groupedProducts, availableWidth, small } = this.props;
+    const anchorId = `#${id}`;
+    const productWidth = small ? SMALL_PRODUCT_WIDHT : PRODUCT_WIDTH;
+    const productHeight = small ? MIN_SMALL_PRODUCT_HEIGHT : MIN_PRODUCT_HEIGHT;
+    const perRow = Math.floor(availableWidth / productWidth);
+    const anchor = document.querySelector(anchorId);
 
-    window.addEventListener('scroll', () => {
-      const offsetTop = anchor.offsetTop;
-      const htmlScroll = document.querySelector('html').scrollTop;
-      const bodyScroll = document.querySelector('body').scrollTop;
-      const scroll = htmlScroll || bodyScroll;
-      
-      const rowsToRender = context._calculateNumberOfRows(offsetTop, scroll);
-
-      if(rowsToRender !== this.state.rowsToRender)
-        context.setState({ rowsToRender });
-    });
-    
-    const perRow = Math.floor(this.props.availableWidth / PRODUCT_WIDTH);
-    const anchor = document.querySelector(id);
-    const htmlScroll = document.querySelector('html').scrollTop;
-    const bodyScroll = document.querySelector('body').scrollTop;
-    const scroll = htmlScroll || bodyScroll;
-
-    const rowsToRender = this._calculateNumberOfRows(anchor.offsetTop, scroll);
-    const fakeHeight = Math.ceil(this.props.groupedProducts.length / perRow) * MIN_ROW_HEIGHT + 80;
+    const fakeHeight = Math.ceil(groupedProducts.length / perRow) * productHeight + 80;
 
     anchor.style.height = `${fakeHeight}px`;
-    
-    this.setState({ perRow, anchor, rowsToRender });
+
+    this.setState({ perRow, anchor });
   }
   
   componentWillReceiveProps = (nextProps) => {
-    if(nextProps.availableWidth !== this.props.availableWidth) {
-      const perRow = Math.floor(nextProps.availableWidth / PRODUCT_WIDTH);
-      const fakeHeight = Math.ceil(this.props.groupedProducts.length / perRow) * MIN_ROW_HEIGHT + 80;
-
-      const anchor = document.querySelector(`#${nextProps.id}`);
+    const { availableWidth, groupedProducts, id, small } = nextProps;
+    if(availableWidth !== this.props.availableWidth) {
+      const productWidth = small ? SMALL_PRODUCT_WIDHT : PRODUCT_WIDTH;
+      const productHeight = small ? MIN_SMALL_PRODUCT_HEIGHT : MIN_PRODUCT_HEIGHT;
+      
+      const perRow = Math.floor(availableWidth / productWidth);
+      const fakeHeight = Math.ceil(groupedProducts.length / perRow) * productHeight + 80;
+      
+      const anchor = document.querySelector(`#${id}`);
       anchor.style.height = `${fakeHeight}px`;
 
       this.setState({ perRow, anchor });
     }
   }
 
-  _calculateNumberOfRows(offsetTop, scroll) {
-    const { rowsToRender } = this.state;
-    const height = window.innerHeight;
+  _loadMore() {
+    const { groupedProducts } = this.props;
+    const { perRow, loaded } = this.state;
+    const items = groupedProducts.slice(0, loaded + perRow);
 
-    const delta = scroll - offsetTop + height;
-
-    if(delta >= (rowsToRender - 1) * MIN_ROW_HEIGHT) {
-      return Math.min(rowsToRender + 1, this.props.groupedProducts.length);
-    }
-
-    return rowsToRender;
+    this.setState({ items, loaded: loaded + perRow });
   }
   
   _renderProducts() {
-    const { perRow, rowsToRender } = this.state;
-    const { groupedProducts, brands, classes, handleUpdateCart, cart, openModalProductAction } = this.props;
-    let chunked = chunk(groupedProducts, perRow);
+    const { items } = this.state;
+    const { groupedProducts, brands, handleUpdateCart, cart, openModalProductAction, small } = this.props;
 
-    chunked = chunked.slice(0, rowsToRender);
-
-    return chunked.map((chunk, index) => {
-      return (
-        <div className={classes.row} key={`chunk-${index}`}>
-          {chunk.map(product => {
-            product.brand = brands.getNameFromId(product.brandId);
-            return (
-              <CatalogProduct
-                cart={cart}
-                key={product.id}
-                product={product}
-                handleUpdateCart={handleUpdateCart}
-                openModalProductAction={openModalProductAction}
-              />
-            );
-          })}
-        </div>
-      )
-    });
+    return (
+      <InfiniteScroll hasMore={groupedProducts.length > items.length} loadMore={this._loadMore}>
+        {items.map(product => {
+          product.brand = brands.getNameFromId(product.brandId);
+          return (
+            <CatalogProduct
+              cart={cart}
+              key={product.id}
+              product={product}
+              handleUpdateCart={handleUpdateCart}
+              openModalProductAction={openModalProductAction}
+              small={small}
+            />
+          );
+        })}
+      </InfiniteScroll>
+    );
   }
 
   render() {
-    const { id, classes, title } = this.props;
+    const { id, classes, title, shouldAnchor } = this.props;
     return (
-      <div id={id}>
+      <div id={id} className={shouldAnchor ? 'offset-important' : ''}>
         <h2 className={classes.title}>{title}</h2>
         {this._renderProducts()}
       </div>

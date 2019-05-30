@@ -1,3 +1,5 @@
+export { CartCheckout } from './_lib/CartCheckout.component';
+export { CartProduct } from './_lib/CartProduct.component';
 export { CategoriesMosaic } from './_lib/CategoriesMosaic.component';
 export { CepChecker } from './_lib/CepChecker.component';
 export { Characteristics } from './_lib/Characteristics.component';
@@ -14,6 +16,7 @@ export { Modal } from './_lib/Modal.component';
 export { NewsletterSection } from './_lib/NewsletterSection.component';
 export { ProductsSlider } from './_lib/ProductsSlider.component';
 export { Slider } from './_lib/Slider.component';
+export { SubscriptionCartProduct } from './_lib/SubscriptionCartProduct.component';
 export { SubscriptionStepper } from './_lib/SubscriptionStepper.component';
 export { Timeline } from './_lib/Timeline.component';
 export { TimelineSection } from './_lib/TimelineSection.component';

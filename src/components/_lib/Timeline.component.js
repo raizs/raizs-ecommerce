@@ -56,18 +56,20 @@ const styles = theme => ({
   }
 });
 
-const _renderCollapsibleItem = item => {
-  return <CollapsibleTimelineItem key={item.id} item={item} />
+const _renderCollapsibleItem = (item, currentSectionId) => {
+  return <CollapsibleTimelineItem key={item.id} item={item} currentSectionId={currentSectionId} />
 };
 
-const _renderItems = (items, classes) => {
-
+const _renderItems = (items, classes, currentSectionId) => {
   return items.map(item => {
     const { id, label, url, isCollapsible, isBig } = item;
     const classNames = [classes.item];
-    if(isBig) classNames.push('-big');
+    const isActive = currentSectionId && currentSectionId.startsWith(id);
 
-    return isCollapsible ? _renderCollapsibleItem(item) : (
+    if(isBig) classNames.push('-big');
+    if(isActive) classNames.push('-active');
+
+    return isCollapsible ? _renderCollapsibleItem(item, currentSectionId) : (
       <a
         key={id}
         className={classnames(classNames)}
@@ -80,7 +82,7 @@ const _renderItems = (items, classes) => {
 }
 
 let Timeline = props => {
-  const { classes, fixed, content: { items, title } } = props;
+  const { classes, fixed, content: { items, title },currentSectionId } = props;
 
   return (
     <div
@@ -90,7 +92,7 @@ let Timeline = props => {
     >
       { title ? <div className={classes.title}>{title}</div> : null }
       { title ? <div className={classes.line} /> : null }
-      { _renderItems(items, classes) }
+      { _renderItems(items, classes, currentSectionId) }
     </div>
   );
 };

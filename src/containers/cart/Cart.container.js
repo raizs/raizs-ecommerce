@@ -7,32 +7,49 @@ import { withStyles } from '@material-ui/core';
 
 import { CartController } from './Cart.controller';
 import { BaseContainer } from '../../helpers';
-import { updateCartAction } from '../../store/actions';
-import { CartProduct, CartCheckout } from './components';
+import { updateCartAction, updateSubscriptionCartAction } from '../../store/actions';
+import { CartProduct, SubscriptionCartProduct } from '../../components';
+import { CartCheckout } from './components';
+import { SubscriptionCart } from '../../entities';
 
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     width: '100%',
-    padding: 3 * theme.spacing.unit
-  },
-  title: theme.typography.bigTitle,
-  items: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 4 * theme.spacing.unit
-  },
-  checkout: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 4 * theme.spacing.unit
+    padding: 3 * theme.spacing.unit,
+    '& > h1': theme.typography.raizs,
+    '& > div.items': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: 4 * theme.spacing.unit,
+      '& > h4': {
+        fontSize: theme.fontSizes.LG,
+        fontWeight: 700,
+        margin: `${2 * theme.spacing.unit}px 0`,
+        textAlign: 'left',
+        width: '100%',
+        maxWidth: '1100px'
+      },
+      '& > div': {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }
+    },
+    '& > .checkout': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: 4 * theme.spacing.unit
+    }
   }
 });
 
 const actions = {
-  updateCartAction
+  updateCartAction,
+  updateSubscriptionCartAction
 };
 
 const MINIMUM_VALUE = 60; // todo: get from db
@@ -66,40 +83,78 @@ class Cart extends BaseContainer {
   }
 
   componentDidMount() {
-    if(this.props.cart && this.props.cart.subtotal >= MINIMUM_VALUE) this.setState({ subtotalError: false });
+    const { cart, subscriptionCart } = this.props;
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const subtotal = cart.subtotal + sCart.subtotal;
+    if(cart && sCart && subtotal >= MINIMUM_VALUE) this.setState({ subtotalError: false });
   }
   
   componentWillReceiveProps(nextProps) {
-    if(nextProps.cart.subtotal < MINIMUM_VALUE && !this.state.subtotalError)
+    const { cart, subscriptionCart } = nextProps;
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const subtotal = cart.subtotal + sCart.subtotal;
+
+    if(subtotal < MINIMUM_VALUE && !this.state.subtotalError)
     this.setState({ subtotalError: true });
     
-    if(nextProps.cart.subtotal >= MINIMUM_VALUE && this.state.subtotalError)
+    if(subtotal >= MINIMUM_VALUE && this.state.subtotalError)
     this.setState({ subtotalError: false });
   }
 
-  _renderItems() {
+  _renderCartItems() {
     const { cart } = this.props;
     const { handleUpdateCart } = this.controller;
 
-    return cart.items.length ? cart.items.map(item => {
-      const { product } = item;
+    return cart.items.length ? (
+      <div className='items'>
+        <h4>Pedido Avulso</h4>
+        <div>
+          {cart.items.map(item => {
+            const { product } = item;
 
-      product.quantity = cart.productQuantities[product.id] || 0;
-      product.partialPrice = cart.productPartialPrices[product.id] || 0;
+            product.quantity = cart.productQuantities[product.id] || 0;
+            product.partialPrice = cart.productPartialPrices[product.id] || 0;
 
-      return <CartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
-    }) :
-    <div>Não há itens em seu carrinho.</div>;
+            return <CartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
+          })}
+        </div>
+      </div>
+    ) : null;
+  }
+
+  _renderSubscriptionCartItems() {
+    const { subscriptionCart } = this.props;
+    const { handleUpdateSubscriptionCart } = this.controller;
+    const cart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const { subscriptionName } = subscriptionCart;
+
+    return cart.items.length ? (
+      <div className='items'>
+        <h4>Assinatura - {subscriptionName}</h4>
+        <div>
+          {cart.items.map(item => {
+            const { product } = item;
+
+            product.quantity = cart.productQuantities[product.id] || 0;
+            product.partialPrice = cart.productPartialPrices[product.id] || 0;
+            product.periodicity = item.periodicity || 'weekly';
+
+            return <SubscriptionCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateSubscriptionCart} />;
+          })}
+        </div>
+      </div>
+    ) : null;
   }
 
   render() {
-    const { classes, cart, history } = this.props;
+    const { classes, cart, history, subscriptionCart } = this.props;
     const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
     const { handleChange, handleCepBlur } = this.controller;
 
     const toCartCheckout = {
       history,
       cart,
+      subscriptionCart,
       cep,
       coupon,
       cepLoading,
@@ -116,13 +171,10 @@ class Cart extends BaseContainer {
 
     return (
       <div className={classes.wrapper}>
-        <h1 className={classes.title}>
-          SEU CARRINHO
-        </h1>
-        <div className={classes.items}>
-          {this._renderItems()}
-        </div>
-        <div className={classes.checkout}>
+        <h1>SEU CARRINHO</h1>
+        {this._renderCartItems()}
+        {this._renderSubscriptionCartItems()}
+        <div className='checkout'>
           <CartCheckout {...toCartCheckout} />
         </div>
       </div>
@@ -131,7 +183,8 @@ class Cart extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart.current
+  cart: state.cart.current,
+  subscriptionCart: state.subscriptionCart
 });
 
 export default compose(

@@ -31,46 +31,11 @@ const styles = theme => ({
 class ComplementsSection extends Component {
   state = {
     isOpen: false,
-    items: [],
-    perRow: Math.floor(this.props.width/272),
     all: `${this.props.section.shortId}Products`,
-    loaded: 0
-  }
-
-  componentDidMount() {
-    const { products, all } = this.props;
-    if(products[all] && products[all].length) {
-      const { perRow } = this.state;
-      
-      const items = products[all].slice(0, perRow);
-      
-      this.setState({ items, loaded: perRow });
-    }
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    const { all } = this.state;
-    const { products } = nextProps;
-    
-    if(products[all] && products[all].length && !this.state.items.length) {
-      const { perRow } = this.state;
-      
-      const items = products[all].slice(0, perRow);
-      
-      this.setState({ items });
-    }
-  }
-
-  _loadMore() {
-    const { products } = this.props;
-    const { all, perRow, loaded } = this.state;
-    const items = products[all].slice(0, loaded + perRow);
-
-    this.setState({ items, loaded: loaded + perRow });
   }
 
   _renderContent() {
-    const { isOpen, items, all } = this.state;
+    const { isOpen, all } = this.state;
     const { cart, products, handleUpdateCart, width, section, brands } = this.props;
 
     return (
@@ -85,19 +50,6 @@ class ComplementsSection extends Component {
           />
         </Collapse>
         <Collapse in={isOpen}>
-          {/* <InfiniteScroll
-            hasMore={products[all].length > items.length}
-            loadMore={this._loadMore.bind(this)}
-          >
-            {items.map(product =>
-              <CatalogProduct
-                isSmall
-                product={product}
-                handleUpdateCart={handleUpdateCart}
-                cart={cart}
-              />
-            )}
-          </InfiniteScroll> */}
           <CatalogSection
             {...section}
             products={products}
@@ -105,6 +57,8 @@ class ComplementsSection extends Component {
             handleUpdateCart={handleUpdateCart}
             cart={cart}
             brands={brands}
+            shouldAnchor={isOpen}
+            small
           />
         </Collapse>
       </div>

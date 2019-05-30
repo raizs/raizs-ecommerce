@@ -1,5 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
 const styles = theme => ({
@@ -16,7 +17,7 @@ let TimelineSection = props => {
   const { classes, id, children, style } = props;
 
   return (
-    <div className={classes.section} id={id} style={style || {}}>
+    <div className={classnames(classes.section, 'timeline-section')} id={id} style={style || {}}>
       {children}
     </div>
   );

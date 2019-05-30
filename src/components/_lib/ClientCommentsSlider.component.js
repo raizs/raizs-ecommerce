@@ -85,7 +85,7 @@ let ClientCommentsSlider = props => {
       <div className={classes.sliderWrapper}>
         <Slider {...settings}>
           {arr.map(comment => {
-            return <ClientComment />;
+            return <ClientComment key={comment} />;
           })}
         </Slider>
       </div>

@@ -23,7 +23,6 @@ const styles = theme => ({
   },
   formSubtitle: {
     ...theme.typography.formSubtitle,
-    marginTop: 5 * theme.spacing.unit,
     textAlign: 'left'
   },
   radioInput: theme.inputs.radio,

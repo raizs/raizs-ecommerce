@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import { withStyles } from '@material-ui/core';
 import { loggedUserMenuOptions } from '../../assets';
-import { FacebookButton, GoogleButton } from '../../molecules';
+import { FacebookButton, GoogleButton, TextInput } from '../../molecules';
 
 const styles = theme => ({
   wrapper: {
@@ -37,21 +37,15 @@ const styles = theme => ({
   facebookButton: theme.buttons.facebook,
   googleButton: theme.buttons.google,
   textInput: {
-    ...theme.inputs.text,
-    ...theme.inputs.small,
-    marginLeft: 0,
-    marginRight: 0,
-    width: '100%',
-    '&:focus': {
-      marginLeft: 0,
-      marginRight: 0,
-    }
+    ...theme.inputs.textSmall,
+    marginTop: 2 * theme.spacing.unit
   },
   forgotPassword: {
     fontSize: theme.fontSizes.XS,
     color: theme.palette.gray.main,
     textAlign: 'center',
     fontWeight: 600,
+    marginTop: theme.spacing.unit,
     cursor: 'pointer',
     textDecoration: 'underline',
     '&:hover': {
@@ -83,60 +77,97 @@ const styles = theme => ({
   }
 });
 
-const _renderLoggedInPopper = (classes, toLoggedIn) => {
-  return loggedUserMenuOptions.map(option => (
-    <div
-      key={option.id}
-      title={option.label}
-      className={classes.menuItem}
-      onClick={toLoggedIn[option.id]}
-    >
-      {option.label}
-    </div>
-  ))
-};
+class HeaderUserPopper extends Component {
+  state = {
+    forgotPassword: false
+  }
+  
+  _renderLoggedInPopper = (classes, toLoggedIn) => {
+    return loggedUserMenuOptions.map(option => (
+      <div
+        key={option.id}
+        title={option.label}
+        className={classes.menuItem}
+        onClick={toLoggedIn[option.id]}
+      >
+        {option.label}
+      </div>
+    ))
+  };
+  
+  _renderLoggedOutPopper = (classes, toForm) => {
+    const {
+      email,
+      password,
+      handleChange,
+      handleSubmit,
+      handleSubmitForgotPassword,
+      forgotPasswordError,
+      handleGoogleSignIn,
+      forgotPasswordEmail
+    } = toForm;
+    const { forgotPassword } = this.state;
 
-const _renderLoggedOutPopper = (classes, toForm) => {
-  const { email, password, handleChange, handleSubmit, handleGoogleSignIn } = toForm;
-  return (
-    <div className={classes.wrapper}>
-      <FacebookButton
-        id='facebook-login'
-        className={classes.facebookButton}
-        clickAction={() => console.log('fb login')} />
-      <GoogleButton
-        id='google-login'
-        className={classes.googleButton}
-        clickAction={handleGoogleSignIn} />
-      <form onSubmit={e => { e.preventDefault(); handleSubmit(); }} className={classes.form}>
-        <input
-          id='email'
-          value={email}
-          onChange={handleChange}
-          placeholder='E-mail'
-          className={classes.textInput}
-        />
-        <input
-          id='password'
-          value={password}
-          onChange={handleChange}
-          type='password'
-          placeholder='Senha'
-          className={classes.textInput}
-        />
-        <p className={classes.forgotPassword}>Esqueceu sua senha?</p>
-        <button type='submit' className={classes.loginButton}>Login</button>
-      </form>
-      <p className={classes.infoText}>Não possui uma conta?</p>
-      <p className={classes.register}>Cadastre-se</p>
-    </div>
-  );
-};
+    return (
+      <div className={classes.wrapper}>
+        <FacebookButton
+          id='facebook-login'
+          className={classes.facebookButton}
+          clickAction={() => console.log('fb login')} />
+        <GoogleButton
+          id='google-login'
+          className={classes.googleButton}
+          clickAction={handleGoogleSignIn} />
+        {
+          forgotPassword ? (
+            <form onSubmit={e => { e.preventDefault(); handleSubmitForgotPassword(); }} className={classes.form}>
+              <TextInput
+                id='forgotPasswordEmail'
+                value={forgotPasswordEmail}
+                handleChange={handleChange}
+                placeholder='Digite seu e-mail'
+                className={classes.textInput}
+                error={forgotPasswordError}
+              />
+              <p className={classes.forgotPassword} onClick={() => this.setState({ forgotPassword: false })}>
+                Voltar
+              </p>
+              <button type='submit' className={classes.loginButton}>Enviar</button>
+            </form>
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); handleSubmit(); }} className={classes.form}>
+              <TextInput
+                id='email'
+                value={email}
+                handleChange={handleChange}
+                placeholder='E-mail'
+                className={classes.textInput}
+              />
+              <TextInput
+                id='password'
+                value={password}
+                handleChange={handleChange}
+                type='password'
+                placeholder='Senha'
+                className={classes.textInput}
+              />
+              <p className={classes.forgotPassword} onClick={() => this.setState({ forgotPassword: true })}>Esqueceu sua senha?</p>
+              <button type='submit' className={classes.loginButton}>Login</button>
+            </form>
+          )
+        }
+        <p className={classes.infoText}>Não possui uma conta?</p>
+        <p className={classes.register}>Cadastre-se</p>
+      </div>
+    );
+  };
 
-let HeaderUserPopper = props => {
-  const { classes, isAuth, toForm, toLoggedIn } = props;
 
-  return isAuth ? _renderLoggedInPopper(classes, toLoggedIn) : _renderLoggedOutPopper(classes, toForm);
+  render() {
+    const { classes, isAuth, toForm, toLoggedIn } = this.props;
+  
+    return isAuth ? this._renderLoggedInPopper(classes, toLoggedIn) : this._renderLoggedOutPopper(classes, toForm);
+  }
 }
 
 HeaderUserPopper = withStyles(styles)(HeaderUserPopper);

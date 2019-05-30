@@ -27,4 +27,8 @@ export class UserRepository extends BaseRepository {
   updateFirebaseUser(body, uid) {
     return this.post(`resPartner/updateFirebaseUser?uid=${uid}`, body);
   }
+
+  forgotPassword(email) {
+    return this.post('resPartner/forgotPassword', { email });
+  }
 }

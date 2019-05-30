@@ -9,4 +9,12 @@ export class StringMapper {
       body_and_home: 'catalogo#corpo_e_casa',
     }[category] || 'category_not_found';
   }
+
+  static periodicity(p) {
+    return {
+      weekly: 'Semanal',
+      biweekly: 'Quinzenal',
+      monthly: 'Mensal'
+    }[p] || 'periodicity_not_found';
+  }
 }

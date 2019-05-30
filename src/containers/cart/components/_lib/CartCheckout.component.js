@@ -1,11 +1,76 @@
 import React, { Component } from 'react'
+import classnames from 'classnames';
 import { withStyles, LinearProgress, Button } from '@material-ui/core';
 
-import styles from './styles/cartCheckout.styles'
 import { Formatter } from '../../../../helpers';
-import classnames from 'classnames';
-import { Loading } from '../../../../molecules';
+import { Loading, TextInput } from '../../../../molecules';
+import { SubscriptionCart } from '../../../../entities';
 
+const styles = theme => ({
+  wrapper: {
+    width: '100%',
+    maxWidth: '1100px',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  box: {
+    width: '100%',
+    maxWidth: '360px'
+  },
+  subtotalAndMinimumValue: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    textAlign: 'right'
+  },
+  label: {
+    fontSize: theme.fontSizes.XS,
+    fontWeight: 600
+  },
+  value: {
+    color: theme.palette.gray.main,
+    fontWeight: 500,
+    '&.error': {
+      color: theme.palette.red
+    }
+  },
+  info: {
+    color: theme.palette.gray.main,
+    fontSize: theme.fontSizes.XS,
+    fontWeight: 500
+  },
+  cepSuccess: {
+    marginTop: theme.spacing.unit
+  },
+  greenCep: {
+    color: theme.palette.green.main,
+    textDecoration: 'underline'
+  },
+  errorText: {
+    color: theme.palette.red,
+    fontSize: theme.fontSizes.XS,
+    fontWeight: 500,
+    marginTop: theme.spacing.unit / 2
+  },
+  shipping: {
+    marginTop: 3 * theme.spacing.unit
+  },
+  textInput: {
+    ...theme.inputs.text,
+    marginTop: 2 * theme.spacing.unit
+  },
+  successButton: {
+    ...theme.buttons.primary,
+    width: '100%',
+    fontSize: theme.fontSizes.LG,
+    marginTop: 3 * theme.spacing.unit
+  },
+  errorButton: {
+    ...theme.buttons.error,
+    width: '100%',
+    fontSize: theme.fontSizes.LG,
+    marginTop: 3 * theme.spacing.unit
+  }
+});
 
 class CartCheckout extends Component {
   _renderShippingAndCoupons() {
@@ -41,6 +106,7 @@ class CartCheckout extends Component {
     const {
       classes,
       cart,
+      subscriptionCart,
       cep,
       cepSuccess,
       cepError,
@@ -50,6 +116,9 @@ class CartCheckout extends Component {
       FREE_SHIPPING_VALUE
     } = this.props;
 
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const subtotal = cart.subtotal + sCart.subtotal;
+
     return cepSuccess ? (
       <div className={classes.cepSuccess}>
         <div className={classes.value}>CEP: <span className={classes.greenCep}>{cep}</span></div>
@@ -57,21 +126,23 @@ class CartCheckout extends Component {
           className={classes.info}
           style={{ margin: '16px 0' }}
         >
-          Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - cart.subtotal)} para Frete Grátis.
+          Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - subtotal)} para Frete Grátis.
         </div>
-        <LinearProgress variant="determinate" value={100 * cart.subtotal/FREE_SHIPPING_VALUE} />
+        <LinearProgress variant="determinate" value={100 * subtotal/FREE_SHIPPING_VALUE} />
       </div>
     ) : (
       <div>
-        <input
-          id='cep'
-          value={cep}
-          placeholder='CEP'
-          className={classes.input}
-          onChange={handleChange}
-          onBlur={handleCepBlur}
-          disabled={cepLoading}
-        />
+        <div style={{ width: '50%', display: 'inline-block' }}>
+          <TextInput
+            id='cep'
+            value={cep}
+            placeholder='CEP'
+            className={classes.textInput}
+            handleChange={handleChange}
+            handleBlur={handleCepBlur}
+            disabled={cepLoading}
+          />
+        </div>
         { cepLoading ? <Loading inline size={20} /> : null }
         <div className={classes.errorText}>{cepError}</div>
       </div>
@@ -84,11 +155,11 @@ class CartCheckout extends Component {
     return (
       <div style={{ marginTop: '16px' }}>
         <p className={classes.label}>CUPOM DE DESCONTO</p>
-        <input
+        <TextInput
           id='coupon'
           value={coupon}
           placeholder='Digite o cupom'
-          className={classes.input}
+          className={classes.textInput}
           onChange={handleChange}
         />
         <div className={classes.errorText}>{''}</div>
@@ -107,7 +178,9 @@ class CartCheckout extends Component {
   }
 
   render() {
-    const { classes, cart, subtotalError, MINIMUM_VALUE } = this.props;
+    const { classes, cart, subscriptionCart, subtotalError, MINIMUM_VALUE } = this.props;
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const subtotal = cart.subtotal + sCart.subtotal;
 
     const valueClasses = [classes.value];
     if(subtotalError) valueClasses.push('error');
@@ -122,7 +195,7 @@ class CartCheckout extends Component {
                 className={classnames(...valueClasses)}
                 style={{ marginBottom: '8px' }}
               >
-                {Formatter.currency(cart.subtotal)}
+                {Formatter.currency(subtotal)}
               </p>
               <p className={classes.info}>Valor mínimo: {Formatter.currency(MINIMUM_VALUE)}</p>
             </div>

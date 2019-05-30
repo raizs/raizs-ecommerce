@@ -78,7 +78,9 @@ class Catalog extends BaseContainer {
 
   state = {
     filter: "popularity",
-    ascending: false
+    ascending: false,
+
+    currentSectionId: ''
   }
 
   static propTypes = {
@@ -102,8 +104,8 @@ class Catalog extends BaseContainer {
     const { filter, ascending } = this.state;
     return catalogFilters.map(f=>{
       let iconClassName = [classes.sortIcon];
-      let icon = "arrow_upward"
-      if (filter == f.id){
+      let icon = "arrow_upward";
+      if (filter === f.id){
         iconClassName.push(classes.selectedSortIcon)
         if (ascending){
           icon = "arrow_downward"
@@ -133,7 +135,6 @@ class Catalog extends BaseContainer {
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
-        {this._renderSortFiltersBox()}
           <CatalogSection
             {...item}
             brands={brands}
@@ -155,15 +156,18 @@ class Catalog extends BaseContainer {
       availableWidth,
       timelineWidth,
       shouldFixTimeline,
-      categories: { catalogTimelineObj }
+      categories: { catalogTimelineObj },
+      currentSectionId
     } = this.props;
 
     return (
       <div className={classes.wrapper}>
+        {this._renderSortFiltersBox()}
         <Timeline
           history={history}
           fixed={shouldFixTimeline}
           content={{ items: catalogTimelineObj }}
+          currentSectionId={currentSectionId}
         />
         <TimelineSections
           width={availableWidth}
