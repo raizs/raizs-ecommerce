@@ -23,10 +23,13 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     '&.-miniDatePicker': {
       marginTop: theme.spacing.unit / 2,
-      width: '225px'
+      width: '240px'
     },
     '&.-headerUserButton': {
       width: '272px'
+    },
+    '&.-headerUserButton.-loggedIn': {
+      width: 'auto'
     }
   },
   miniDatePicker: {
@@ -117,7 +120,7 @@ class SimplePopper extends Component {
   }
 
   render() {
-    let { classes, id, children, label, fadeTimeout, from } = this.props;
+    let { classes, id, children, shouldCloseOnInsideClick, label, fadeTimeout, from } = this.props;
     const { anchorEl, connected } = this.state;
 
     const open = connected ? this.props.open : this.state.open;
@@ -125,7 +128,10 @@ class SimplePopper extends Component {
 
     const typographyClasses = [classes.typography];
     if(from === 'miniDatePicker') typographyClasses.push('-miniDatePicker');
-    if(from === 'headerUserButton') typographyClasses.push('-headerUserButton');
+    if(from === 'headerUserButton') {
+      typographyClasses.push('-headerUserButton');
+      if(shouldCloseOnInsideClick) typographyClasses.push('-loggedIn');
+    }
 
     return (
       <div>

@@ -33,12 +33,11 @@ const styles = theme => ({
 });
 
 let Loading = props => {
-  const { classes, size, noBg } = props;
+  const { classes, size } = props;
   const wrapperClasses = [classes.wrapper];
   if(props.inline) wrapperClasses.push('inline');
   if(props.absolute) wrapperClasses.push('absolute');
   if(props.noBg) wrapperClasses.push('noBg')
-    console.log(wrapperClasses)
 
   return (
     <div className={classnames(...wrapperClasses)} >

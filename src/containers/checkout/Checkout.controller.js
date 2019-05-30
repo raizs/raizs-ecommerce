@@ -551,7 +551,7 @@ export class CheckoutController extends BaseController {
   }
 
   handleContinuePayment() {
-    this.toState({ isPaymentSectionDone: true });
+    this.toState({ isPaymentSectionDone: true, paymentSectionLoading: false });
   }
 
   handleCardNumberBlur(e) {

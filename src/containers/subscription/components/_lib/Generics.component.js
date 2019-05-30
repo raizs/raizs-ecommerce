@@ -124,6 +124,7 @@ class Generics extends Component {
     const { products, cart, handleUpdate } = this.props;
     return products.map(product =>
       <GenericProduct
+        key={product.id}
         item={product}
         quantity={cart.productQuantities[product.id] || 0}
         changeAction={handleUpdate}

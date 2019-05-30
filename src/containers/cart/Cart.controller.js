@@ -1,4 +1,6 @@
+import React from 'react';
 import { BaseController, Formatter, CepHelper } from '../../helpers';
+import { toast } from 'react-toastify';
 
 export class CartController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -8,6 +10,7 @@ export class CartController extends BaseController {
     this.handleUpdateSubscriptionCart = this.handleUpdateSubscriptionCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
+    this.handleRemoveSubscription = this.handleRemoveSubscription.bind(this);
   }
 
   handleUpdateCart({ item, quantity }) {
@@ -47,5 +50,10 @@ export class CartController extends BaseController {
 
     if(success) this.toState({ cepLoading: false, shippingValue, cepSuccess: true })
     else this.toState({ cepLoading: false, cepError: msg });
+  }
+
+  handleRemoveSubscription() {
+    const { removeSubscriptionCartAction } = this.getProps();
+    removeSubscriptionCartAction();
   }
 }

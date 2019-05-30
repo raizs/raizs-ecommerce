@@ -149,7 +149,7 @@ class GenericProduct extends Component {
       <div className='wrapper'>
         <p>O que pode vir:</p>
         <ul>
-          {genericExamples[id].map(e => <li>{e}</li>)}
+          {genericExamples[id].map(e => <li key={e}>{e}</li>)}
         </ul>
         <p>... e muito mais!</p>
         <span className={classes.arrow} ref={this._handleArrowRef} />

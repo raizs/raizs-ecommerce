@@ -7,7 +7,12 @@ import { withStyles } from '@material-ui/core';
 
 import { CartController } from './Cart.controller';
 import { BaseContainer } from '../../helpers';
-import { updateCartAction, updateSubscriptionCartAction } from '../../store/actions';
+import {
+  updateCartAction,
+  updateSubscriptionCartAction,
+  addSubscriptionCartToCartAction,
+  removeSubscriptionCartAction
+} from '../../store/actions';
 import { CartProduct, SubscriptionCartProduct } from '../../components';
 import { CartCheckout } from './components';
 import { SubscriptionCart } from '../../entities';
@@ -29,7 +34,19 @@ const styles = theme => ({
         margin: `${2 * theme.spacing.unit}px 0`,
         textAlign: 'left',
         width: '100%',
-        maxWidth: '1100px'
+        maxWidth: '1100px',
+        display: 'inline-block',
+        '& > span': {
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          fontSize: theme.fontSizes.SM,
+          display: 'inline-block',
+          float: 'right',
+          fontWeight: 600,
+          '&:hover': {
+            color: theme.palette.green.main
+          }
+        }
       },
       '& > div': {
         width: '100%',
@@ -49,7 +66,8 @@ const styles = theme => ({
 
 const actions = {
   updateCartAction,
-  updateSubscriptionCartAction
+  updateSubscriptionCartAction,
+  removeSubscriptionCartAction
 };
 
 const MINIMUM_VALUE = 60; // todo: get from db
@@ -124,13 +142,16 @@ class Cart extends BaseContainer {
 
   _renderSubscriptionCartItems() {
     const { subscriptionCart } = this.props;
-    const { handleUpdateSubscriptionCart } = this.controller;
+    const { handleUpdateSubscriptionCart, handleRemoveSubscription } = this.controller;
     const cart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
     const { subscriptionName } = subscriptionCart;
 
     return cart.items.length ? (
       <div className='items'>
-        <h4>Assinatura - {subscriptionName}</h4>
+        <h4>
+          Assinatura - {subscriptionName}
+          <span onClick={handleRemoveSubscription}>remover</span>
+        </h4>
         <div>
           {cart.items.map(item => {
             const { product } = item;

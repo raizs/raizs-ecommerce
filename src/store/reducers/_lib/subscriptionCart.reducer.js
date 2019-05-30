@@ -1,4 +1,10 @@
-import { UPDATE_SUBSCRIPTION_CART, SET_CURRENT_OBSERVATIONS, SET_SUBSCRIPTION_NAME, ADD_SUBSCRIPTION_CART } from "../../actions";
+import {
+	UPDATE_SUBSCRIPTION_CART,
+	SET_CURRENT_OBSERVATIONS,
+	SET_SUBSCRIPTION_NAME,
+	ADD_SUBSCRIPTION_CART,
+	REMOVE_SUBSCRIPTION_CART
+} from "../../actions";
 import { Cache } from "../../../helpers";
 import { SubscriptionCart } from "../../../entities";
 
@@ -35,6 +41,11 @@ export const subscriptionCartReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isAdded: true
+			};
+		case REMOVE_SUBSCRIPTION_CART:
+			return {
+				...state,
+				isAdded: false
 			};
 		default:
 			return state;

@@ -2,7 +2,7 @@ import { BaseModel } from '../../helpers';
 import { ProductBrand } from '..';
 
 export class ProductBrands extends BaseModel {
-  constructor(productBrands) {
+  constructor(productBrands = []) {
     super();
     
     this.original = productBrands;

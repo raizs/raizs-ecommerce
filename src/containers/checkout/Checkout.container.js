@@ -113,10 +113,10 @@ class Checkout extends BaseContainer {
     editingAddressId: null,
 
     selectedPaymentMethod: 'creditCard',
-    creditCardNumber: '5555-6666-7777-8884',
-    creditCardName: 'MARCELO TESTE',
-    creditCardExp: '12/2022',
-    creditCardCvv: '123',
+    creditCardNumber: '',
+    creditCardName: '',
+    creditCardExp: '',
+    creditCardCvv: '',
     creditCardShouldSave: true,
 
     debitCardNumber: '',
@@ -399,7 +399,7 @@ class Checkout extends BaseContainer {
         />
         {
           isUserSectionDone && isAddressSectionDone && isPaymentSectionDone ?
-          <Button className={classes.button} onClick={handleConfirmOrder}>
+          <Button id='checkout' className={classes.button} onClick={handleConfirmOrder}>
             Finalizar Pedido    
           </Button>
           : null
