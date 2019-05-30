@@ -28,6 +28,7 @@ const styles = theme => ({
     width: 20 * theme.spacing.unit,
     height: 5 * theme.spacing.unit,
     lineHeight: `${5 * theme.spacing.unit}px`,
+    backgroundColor: 'white',
     border: `1px solid ${theme.palette.green.main}`,
     position: 'relative',
     cursor: 'pointer',
@@ -65,7 +66,6 @@ const styles = theme => ({
       width: '100%',
       lineHeight: `${4.5 * theme.spacing.unit}px`,
       height: '100%',
-      backgroundColor: 'white',
       fontSize: theme.fontSizes.LG,
       color: theme.palette.green.main,
       fontWeight: 600
@@ -91,10 +91,10 @@ class QuantitySelector extends Component {
 
   _handleClick(direction) {
     const stateQuantity = this.state.quantity;
-    const { changeAction, item } = this.props;
+    const { changeAction, item, item: { periodicity } } = this.props;
     const quantity = Math.max(0, stateQuantity + direction);
 
-    changeAction({ item, quantity });
+    changeAction({ item, quantity, periodicity });
     this.setState({ quantity });
   }
 

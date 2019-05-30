@@ -28,24 +28,12 @@ export class User extends BaseModel {
     this.createDate = user.createDate;
     this.writeDate = user.writeDate;
     
-    this.zip = user.zip;
-    this.street = user.street;
-    this.number = user.number;
-    this.street2 = user.street2;
-    this.district = user.district;
-    this.city = user.city;
-    this.state = user.state;
-    this.addressName = user.addressName;
-    this.addressReceiverName = user.addressReceiverName;
-    this.addressIsDefault = user.addressIsDefault;
-    
     this.createdAt = this.createDate ? new Date(this.createDate) : null;
     this.updatedAt = this.writeDate ? new Date(this.writeDate) : null;
     
     this.isComplete = this._checkIfComplete();
-    this.hasAddress = this._checkIfHasAddress();
 
-    this.addresses = userAddresses || (this.hasAddress ? new UserAddresses(user) : null);
+    this.addresses = userAddresses || new UserAddresses(user);
   }
 
   getUpdatedChildren(updated) {
@@ -87,9 +75,5 @@ export class User extends BaseModel {
 
   _checkIfComplete() {
     return Boolean(this.name && this.lastName && (this.cpf || this.cnpj) && this.email && this.phone);
-  }
-
-  _checkIfHasAddress() {
-    return Boolean(this.zip && this.street && this.number && this.city && this.state);
   }
 }

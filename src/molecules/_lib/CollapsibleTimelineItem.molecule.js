@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { Collapse, withStyles, Icon } from '@material-ui/core';
 
 const styles = theme => ({
@@ -31,6 +32,10 @@ const styles = theme => ({
     cursor: 'pointer',
     '&:hover a': {
       color: theme.palette.green.main
+    },
+    '&.-active *': {
+      color: theme.palette.green.main,
+      fontWeight: 700
     }
   }
 });
@@ -45,8 +50,11 @@ class CollapsibleTimelineItem extends Component {
   }
 
   render() {
-    const { item, classes } = this.props;
-    const { isOpen } = this.state;
+    const { item, classes, currentSectionId } = this.props;
+    let { isOpen } = this.state;
+
+    const isActive = currentSectionId && currentSectionId.startsWith(item.id);
+    if(isActive) isOpen = true;
 
     return (
       <div className={classes.group}>
@@ -58,13 +66,17 @@ class CollapsibleTimelineItem extends Component {
         </div>
         <Collapse in={isOpen}>
           <ul>
-            {item.collapse.map(collapsed =>
-              <li key={collapsed.id} className={classes.subtitle}>
-                <a href={collapsed.url}>
-                  {collapsed.label}
-                </a>
-              </li>
-            )}
+            {item.collapse.map(collapsed => {
+              const classNames = [classes.subtitle];
+              if(currentSectionId && currentSectionId.startsWith(collapsed.id)) classNames.push('-active');
+              return (
+                <li key={collapsed.id} className={classnames(classNames)}>
+                  <a href={collapsed.url}>
+                    {collapsed.label}
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </Collapse>
       </div>

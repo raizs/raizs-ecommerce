@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
 import classnames from 'classnames';
 
-import 'img-2';
 import { QuantitySelector } from '..';
 
-const MIN_PRODUCT_HEIGHT = 320;
+const MIN_PRODUCT_HEIGHT = 332;
 const MIN_SMALL_PRODUCT_HEGHT = 240;
 
 const styles = theme => ({
@@ -14,7 +13,7 @@ const styles = theme => ({
     minHeight: `${MIN_PRODUCT_HEIGHT}px`,
     backgroundColor: 'white',
     display: 'inline-block',
-    margin: theme.spacing.unit,
+    margin: 2 * theme.spacing.unit,
     padding: theme.spacing.unit/2,
     borderRadius: theme.spacing.unit,
     '&.-small': {
@@ -63,35 +62,12 @@ const styles = theme => ({
 });
 
 class CatalogProduct extends Component {
-  state = {
-    loadedImage: false,
-    imageError: false
-  }
 
-  componentDidUpdate() {
-    const el = document.querySelector(`div#product-${this.props.product.id} img-2`);
-    const { shadowRoot } = document.querySelector(`div#product-${this.props.product.id} img-2`);
-
-    if(!this.state.loadedImage && shadowRoot) {
-      const context = this;
-      const img = Array.from(shadowRoot.childNodes).pop();
-
-      if(el.loaded) {
-        context.setState({ loadedImage: true })
-      }
-
-      img.onerror = () => {
-        context.setState({ loadedImage: true, imageError: true });
-      }
-    }
-  }
-
-  
   render() {
-    const { classes, product, handleUpdateCart, cart, isSmall } = this.props;
+    const { classes, product, handleUpdateCart, cart, small } = this.props;
     const wrapperClasses = [classes.wrapper];
     const imageClasses = [classes.imageWrapper];
-    if(isSmall) {
+    if(small) {
       wrapperClasses.push('-small');
       imageClasses.push('-small');
     }
@@ -105,8 +81,8 @@ class CatalogProduct extends Component {
         <div className={classnames(imageClasses)}>
           <img-2
             className={classes.image}
-            width={isSmall ? 168 : 248}
-            height={isSmall ? 168 : 224}
+            width={small ? 168 : 248}
+            height={small ? 168 : 224}
             alt={product.name}
             src={product.imageUrl}
             src-preview={product.imageUrl}

@@ -74,7 +74,11 @@ class App extends BaseContainer {
 
   state = {
     email: '',
-    password: ''
+    password: '',
+    forgotPasswordEmail: '',
+
+    loginLoading: false,
+    forgotPasswordError: ''
   }
 
   componentDidMount() {
@@ -101,7 +105,7 @@ class App extends BaseContainer {
     const { history, selectedDate } = this.props;
     const { handleSelectDate } = this.controller;
 
-    return !isSubscription && (
+    return (
       <TopHeader
         history={history}
         handleSelectDate={handleSelectDate}
@@ -117,13 +121,14 @@ class App extends BaseContainer {
   }
 
 	render() {
-    const { email, password } = this.state;
-    const { history, storeFirebase, isUserPopperOpen } = this.props;
+    const { email, password, forgotPasswordEmail, forgotPasswordError } = this.state;
+    const { history, storeFirebase, isUserPopperOpen, searching } = this.props;
     const {
       logout,
       handleTextInputChange,
       signInWithEmailAndPassword,
-      signInWithGoogle
+      signInWithGoogle,
+      handleSubmitForgotPassword
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
@@ -137,14 +142,19 @@ class App extends BaseContainer {
       toForm: {
         email,
         password,
+        forgotPasswordEmail,
+        forgotPasswordError,
         handleChange: handleTextInputChange,
         handleSubmit: signInWithEmailAndPassword,
-        handleGoogleSignIn: signInWithGoogle 
+        handleSubmitForgotPassword: handleSubmitForgotPassword,
+        handleGoogleSignIn: signInWithGoogle
       },
       toLoggedIn: {
         logout
       }
     };
+
+    console.log(this.state);
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>
@@ -157,7 +167,7 @@ class App extends BaseContainer {
           />
           {this._renderTopHeader(isSubscription)}
           <Header {...headerProps} />
-          <div onClick={()=>this.props.toggleSearchBarAction(false)}>
+          <div onClick={() => searching ? this.props.toggleSearchBarAction(false) : null}>
             <Switch>
               <Route path='/' exact component={Landing} />
               <Route path='/home' exact component={Home} />
@@ -188,6 +198,7 @@ const mapStateToProps = state => {
     categories: state.categories.model,
     isUserPopperOpen: state.header.isUserPopperOpen,
     user: state.user.current,
+    searching: state.header.isSearchBarOpen,
     selectedDate: state.datePicker.selected
   };
 }

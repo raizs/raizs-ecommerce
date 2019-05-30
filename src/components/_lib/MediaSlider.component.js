@@ -52,7 +52,7 @@ let MediaSlider = props => {
       <div className={classes.sliderWrapper}>
         <Slider {...settings}>
           {mediaObjects.map(obj => {
-            return <a target='blank' href={obj.url}><img src={obj.src} /></a>;
+            return <a key={obj.url} target='blank' href={obj.url}><img src={obj.src} /></a>;
           })}
         </Slider>
       </div>

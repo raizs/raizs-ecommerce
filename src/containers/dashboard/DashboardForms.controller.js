@@ -21,7 +21,7 @@ export class DashboardFormsController extends BaseController {
     this.toState(this.baseHandleChange(e, format, errors));
   }
 
-  userApiToState(user){
+  userApiToState(user) {
     const state = { ...this.getState(),
       ...user, 
       cpf:Formatter.formatCpf(user.cpf), 
@@ -29,29 +29,27 @@ export class DashboardFormsController extends BaseController {
     this.toState(state)
   }
 
-  async updateUser(){
-    const { user: { id }, setUserAction } = this.getProps()
+  async updateUser() {
+    const { user: { id }, setUserAction, history } = this.getProps()
     const { errors, isValidated } = UpdateUserValidation.user(this.getState());
 
-    if (!isValidated){
-      return this.toState({errors})
-    }
+    if (!isValidated) return this.toState({ errors });
 
-    const toApi = StateToApi.updateUserData(this.getState()) 
-    const promise = await this.userRepo.updateUser(toApi, id)
+    const toApi = StateToApi.updateUserData(this.getState());
+    const promise = await this.userRepo.updateUser(toApi, id);
 
     if(!promise.err) {
       setUserAction(new User(promise.data));
-      return this.getProps().history.push("/painel/usuario")
+      return history.push("/painel/usuario");
     }
   }
-  addressApiToState(addresses){
-    const { id } = this.getProps().match.params
-    console.log(addresses)
-    if (id != "novo" ){
-      const address = this.getProps().user.addresses.getById(id)
-      
-      this.toState(address)
+
+  addressApiToState(addresses) {
+    const { match, user } = this.getProps();
+    const { id } = match.params;
+    if (id != "novo" ) {
+      const address = user.addresses.getById(id)
+      this.toState(address);
 
     }
   }
@@ -59,7 +57,7 @@ export class DashboardFormsController extends BaseController {
   async handleCepBlur(e) {
     const { value, id } = e.target;
     console.log(id)
-    if (id == 'cep'){
+    if (id == 'cep') {
       const { errors } = this.getState();
       if(value.length < 9) {
         if(!value.length) return;
@@ -72,31 +70,29 @@ export class DashboardFormsController extends BaseController {
   
       if(success) {
         setTimeout(
-
-          ()=>this.toState({
+          () => this.toState({
             street: data.street,
             neighbourhood: data.neighborhood,
             city: data.city,
             state: data.state,
             loading: false
-          }),1000
-          )
-        }
+          }), 1000
+        )
+      }
       else {
         errors[id] = msg;
         this.toState({ addressSectionLoading: false, errors });
       }
-
     }
   }
 
-  async manageAddress(){
-    console.log("managing")
-    const id = this.getProps().match.params.id
-    const { user, setUserAction, history } = this.getProps()
+  async manageAddress() {
+    const id = this.getProps().match.params.id;
+    const { user, setUserAction, history } = this.getProps();
     const values = this.getState();
     let newUser;
-    if (id == "novo" ){
+
+    if(id == "novo") {
       values.parentId = user.id;
       const toApi = StateToApi.manageAddress(values)
       const promise = await this.userAddressRepo.create(toApi)
@@ -104,8 +100,8 @@ export class DashboardFormsController extends BaseController {
       const userOriginal = user.original;
       userOriginal.children.push(promise.data);
       newUser = new User(userOriginal);
-  
     }
+
     else {
       values.parentId = user.id;
       const toApi = StateToApi.manageAddress(values)
@@ -119,8 +115,5 @@ export class DashboardFormsController extends BaseController {
     }
     setUserAction(newUser);
     history.push("/painel/usuario")
-
-    
   }
-    
 }

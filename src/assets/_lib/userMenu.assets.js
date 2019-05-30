@@ -9,8 +9,8 @@ export const loggedUserMenuOptions = [
     id: 'favorite',
     label: 'Favoritos'
   }, {
-    id: 'signature',
-    label: 'Assinatura'
+    id: 'subscriptions',
+    label: 'Assinaturas'
   }, {
     id: 'orders',
     label: 'Pedidos'

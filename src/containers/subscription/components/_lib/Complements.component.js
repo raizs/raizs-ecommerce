@@ -47,8 +47,9 @@ const styles = theme => ({
     '& > div.continue': {
       backgroundColor: theme.palette.gray.main,
       padding: 1.5 * theme.spacing.unit,
-      '& > button': {
+      '& > button#continue': {
         ...theme.buttons.primary,
+        marginLeft: 2 * theme.spacing.unit,
         fontSize: theme.fontSizes.LG
       }
     }
@@ -142,7 +143,12 @@ class Complements extends Component {
             <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
           </div>
           <div className='continue'>
-            <Button>Continuar para revisão</Button>
+            <Button
+              id='continue'
+              onClick={() => history.push('/assinatura/revisao')}
+            >
+              Continuar para revisão
+            </Button>
           </div>
         </section>
 

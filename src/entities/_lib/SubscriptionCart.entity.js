@@ -21,7 +21,7 @@ export class SubscriptionCart {
     this.complementsCount = this._getProductCount(items, 'complements');
   }
   
-  update(product, quantity) {
+  update(product, quantity, periodicity = 'weekly') {
     product = clonedeep(product);
     const items = clonedeep(this.items);
     let index = -1;
@@ -38,13 +38,17 @@ export class SubscriptionCart {
     if(index === -1 && quantity) {
       items.push({
         product,
-        quantity
+        quantity,
+        periodicity: 'weekly'
       });
     }
 
     if(index !== -1) {
       if(!quantity) items.splice(index, 1);
-      else items[index].quantity = quantity;
+      else {
+        items[index].quantity = quantity;
+        items[index].periodicity = periodicity;
+      }
     }
 
     return new SubscriptionCart(items);

@@ -91,10 +91,10 @@ class HeaderPopperButton extends Component {
   _handleMouseEnterButton = event => {
     const { currentTarget } = event;
     this.timeout = null;
-    this.setState(state => ({
+    this.setState({
       anchorEl: currentTarget,
       open: true
-    }));
+    });
   };
   
   /**

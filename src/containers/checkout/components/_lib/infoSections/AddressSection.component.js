@@ -62,11 +62,20 @@ const styles = theme => ({
   },
   doneWrapper: {
     width: '100%',
+    position: 'relative',
     backgroundColor: 'white',
     borderRadius: theme.spacing.unit,
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
+    '& > div': {
+      display: 'inline-block',
+      verticalAlign: 'top'
+    },
+    '& > div.title': {
+      width: '240px'
+    },
+    '& > div.info': {
+      width: 'calc(100% - 296px)'
+    }
   },
   doneNumber: {
     display: 'inline-block',
@@ -77,7 +86,16 @@ const styles = theme => ({
     lineHeight: `${3 * theme.spacing.unit}px`,
     textAlign: 'center',
     borderRadius: '50%',
-    backgroundColor: theme.palette.gray.bg
+    backgroundColor: theme.palette.gray.bg,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '8px',
+      height: 'calc(100% - 48px)',
+      left: '19px',
+      width: '3px',
+      backgroundColor: theme.palette.green.main
+    }
   },
   doneLabel: {
     display: 'inline-block',
@@ -87,13 +105,15 @@ const styles = theme => ({
   },
   doneInfo: {
     color: theme.palette.gray.main,
-    lineHeight: '1.375em'
+    lineHeight: '1.375em',
   },
   doneChange: {
     color: theme.palette.black,
     textDecoration: 'underline',
+    width: '56px',
     cursor: 'pointer',
     fontSize: theme.fontSizes.SM,
+    textAlign: 'right',
     fontWeight: 600,
     '&:hover': {
       color: theme.palette.green.main
@@ -176,7 +196,7 @@ class AddressSection extends Component {
       list: toAddressesList
     }[currentAddressSection];
 
-    const hasAddresses = user && user.hasAddress;
+    const hasAddresses = user && user.addresses && user.addresses.all.length;
 
     if(!hasAddresses) {
       Comp = AddressForm;
@@ -230,7 +250,7 @@ class AddressSection extends Component {
     const { classes, handleOpenSection } = this.props;
     return (
       <div className={classes.doneWrapper}>
-        <div>
+        <div className='title'>
           <div className={classes.doneNumber}>2</div>
           <h4 className={classes.doneLabel}>ENTREGA</h4>
         </div>
@@ -245,7 +265,7 @@ class AddressSection extends Component {
   _renderDoneInfo() {
     const { classes, selectedUserAddress } = this.props;
     return selectedUserAddress ? (
-      <div>
+      <div className='info'>
         <div className={classes.doneInfo}>
           {selectedUserAddress.name}{selectedUserAddress.isDefaultAddress ? ' (endereço padrão)' : ''}
         </div>

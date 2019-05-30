@@ -68,7 +68,17 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit,
+    '& > div': {
+      display: 'inline-block',
+      verticalAlign: 'top'
+    },
+    '& > div.title': {
+      width: '240px'
+    },
+    '& > div.info': {
+      width: 'calc(100% - 296px)'
+    }
   },
   doneNumber: {
     display: 'inline-block',
@@ -94,6 +104,8 @@ const styles = theme => ({
   doneChange: {
     color: theme.palette.black,
     textDecoration: 'underline',
+    textAlign: 'right',
+    width: '56px',
     cursor: 'pointer',
     fontSize: theme.fontSizes.SM,
     fontWeight: 600,
@@ -202,7 +214,10 @@ class PaymentSection extends Component {
             selectedId={selectedPaymentMethod}
             options={paymentMethods}
           />
-          {this._renderSelectedMethodForm()}
+          <div style={{ marginTop: '32px' }}>
+            {this._renderSelectedMethodForm()}
+          </div>
+          <div>Comum</div>
           <Button
             onClick={handleSubmitPayment}
             className={classes.button}
@@ -249,7 +264,7 @@ class PaymentSection extends Component {
     const { classes, handleOpenSection } = this.props;
     return (
       <div className={classes.doneWrapper}>
-        <div>
+        <div className='title'>
           <div className={classes.doneNumber}>3</div>
           <h4 className={classes.doneLabel}>PAGAMENTO</h4>
         </div>
@@ -264,7 +279,7 @@ class PaymentSection extends Component {
   _renderDoneInfo() {
     const { classes, selectedCard, selectedPaymentMethod } = this.props;
     return selectedCard ? (
-      <div>
+      <div className='info'>
         <div className={classes.doneInfo}>{paymentMethodsStrings[selectedPaymentMethod]}</div>
         <div className={classes.doneInfo}>{selectedCard.finalString}</div>
       </div>

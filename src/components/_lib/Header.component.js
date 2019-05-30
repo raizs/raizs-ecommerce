@@ -3,15 +3,11 @@ import React, { Component } from 'react';
 import ReactSvg from 'react-svg'
 import compose from 'recompose/compose';
 import { connect } from "react-redux"
+import classnames from "classnames"
 
 import { HeaderHelper, StringMapper } from '../../helpers';
 import { toggleSearchBarAction } from '../../store/actions';
-
-
 import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
-
-import classnames from "classnames"
-
 import { Button, withStyles } from '@material-ui/core';
 import { SubscriptionStepper } from './SubscriptionStepper.component';
 import { SearchBar } from './SearchBar.component';
@@ -61,6 +57,9 @@ const styles = theme => ({
     '&:hover *': {
       stroke: theme.palette.green.main
     },
+    '&.-cesta': {
+      transform: 'translateY(-8px)'
+    }
   },
   noWidthIcon:{
     width: 0
@@ -76,7 +75,6 @@ const styles = theme => ({
     top:0,
     zIndex:3,
     backgroundColor:"rgba(0,0,0, 0.1)",
-    // opacity: "0.3",
     width:"100%",
     height:"100vh",
     top:12*theme.spacing.unit,
@@ -108,8 +106,9 @@ class Header extends Component {
       const { windowWidth, availableCenterWidth } = HeaderHelper.getWidths()
       context.setState({ windowWidth, availableCenterWidth });
     });
+
     window.addEventListener('scroll', () => {
-      this.setState({searching:false})
+      this.setState({ searching: false });
     });
     
     const {
@@ -237,7 +236,7 @@ class Header extends Component {
         >
           <ReactSvg
             src='/icons/cesta.svg'
-            className={classes.headerIcon}
+            className={classnames(classes.headerIcon, '-cesta')}
           />
         </div>
       </div>
@@ -246,8 +245,9 @@ class Header extends Component {
 
   
   render() {
-    const { classes, searching } = this.props;
+    const { searching } = this.props;
     const { availableCenterWidth } = this.state
+    
     return (
       <header className='app-header'>
         {this._renderCenterContent()}

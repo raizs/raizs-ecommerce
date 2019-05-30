@@ -89,21 +89,21 @@ export const mediaObjects = [
 export const characteristicsItems = [
   {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label1'
   }, {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label2'
   }, {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label3'
   }, {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label4'
   }, {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label5'
   }, {
     src: '/icons/twitter.svg',
-    label: 'Label'
+    label: 'Label6'
   }
 ];

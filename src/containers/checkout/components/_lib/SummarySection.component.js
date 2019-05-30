@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
-import { MiniDatePickerHelper, Formatter } from '../../../../helpers';
+import { MiniDatePickerHelper, Formatter, StringMapper } from '../../../../helpers';
 
 const styles = theme => ({
   wrapper: {
@@ -44,7 +45,8 @@ const styles = theme => ({
   },
   productCount: {
     fontSize: theme.fontSizes.SM,
-    fontWeight: 600
+    fontWeight: 600,
+    marginTop: theme.spacing.unit
   },
   productList: {
     maxHeight: '270px',
@@ -65,19 +67,27 @@ const styles = theme => ({
     '& + div': {
       marginTop: theme.spacing.unit
     },
-    fontSize: theme.fontSizes.XS
-  },
-  productName: {
-    ...theme.typography.textEllipsis,
-    width: '60%'
-  },
-  productQuantity: {
-    width: '15%',
-    textAlign: 'center'
-  },
-  productValue: {
-    width: '25%',
-    textAlign: 'right'
+    fontSize: theme.fontSizes.XS,
+    '& > div.name': {
+      ...theme.typography.textEllipsis,
+      width: '60%'
+    },
+    '&.-subscription > div.name': {
+      ...theme.typography.textEllipsis,
+      width: '40%'
+    },
+    '& > div.periodicity': {
+      width: '20%',
+      textAlign: 'left'
+    },
+    '& > div.quantity': {
+      width: '15%',
+      textAlign: 'center'
+    },
+    '& > div.value': {
+      width: '25%',
+      textAlign: 'right'
+    },
   },
   keyValue: {
     display: 'flex',
@@ -100,20 +110,61 @@ class SummarySection extends Component {
     dates: MiniDatePickerHelper.generateDatesObject()
   }
 
-  _renderProducts() {
-    const { cart, classes } = this.props;
+  _renderProducts(key = null) {
+    const { cart, subscriptionCart: { current }, classes } = this.props;
+    const toMap = key ? current : cart;
     
-    return cart.items.map(({ product, quantity }) =>
-      <div key={product.id} className={classes.product}>
-        <div className={classes.productName}>{product.name}</div>
-        <div className={classes.productQuantity}>{quantity}</div>
-        <div className={classes.productValue}>{Formatter.currency(product.price * quantity)}</div>
+    return toMap.items.map(({ product, quantity, periodicity }) => {
+      const classNames = [classes.product];
+      if(key) classNames.push('-subscription');
+
+      return (
+        <div key={product.id} className={classnames(classNames)}>
+          <div className='name'>{product.name}</div>
+          {periodicity && <div className='periodicity'>{StringMapper.periodicity(periodicity)}</div>}
+          <div className='quantity'>{quantity}</div>
+          <div className='value'>{Formatter.currency(product.price * quantity)}</div>
+        </div>
+      )
+    });
+  }
+
+
+  _renderSummary() {
+    const { classes, cart, subscriptionCart, subscriptionCart: { subscriptionName } } = this.props;
+    const sCart = subscriptionCart.current;
+    
+    const to = [];
+
+    const _renderCount = productCount => `${productCount} Produto${productCount > 1 ? 's' : ''}`;
+
+    if(cart && cart.productCount) to.push(
+      <div key='cart'>
+        <div className={classes.productCount}>
+          Pedido avulso - {_renderCount(cart.productCount)}
+        </div>
+        <div className={classes.productList}>
+          {this._renderProducts()}
+        </div>
       </div>
     );
+    if(sCart && sCart.productCount) to.push(
+      <div key='subscriptionCart'>
+        <div className={classes.productCount}>
+          Assinatura ({subscriptionName}) - {_renderCount(sCart.productCount)}
+        </div>
+        <div className={classes.productList}>
+          {this._renderProducts('subscription')}
+        </div>
+      </div>
+    );
+
+    return to.length && to;
   }
 
   render() {
-    const { classes, selectedDate, cart } = this.props;
+    const { classes, selectedDate, cart, subscriptionCart } = this.props;
+    const sCart = subscriptionCart.current;
 
     return (
       <div className={classes.wrapper}>
@@ -123,13 +174,10 @@ class SummarySection extends Component {
         <div className={classes.hourLabel}>HORÁRIO DE ENTREGA</div>
         <div className={classes.hour}>07h30 até 13h00</div>
         <div className={classes.title}>RESUMO</div>
-        <div className={classes.productCount}>{`${cart.productCount} Produto${cart.productCount > 1 ? 's' : ''}`}</div>
-        <div className={classes.productList}>
-          {this._renderProducts()}
-        </div>
+        {this._renderSummary()}
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>SUBTOTAL</div>
-          <div className={classes.subValue}>{Formatter.currency(cart.subtotal)}</div>
+          <div className={classes.subValue}>{Formatter.currency(cart.subtotal + sCart.subtotal)}</div>
         </div>
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>FRETE</div>
@@ -137,7 +185,7 @@ class SummarySection extends Component {
         </div>
         <div className={classes.keyValue} style={{ marginTop: '24px' }}>
           <div className={classes.total}>TOTAL</div>
-          <div className={classes.total}>{Formatter.currency(cart.subtotal + 9.9)}</div>
+          <div className={classes.total}>{Formatter.currency(cart.subtotal + sCart.subtotal + 9.9)}</div>
         </div>
       </div>
     )

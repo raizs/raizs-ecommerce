@@ -24,6 +24,9 @@ const styles = theme => ({
     '&.-miniDatePicker': {
       marginTop: theme.spacing.unit / 2,
       width: '225px'
+    },
+    '&.-headerUserButton': {
+      width: '272px'
     }
   },
   miniDatePicker: {
@@ -122,6 +125,7 @@ class SimplePopper extends Component {
 
     const typographyClasses = [classes.typography];
     if(from === 'miniDatePicker') typographyClasses.push('-miniDatePicker');
+    if(from === 'headerUserButton') typographyClasses.push('-headerUserButton');
 
     return (
       <div>
@@ -136,6 +140,7 @@ class SimplePopper extends Component {
         <Popper
           onClick={this._handlePopperClick}
           id={id}
+          placement='bottom-end'
           open={open}
           anchorEl={anchorEl}
           transition

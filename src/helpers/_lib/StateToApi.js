@@ -53,8 +53,6 @@ export class StateToApi {
 
 
   static manageAddress(values) {
-    console.log(values)
-    
     return {
       addressName: values.name,
       name:values.name,
@@ -69,14 +67,12 @@ export class StateToApi {
       state: values.state,
       addressIsDefault: false
     };
-
-
   }
 
   static createAddressCheckout(values) {
-    const to = {
+    return {
       addressName: values.addressName,
-      addressReceiverName: values.addressReceiverName,
+      receiverName: values.addressReceiverName,
       zip: values.addressCep,
       street: values.addressAddress,
       number: values.addressNumber,
@@ -84,15 +80,10 @@ export class StateToApi {
       district: values.addressNeighbourhood,
       city: values.addressCity,
       state: values.addressState,
-      addressIsDefault: false
+      addressIsDefault: false,
+      name: values.addressReceiverName,
+      parentId: values.parentId
     };
-
-    if(values.parentId) {
-      to.name = values.addressReceiverName;
-      to.parentId = values.parentId;
-    }
-
-    return to;
   }
 
   static createCard(values, type) {

@@ -9,7 +9,9 @@ const _renderSubcategories = ({
   brands,
   handleUpdateCart,
   cart,
-  openModalProductAction
+  openModalProductAction,
+  small,
+  shouldAnchor = true
 }) => {
   return subcategories.map(subcategory => {
     const groupedProducts = products.groupedByCategoryId[subcategory.subcategoryId] || [];
@@ -23,6 +25,8 @@ const _renderSubcategories = ({
         groupedProducts={groupedProducts}
         handleUpdateCart={handleUpdateCart}
         openModalProductAction={openModalProductAction}
+        small={small}
+        shouldAnchor={shouldAnchor}
       />
     )
   });
@@ -37,7 +41,9 @@ let CatalogSection = props => {
     brands,
     handleUpdateCart,
     cart,
-    openModalProductAction
+    openModalProductAction,
+    small,
+    shouldAnchor
   } = props;
 
   return (
@@ -49,7 +55,9 @@ let CatalogSection = props => {
         brands,
         handleUpdateCart,
         cart,
-        openModalProductAction
+        openModalProductAction,
+        small,
+        shouldAnchor
       })}
     </div>
   )
