@@ -8,6 +8,7 @@ import {
   Paper,
   withStyles
 } from '@material-ui/core';
+import classnames from 'classnames';
 
 const styles = theme => ({
   content: {
@@ -28,6 +29,9 @@ const styles = theme => ({
         color: theme.palette.green.main
       }
     },
+    '&.-cesta': {
+      padding: 0
+    }
   },
   popper: {
     zIndex: 1,
@@ -120,11 +124,14 @@ class HeaderPopperButton extends Component {
   };
 
   render() {
-    const { classes, children, label, clickAction, height } = this.props;
+    const { classes, children, label, clickAction, height, placement } = this.props;
     const { anchorEl, open } = this.state;
     
     let { id } = this.props;
     id = open ? id : null;
+
+    const buttonClassName = [classes.button];
+    if(id === 'cesta') buttonClassName.push('-cesta');
 
     let style = {};
     if(height) style.height = height;
@@ -136,7 +143,7 @@ class HeaderPopperButton extends Component {
           onMouseLeave={this._handleMouseLeave}
           onMouseEnter={this._handleMouseEnterButton}
           onMouseOver={this._handleMouseEnterButton}
-          className={classes.button}
+          className={classnames(buttonClassName)}
           onClick={clickAction}
           style={style}
         >
@@ -148,6 +155,7 @@ class HeaderPopperButton extends Component {
           anchorEl={anchorEl}
           transition
           className={classes.popper}
+          placement={placement || 'bottom'}
           modifiers={{
             arrow: {
               enabled: true,

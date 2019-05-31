@@ -20,8 +20,8 @@ export default class BaseController {
     return { [id]: !currentValue };
 	}
 	
-	baseHandleUpdateCart({ item, quantity, periodicity }, cart, updateCartAction) {
-		const newCart = cart.update(item, quantity, periodicity);
+	baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, cart, updateCartAction) {
+		const newCart = cart.update(item, quantity, periodicity, secondaryPeriodicity);
 		updateCartAction(newCart);
 	}
 }

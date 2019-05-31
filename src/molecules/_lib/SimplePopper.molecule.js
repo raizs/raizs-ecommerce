@@ -120,7 +120,16 @@ class SimplePopper extends Component {
   }
 
   render() {
-    let { classes, id, children, shouldCloseOnInsideClick, label, fadeTimeout, from } = this.props;
+    let {
+      classes,
+      id,
+      children,
+      shouldCloseOnInsideClick,
+      label,
+      fadeTimeout,
+      from,
+      placement
+    } = this.props;
     const { anchorEl, connected } = this.state;
 
     const open = connected ? this.props.open : this.state.open;
@@ -146,7 +155,7 @@ class SimplePopper extends Component {
         <Popper
           onClick={this._handlePopperClick}
           id={id}
-          placement='bottom-end'
+          placement={placement || 'bottom'}
           open={open}
           anchorEl={anchorEl}
           transition

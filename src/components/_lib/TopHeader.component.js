@@ -29,7 +29,6 @@ export const TopHeader = props => {
         {renderNavLink({route:"route", label:"Sobre a Raízs"})}
         {renderNavLink({route:"route", label:"Conheça os Produtores"})}
       </nav>
-      <MiniDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
       <nav className="side-buttons">
         {renderNavLink({route:"route", label:"Refazer Pedido"})}
         {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}
