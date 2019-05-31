@@ -14,21 +14,22 @@ export class Transaction extends BaseModel {
 	}
 
 
-	applyCoupon(value){
+	applyCoupon(imediateValue, recurrencyValue){
 		const { coupon } = this;
+		//aqui devemos calcular o desconto de acordo com o tipo de desconto
 
-		if (coupon){
-			switch(coupon.type){
-				case "percentage":{
-					value = value * (1 - coupon.value); break;
-				}
-				case "fix":{
-					value -= coupon.value; break;
-				}
-			}
-		}
+		// if (coupon){
+		// 	switch(coupon.type){
+		// 		case "percentage":{
+		// 			value = value * (1 - coupon.value); break;
+		// 		}
+		// 		case "fix":{
+		// 			value -= coupon.value; break;
+		// 		}
+		// 	}
+		// }
 
-		return value;
+		return { imediateValue, recurrencyValue };
 		
 	}
 
@@ -45,17 +46,18 @@ export class Transaction extends BaseModel {
 	}
 
 	calculateTotals(){
-		const { cart, subcart, coupon, donation, giftCard } = this;
-		
-		const { imediateShipping, recurrencyShipping } = this.getShippingTotals(cart, subcart);
 
-		let imediateValue = this.calculateCartTotals();
-		let recurrencyValue = this.calculateSubcartTotals()
+		//imediateValue é o valor total que será cobrado a vista
+		//recurrencyValue é o valor total que sera cobrado periodicamente
+
+		const { donation } = this;
+		
+		let { recurrencyValue, imediateValue } = this.calculateTotalsWithDiscounts();
+		const { imediateShipping, recurrencyShipping } = this.getShippingTotals();
 		let commonCharge = 0;
 		let firstCharge = 0;
 
 		if (imediateValue && !recurrencyValue){
-			imediateValue = this.applyCoupon(imediateValue);
 			if (donation){
 				imediateValue += donation.value;
 			}
@@ -77,7 +79,6 @@ export class Transaction extends BaseModel {
 		}
 
 		if (recurrencyValue && imediateValue){
-			firstCharge = this.applyCoupon(imediateValue) + recurrencyValue;
 			if (donation){
 				firstCharge += donation.value;
 			}
@@ -88,6 +89,20 @@ export class Transaction extends BaseModel {
 
 
 
+	}
+
+	calculateTotalsWithDiscounts(){
+		let imediateValue = this.calculateCartTotals();
+		let recurrencyValue = this.calculateSubcartTotals();
+		return this.applyCoupon(imediateValue, recurrencyValue);
+	}
+
+	calculateCartTotals(){
+		if (this.cart && this.cart.subtotal){
+			return this.cart.subtotal
+		}
+
+		return 0;
 	}
 
 	calculateSubcartTotals(){
@@ -109,14 +124,6 @@ export class Transaction extends BaseModel {
 		return { imediateShipping: 0, recurrencyShipping:9.90 }
 	}
 
-
-	calculateCartTotals(){
-		if (this.cart && this.cart.subtotal){
-			return this.cart.subtotal
-		}
-
-		return 0;
-	}
 
 
 

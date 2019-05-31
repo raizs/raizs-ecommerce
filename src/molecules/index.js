@@ -17,3 +17,4 @@ export { SimplePopper } from './_lib/SimplePopper.molecule';
 export { SliderArrow } from './_lib/SliderArrow.molecule';
 export { TextInput } from './_lib/TextInput.molecule';
 export { SideMenu } from './_lib/SideMenu.molecule';
+export { Coupon } from './_lib/Coupon.molecule';

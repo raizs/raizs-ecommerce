@@ -94,3 +94,9 @@ export {
   openModalProductAction,
   closeModalProductAction
 } from './_lib/modal.actions';
+
+
+export {
+  SET_COUPON_ACTION,
+  setCouponAction
+} from './_lib/coupon.actions';

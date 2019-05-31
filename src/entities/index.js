@@ -18,3 +18,4 @@ export { User } from './_lib/User.entity';
 export { UserAddress } from './_lib/UserAddress.entity';
 export { UserAddresses } from './_lib/UserAddresses.entity';
 export { Transaction } from './_lib/Transaction.entity';
+export { Coupon } from './_lib/Coupon.entity';
