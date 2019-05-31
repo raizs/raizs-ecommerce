@@ -1,6 +1,6 @@
 import { BaseController } from '../../helpers';
 import { Products, UnitsOfMeasure, ProductBrands } from '../../entities';
-import { ProductsRepository, UnitsOfMeasureRepository, ProductBrandsRepository } from '../../repositories';
+import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
 import sortby from 'lodash.sortby';
 
 
@@ -10,7 +10,6 @@ export class CatalogController extends BaseController {
 
     this.productsRepo = new ProductsRepository();
     this.uomRepo = new UnitsOfMeasureRepository();
-    this.brandsRepo = new ProductBrandsRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
@@ -22,19 +21,16 @@ export class CatalogController extends BaseController {
     const {
       setProductsAction,
       setUnitsOfMeasureAction,
-      setProductBrandsAction
     } = this.getProps();
 
     const promises = [
       this.productsRepo.fetchProducts(),
       this.uomRepo.fetchUnitsOfMeasure(),
-      this.brandsRepo.fetchProductBrands()
     ];
 
     const [
       productsPromise,
       uomPromise,
-      brandsPromise
     ] = await Promise.all(promises);
 
     if(!productsPromise.err) {
@@ -49,11 +45,6 @@ export class CatalogController extends BaseController {
       setUnitsOfMeasureAction(uom);
     }
     
-    if(!brandsPromise.err) {
-      const brands = new ProductBrands(brandsPromise.data);
-      
-      setProductBrandsAction(brands);
-    }
   }
 
   handleUpdateCart({ item, quantity }) {

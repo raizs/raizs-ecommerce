@@ -79,7 +79,6 @@ class CatalogSectionList extends Component {
     return (
       <InfiniteScroll hasMore={groupedProducts.length > items.length} loadMore={this._loadMore}>
         {items.map(product => {
-          product.brand = brands.getNameFromId(product.brandId);
           return (
             <CatalogProduct
               cart={cart}

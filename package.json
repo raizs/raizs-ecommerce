@@ -56,7 +56,7 @@
   "scripts": {
     "build-css": "stylus -c src/styles/stylus/ --out src/styles/css",
     "watch-css": "npm run build-css && stylus -c -w src/styles/stylus/ --out src/styles/css",
-    "start-js": "react-scripts start",
+    "start-js": "react-scripts --max_old_space_size=8192 start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",

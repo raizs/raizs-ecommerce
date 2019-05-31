@@ -94,7 +94,7 @@ class CatalogProduct extends Component {
             quantity={cart.productQuantities[product.id] || 0}
           />
         </div>
-        <h6 className={classes.brand}>{product.brand}</h6>
+        <h6 className={classes.brand}>{product.brandName}</h6>
         <h4 className={classes.name}>{product.name}</h4>
         <h4 className={classes.price}>{product.fullPrice}</h4>
        </div>

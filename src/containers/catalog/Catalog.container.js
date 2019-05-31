@@ -17,7 +17,6 @@ import classnames from "classnames";
 import {
   setProductsAction,
   setUnitsOfMeasureAction,
-  setProductBrandsAction,
   updateCartAction,
   openModalProductAction
 } from '../../store/actions';
@@ -59,7 +58,6 @@ const styles = theme => ({
 const actions = {
   setProductsAction,
   setUnitsOfMeasureAction,
-  setProductBrandsAction,
   updateCartAction,
   openModalProductAction
 };

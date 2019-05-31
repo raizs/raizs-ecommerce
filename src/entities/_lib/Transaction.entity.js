@@ -1,9 +1,10 @@
 import { BaseModel, Formatter } from '../../helpers';
 
 export class Transaction extends BaseModel {
+
 	constructor(cart, subcart, coupon, donation, giftCard) {
+
 		super();
-		console.log(cart, subcart)
 		this.cart = cart;
 		this.subcart = subcart;
 		this.donation = donation || { value: 10.00 };
