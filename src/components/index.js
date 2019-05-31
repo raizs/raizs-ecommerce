@@ -1,3 +1,4 @@
+export { BigDatePicker } from './_lib/BigDatePicker.component';
 export { CartCheckout } from './_lib/CartCheckout.component';
 export { CartProduct } from './_lib/CartProduct.component';
 export { CategoriesMosaic } from './_lib/CategoriesMosaic.component';
@@ -11,6 +12,7 @@ export { HeaderPopperButton } from './_lib/HeaderPopperButton.component';
 export { HeaderUserButton } from './_lib/HeaderUserButton.component';
 export { HeaderUserPopper } from './_lib/HeaderUserPopper.component';
 export { HeaderPopper } from './_lib/HeaderPopper.component';
+export { MiniCart } from './_lib/MiniCart.component';
 export { MediaSlider } from './_lib/MediaSlider.component';
 export { Modal } from './_lib/Modal.component';
 export { NewsletterSection } from './_lib/NewsletterSection.component';

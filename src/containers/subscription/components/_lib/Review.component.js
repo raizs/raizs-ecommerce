@@ -61,6 +61,7 @@ class Review extends Component {
       product.quantity = cart.productQuantities[product.id] || 0;
       product.partialPrice = cart.productPartialPrices[product.id] || 0;
       product.periodicity = item.periodicity || 'weekly';
+      product.secondaryPeriodicity = item.secondaryPeriodicity || 'first';
 
       return <SubscriptionCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
     }) :

@@ -18,6 +18,9 @@ export class MiniDatePickerHelper {
 
       const momentDate = moment().add(i, 'd')
       const date = momentDate.format(`DD/MM - ${momentSuffix[i]}`);
+      let [day, weekday] = date.split(' - ');
+      day = day.split('/')[0];
+      weekday = weekday.split('-')[0];
       const prefix = date.split(' ')[0];
       const suffix = date.split(' ').pop();
       let bigSuffix = suffix;
@@ -26,6 +29,8 @@ export class MiniDatePickerHelper {
 
       arr.push({
         date,
+        day,
+        weekday,
         prefix,
         suffix,
         bigSuffix,

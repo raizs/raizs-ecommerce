@@ -11,9 +11,9 @@ export class SubscriptionController extends BaseController {
     this.handleCheckout = this.handleCheckout.bind(this);
   }
 
-  handleUpdateSubscriptionCart({ item, quantity, periodicity }) {
+  handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
     const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity, periodicity }, subscriptionCart, updateSubscriptionCartAction);
+    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction);
   }
 
   handleContinueAction(currentObservations) {

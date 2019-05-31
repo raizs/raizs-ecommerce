@@ -36,6 +36,7 @@ let HeaderUserButton = props => {
     <SimplePopper
       id='user'
       from='headerUserButton'
+      placement='bottom-end'
       label={label}
       open={isUserPopperOpen}
       shouldCloseOnInsideClick={isAuth}

@@ -65,7 +65,6 @@ const actions = {
   setSaleOrdersAction,
   setNewProductsAction,
   toggleSearchBarAction
-  
 };
 
 class App extends BaseContainer {
@@ -88,7 +87,7 @@ class App extends BaseContainer {
     this.props.firebase.auth().onAuthStateChanged(user => {
       if(user) {
         this.controller.fetchPgUser(user);
-        toast(`Bem vindo(a), ${user.displayName}!`, { autoClose: 3500 });
+        toast(`Bem vindo(a), ${user.displayName}!`, { autoClose: 3500, position: toast.POSITION.BOTTOM_RIGHT });
       }
       else {
         this.props.setUserAction(null);
@@ -107,11 +106,11 @@ class App extends BaseContainer {
     });
   }
   
-  _renderTopHeader(isSubscription) {
+  _renderTopHeader(currentPath) {
     const { history, selectedDate } = this.props;
     const { handleSelectDate } = this.controller;
 
-    return (
+    return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && (
       <TopHeader
         history={history}
         handleSelectDate={handleSelectDate}
@@ -120,10 +119,10 @@ class App extends BaseContainer {
     );
   }
 
-  _renderFooter(isSubscription) {
+  _renderFooter(currentPath) {
     const { history } = this.props;
 
-    return !isSubscription && <Footer history={history} />;
+    return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && <Footer history={history} />;
   }
 
 	render() {
@@ -147,13 +146,15 @@ class App extends BaseContainer {
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
-    const isSubscription = this.props.location.pathname.split('/')[1] === 'assinatura';
+    const currentPath = this.props.location.pathname.split('/')[1];
+    const isSubscription = currentPath === 'assinatura';
 
     const headerProps = {
       isAuth,
       history,
       isUserPopperOpen,
       isSubscription,
+      currentPath,
       toForm: {
         email,
         emailError,
@@ -182,7 +183,7 @@ class App extends BaseContainer {
             toastClassName='raizs-toast'
             progressClassName='raizs-toast-progress'
           />
-          {this._renderTopHeader(isSubscription)}
+          {this._renderTopHeader(currentPath)}
           <Header {...headerProps} />
           <div onClick={() => searching ? this.props.toggleSearchBarAction(false) : null}>
             <Switch>
@@ -203,7 +204,7 @@ class App extends BaseContainer {
 
             </Switch>
           </div>
-          {this._renderFooter(isSubscription)}
+          {this._renderFooter(currentPath)}
         </div>
       </MuiThemeProvider>
     );

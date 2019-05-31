@@ -10,7 +10,9 @@ import { toggleSearchBarAction } from '../../store/actions';
 import { DropdownMenu, HeaderPopper, HeaderPopperButton, HeaderUserButton } from '..';
 import { Button, withStyles } from '@material-ui/core';
 import { SubscriptionStepper } from './SubscriptionStepper.component';
+import { CheckoutStepper } from './CheckoutStepper.component';
 import { SearchBar } from './SearchBar.component';
+import { MiniCart } from './MiniCart.component';
 
 const styles = theme => ({
   headerButton: theme.buttons.header,
@@ -58,7 +60,7 @@ const styles = theme => ({
       stroke: theme.palette.green.main
     },
     '&.-cesta': {
-      transform: 'translateY(-8px)'
+      transform: 'translateY(8px)'
     }
   },
   noWidthIcon:{
@@ -129,9 +131,10 @@ class Header extends Component {
    */
   _renderLeftContent() {
     const { availableCenterWidth } = this.state;
-    const { history, classes, isSubscription } = this.props;
+    const { history, classes, currentPath } = this.props;
 
-    if(isSubscription) return null;
+    if(['assinatura', 'carrinho', 'checkout', 'pedido-finalizado'].includes(currentPath))
+      return null;
 
     const { toShow, more } = HeaderHelper.handleCategoryOptions(availableCenterWidth);
 
@@ -175,13 +178,19 @@ class Header extends Component {
   }
   
   _renderCenterContent() {
-    const { isSubscription, classes } = this.props;
+    const { classes, currentPath } = this.props;
     
-    if(!isSubscription) return null;
+    if(!['assinatura', 'carrinho', 'checkout', 'pedido-finalizado'].includes(currentPath))
+      return null;
 
     return (
       <div className={classes.centerContent}>
-        <SubscriptionStepper />
+        {{
+          assinatura: <SubscriptionStepper />,
+          carrinho: <CheckoutStepper currentPath={currentPath} />,
+          checkout: <CheckoutStepper currentPath={currentPath} />,
+          'pedido-finalizado': <CheckoutStepper currentPath={currentPath} />
+        }[currentPath]}
       </div>
     );
   }
@@ -199,7 +208,7 @@ class Header extends Component {
       toForm,
       toLoggedIn,
       history,
-      isSubscription
+      currentPath
     } = this.props;
     const headerUserButtonProps = {
       isAuth,
@@ -208,13 +217,12 @@ class Header extends Component {
       toLoggedIn
     };
 
-    if(isSubscription) return <div id='right-content'></div>;
+    if(['assinatura', 'carrinho', 'checkout', 'pedido-finalizado'].includes(currentPath))
+      return <div id='right-content'></div>;
 
 
     let searchClassName = [classes.headerIcon]
-    if (this.props.searching){
-      searchClassName.push(classes.noWidthIcon)
-    }
+    if(this.props.searching) searchClassName.push(classes.noWidthIcon);
 
     return (
       <div id='right-content' className={classes.rightContent}>
@@ -231,14 +239,25 @@ class Header extends Component {
           onClick={()=> this.props.toggleSearchBarAction(true)}
         />
         <HeaderUserButton {...headerUserButtonProps} />
-        <div
+        <HeaderPopperButton
+          id='cesta'
+          placement='bottom-end'
+          label={<ReactSvg
+            src='/icons/cesta.svg'
+            className={classnames(classes.headerIcon, '-cesta')}
+          />}
+          clickAction={() => history.push('/carrinho')}
+        >
+          <MiniCart />
+        </HeaderPopperButton>
+        {/* <div
           onClick={() => history.push('/carrinho')}
         >
           <ReactSvg
             src='/icons/cesta.svg'
             className={classnames(classes.headerIcon, '-cesta')}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

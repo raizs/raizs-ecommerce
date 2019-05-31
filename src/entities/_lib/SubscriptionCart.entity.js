@@ -21,7 +21,7 @@ export class SubscriptionCart {
     this.complementsCount = this._getProductCount(items, 'complements');
   }
   
-  update(product, quantity, periodicity = 'weekly') {
+  update(product, quantity, periodicity = 'weekly', secondaryPeriodicity) {
     product = clonedeep(product);
     const items = clonedeep(this.items);
     let index = -1;
@@ -39,15 +39,18 @@ export class SubscriptionCart {
       items.push({
         product,
         quantity,
-        periodicity: 'weekly'
+        periodicity: 'weekly',
+        secondaryPeriodicity: 'first'
       });
     }
 
     if(index !== -1) {
       if(!quantity) items.splice(index, 1);
       else {
+        if(periodicity === 'weekly') secondaryPeriodicity = 'first';
         items[index].quantity = quantity;
         items[index].periodicity = periodicity;
+        items[index].secondaryPeriodicity = secondaryPeriodicity || items[index].secondaryPeriodicity;
       }
     }
 

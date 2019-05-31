@@ -10,19 +10,26 @@ import { BaseContainer } from '../../helpers';
 import {
   updateCartAction,
   updateSubscriptionCartAction,
-  addSubscriptionCartToCartAction,
+  selectDateAction,
   removeSubscriptionCartAction
 } from '../../store/actions';
-import { CartProduct, SubscriptionCartProduct } from '../../components';
+import { CartProduct, SubscriptionCartProduct, BigDatePicker } from '../../components';
 import { CartCheckout } from './components';
 import { SubscriptionCart } from '../../entities';
 
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
+    userSelect: 'none',
     width: '100%',
     padding: 3 * theme.spacing.unit,
     '& > h1': theme.typography.raizs,
+    '& > div.date-picker-wrapper': {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 2 * theme.spacing.unit,
+      marginTop: 2 * theme.spacing.unit
+    },
     '& > div.items': {
       display: 'flex',
       flexDirection: 'column',
@@ -67,7 +74,8 @@ const styles = theme => ({
 const actions = {
   updateCartAction,
   updateSubscriptionCartAction,
-  removeSubscriptionCartAction
+  removeSubscriptionCartAction,
+  selectDateAction
 };
 
 const MINIMUM_VALUE = 60; // todo: get from db
@@ -159,6 +167,7 @@ class Cart extends BaseContainer {
             product.quantity = cart.productQuantities[product.id] || 0;
             product.partialPrice = cart.productPartialPrices[product.id] || 0;
             product.periodicity = item.periodicity || 'weekly';
+            product.secondaryPeriodicity = item.secondaryPeriodicity || 'first';
 
             return <SubscriptionCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateSubscriptionCart} />;
           })}
@@ -168,7 +177,7 @@ class Cart extends BaseContainer {
   }
 
   render() {
-    const { classes, cart, history, subscriptionCart } = this.props;
+    const { classes, cart, history, subscriptionCart, selectedDate, selectDateAction } = this.props;
     const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
     const { handleChange, handleCepBlur } = this.controller;
 
@@ -193,6 +202,9 @@ class Cart extends BaseContainer {
     return (
       <div className={classes.wrapper}>
         <h1>SEU CARRINHO</h1>
+        <div className='date-picker-wrapper'>
+          <BigDatePicker handleSelectDate={selectDateAction} selected={selectedDate} />
+        </div>
         {this._renderCartItems()}
         {this._renderSubscriptionCartItems()}
         <div className='checkout'>
@@ -205,7 +217,8 @@ class Cart extends BaseContainer {
 
 const mapStateToProps = state => ({
   cart: state.cart.current,
-  subscriptionCart: state.subscriptionCart
+  subscriptionCart: state.subscriptionCart,
+  selectedDate: state.datePicker.selected
 });
 
 export default compose(

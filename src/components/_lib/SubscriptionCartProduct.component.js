@@ -21,7 +21,7 @@ const styles = theme => ({
   },
   imageAndInfo: {
     display: 'flex',
-    width: '30%'
+    width: '40%'
   },
   imageWrapper: {
     position: 'relative',
@@ -38,7 +38,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    maxWidth: '100%'
+    maxWidth: 'calc(100% - 88px)'
   },
   name: {
     ...theme.typography.textEllipsis,
@@ -56,7 +56,7 @@ const styles = theme => ({
   },
   partialPriceAndClose: {
     height: '100%',
-    width: '80px',
+    width: '120px',
     padding: `${theme.spacing.unit / 2}px ${theme.spacing.unit}px ${theme.spacing.unit / 2}px 0`,
     display: 'flex',
     flexDirection: 'column',
@@ -93,6 +93,45 @@ class SubscriptionCartProduct extends Component {
       }
     }
   }
+
+  _renderSecondaryPeriodicity() {
+    const { product, handleUpdateCart } = this.props;
+
+    return {
+      biweekly: (
+        <Select
+          style={{ width: '160px', marginLeft: '24px' }}
+          value={product.secondaryPeriodicity}
+          onChange={e => handleUpdateCart({
+            item: product,
+            quantity: product.quantity,
+            periodicity: product.periodicity,
+            secondaryPeriodicity: e.target.value
+          })}
+        >
+          <MenuItem value='first'>1ª e 3ª semanas</MenuItem>
+          <MenuItem value='second'>2ª e 4ª semanas</MenuItem>
+        </Select>
+      ),
+      monthly: (
+        <Select
+          style={{ width: '160px', marginLeft: '24px' }}
+          value={product.secondaryPeriodicity}
+          onChange={e => handleUpdateCart({
+            item: product,
+            quantity: product.quantity,
+            periodicity: product.periodicity,
+            secondaryPeriodicity: e.target.value
+          })}
+        >
+          <MenuItem value='first'>1ª semana</MenuItem>
+          <MenuItem value='second'>2ª semana</MenuItem>
+          <MenuItem value='third'>3ª semana</MenuItem>
+          <MenuItem value='fourth'>4ª semana</MenuItem>
+        </Select>
+      )
+    }[product.periodicity];
+  }
   
   render() {
     const { classes, product, handleUpdateCart } = this.props;
@@ -116,28 +155,33 @@ class SubscriptionCartProduct extends Component {
             </img-2>
           </div>
           <div className={classes.nameAndPrice}>
-            <h4 className={classes.name}>{product.name}</h4>
+            <h4 className={classes.name} title={product.name}>{product.name}</h4>
             <h4 className={classes.price}>{product.fullPrice}</h4>
           </div>
         </div>
-        <Select
-          style={{ width: '120px' }}
-          value={product.periodicity}
-          onChange={e => handleUpdateCart({
-            item: product,
-            quantity: product.quantity,
-            periodicity: e.target.value
-          })}
-        >
-          <MenuItem value='weekly'>Semanal</MenuItem>
-          <MenuItem value='biweekly'>Quinzenal</MenuItem>
-          <MenuItem value='monthly'>Mensal</MenuItem>
-        </Select>
-        <QuantitySelector
-          changeAction={handleUpdateCart}
-          item={product}
-          quantity={product.quantity}
-        />
+        <div style={{ width: 'calc(60% - 280px)' }}>
+          <Select
+            style={{ width: '120px' }}
+            value={product.periodicity}
+            onChange={e => handleUpdateCart({
+              item: product,
+              quantity: product.quantity,
+              periodicity: e.target.value
+            })}
+          >
+            <MenuItem value='weekly'>Semanal</MenuItem>
+            <MenuItem value='biweekly'>Quinzenal</MenuItem>
+            <MenuItem value='monthly'>Mensal</MenuItem>
+          </Select>
+          {['biweekly', 'monthly'].includes(product.periodicity) && this._renderSecondaryPeriodicity()}
+        </div>
+        <div style={{ width: '160px', padding: '0 16px' }}>
+          <QuantitySelector
+            changeAction={handleUpdateCart}
+            item={product}
+            quantity={product.quantity}
+          />
+        </div>
         <div className={classes.partialPriceAndClose}>
           <h5 className={classes.partialPrice}>
             {Formatter.currency(product.partialPrice)}

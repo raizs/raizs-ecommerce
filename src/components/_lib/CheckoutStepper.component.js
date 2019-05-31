@@ -16,9 +16,6 @@ const styles = theme => ({
     fontWeight: '500 !important',
     color: `${theme.palette.green.main} !important`
   },
-  label: {
-    cursor: 'pointer !important'
-  },
   line: {
     borderWidth: '1.2px'
   },
@@ -30,31 +27,31 @@ const styles = theme => ({
 })
 
 const steps = {
-  genericos: {
-    label: 'GENÉRICOS',
-    id: 'genericos',
+  carrinho: {
+    label: 'CARRINHO',
+    id: 'carrinho',
     number: 0
   },
-  complementos: {
-    label: 'COMPLEMENTOS',
-    id: 'complementos',
+  checkout: {
+    label: 'CHECKOUT',
+    id: 'checkout',
     number: 1
   },
-  revisao: {
-    label: 'REVISÃO',
-    id: 'revisao',
+  'pedido-finalizado': {
+    label: 'PEDIDO FINALIZADO',
+    id: 'pedido-finalizado',
     number: 2
   }
 };
 
-class SubscriptionStepper extends Component {
+class CheckoutStepper extends Component {
   state = {
     activeStepNumber: 0,
-    activeStepId: 'genericos'
+    activeStepId: 'carrinho'
   }
 
   componentWillReceiveProps(nextProps) {
-    const id = nextProps.location.pathname.split('/')[2];
+    const id = nextProps.currentPath;
 
     if(id !== this.state.activeStepId) {
       this.setState({ activeStepNumber: steps[id].number, activeStepId: id });
@@ -82,7 +79,6 @@ class SubscriptionStepper extends Component {
             <StepLabel
               icon={null}
               className={classes.label}
-              onClick={() => history.push(`/assinatura/${step.id}`)}
               classes={{
                 active: classes.active,
                 completed: classes.completed
@@ -97,9 +93,9 @@ class SubscriptionStepper extends Component {
   }
 }
 
-SubscriptionStepper = compose(
+CheckoutStepper = compose(
   withStyles(styles),
   withRouter
-)(SubscriptionStepper);
+)(CheckoutStepper);
 
-export { SubscriptionStepper };
+export { CheckoutStepper };
