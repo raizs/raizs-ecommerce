@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { withStyles} from '@material-ui/core';
 import { TextInput } from '../../../../../molecules';
 import { PayPalRepository } from '../../../../../repositories';
+import { BaseContainer } from '../../../../../helpers';
+import { PayPalController } from "../../../PayPal.controller.js"
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 
 
 const styles = theme => ({
@@ -14,50 +18,16 @@ const styles = theme => ({
   }
 });
 
-class PayPalForm extends Component {
+class PayPalForm extends BaseContainer {
 
   constructor(props){
-    super(props);
+    super(props, PayPalController);
     this.payPalRepo = new PayPalRepository();
-  }
-
-  setPayPalConfigs(){
-    const createOrder = (data, actions) => {
-        console.log("STARTING")
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: '0.01'
-            }
-          }]
-        });
-    }
-
-    // const { payPalRepo } = this;
-
-    const onApprove = (data, actions) => {
-        console.log("APROVED", data, actions)
-      return actions.order.capture().then(async function(details) {
-        console.log("SUCESSO")
-      })
-      //   const promise = await this.payPalRepo.createTransaction({orderID: data.orderID})
-      //   console.log(promise);
-
-    }
-    if (window.paypal && window.paypal.Buttons){
-      window.paypal.Buttons({
-        createOrder, onApprove, style:{
-          layout:"horizontal",
-          color:"white", 
-          tagline:false
-        }
-      }).render('#paypal-button-container')
-    }
   }
 
   componentDidMount(){
     console.log("PASSANDO")
-    this.setPayPalConfigs();
+    this.controller.setCheckoutButton()
   }
 
   state = {
@@ -78,6 +48,14 @@ class PayPalForm extends Component {
   }
 }
 
-PayPalForm = withStyles(styles)(PayPalForm);
+const mapStateToProps = state => ({
+  cart: state.cart.current,
+  subscriptionCart: state.subscriptionCart,
+});
+
+PayPalForm = compose(
+  withStyles(styles),
+  connect(mapStateToProps, {})
+  )(PayPalForm);
 
 export { PayPalForm };

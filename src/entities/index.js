@@ -17,3 +17,4 @@ export { UnitsOfMeasure } from './_lib/UnitsOfMeasure.entity';
 export { User } from './_lib/User.entity';
 export { UserAddress } from './_lib/UserAddress.entity';
 export { UserAddresses } from './_lib/UserAddresses.entity';
+export { Transaction } from './_lib/Transaction.entity';
