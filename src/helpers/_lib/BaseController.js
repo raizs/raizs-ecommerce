@@ -8,16 +8,16 @@ export default class BaseController {
 	}
 
 	baseHandleChange(e, format, errors = {}) {
-    const { id } = e.target;
-    let { value } = e.target;
+		const { id } = e.target;
+		let { value } = e.target;
 
-    if(format) value = Formatter[format](value);
+		if(format) value = Formatter[format](value);
 
-    return { [id]: value, errors: { ...errors, [id]: '' } };
+		return { [id]: value, errors: { ...errors, [id]: '' } };
 	}
 	
 	baseHandleCheckboxChange(id, currentValue) {
-    return { [id]: !currentValue };
+		return { [id]: !currentValue };
 	}
 	
 	baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, cart, updateCartAction) {

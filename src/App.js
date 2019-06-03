@@ -7,6 +7,7 @@ import { withFirebase } from 'react-redux-firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import compose from 'recompose/compose';
 import SmoothScroll from 'smooth-scroll';
+import cep from 'cep-promise';
 
 import 'img-2';
 import './styles/css/index.css';
@@ -26,13 +27,13 @@ import {
   setPopularProductsAction,
   setSaleOrdersAction,
   setNewProductsAction,
-  toggleSearchBarAction
-  
+  toggleSearchBarAction,
+  setCepAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
 
-import { Header, TopHeader, Footer, FloatingCartResume } from './components';
+import { Header, TopHeader, Footer } from './components';
 import { About } from './containers/about';
 import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
@@ -64,8 +65,11 @@ const actions = {
   setPopularProductsAction,
   setSaleOrdersAction,
   setNewProductsAction,
-  toggleSearchBarAction
+  toggleSearchBarAction,
+  setCepAction
 };
+
+
 
 class App extends BaseContainer {
   constructor(props) {
@@ -83,7 +87,7 @@ class App extends BaseContainer {
     forgotPasswordError: ''
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged(user => {
       if(user) {
         this.controller.fetchPgUser(user);
@@ -95,6 +99,7 @@ class App extends BaseContainer {
         this.props.selectUserAddressAction(null);
         this.props.setCardsAction(null);
         this.props.selectCardAction(null);
+        this.props.setCepAction(null);
       }
     });
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames';
-import { withStyles, LinearProgress, Button } from '@material-ui/core';
+import { withStyles, LinearProgress, Button, Select, MenuItem } from '@material-ui/core';
 
 import { Formatter } from '../../../../helpers';
 import { Loading, TextInput } from '../../../../molecules';
@@ -103,10 +103,13 @@ class CartCheckout extends Component {
   }
 
   _renderCepField() {
-    const {
+    let {
+      user,
       classes,
       cart,
       subscriptionCart,
+      selectedAddress,
+      selectUserAddressAction,
       cep,
       cepSuccess,
       cepError,
@@ -118,6 +121,29 @@ class CartCheckout extends Component {
 
     const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
     const subtotal = cart.subtotal + sCart.subtotal;
+
+    if(user && user.addresses.all.length) {
+      return (
+        <div style={{ marginTop: '16px' }}>
+          <Select
+            style={{ width: '160px' }}
+            value={selectedAddress}
+            onChange={e => selectUserAddressAction(e.target.value)}
+          >
+            {user.addresses.all.map(address => 
+              <MenuItem value={address}>{address.name}</MenuItem>
+            )}
+          </Select>
+          <div
+            className={classes.info}
+            style={{ margin: '16px 0' }}
+          >
+            Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - subtotal)} para Frete Grátis.
+          </div>
+          <LinearProgress variant="determinate" value={100 * subtotal/FREE_SHIPPING_VALUE} />
+        </div>
+      )
+    }
 
     return cepSuccess ? (
       <div className={classes.cepSuccess}>
@@ -197,7 +223,7 @@ class CartCheckout extends Component {
               >
                 {Formatter.currency(subtotal)}
               </p>
-              <p className={classes.info}>Valor mínimo: {Formatter.currency(MINIMUM_VALUE)}</p>
+              {/* <p className={classes.info}>Valor mínimo: {Formatter.currency(MINIMUM_VALUE)}</p> */}
             </div>
           </div>
           {this._renderShippingAndCoupons()}

@@ -341,10 +341,10 @@ export class CheckoutController extends BaseController {
 
     if(success) {
       this.toState({
-        addressAddress: data.street,
-        addressNeighbourhood: data.neighborhood,
-        addressCity: data.city,
-        addressState: data.state,
+        addressAddress: data.logradouro,
+        addressNeighbourhood: data.bairro,
+        addressCity: data.localidade,
+        addressState: data.uf,
         addressSectionLoading: false
       });
     }

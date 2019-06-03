@@ -48,7 +48,7 @@ export class CartController extends BaseController {
     this.toState({ cepLoading: true });
     const { success, msg, shippingValue } = await CepHelper.check(value);
 
-    if(success) this.toState({ cepLoading: false, shippingValue, cepSuccess: true })
+    if(success) await this.toState({ cep: value, cepLoading: false, shippingValue, cepSuccess: true })
     else this.toState({ cepLoading: false, cepError: msg });
   }
 
