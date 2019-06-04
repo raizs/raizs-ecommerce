@@ -7,21 +7,16 @@ import { ethicsInfoText } from '../../../../assets';
 
 const styles = theme => ({
   wrapper: {
-    padding: `0 ${2 * theme.spacing.unit}px`
-  },
-  title: {
-    ...theme.typography.timelineSectionTitle,
-  },
-  bigTitle: {
-    ...theme.typography.bigTitle,
-    marginBottom: 2 * theme.spacing.unit
-  },
-  content: {
-    margin: `${6 * theme.spacing.unit}px 0`,
-  },
-  info: {
-    ...theme.typography.infoText,
-    textAlign: 'center'
+    padding: `0 ${2 * theme.spacing.unit}px`,
+    '& > h4': theme.typography.timelineSectionTitle,
+    '& > h2': {
+      ...theme.typography.bigTitle,
+      marginBottom: 2 * theme.spacing.unit
+    },
+    '& > p': {
+      ...theme.typography.infoText,
+      textAlign: 'center'
+    }
   }
 });
 
@@ -29,15 +24,12 @@ let Ethics = ({ classes, id }) => {
 
   return (
     <div id={id} className={classnames(classes.wrapper, 'offset-important')}>
-      <h4 className={classes.title} >
-        ÉTICA E TRANSPARÊNCIA
-      </h4>
-      <h2 className={classes.bigTitle}>
-        Sustentável e transparente
-      </h2>
-      <p className={classes.info}>
-        {ethicsInfoText}
-      </p>
+      <h4>ÉTICA E TRANSPARÊNCIA</h4>
+      <h2>Sustentável e transparente</h2>
+      <p>{ethicsInfoText}</p>
+      <div>
+        AHO
+      </div>
     </div>
   );
 }

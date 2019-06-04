@@ -80,12 +80,16 @@ const withTimeline = WrappedComponent => {
           currentWindowId = offsets[i].id;
           break;
         }
+        else if(offsets[i] && !offsets[i+1] && scroll >= offsets[i].value) {
+          currentWindowId = offsets[i].id;
+          break;
+        }
       }
 
       if(currentWindowId !== currentSectionId) {
         timelineData.currentSectionId = currentWindowId;
         shouldSetState = true;
-        document.location.hash = currentWindowId ? `#${currentWindowId}1` : '';
+        document.location.hash = currentWindowId ? `#${currentWindowId}_` : '';
       }
 
       if(shouldSetState) context.setState({ timelineData });
