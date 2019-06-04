@@ -17,7 +17,7 @@ const styles = theme => ({
   info: {
     ...theme.typography.infoText,
     textAlign: 'center',
-    margin: `${5 * theme.spacing.unit}px auto`,
+    margin: `${5 * theme.spacing.unit}px auto ${3 * theme.spacing.unit}px auto`,
     maxWidth: '1024px'
   },
   player: {
