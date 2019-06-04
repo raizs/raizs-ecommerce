@@ -47,6 +47,7 @@ import { NotFound } from './containers/notFound';
 import { HowItWorks } from './containers/howItWorks';
 import { Dashboard } from './containers/dashboard';
 import { Product } from './containers/product';
+import { HelpCenter } from './containers/helpCenter';
 import { BaseContainer } from './helpers';
 import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
@@ -205,6 +206,7 @@ class App extends BaseContainer {
               <Route path='/produto/:productId' component={Product} />
               <Route path='/como-funciona' component={HowItWorks} />
               <Route path='/familias' component={Families} />
+              <Route path='/ajuda' component={HelpCenter} />
               <Route path='*' component={NotFound} />
             </Switch>
           </div>

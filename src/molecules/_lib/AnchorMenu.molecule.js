@@ -18,7 +18,7 @@ const styles = theme => ({
   greenStripe:{
     width:"100%",
     backgroundColor:theme.palette.green.main,
-    height:theme.spacing.unit, 
+    height:"6px", 
     marginBottom: theme.spacing.unit
   },
   item:{
