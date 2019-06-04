@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles, Icon } from '@material-ui/core';
 
 import { footerListAssets, footerIconAssets, footerCopyrights, footerBottomText } from '../../assets';
+import ReactSVG from 'react-svg';
 
 const styles = ({ spacing, palette, fontSizes }) => ({
   wrapper: {
@@ -37,9 +38,20 @@ const styles = ({ spacing, palette, fontSizes }) => ({
       '& div.icons-wrapper': {
         display: 'flex',
         flexWrap: 'wrap',
-        '& > *': {
+        '& > .icon': {
           display: 'inline-block',
-          flex: '1 0 27%'
+          marginRight: spacing.unit,
+          flex: '1 0 27%',
+          marginBottom: spacing.unit,
+          cursor: 'pointer',
+          '& *': {
+            height: 24,
+            width: 24,
+          },
+          '&:hover *': {
+            stroke: `${palette.green.main} !important`,
+            fill: `${palette.green.main} !important`
+          }
         }
       }
     }
@@ -89,7 +101,12 @@ const _renderIconsList = ({ title, items }) => {
     <div className='list'>
       <div className='title'>{title}</div>
       <div className='icons-wrapper'>
-        {items.map(item => <Icon key={item.id}>home</Icon>)}
+        {items.map(item =>
+          <ReactSVG
+            className='icon'
+            src={`/icons/${item.icon}.svg`}
+          />
+        )}
       </div>
     </div>
   );

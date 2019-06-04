@@ -50,6 +50,7 @@ import { Product } from './containers/product';
 import { BaseContainer } from './helpers';
 import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
+import { Families } from './containers/families';
 import ProductModal from './containers/product/ProductModal.container'
 
 const actions = {
@@ -68,8 +69,6 @@ const actions = {
   toggleSearchBarAction,
   setCepAction
 };
-
-
 
 class App extends BaseContainer {
   constructor(props) {
@@ -205,8 +204,8 @@ class App extends BaseContainer {
               <Route path='/assinatura' component={Subscription} />
               <Route path='/produto/:productId' component={Product} />
               <Route path='/como-funciona' component={HowItWorks} />
+              <Route path='/familias' component={Families} />
               <Route path='*' component={NotFound} />
-
             </Switch>
           </div>
           {this._renderFooter(currentPath)}

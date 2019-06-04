@@ -35,16 +35,16 @@ export const footerIconAssets = {
     title: 'REDES SOCIAIS',
     items: [
       {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'facebook'
       }, {
-        icon: 'icon',
+        icon: 'gplus',
         id: 'google_plus'
       }, {
-        icon: 'icon',
+        icon: 'twitter',
         id: 'twitter'
       }, {
-        icon: 'icon',
+        icon: 'instagram',
         id: 'instagram'
       }
     ]
@@ -53,13 +53,13 @@ export const footerIconAssets = {
     title: 'PRÊMIOS',
     items: [
       {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'ldc'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'amaphiko'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'choice_up'
       }
     ]
@@ -68,28 +68,28 @@ export const footerIconAssets = {
     title: 'FORMAS DE PAGAMENTO',
     items: [
       {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'visa'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'master_card'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'amex'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'diners_club'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'aura'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'hypercard'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'paypal'
       }, {
-        icon: 'icon',
+        icon: 'facebook',
         id: 'norton'
       }
     ]
