@@ -14,7 +14,8 @@ import { withTimeline } from '../withTimeline';
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
-    width: '100%'
+    width: '100%',
+    userSelect: 'none'
   }
 });
 
@@ -36,25 +37,6 @@ class About extends Component {
     classes: PropTypes.object,
   }
 
-  componentDidMount() {
-    if(!this.state.expanded) {
-      document.querySelector('body').style.overflow = 'hidden';
-      document.querySelector('html').style.overflow = 'hidden';
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(this.state.expanded && !prevState.expanded) {
-      document.querySelector('body').style.overflow = 'auto';
-      document.querySelector('html').style.overflow = 'auto';
-    }
-  }
-
-  componentWillUnmount() {
-    document.querySelector('body').style.overflow = 'auto';
-    document.querySelector('html').style.overflow = 'auto';
-  }
-
   /**
    * _renderTimelineSections - renders the correct section based on the
    * section id
@@ -72,7 +54,7 @@ class About extends Component {
 
       return Comp ? (
         <TimelineSection key={item.id} id={item.id}>
-          <Comp />
+          <Comp id={item.id} />
         </TimelineSection>
       ) : <div>component not found</div>;
     });
@@ -89,7 +71,14 @@ class About extends Component {
   }
 
   render() {
-    const { classes, history, availableWidth, timelineWidth, shouldFixTimeline } = this.props;
+    const {
+      classes,
+      history,
+      availableWidth,
+      timelineWidth,
+      shouldFixTimeline,
+      currentSectionId
+    } = this.props;
     const { aboutUsHeight } = this.state;
 
     return (
@@ -100,6 +89,7 @@ class About extends Component {
             history={history}
             content={aboutTimeline}
             fixed={shouldFixTimeline}
+            currentSectionId={currentSectionId}
           />
           <TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
             {this._renderTimelineSections()}

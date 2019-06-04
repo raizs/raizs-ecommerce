@@ -5,7 +5,7 @@ export const footerListAssets = {
       {
         label: 'Quem Somos',
         id: 1,
-        url: 'quem-somos'
+        url: 'quem-somos#sobre'
       }, {
         label: 'Fundo do Pequeno Produtor',
         id: 2,

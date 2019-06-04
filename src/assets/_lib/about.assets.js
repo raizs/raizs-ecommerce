@@ -44,19 +44,19 @@ export const smallFundProducerInfoText = 'Como uma forma de valorizar mais o peq
 export const whyOrganicsHealth = {
   title: 'Sua saúde',
   description: 'o consumo de agrotóxicos e organismos genéticamente modificados está associado a diversas complicações de saúde.',
-  icon: 'alarm_add'
+  icon: 'saude'
 };
 
 export const whyOrganicsAnimals = {
   title: 'Bem-estar animal',
-  description: 'alimentos orgânicos, derivados de animais, exigem um tratamento ético dos mesmos e proibem o uso exarcebado de antibioticos e outros químicos.',
-  icon: 'alarm_add'
+  description: 'alimentos orgânicos, derivados de animais, exigem um tratamento ético dos mesmos e proíbem o uso exagerado de antibióticos e outros químicos.',
+  icon: 'animal'
 };
 
 export const whyOrganicsEnvironment = {
   title: 'Meio ambiente',
-  description: 'o uso de agrotóxicos se extende ao solo, lençois freaticos e até fenomenos como polinização de abelhas, contaminando áreas muito além das plantaçoes.',
-  icon: 'alarm_add'
+  description: 'o uso de agrotóxicos se extende ao solo, lençois freáticos e até a fenômenos como polinização de abelhas, contaminando áreas muito além das plantações.',
+  icon: 'ambiente'
 };
 
 export const ethicsInfoText = 'Acreditamos que nossos clientes tem o direito de entender o que compõe o valor dos seus produtos.\nNós fizemos uma discriminação bruta do preço pago abaixo:';

@@ -52,6 +52,10 @@ const styles = theme => ({
       '&:hover': {
         color: theme.palette.green.main
       },
+    },
+    '&.-active': {
+      color: theme.palette.green.main,
+      fontWeight: 600
     }
   }
 });
@@ -82,7 +86,7 @@ const _renderItems = (items, classes, currentSectionId) => {
 }
 
 let Timeline = props => {
-  const { classes, fixed, content: { items, title },currentSectionId } = props;
+  const { classes, fixed, content: { items, title }, currentSectionId } = props;
 
   return (
     <div

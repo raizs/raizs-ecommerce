@@ -1,5 +1,6 @@
 import React from 'react'
 import { withStyles, Icon } from '@material-ui/core';
+import classnames from 'classnames'
 
 import { Player, ControlBar, BigPlayButton } from 'video-react';
 import { aboutUsInfoText } from '../../../../assets';
@@ -16,7 +17,8 @@ const styles = theme => ({
   info: {
     ...theme.typography.infoText,
     textAlign: 'center',
-    margin: `${5 * theme.spacing.unit}px 0`,
+    margin: `${5 * theme.spacing.unit}px auto`,
+    maxWidth: '1024px'
   },
   player: {
     backgroundColor: 'transparent !important'
@@ -45,7 +47,7 @@ const styles = theme => ({
 
 let AboutUs = ({ classes, height, expandAction }) => {
   return (
-    <div id='sobre' className={classes.wrapper} style={{ height }}>
+    <div id='sobre' className={classnames(classes.wrapper, 'offset-important')} style={{ height }}>
       <h4 className={classes.title}>QUEM SOMOS</h4>
       <Player
         width='100%'
