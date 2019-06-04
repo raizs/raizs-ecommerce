@@ -2,7 +2,6 @@ import React from 'react'
 import { withStyles, Icon } from '@material-ui/core';
 
 import { footerListAssets, footerIconAssets, footerCopyrights, footerBottomText } from '../../assets';
-
 const styles = ({ spacing, palette, fontSizes }) => ({
   wrapper: {
     padding: `${3 * spacing.unit}px`,

@@ -23,26 +23,20 @@ const styles = theme => {
       top:"6px",
       right:unit
     },
-    label:{
+    textBox:{
       fontSize: theme.fontSizes.XS,
-      fontWeight:800
-    },
-    qBox:{
-      padding:`${unit}px 0`,
-    },
-    qBoxQuestion:{
-      fontSize: theme.fontSizes.XS,
-      fontWeight:800
-    },
-    qBoxAnswer:{
-      fontSize: theme.fontSizes.XS,
-    },
+      lineHeight: theme.fontSizes.SM,
+      marginTop:unit,
+      fontWeight:300,
+      width:"300px",
+      color:theme.palette.gray.main
+    }
   }
 
 };
 
 
-class FAQTopic extends Component{
+class TermsAndConditions extends Component{
 
   constructor(props){
     super(props)
@@ -52,14 +46,11 @@ class FAQTopic extends Component{
     open:false
   }
 
-  _renderQuestions(){
-    const { classes, questions } = this.props;
-    return questions.map((q, key)=>{
-      return <div key={key} className={classes.qBox}>
-        <div className={classes.qBoxQuestion}>{q.question}</div>
-        <div className={classes.qBoxAnswer}>{q.answer}</div>
-      </div>
-    })
+  _renderText(){
+    const { classes, text } = this.props;
+    return <div className={classes.textBox}>
+      {text}
+    </div>
   }
 
   render(){
@@ -69,11 +60,11 @@ class FAQTopic extends Component{
       <div onClick={()=>this.setState({open:!open})} className={classes.wrapper}>
         <Icon className={classes.arrowIcon}>{open ? "keyboard_arrow_up" : "keyboard_arrow_down"}</Icon>
       	<div className={classes.label}>{subject}</div>
-        {open && this._renderQuestions()}
+        {open && this._renderText()}
       </div>
     )
   }
 };
 
 
-export default FAQTopic = withStyles(styles)(FAQTopic);
+export default TermsAndConditions = withStyles(styles)(TermsAndConditions);

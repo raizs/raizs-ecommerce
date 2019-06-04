@@ -30,6 +30,7 @@ const styles = theme => ({
       border: `1px solid ${theme.palette.gray.border}`,
       resize: 'none',
       '&:focus': {
+        padding: theme.spacing.unit,
         border: `1px solid ${theme.palette.green.main}`,
       }
     }

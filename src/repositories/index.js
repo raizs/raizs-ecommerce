@@ -11,3 +11,4 @@ export { UserAddressesRepository } from './_lib/UserAddresses.repository';
 export { SaleOrdersRepository } from './_lib/SaleOrders.repository';
 export { PayPalRepository } from './_lib/PayPal.repository';
 export { CouponsRepository } from './_lib/Coupons.repository';
+export { MailRepository } from './_lib/Mail.repository';
