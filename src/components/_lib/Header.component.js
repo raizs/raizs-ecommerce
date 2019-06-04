@@ -250,14 +250,6 @@ class Header extends Component {
         >
           <MiniCart />
         </HeaderPopperButton>
-        {/* <div
-          onClick={() => history.push('/carrinho')}
-        >
-          <ReactSvg
-            src='/icons/cesta.svg'
-            className={classnames(classes.headerIcon, '-cesta')}
-          />
-        </div> */}
       </div>
     );
   }

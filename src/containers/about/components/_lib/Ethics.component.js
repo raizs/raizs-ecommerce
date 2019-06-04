@@ -16,6 +16,16 @@ const styles = theme => ({
     '& > p': {
       ...theme.typography.infoText,
       textAlign: 'center'
+    },
+    '& > div': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      '& > img': {
+        height: 360,
+        width: 360,
+        marginTop: 4 * theme.spacing.unit
+      }
     }
   }
 });
@@ -28,7 +38,7 @@ let Ethics = ({ classes, id }) => {
       <h2>Sustentável e transparente</h2>
       <p>{ethicsInfoText}</p>
       <div>
-        AHO
+        <img src='http://www.pngpix.com/wp-content/uploads/2016/11/PNGPIX-COM-Pie-Chart-PNG-Transparent-Image-500x498.png' />
       </div>
     </div>
   );
