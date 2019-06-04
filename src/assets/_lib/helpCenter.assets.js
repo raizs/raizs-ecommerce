@@ -7,8 +7,8 @@ export const helpCenterTimeline = {
       url: '#faq'
     }, {
       label: 'Fale conosco',
-      id: 'contact-us',
-      url: '#contact-us'
+      id: 'contato',
+      url: '#contato'
     }, {
       label: 'Seja nosso parceiro',
       id: 'bepartner',

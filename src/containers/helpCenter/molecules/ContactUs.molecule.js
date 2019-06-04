@@ -16,7 +16,8 @@ const styles = theme => {
       padding: "12px",
       margin:`${unit}px 0`,
       cursor:"pointer",
-      position:"relative"
+      position:"relative",
+      height:"900px"
     }
   }
 
@@ -30,11 +31,10 @@ class ContactUs extends Component{
   }
 
   render(){
-    const { classes, subject } = this.props;
-    const { open } = this.state;
+    const { classes } = this.props;
     return (
-      <div  className={classes.wrapper}>
-          CONTATO
+      <div id="contato" className={classnames(classes.wrapper, "offset-important")}>
+        CONTATO
       </div>
     )
   }

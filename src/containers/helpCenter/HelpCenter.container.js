@@ -21,7 +21,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.gray.bg,
   },
   FAQBox:{
-    paddingTop:3*theme.spacing.unit
+    paddingTop:3*theme.spacing.unit,
+    height:"1000px"
   },
   title:{
   	fontSize: theme.fontSizes.LG,
@@ -58,10 +59,9 @@ class HelpCenter extends Component{
     </div>
   }
 
-
-	
 	render() {
 		const { classes, history, availableWidth, timelineWidth, shouldFixTimeline, currentSectionId } = this.props;
+    console.log(currentSectionId)
 
 	    return (
 	    	<section id="help-center" className={classes.wrapper}>
@@ -72,8 +72,8 @@ class HelpCenter extends Component{
             currentSectionId={currentSectionId}
           />
   				<TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
-            <TimelineSection id="faq">{this._renderFAQ()}</TimelineSection>
-            <TimelineSection id="contact-us"> <ContactUs/> </TimelineSection>
+            <TimelineSection > <ContactUs /> </TimelineSection>
+            <TimelineSection >{this._renderFAQ()}</TimelineSection>
           </TimelineSections>
 
   			</section>

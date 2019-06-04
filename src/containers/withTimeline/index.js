@@ -85,7 +85,7 @@ const withTimeline = WrappedComponent => {
       if(currentWindowId !== currentSectionId) {
         timelineData.currentSectionId = currentWindowId;
         shouldSetState = true;
-        document.location.hash = currentWindowId ? `#${currentWindowId}1` : '';
+        document.location.hash = currentWindowId ? `#${currentWindowId}_` : '';
       }
 
       if(shouldSetState) context.setState({ timelineData });
