@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 import { withStyles, Icon } from '@material-ui/core';
 import { whyOrganicsAnimals, whyOrganicsEnvironment, whyOrganicsHealth } from '../../../../assets';
+import ReactSVG from 'react-svg';
 
 const styles = theme => ({
   wrapper: {
@@ -35,6 +37,13 @@ const styles = theme => ({
       fontSize: theme.fontSizes.LG,
       fontWeight: 700,
     },
+    '& .icon': {
+      height: 64,
+      width: 64,
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      marginRight: 2 * theme.spacing.unit
+    },
     '& > p': {
       ...theme.typography.infoText
     },
@@ -59,7 +68,10 @@ const _renderCard = ({ title, description, icon }, classes) => {
   return (
     <div className={classes.card}>
       <div className='icon-text'>
-        <Icon>{icon}</Icon>
+        <ReactSVG
+          src={`/icons/${icon}.svg`}
+          className='icon'
+        />
         <h3>{title}</h3>
       </div>
       <p>{description}</p>
@@ -67,10 +79,10 @@ const _renderCard = ({ title, description, icon }, classes) => {
   )
 };
 
-let WhyOrganics = ({ classes, translate }) => {
+let WhyOrganics = ({ classes, id }) => {
 
   return (
-    <div className={classes.wrapper}>
+    <div id={id} className={classnames(classes.wrapper, 'offset-important')}>
       <div className={classes.title}>
         POR QUE ORGÂNICOS
       </div>

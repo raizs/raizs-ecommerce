@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 import { withStyles } from '@material-ui/core';
 import { ethicsInfoText } from '../../../../assets';
@@ -24,10 +25,10 @@ const styles = theme => ({
   }
 });
 
-let Ethics = ({ classes }) => {
+let Ethics = ({ classes, id }) => {
 
   return (
-    <div className={classes.wrapper}>
+    <div id={id} className={classnames(classes.wrapper, 'offset-important')}>
       <h4 className={classes.title} >
         ÉTICA E TRANSPARÊNCIA
       </h4>

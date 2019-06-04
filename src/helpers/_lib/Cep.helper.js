@@ -1,27 +1,29 @@
-import cep from 'cep-promise';
+import Axios from 'axios';
 
 export class CepHelper {
 
   static async check(value) {
-    const response = { success: false, msg: '', shippingValue: null };
-    console.log(value)
+    const response = { value, success: false, msg: '', shippingValue: null };
 
-    await cep(value)
+    await Axios.get(`https://viacep.com.br/ws/${value}/json`)
     .then(res => {
-      if(res.city !== 'São Paulo') {
+      response.success = res.status === 200;
+      if(res.data.localidade !== 'São Paulo') {
+        response.code = 'unreachable';
         response.msg = 'Não entregamos na sua região.';
         response.description = 'Infelizmente ainda não atendemos seu endereço. Esperamos que em breve possamos atendê-lo. ';
       }
       else {
-      response.msg = "Entregamos no seu cep!"
-      response.description = "Agora corra até o catálogo e adicione orgânicos fresquinhos em seu carrinho! "
-        response.success = true;
-        response.data = res;
+        response.code = 'success';
+        response.msg = "Entregamos no seu cep!"
+        response.description = "Agora corra até o catálogo e adicione orgânicos fresquinhos em seu carrinho!";
+        response.data = res.data;
         // todo: calculate shipping price
         response.shippingValue = 9.9;
       }
     })
     .catch(() => {
+      response.code = 'invalid';
       response.msg = 'CEP inválido.'
       response.description = 'O cep digitado não parece ser válido. Verifique e corrija o cep digitado e tente novamente '
     })

@@ -1,4 +1,4 @@
-import { BaseController, StateToApi, SocialMediaHelper } from './helpers';
+import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
 import { User, Categories, Cards, Products, SaleOrders } from './entities';
 import {
   UserRepository,
@@ -74,7 +74,8 @@ export class AppController extends BaseController {
       selectUserAddressAction,
       setCardsAction,
       selectCardAction,
-      setSaleOrdersAction
+      setSaleOrdersAction,
+      setCepAction
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -88,8 +89,12 @@ export class AppController extends BaseController {
       const newUser = new User(pgUser.data);
       setUserAction(newUser);
 
-      if(newUser.addresses && newUser.addresses.all.length) 
-        selectUserAddressAction(newUser.addresses.getDefaultUserAddress());
+      if(newUser.addresses && newUser.addresses.all.length) {
+        const address = newUser.addresses.getDefaultUserAddress();
+        selectUserAddressAction(address);
+        const cep = await CepHelper.check(address.cep);
+        setCepAction(cep);
+      }
 
       const userCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCards.err) {

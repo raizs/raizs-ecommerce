@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
-import { withStyles, Button, Icon } from '@material-ui/core';
+import React from 'react'
+import { withStyles, Button } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { Loading } from '../../molecules';
 import { BaseContainer } from '../../helpers';
 import { CepCheckerController } from "../controllers/CepChecker.controller.js"
+import { setCepAction } from '../../store/actions';
 
-
+const actions = { setCepAction };
 
 const styles = theme => ({
   wrapper: {
@@ -66,20 +68,19 @@ const styles = theme => ({
 class CepChecker extends BaseContainer{
 
   constructor(props){
-    super(props, CepCheckerController)
-
+    super(props, CepCheckerController);
   }
 
-  state={
-    loading:false,
-    cep:"",
-    msg:"Digite seu CEP e veja se entregamos na sua região.",
-    searched:false,
-    success:false, 
-    description:""
+  state = {
+    loading: false,
+    cep: "",
+    msg: "Digite seu CEP e veja se entregamos na sua região.",
+    searched: false,
+    success: false, 
+    description: ""
   }
 
-  render(){ 
+  render() { 
     const { classes } = this.props;
     const { handleChange, handleSubmit } = this.controller
     const { cep , loading, searched, msg, success, description } = this.state;
@@ -88,10 +89,10 @@ class CepChecker extends BaseContainer{
       <section className={classes.wrapper}>
         {loading && <Loading absolute/>}
         <h5>{msg}</h5>
-        {searched ?
-          <div className={classes.description}>{description}</div>
-          :
-         <div className='input-wrapper'>
+        {
+          searched ?
+          <div className={classes.description}>{description}</div> :
+          <div className='input-wrapper'>
             <input
               id="cep"
               value={cep}
@@ -99,12 +100,13 @@ class CepChecker extends BaseContainer{
               onChange={handleChange}
               onBlur={handleSubmit}
             />
-          </div> }
+          </div>
+        }
         <div>
           {!searched ? 
             <Button id='checkCep' onClick={handleSubmit} >Pesquisar</Button>
             :
-            !success||<Button id='goToCatalog' onClick={()=>this.props.history.push("/catalogo")} >Catalogo</Button>
+            !success||<Button id='goToCatalog' onClick={()=>this.props.history.push("/catalogo")} >Catálogo</Button>
           }
         </div>
         {!searched || <div onClick={()=>this.setState({searched:false, msg:"Digite seu CEP e veja se entregamos na sua região."})}  className="anotherCep">TENTE OUTRO CEP</div>}
@@ -113,6 +115,14 @@ class CepChecker extends BaseContainer{
   }
 };
 
-CepChecker = compose(withStyles(styles), withRouter)(CepChecker);
+const mapStateToProps = state => ({
+  cep: state.cep.current
+});
+
+CepChecker = compose(
+  withStyles(styles),
+  withRouter,
+  connect(mapStateToProps, actions)
+)(CepChecker);
 
 export { CepChecker };

@@ -420,7 +420,8 @@ class Checkout extends BaseContainer {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, currentCep } = this.props;
+    console.log(currentCep);
 
     return (
       <div className={classes.wrapper}>
@@ -450,7 +451,8 @@ const mapStateToProps = state => ({
   cards: state.cards.model,
   selectedCard: state.cards.selected,
   selectedDate: state.datePicker.selected,
-  momentDate: state.datePicker.momentDate
+  momentDate: state.datePicker.momentDate,
+  currentCep: state.cep.current
 });
 
 export default compose(

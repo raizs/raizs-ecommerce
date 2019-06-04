@@ -9,6 +9,11 @@ export {
 } from './_lib/categories.actions';
 
 export {
+  SET_CEP,
+  setCepAction
+} from './_lib/cep.actions';
+
+export {
   SET_CARDS,
   SELECT_CARD,
   setCardsAction,

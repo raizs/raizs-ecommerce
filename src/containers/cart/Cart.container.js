@@ -11,9 +11,15 @@ import {
   updateCartAction,
   updateSubscriptionCartAction,
   selectDateAction,
-  removeSubscriptionCartAction
+  removeSubscriptionCartAction,
+  selectUserAddressAction
 } from '../../store/actions';
-import { CartProduct, SubscriptionCartProduct, BigDatePicker } from '../../components';
+import {
+  CartProduct,
+  SubscriptionCartProduct,
+  BigDatePicker,
+  SimpleCepChecker
+} from '../../components';
 import { CartCheckout } from './components';
 import { SubscriptionCart } from '../../entities';
 
@@ -23,7 +29,11 @@ const styles = theme => ({
     userSelect: 'none',
     width: '100%',
     padding: 3 * theme.spacing.unit,
-    '& > h1': theme.typography.raizs,
+    paddingBottom: 8 * theme.spacing.unit,
+    '& > h1': {
+      ...theme.typography.raizs,
+      marginBottom: 6 * theme.spacing.unit
+    },
     '& > div.date-picker-wrapper': {
       display: 'flex',
       justifyContent: 'center',
@@ -75,10 +85,11 @@ const actions = {
   updateCartAction,
   updateSubscriptionCartAction,
   removeSubscriptionCartAction,
-  selectDateAction
+  selectDateAction,
+  selectUserAddressAction
 };
 
-const MINIMUM_VALUE = 60; // todo: get from db
+const MINIMUM_VALUE = 0; // todo: get from db
 const FREE_SHIPPING_VALUE = 200; // todo: get from db
 
 /**
@@ -97,11 +108,10 @@ class Cart extends BaseContainer {
     cep: '',
     coupon: '',
     shippingValue: null,
-    
     cepLoading: false,
     cepSuccess: false,
     cepError: false,
-    subtotalError: true
+    subtotalError: false
   }
 
   static propTypes = {
@@ -109,22 +119,39 @@ class Cart extends BaseContainer {
   }
 
   componentDidMount() {
-    const { cart, subscriptionCart } = this.props;
-    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
-    const subtotal = cart.subtotal + sCart.subtotal;
-    if(cart && sCart && subtotal >= MINIMUM_VALUE) this.setState({ subtotalError: false });
+    // const { cart, subscriptionCart } = this.props;
+    // const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    // const subtotal = cart.subtotal + sCart.subtotal;
+    // if(cart && sCart && subtotal >= MINIMUM_VALUE) this.setState({ subtotalError: false });
+
+    if(this.props.currentCep) {
+      this.setState({
+        cepSuccess: true,
+        shippingValue: this.props.currentCep.shippingValue,
+        cep: this.props.currentCep.value
+      });
+    }
   }
   
   componentWillReceiveProps(nextProps) {
-    const { cart, subscriptionCart } = nextProps;
-    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
-    const subtotal = cart.subtotal + sCart.subtotal;
+    // const { cart, subscriptionCart } = nextProps;
+    // const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    // const subtotal = cart.subtotal + sCart.subtotal;
 
-    if(subtotal < MINIMUM_VALUE && !this.state.subtotalError)
-    this.setState({ subtotalError: true });
+    // if(subtotal < MINIMUM_VALUE && !this.state.subtotalError)
+    // this.setState({ subtotalError: true });
     
-    if(subtotal >= MINIMUM_VALUE && this.state.subtotalError)
-    this.setState({ subtotalError: false });
+    // if(subtotal >= MINIMUM_VALUE && this.state.subtotalError)
+    // this.setState({ subtotalError: false });
+
+    if(nextProps.currentCep && !this.props.currentCep) {
+      console.log(nextProps.currentCep)
+      this.setState({
+        cepSuccess: true,
+        shippingValue: nextProps.currentCep.shippingValue,
+        cep: nextProps.currentCep.value
+      });
+    }
   }
 
   _renderCartItems() {
@@ -177,7 +204,18 @@ class Cart extends BaseContainer {
   }
 
   render() {
-    const { classes, cart, history, subscriptionCart, selectedDate, selectDateAction } = this.props;
+    const {
+      classes,
+      cart,
+      selectedAddress,
+      history,
+      subscriptionCart,
+      selectedDate,
+      selectDateAction,
+      selectUserAddressAction,
+      user,
+      currentCep
+    } = this.props;
     const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
     const { handleChange, handleCepBlur } = this.controller;
 
@@ -185,6 +223,8 @@ class Cart extends BaseContainer {
       history,
       cart,
       subscriptionCart,
+      currentCep,
+      user,
       cep,
       coupon,
       cepLoading,
@@ -194,6 +234,8 @@ class Cart extends BaseContainer {
       handleChange,
       handleCepBlur,
       shippingValue,
+      selectedAddress,
+      selectUserAddressAction,
 
       MINIMUM_VALUE, // todo: get from db
       FREE_SHIPPING_VALUE // todo: get from db
@@ -205,6 +247,12 @@ class Cart extends BaseContainer {
         <div className='date-picker-wrapper'>
           <BigDatePicker handleSelectDate={selectDateAction} selected={selectedDate} />
         </div>
+        {
+          user && user.addresses.all.length ? null :
+          <div className='cep-wrapper'>
+            <SimpleCepChecker />
+          </div>
+        }
         {this._renderCartItems()}
         {this._renderSubscriptionCartItems()}
         <div className='checkout'>
@@ -216,9 +264,12 @@ class Cart extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
+  user: state.user.current,
   cart: state.cart.current,
+  currentCep: state.cep.current,
   subscriptionCart: state.subscriptionCart,
-  selectedDate: state.datePicker.selected
+  selectedDate: state.datePicker.selected,
+  selectedAddress: state.userAddresses.selected
 });
 
 export default compose(

@@ -34,7 +34,7 @@ const styles = theme => ({
 
 let Loading = props => {
   const { classes, size } = props;
-  const wrapperClasses = [classes.wrapper];
+  const wrapperClasses = [classes.wrapper, 'loading'];
   if(props.inline) wrapperClasses.push('inline');
   if(props.absolute) wrapperClasses.push('absolute');
   if(props.noBg) wrapperClasses.push('noBg')

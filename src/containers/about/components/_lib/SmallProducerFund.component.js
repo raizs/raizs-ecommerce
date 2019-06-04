@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 import { withStyles } from '@material-ui/core';
 
@@ -54,10 +55,10 @@ const styles = theme => ({
   }
 });
 
-let SmallProducerFund = ({ classes }) => {
+let SmallProducerFund = ({ classes, id }) => {
 
   return (
-    <div className={classes.wrapper}>
+    <div id={id} className={classnames(classes.wrapper, 'offset-important')}>
       <h4 className={classes.title}>
         FUNDO DO PEQUENO PRODUTOR
       </h4>

@@ -58,7 +58,7 @@ const withTimeline = WrappedComponent => {
       const bodyScroll = document.querySelector('body').scrollTop;
       const scroll = htmlScroll || bodyScroll;
       const { shouldFixTimeline, currentSectionId } = context.state.timelineData;
-      const sections = document.querySelectorAll('.timeline-section div.offset-important');
+      const sections = document.querySelectorAll('div.offset-important');
       const offsets = [...sections].map(section => ({value: section.offsetTop, id: section.id}));
       
       const { timelineData } = context.state;
