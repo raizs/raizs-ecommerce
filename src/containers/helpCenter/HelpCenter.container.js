@@ -27,6 +27,9 @@ const styles = theme => ({
   FAQBox:{
     paddingTop:3*theme.spacing.unit,
   },
+  termsAndConditionsBox:{
+    marginBottom:"200px",
+  },
   title:{
   	fontSize: theme.fontSizes.MD,
   	marginBottom: 2*theme.spacing.unit,
@@ -78,7 +81,7 @@ class HelpCenter extends BaseContainer{
 
   _renderTermsAndConditions(){
     return fakeTerms.map((term, key)=>{
-      return <TermsAndConditions text={term.text} subject={term.subject}/>
+      return <TermsAndConditions term={term}/>
     })
 
 
@@ -100,8 +103,10 @@ class HelpCenter extends BaseContainer{
             <TimelineSection > <ContactUs state={this.state} controller={this.controller} /> </TimelineSection>
             <TimelineSection > <BePartner state={this.state} controller={this.controller} /> </TimelineSection>
             <TimelineSection > 
-              <h2 className={classes.title}>Políticas & Privacidade</h2>
-              {this._renderTermsAndConditions()} 
+              <div className={classnames(classes.termsAndConditionsBox, "offset-important")} id="politicas-e-privacidade">
+                <h2 className={classes.title}>Políticas & Privacidade</h2>
+                {this._renderTermsAndConditions()} 
+              </div>
             </TimelineSection>
           </TimelineSections>
 

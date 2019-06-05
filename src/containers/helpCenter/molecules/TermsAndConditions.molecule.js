@@ -18,6 +18,10 @@ const styles = theme => {
       cursor:"pointer",
       position:"relative"
     },
+    label:{
+      fontSize: theme.fontSizes.XS,
+      fontWeight:800
+    },
     arrowIcon:{
       position:"absolute",
       top:"6px",
@@ -47,19 +51,19 @@ class TermsAndConditions extends Component{
   }
 
   _renderText(){
-    const { classes, text } = this.props;
+    const { classes, term } = this.props;
     return <div className={classes.textBox}>
-      {text}
+      {term.text}
     </div>
   }
 
   render(){
-    const { classes, subject } = this.props;
+    const { classes, term } = this.props;
     const { open } = this.state;
     return (
       <div onClick={()=>this.setState({open:!open})} className={classes.wrapper}>
         <Icon className={classes.arrowIcon}>{open ? "keyboard_arrow_up" : "keyboard_arrow_down"}</Icon>
-      	<div className={classes.label}>{subject}</div>
+      	<div className={classes.label}>{term.subject}</div>
         {open && this._renderText()}
       </div>
     )
