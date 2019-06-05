@@ -66,7 +66,6 @@ let ObservationsModal = props => {
             placeholder={`Ex: Não trazer lorem ipsum, apenas ipsum lorems\n\nDuas linhas!`}
             value={restrictions}
             onChange={handleChange}
-            
           />
         </div>
         <div className={classes.halfSection}>
