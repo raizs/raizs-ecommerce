@@ -26,8 +26,8 @@ export const TopHeader = props => {
   return (
     <div className="top-header flex h sb al-c" >
       <nav className="side-buttons">
-        {renderNavLink({route:"route", label:"Sobre a Raízs"})}
-        {renderNavLink({route:"route", label:"Conheça os Produtores"})}
+        {renderNavLink({route:"quem-somos", label:"Sobre a Raízs"})}
+        {renderNavLink({route:"familias", label:"Conheça os Produtores"})}
       </nav>
       <nav className="side-buttons">
         {renderNavLink({route:"route", label:"Refazer Pedido"})}

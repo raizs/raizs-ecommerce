@@ -25,7 +25,7 @@ const styles = theme => ({
       }
     },
     '&.-small': {
-      height: '36px'
+      height: '48px'
     }
   },
   next: {
@@ -50,7 +50,7 @@ const styles = theme => ({
       }
     },
     '&.-small': {
-      height: '36px'
+      height: '48px'
     }
   }
 });
