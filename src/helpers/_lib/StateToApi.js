@@ -1,4 +1,5 @@
 import { Formatter } from "./Formatter";
+import { Transaction } from "../../entities";
 
 export class StateToApi {
 
@@ -103,18 +104,22 @@ export class StateToApi {
     };
   }
 
-  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate }) {
+  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate, coupon }) {
+    let amount = 0;
+    const transaction = new Transaction({ cart, coupon, shippingAmount:990 });
     return {
       toPg: {
         resPartnerId: user.id,
         date:momentDate.format("YYYY-MM-DD"),
-        address: selectedUserAddress
+        address: selectedUserAddress,
+        coupon
       },
       toMp: {
+        amount: cart.subtotal,
         customer_id: user.mpid,
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),
-        payments: [selectedCard.getMpFormattedPayment({})]
+        payments: [selectedCard.getMpFormattedPayment({ amount })]
       }
     };
   }

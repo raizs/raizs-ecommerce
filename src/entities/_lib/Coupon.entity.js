@@ -11,6 +11,22 @@ export class Coupon {
     this.percentageValue = coupon.percentage_value
   }
 
+  calculateDiscount(cart, subcart){
+  	console.log(cart, subcart);
+  	const { couponType, percentageValue } = this;
+
+  	let discount = 0;
+  	switch (couponType){
+  		case "percentage": {
+	  		const total = cart.subtotal + subcart.current.subtotal;
+	  		discount = percentageValue*total;
+	  		break;
+
+  		}
+  	}
+  	return discount;
+  }
+
 }
 
 

@@ -94,7 +94,8 @@ class Coupon extends BaseContainer {
     couponCode:"teste", 
     loading:false,
     searched:false,
-    coupon:null
+    coupon:null, 
+    errorMsg:""
   }
 
   _renderInput(){
@@ -135,9 +136,9 @@ class Coupon extends BaseContainer {
 
   _renderNotFound(){
     const { classes } = this.props;
-    const { couponCode } = this.state;
+    const { couponCode, errorMsg } = this.state;
     return <div>
-      <div className={classes.notFoundText}>Ops! Não encontramos nenhum cupom chamado "{couponCode}" </div>
+      <div className={classes.notFoundText}>{errorMsg} </div>
       <div onClick={this.controller.handleRestartCoupon} className={classes.notFoundButton}>Inserir outro cupom</div>
     </div>
   }
@@ -162,7 +163,9 @@ class Coupon extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  coupon:state.coupon.selected
+  coupon:state.coupon.selected,
+  user: state.user.current,
+
 });
 
 Coupon = compose(

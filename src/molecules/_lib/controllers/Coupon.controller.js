@@ -22,7 +22,7 @@ export class CouponController extends BaseController {
 
 
   handleRestartCoupon(){
-  	const { setCouponAction } = this.getProps()
+  	const { setCouponAction } = this.getProps();
   	this.toState({searched:false, couponCode:""});
   	setCouponAction(null)
   }
@@ -30,11 +30,12 @@ export class CouponController extends BaseController {
   async handleSearch(){
     this.toState({loading:true});
     const { couponCode } = this.getState();
-  	const { setCouponAction } = this.getProps()
-    const promise = await this.couponsRepo.getCoupon(couponCode)
+  	const { setCouponAction, user } = this.getProps();
+    const promise = await this.couponsRepo.getCoupon(couponCode, user.id);
     if (promise.err){
-    	this.toState({loading:false, searched:true})
-    	setCouponAction(null)
+      console.log(promise);
+    	this.toState({loading:false, searched:true, errorMsg:promise.err.msg});
+    	setCouponAction(null);
     }
     else {
     	const couponEnt = new Coupon(promise.data);
@@ -42,11 +43,6 @@ export class CouponController extends BaseController {
     	setCouponAction(couponEnt);
     }
     this.toState({loading:false});
-
-  	// const { search } = this.getState();
-  	// const { products } = this.getProps();
-
-  	// this.toState({results})
   }
 
 }
