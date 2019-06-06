@@ -12,6 +12,9 @@ const styles = theme => ({
       '& > div:focus, & > div > div:focus': {
         outline: 'none'
       }
+    },
+    '& .slick-slider': {
+      padding: '0 48px'
     }
   }
 });

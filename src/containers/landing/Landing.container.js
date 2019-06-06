@@ -273,7 +273,7 @@ class Landing extends BaseContainer {
           </h4>
           <div style={{ textAlign: 'center' }}>
             <Button
-              onClick={() => console.log('to familias?')}
+              onClick={() => history.push('familias')}
               className={classes.primaryButton}
               style={{ fontSize: '16px' }}
             >
