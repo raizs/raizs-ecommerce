@@ -2,13 +2,13 @@ import { BaseModel, Formatter } from '../../helpers';
 
 export class Transaction extends BaseModel {
 
-	constructor(cart, subcart, coupon, donation, giftCard) {
+	constructor({cart, subcart, coupon, donation, giftCard, shippingAmount}) {
 
 		super();
 		this.cart = cart;
 		this.subcart = subcart;
 		this.donation = donation || { value: 10.00 };
-		this.coupon = coupon || { type: "fix", value: 10.00 };
+		this.coupon = coupon;
 		this.giftCard = giftCard || { value: 40.00};
 		this.total = this.calculateTotals();
 	}

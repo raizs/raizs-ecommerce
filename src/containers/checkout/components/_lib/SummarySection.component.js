@@ -162,8 +162,19 @@ class SummarySection extends Component {
     return to.length && to;
   }
 
+
+  _renderDiscount(){
+    const { classes, cart, subscriptionCart, coupon } = this.props;
+    if (!coupon) return null;
+
+    return <div className={classes.keyValue}>
+      <div className={classes.subtitle}>DESCONTO</div>
+      <div className={classes.subValue}>-{Formatter.currency(coupon.calculateDiscount(cart, subscriptionCart))}</div>
+    </div>
+  }
+
   render() {
-    const { classes, selectedDate, cart, subscriptionCart } = this.props;
+    const { classes, selectedDate, cart, subscriptionCart, coupon } = this.props;
     const sCart = subscriptionCart.current;
 
     return (
@@ -179,13 +190,14 @@ class SummarySection extends Component {
           <div className={classes.subtitle}>SUBTOTAL</div>
           <div className={classes.subValue}>{Formatter.currency(cart.subtotal + sCart.subtotal)}</div>
         </div>
+        {this._renderDiscount()}
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>FRETE</div>
           <div className={classes.subValue}>{Formatter.currency(9.9)}</div>
         </div>
         <div className={classes.keyValue} style={{ marginTop: '24px' }}>
           <div className={classes.total}>TOTAL</div>
-          <div className={classes.total}>{Formatter.currency(cart.subtotal + sCart.subtotal + 9.9)}</div>
+          <div className={classes.total}>{Formatter.currency(cart.subtotal + sCart.subtotal + 9.9 - (coupon ? coupon.calculateDiscount(cart, subscriptionCart) : 0))}</div>
         </div>
       </div>
     )

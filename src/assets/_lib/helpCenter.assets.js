@@ -15,8 +15,8 @@ export const helpCenterTimeline = {
       url: '#seja-parceiro'
     }, {
       label: 'Políticas e Privacidade',
-      id: 'politics',
-      url: '#politics'
+      id: 'politicas-e-privacidade',
+      url: '#politicas-e-privacidade'
     }
   ]
 }

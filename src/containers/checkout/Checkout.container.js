@@ -415,8 +415,8 @@ class Checkout extends BaseContainer {
    * @memberof Checkout
    */
   _renderSummary() {
-    const { selectedDate, cart, subscriptionCart } = this.props;
-    return <SummarySection selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
+    const { selectedDate, cart, subscriptionCart, coupon } = this.props;
+    return <SummarySection coupon={coupon} selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
   }
 
   render() {
@@ -452,7 +452,9 @@ const mapStateToProps = state => ({
   selectedCard: state.cards.selected,
   selectedDate: state.datePicker.selected,
   momentDate: state.datePicker.momentDate,
-  currentCep: state.cep.current
+  currentCep: state.cep.current,
+  coupon:state.coupon.selected
+
 });
 
 export default compose(
