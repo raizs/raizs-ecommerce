@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import { MiniDatePicker } from '../../molecules';
 
 /**
  * renderNavLink - Renders the buttons that navigate in the different routes of the website
@@ -21,7 +20,6 @@ const renderNavLink = ({label, route}) => {
  * @returns {JSX} 
  */
 export const TopHeader = props => {
-  const { handleSelectDate, selectedDate } = props;
 
   return (
     <div className="top-header flex h sb al-c" >

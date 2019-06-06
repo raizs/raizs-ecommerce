@@ -32,6 +32,8 @@ export class AppController extends BaseController {
     // handles
     this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
+    this.handleUpdateCart = this.handleUpdateCart.bind(this);
+    this.handleUpdateSubscriptionCart = this.handleUpdateSubscriptionCart.bind(this);
   }
 
   async initialFetch() {
@@ -206,5 +208,15 @@ export class AppController extends BaseController {
     });
 
     this.toState(toState);
+  }
+
+  handleUpdateCart({ item, quantity }) {
+    const { cart, updateCartAction } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
+  }
+
+  handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
+    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction);
   }
 }

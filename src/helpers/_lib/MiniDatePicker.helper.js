@@ -7,8 +7,16 @@ export class MiniDatePickerHelper {
 
     for(let i = 0; i < 7; i++) {
       const momentSuffix = [
-        '[Hoje]',
         '[Amanhã]',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
+        'dddd',
         'dddd',
         'dddd',
         'dddd',
@@ -16,7 +24,7 @@ export class MiniDatePickerHelper {
         'dddd'
       ];
 
-      const momentDate = moment().add(i, 'd')
+      const momentDate = moment().add(i + 1, 'd')
       const date = momentDate.format(`DD/MM - ${momentSuffix[i]}`);
       let [day, weekday] = date.split(' - ');
       day = day.split('/')[0];

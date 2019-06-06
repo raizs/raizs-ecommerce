@@ -13,7 +13,11 @@ const styles = theme => ({
     zIndex: 1,
     height: 5 * theme.spacing.unit,
     fontSize: theme.fontSizes.XL,
+    '&.-mini': {
+      height: 'auto'
+    }
   },
+
   closed: {
     fontFamily: 'raizs',
     width: 5 * theme.spacing.unit,
@@ -24,6 +28,7 @@ const styles = theme => ({
     color: 'white',
     height: 5 * theme.spacing.unit
   },
+
   open: {
     width: 20 * theme.spacing.unit,
     height: 5 * theme.spacing.unit,
@@ -73,6 +78,60 @@ const styles = theme => ({
     '&:hover div.add, &:hover div.subtract': {
       backgroundColor: theme.palette.green.main,
       color: 'white'
+    },
+
+    '&.-mini': {
+      width: '88px',
+      height: '24px',
+      lineHeight: '24px',
+      backgroundColor: 'white',
+      border: `1px solid ${theme.palette.green.main}`,
+      position: 'relative',
+      cursor: 'pointer',
+      '& > *': {
+        display: 'inline-block',
+        position: 'absolute'
+      },
+      '& > div.subtract': {
+        fontFamily: 'raizs',
+        left: 0,
+        height: '100%',
+        borderRadius: theme.spacing.unit,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        cursor: 'pointer',
+        textAlign: 'center',
+        width: '22px',
+        lineHeight: '20px',
+        fontSize: theme.fontSizes.MMD,
+        color: theme.palette.green.main
+      },
+      '& > div.add': {
+        fontFamily: 'raizs',
+        right: 0,
+        height: '100%',
+        borderRadius: theme.spacing.unit,
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        lineHeight: '20px',
+        fontSize: theme.fontSizes.MMD,
+        textAlign: 'center',
+        width: '22px',
+        color: theme.palette.green.main
+      },
+      '& > div.quantity': {
+        textAlign: 'center',
+        width: '100%',
+        lineHeight: '20px',
+        height: '100%',
+        fontSize: theme.fontSizes.MD,
+        color: theme.palette.green.main,
+        fontWeight: 600
+      },
+      '&:hover div.add, &:hover div.subtract': {
+        backgroundColor: theme.palette.green.main,
+        color: 'white'
+      }
     }
   }
 });
@@ -100,10 +159,12 @@ class QuantitySelector extends Component {
 
   _renderContent() {
     const { quantity } = this.state;
-    const { classes, shouldClose = true } = this.props;
+    const { classes, shouldClose = true, mini } = this.props;
+    let classNames = [classes.open];
+    if(mini) classNames.push('-mini');
 
     const opened = (
-      <div className={classes.open}>
+      <div className={classnames(classNames)}>
         <div className='quantity'>{quantity}</div>
         <div className='subtract' onClick={() => this._handleClick(-1)}>-</div>
         <div className='add' onClick={() => this._handleClick(1)}>+</div>
@@ -111,18 +172,22 @@ class QuantitySelector extends Component {
     )
 
     if(!shouldClose) return opened;
+    classNames = [classes.closed];
+    if(mini) classNames.push('-mini');
 
     return quantity ? opened : (
-      <div className={classes.closed} onClick={() => this._handleClick(1)}>+</div>
+      <div className={classnames(classNames)} onClick={() => this._handleClick(1)}>+</div>
     )
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, mini } = this.props;
+    const classNames = ['quantity-selector', classes.wrapper];
+    if(mini) classNames.push('-mini');
 
     return (
       <div
-        className={classnames('quantity-selector', classes.wrapper)}
+        className={classnames(classNames)}
         onClick={e => e.stopPropagation()}
       >
         {this._renderContent()}

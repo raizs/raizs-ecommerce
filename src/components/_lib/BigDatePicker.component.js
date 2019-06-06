@@ -59,20 +59,45 @@ class BigDatePicker extends Component {
   state = {
     options: MiniDatePickerHelper.generateDatesObject(),
     selected: MiniDatePickerHelper.generateDatesObject()[0],
-    value: 0
+    value: 0,
+    initialSlide: false
   }
 
+  componentDidMount() {
+    if(this.props.selected !== this.state.value) {
+      const toState = {
+        value: this.props.selected,
+        selected: this.state.options[this.props.selected],
+      };
+
+      if(!this.state.initialSlide) {
+        toState.initialSlide = true;
+        this.slider.slickGoTo(this.props.selected >= 12 ? 12 : this.props.selected >= 6 ? 6 : 0);
+      }
+
+      this.setState(toState);
+    }
+  }
+  
   componentWillReceiveProps(nextProps) {
-    if(nextProps.selected !== this.state.selected) 
-      this.setState({
+    if(nextProps.selected !== this.state.value) {
+      const toState = {
         value: nextProps.selected,
         selected: this.state.options[nextProps.selected]
-      });
+      };
+
+      if(!this.state.initialSlide) {
+        toState.initialSlide = true;
+        this.slider.slickGoTo(nextProps.selected >= 12 ? 13 : nextProps.selected >= 6 ? 7 : 0);
+      }
+
+      this.setState(toState);
+    }
   }
 
   render() {
     const { handleSelectDate, classes } = this.props;
-    const { selected, options, value } = this.state;
+    const { options, value, initialSlide } = this.state;
 
     const settings = {
       slidesToShow: 6,
@@ -80,20 +105,23 @@ class BigDatePicker extends Component {
       prevArrow: <SliderArrow isSmall to='prev' />,
       nextArrow: <SliderArrow isSmall to='next' />,
       infinite: false,
-      draggable: false
+      draggable: false,
     };
 
     return (
       <div className={classes.wrapper}>
         <h4>Escolha um dia para a entrega</h4>
-        <Slider {...settings}>
+        <Slider ref={s => this.slider = s} {...settings}>
           {options.map(option => {
             const className = [classes.item];
-            if(option.value === value) className.push('-selected');
+            if(option.value == value) className.push('-selected');
 
             return (
               <div className={classnames(className)}>
-                <div onClick={() => handleSelectDate(option.value)}>
+                <div onClick={async () => {
+                  if(!initialSlide) await this.setState({ initialSlide: true });
+                  handleSelectDate(option.value);
+                }} >
                   <div className='weekday'>
                     {option.weekday.toUpperCase()}
                   </div>

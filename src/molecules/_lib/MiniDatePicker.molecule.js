@@ -40,8 +40,16 @@ class MiniDatePicker extends Component {
     value: 0
   }
 
+  componentDidMount() {
+    if(this.props.selected !== this.state.value) 
+      this.setState({
+        value: this.props.selected,
+        selected: this.state.options[this.props.selected]
+      });
+  }
+
   componentWillReceiveProps(nextProps) {
-    if(nextProps.selected !== this.state.selected) 
+    if(nextProps.selected !== this.state.value) 
       this.setState({
         value: nextProps.selected,
         selected: this.state.options[nextProps.selected]
@@ -87,9 +95,10 @@ class MiniDatePicker extends Component {
 
   render() {
     const { selected } = this.state;
+    const { zIndex } = this.props;
 
     return (
-      <SimplePopper from='miniDatePicker' label={`Comprando para ${selected.bigSuffix}`}>
+      <SimplePopper zIndex={zIndex} from='miniDatePicker' label={`Comprando para ${selected.bigSuffix}`}>
         {this._renderOptions()}
       </SimplePopper>
     )

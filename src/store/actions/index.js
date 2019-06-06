@@ -37,6 +37,11 @@ export {
 } from './_lib/header.actions';
 
 export {
+  SET_MINICART_SECTION,
+  setMiniCartSectionAction
+} from './_lib/miniCart.actions';
+
+export {
   SET_PRODUCT_BRANDS,
   setProductBrandsAction
 } from './_lib/productBrands.actions';
