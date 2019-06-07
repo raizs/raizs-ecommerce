@@ -104,18 +104,18 @@ export class StateToApi {
     };
   }
 
-  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate, coupon }) {
+  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate, coupon, subcart, giftCard }) {
     let amount = 0;
-    const transaction = new Transaction({ cart, coupon, shippingAmount:990 });
+    const transaction = new Transaction({ cart, subcart, coupon, giftCard });
     return {
       toPg: {
         resPartnerId: user.id,
         date:momentDate.format("YYYY-MM-DD"),
         address: selectedUserAddress,
-        coupon
+        coupon,
+        transaction,
       },
       toMp: {
-        amount: cart.subtotal,
         customer_id: user.mpid,
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),

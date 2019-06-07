@@ -7,7 +7,6 @@ export class CouponController extends BaseController {
 
   constructor({ toState, getState, getProps }) {
     super({ toState, getState, getProps });
-    console.log("starting")
     this.couponsRepo = new CouponsRepository();
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);

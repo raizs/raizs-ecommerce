@@ -12,7 +12,6 @@ export class Coupon {
   }
 
   calculateDiscount(cart, subcart){
-  	console.log(cart, subcart);
   	const { couponType, percentageValue } = this;
 
   	let discount = 0;

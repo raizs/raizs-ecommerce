@@ -17,6 +17,7 @@ import { userReducer } from "./_lib/user.reducer"
 import { userAddressesReducer } from "./_lib/userAddresses.reducer"
 import { modalReducer } from "./_lib/modal.reducer"
 import { couponReducer } from "./_lib/coupon.reducer"
+import { giftCardReducer } from "./_lib/giftCard.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   userAddresses: userAddressesReducer,
   modal: modalReducer,
   coupon: couponReducer,
+  giftCard: giftCardReducer
 });
 
 export default rootReducer;

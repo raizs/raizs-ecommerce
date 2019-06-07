@@ -105,3 +105,9 @@ export {
   SET_COUPON_ACTION,
   setCouponAction
 } from './_lib/coupon.actions';
+
+
+export {
+  SET_GIFT_CARD_ACTION,
+  setGiftCardAction
+} from './_lib/giftCard.actions';

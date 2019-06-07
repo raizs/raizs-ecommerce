@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles, Collapse, Button } from '@material-ui/core';
 import classnames from 'classnames'; 
 
-import { Loading, PickABox, Coupon } from '../../../../../molecules';
+import { Loading, PickABox, Coupon, GiftCard } from '../../../../../molecules';
 import { paymentMethods, paymentMethodsStrings } from '../../../../../assets';
 import { PaymentCreditCardForm, PaymentDebitCardForm, PayPalForm } from '.';
 
@@ -195,10 +195,6 @@ class PaymentSection extends Component {
   }
 
 
-  _renderCoupon(){
-    return <Coupon />
-  }
-
   _renderCollapsibleContent() {
     const {
       classes,
@@ -223,7 +219,8 @@ class PaymentSection extends Component {
           <div style={{ marginTop: '32px' }}>
             {this._renderSelectedMethodForm()}
           </div>
-          {this._renderCoupon()}
+          <Coupon/>
+          <GiftCard/>
           <Button
             onClick={handleSubmitPayment}
             className={classes.button}

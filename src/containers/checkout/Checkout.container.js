@@ -421,7 +421,6 @@ class Checkout extends BaseContainer {
 
   render() {
     const { classes, currentCep } = this.props;
-    console.log(currentCep);
 
     return (
       <div className={classes.wrapper}>
@@ -453,7 +452,8 @@ const mapStateToProps = state => ({
   selectedDate: state.datePicker.selected,
   momentDate: state.datePicker.momentDate,
   currentCep: state.cep.current,
-  coupon:state.coupon.selected
+  coupon:state.coupon.selected,
+  giftCard:state.giftCard,
 
 });
 

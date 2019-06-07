@@ -112,7 +112,6 @@ class Coupon extends BaseContainer {
           value={couponCode}
           handleChange={handleChange}
           label="Digite o seu cupom de desconto"
-          handleBlur={handleSearch}
           placeholder="Cupom"
           labelClassName={classes.inputLabel}
           />
