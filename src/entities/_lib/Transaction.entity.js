@@ -32,6 +32,7 @@ export class Transaction extends BaseModel {
 		//recurrencyValue é o valor total que sera cobrado periodicamente
 
 		const { donation, cart, subcart, coupon, giftCard } = this;
+		console.log("\n\n\n\n", giftCard)
 		
 		let imediateValue = this.calculateCartTotals();
 		let recurrencyValue = this.calculateSubcartTotals();

@@ -415,8 +415,8 @@ class Checkout extends BaseContainer {
    * @memberof Checkout
    */
   _renderSummary() {
-    const { selectedDate, cart, subscriptionCart, coupon } = this.props;
-    return <SummarySection coupon={coupon} selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
+    const { selectedDate, cart, subscriptionCart, coupon, giftCard } = this.props;
+    return <SummarySection giftCard={giftCard} coupon={coupon} selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
   }
 
   render() {

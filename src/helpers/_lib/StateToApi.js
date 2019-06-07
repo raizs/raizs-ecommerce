@@ -105,7 +105,6 @@ export class StateToApi {
   }
 
   static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate, coupon, subcart, giftCard }) {
-    let amount = 0;
     const transaction = new Transaction({ cart, subcart, coupon, giftCard });
     return {
       toPg: {
@@ -119,7 +118,7 @@ export class StateToApi {
         customer_id: user.mpid,
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),
-        payments: [selectedCard.getMpFormattedPayment({ amount })]
+        payments: [selectedCard.getMpFormattedPayment({ amount:transaction.totals.totalImediateValue*100 })]
       }
     };
   }
