@@ -12,8 +12,15 @@ import classnames from 'classnames';
 
 const styles = theme => ({
   content: {
-    padding: `${theme.spacing.unit * 2}px`
+    padding: `${theme.spacing.unit * 2}px`,
   },
+
+  cestaContent: {
+    padding: 0,
+    overflow: 'hidden',
+    borderRadius: theme.spacing.unit
+  },
+
   button: {
     backgroundColor: 'transparent',
     padding: `0 ${theme.spacing.unit * 2}px`,
@@ -33,8 +40,9 @@ const styles = theme => ({
       padding: 0
     }
   },
+
   popper: {
-    zIndex: 1,
+    zIndex: 10,
     '&[x-placement*="bottom"] $arrow': {
       top: 0,
       left: 0,
@@ -47,6 +55,22 @@ const styles = theme => ({
       },
     }
   },
+
+  cestaPopper: {
+    zIndex: 10,
+    '&[x-placement*="bottom"] $arrow': {
+      top: 0,
+      left: 0,
+      marginTop: -11,
+      width: '3em',
+      height: '1em',
+      '&::before': {
+        borderWidth: '0 1.5em 1.5em 1.5em',
+        borderColor: `transparent transparent ${theme.palette.green.light} transparent`,
+      },
+    }
+  },
+
   arrow: {
     position: 'absolute',
     fontSize: 7,
@@ -124,17 +148,19 @@ class HeaderPopperButton extends Component {
   };
 
   render() {
-    const { classes, children, label, clickAction, height, placement } = this.props;
+    const { classes, children, label, clickAction, height, placement, cesta, timeout } = this.props;
     const { anchorEl, open } = this.state;
-    
     let { id } = this.props;
-    id = open ? id : null;
-
+    
     const buttonClassName = [classes.button];
     if(id === 'cesta') buttonClassName.push('-cesta');
 
+    id = open ? id : null;
+    
     let style = {};
     if(height) style.height = height;
+
+    const contentClassName = cesta ? classes.cestaContent : classes.content;
 
     return (
       <div>
@@ -154,7 +180,7 @@ class HeaderPopperButton extends Component {
           open={open}
           anchorEl={anchorEl}
           transition
-          className={classes.popper}
+          className={cesta ? classes.cestaPopper : classes.popper}
           placement={placement || 'bottom'}
           modifiers={{
             arrow: {
@@ -164,14 +190,14 @@ class HeaderPopperButton extends Component {
           }}
         >
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={{ enter: 350, exit: 100 }}>
+            <Fade {...TransitionProps} timeout={timeout || { enter: 350, exit: 100 }}>
               <Paper elevation={5}>
                 <span className={classes.arrow} ref={this._handleArrowRef} />
                 <Typography
                   component='div'
                   onMouseEnter={this._handleMouseEnterPopper}
                   onMouseLeave={this._handleMouseLeave}
-                  className={classes.content}
+                  className={contentClassName}
                 >
                   {children}
                 </Typography>

@@ -128,12 +128,15 @@ class SimplePopper extends Component {
       label,
       fadeTimeout,
       from,
-      placement
+      placement,
+      zIndex
     } = this.props;
     const { anchorEl, connected } = this.state;
 
     const open = connected ? this.props.open : this.state.open;
     id = open ? id : null;
+
+    const style = zIndex ? { zIndex } : {};
 
     const typographyClasses = [classes.typography];
     if(from === 'miniDatePicker') typographyClasses.push('-miniDatePicker');
@@ -159,6 +162,7 @@ class SimplePopper extends Component {
           open={open}
           anchorEl={anchorEl}
           transition
+          style={style}
         >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={fadeTimeout || 350}>

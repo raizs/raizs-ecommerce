@@ -71,28 +71,6 @@ const styles = theme => ({
 });
 
 class SubscriptionCartProduct extends Component {
-  state = {
-    loadedImage: false,
-    imageError: false
-  }
-
-  componentDidUpdate() {
-    const el = document.querySelector(`div#cart-product-${this.props.product.id} img-2`);
-    const { shadowRoot } = document.querySelector(`div#cart-product-${this.props.product.id} img-2`);
-
-    if(!this.state.loadedImage && shadowRoot) {
-      const context = this;
-      const img = Array.from(shadowRoot.childNodes).pop();
-
-      if(el.loaded) {
-        context.setState({ loadedImage: true })
-      }
-
-      img.onerror = () => {
-        context.setState({ loadedImage: true, imageError: true });
-      }
-    }
-  }
 
   _renderSecondaryPeriodicity() {
     const { product, handleUpdateCart } = this.props;

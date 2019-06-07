@@ -14,6 +14,8 @@ export { HeaderUserButton } from './_lib/HeaderUserButton.component';
 export { HeaderUserPopper } from './_lib/HeaderUserPopper.component';
 export { HeaderPopper } from './_lib/HeaderPopper.component';
 export { MiniCart } from './_lib/MiniCart.component';
+export { MiniCartProduct } from './_lib/MiniCartProduct.component';
+export { MiniSubscriptionCartProduct } from './_lib/MiniSubscriptionCartProduct.component';
 export { MediaSlider } from './_lib/MediaSlider.component';
 export { Modal } from './_lib/Modal.component';
 export { NewsletterSection } from './_lib/NewsletterSection.component';

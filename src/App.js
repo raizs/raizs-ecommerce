@@ -28,7 +28,9 @@ import {
   setSaleOrdersAction,
   setNewProductsAction,
   toggleSearchBarAction,
-  setCepAction
+  setCepAction,
+  updateCartAction,
+  updateSubscriptionCartAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -68,7 +70,9 @@ const actions = {
   setSaleOrdersAction,
   setNewProductsAction,
   toggleSearchBarAction,
-  setCepAction
+  setCepAction,
+  updateCartAction,
+  updateSubscriptionCartAction
 };
 
 class App extends BaseContainer {
@@ -112,15 +116,10 @@ class App extends BaseContainer {
   }
   
   _renderTopHeader(currentPath) {
-    const { history, selectedDate } = this.props;
-    const { handleSelectDate } = this.controller;
+    const { history } = this.props;
 
     return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && (
-      <TopHeader
-        history={history}
-        handleSelectDate={handleSelectDate}
-        selectedDate={selectedDate}
-      />
+      <TopHeader history={history} />
     );
   }
 
@@ -147,7 +146,10 @@ class App extends BaseContainer {
       signInWithEmailAndPassword,
       signInWithGoogle,
       signInWithFacebook,
-      handleSubmitForgotPassword
+      handleSubmitForgotPassword,
+      handleSelectDate,
+      handleUpdateCart,
+      handleUpdateSubscriptionCart
     } = this.controller;
 
     const isAuth = !storeFirebase.auth.isEmpty;
@@ -160,6 +162,9 @@ class App extends BaseContainer {
       isUserPopperOpen,
       isSubscription,
       currentPath,
+      handleSelectDate,
+      handleUpdateCart,
+      handleUpdateSubscriptionCart,
       toForm: {
         email,
         emailError,
@@ -216,18 +221,16 @@ class App extends BaseContainer {
     );
   }
 }
-          {/*<FloatingCartResume />*/}
 
-const mapStateToProps = state => {
-  return {
-    storeFirebase: state.firebase,
-    categories: state.categories.model,
-    isUserPopperOpen: state.header.isUserPopperOpen,
-    user: state.user.current,
-    searching: state.header.isSearchBarOpen,
-    selectedDate: state.datePicker.selected
-  };
-}
+const mapStateToProps = state => ({
+  storeFirebase: state.firebase,
+  categories: state.categories.model,
+  isUserPopperOpen: state.header.isUserPopperOpen,
+  user: state.user.current,
+  searching: state.header.isSearchBarOpen,
+  cart: state.cart.current,
+  subscriptionCart: state.subscriptionCart.current
+});
 
 export default compose(
   withRouter,

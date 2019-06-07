@@ -1,6 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const GREEN = '#009541';
+const LIGHT_GREEN = '#46B18E';
 const GRAY = '#616161';
 const LIGHT_GRAY = '#CCC';
 const BLACK = '#141414';
@@ -129,7 +130,8 @@ const theme = createMuiTheme({
   fontSizes: { XXS, XS, SM, MD, MMD, LG, XL, XXL, nXXS, nXS, nSM, nMD, nMMD, nLG, nXL, nXXL },
   palette: {
     green: {
-      main: GREEN
+      main: GREEN,
+      light: LIGHT_GREEN
     },
     gray: {
       main: GRAY,

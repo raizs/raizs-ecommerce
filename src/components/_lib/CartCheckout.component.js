@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames';
-import { withStyles, LinearProgress, Button } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 
 import { Formatter } from '../../helpers';
 import { TextInput } from '../../molecules';

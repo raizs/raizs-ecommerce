@@ -208,7 +208,10 @@ class Header extends Component {
       toForm,
       toLoggedIn,
       history,
-      currentPath
+      currentPath,
+      handleSelectDate,
+      handleUpdateCart,
+      handleUpdateSubscriptionCart
     } = this.props;
     const headerUserButtonProps = {
       isAuth,
@@ -241,6 +244,8 @@ class Header extends Component {
         <HeaderUserButton {...headerUserButtonProps} />
         <HeaderPopperButton
           id='cesta'
+          cesta
+          timeout={{ enter: 350, exit: 500 }}
           placement='bottom-end'
           label={<ReactSvg
             src='/icons/cesta.svg'
@@ -248,7 +253,11 @@ class Header extends Component {
           />}
           clickAction={() => history.push('/carrinho')}
         >
-          <MiniCart />
+          <MiniCart
+            handleSelectDate={handleSelectDate}
+            handleUpdateCart={handleUpdateCart}
+            handleUpdateSubscriptionCart={handleUpdateSubscriptionCart}
+          />
         </HeaderPopperButton>
       </div>
     );
