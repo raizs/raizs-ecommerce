@@ -1,6 +1,12 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CardHelper } from '../../helpers';
 import { User } from '../../entities';
-import { UserRepository, UserAddressesRepository, PaymentRepository, SaleOrdersRepository } from '../../repositories';
+import {
+  UserRepository,
+  UserAddressesRepository,
+  PaymentRepository,
+  SaleOrdersRepository,
+  SaleSubscriptionsRepository
+} from '../../repositories';
 import { CheckoutValidation } from '../../validation';
 
 export class CheckoutController extends BaseController {
@@ -11,6 +17,7 @@ export class CheckoutController extends BaseController {
     this.userAddressesRepo = new UserAddressesRepository();
     this.paymentRepo = new PaymentRepository();
     this.saleOrdersRepo = new SaleOrdersRepository();
+    this.saleSubscriptionsRepo = new SaleSubscriptionsRepository();
 
     this._getUserSignupValues = this._getUserSignupValues.bind(this);
     this._getAddressValues = this._getAddressValues.bind(this);
@@ -579,12 +586,34 @@ export class CheckoutController extends BaseController {
   }
 
   async handleConfirmOrder() {
-    const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard } = this.getProps();
+    const {
+      cart,
+      user,
+      selectedUserAddress,
+      selectedCard,
+      momentDate,
+      history,
+      coupon,
+      subscriptionCart,
+      giftCard
+    } = this.getProps();
 
-    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard });
-    const promise = await this.saleOrdersRepo.createOrder(toApi);
-    if (promise.err)
-      console.log("ERROR")
-    else return history.push("pedido-finalizado")
+    const toApi = StateToApi.checkout({
+      cart,
+      user,
+      selectedUserAddress,
+      selectedCard,
+      momentDate,
+      coupon,
+      subcart: subscriptionCart.current,
+      giftCard
+    });
+
+    // const promise = await this.saleOrdersRepo.createOrder(toApi);
+    const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
+    // if (promise.err)
+    //   console.log("ERROR")
+    // else return history.push("pedido-finalizado")
+    console.log(promise);
   }
 }

@@ -241,8 +241,6 @@ class Cart extends BaseContainer {
       FREE_SHIPPING_VALUE // todo: get from db
     };
 
-    console.log(selectedDate)
-
     return (
       <div className={classes.wrapper}>
         <h1>SEU CARRINHO</h1>

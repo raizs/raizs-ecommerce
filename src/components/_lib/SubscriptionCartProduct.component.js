@@ -118,7 +118,6 @@ class SubscriptionCartProduct extends Component {
       <div
         id={`cart-product-${product.id}`}
         className={classes.wrapper}
-        onClick={() => console.log(product)}
       >
         <div className={classes.imageAndInfo}>
           <div className={classes.imageWrapper}>

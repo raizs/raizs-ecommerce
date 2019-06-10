@@ -19,6 +19,8 @@ export class SubscriptionCart {
 
     this.genericsCount = this._getProductCount(items, 'generics');
     this.complementsCount = this._getProductCount(items, 'complements');
+    
+    this.getMpFormattedSubscription = this.getMpFormattedSubscription.bind(this);
   }
   
   update(product, quantity, periodicity = 'weekly', secondaryPeriodicity) {
@@ -48,6 +50,7 @@ export class SubscriptionCart {
       if(!quantity) items.splice(index, 1);
       else {
         if(periodicity === 'weekly') secondaryPeriodicity = 'first';
+        if(periodicity !== items[index].periodicity) secondaryPeriodicity = 'first';
         items[index].quantity = quantity;
         items[index].periodicity = periodicity;
         items[index].secondaryPeriodicity = secondaryPeriodicity || items[index].secondaryPeriodicity;
@@ -99,18 +102,66 @@ export class SubscriptionCart {
     return value;
   }
 
-  getMpFormattedItems() {
+  getMpFormattedItems(items) {
     const arr = [];
 
-    this.items.forEach(({ product, quantity }) => {
+    items = items || this.items;
+
+    items.forEach(({ product, quantity }) => {
       arr.push({
-        amount: product.mpPrice,
         description: product.name,
         code: product.id,
-        quantity
+        quantity,
+        pricing_scheme: {
+          price: product.mpPrice
+        }
       })
     });
 
     return arr;
+  }
+
+  getMpFormattedSubscription({ momentDate, customerId, cardId }) {
+    const defaultInfo = {
+      customer_id: customerId,
+      card_id: cardId,
+      payment_method: "credit_card",
+			currency: "BRL",
+			interval: "day",
+			interval_count: 28,
+			billing_type: "prepaid"
+    };
+
+    const firstFilter = i => i.periodicity === 'weekly' || i.secondaryPeriodicity === 'first';
+    const firstDate = momentDate.clone().format('YYYY-MM-DD');
+
+    const secondFilter = i => i.periodicity === 'weekly' || i.secondaryPeriodicity === 'second';
+    const secondDate = momentDate.clone().add(7, 'd').format('YYYY-MM-DD');
+
+    const thirdFilter = i => i.periodicity === 'weekly' || (i.periodicity === 'biweekly' && i.secondaryPeriodicity === 'first') || i.secondaryPeriodicity === 'third';
+    const thirdDate = momentDate.clone().add(14, 'd').format('YYYY-MM-DD');
+    
+    const fourthFilter = i => i.periodicity === 'weekly' || (i.periodicity === 'biweekly' && i.secondaryPeriodicity === 'second') || i.secondaryPeriodicity === 'fourth';
+    const fourthDate = momentDate.clone().add(21, 'd').format('YYYY-MM-DD');
+
+    return [ 
+      {
+        ...defaultInfo,
+        start_at: firstDate,
+        items: this.getMpFormattedItems(this.items.filter(firstFilter))
+      }, {
+        ...defaultInfo,
+        start_at: secondDate,
+        items: this.getMpFormattedItems(this.items.filter(secondFilter))
+      }, {
+        ...defaultInfo,
+        start_at: thirdDate,
+        items: this.getMpFormattedItems(this.items.filter(thirdFilter))
+      }, {
+        ...defaultInfo,
+        start_at: fourthDate,
+        items: this.getMpFormattedItems(this.items.filter(fourthFilter))
+      }
+    ];
   }
 }
