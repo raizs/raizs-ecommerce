@@ -7,13 +7,15 @@ import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
+import { Loading } from '../../molecules';
 
 import {
   setUserAction,
   setUserAddressesAction,
   selectUserAddressAction,
   setCardsAction,
-  selectCardAction
+  selectCardAction,
+  setSaleOrdersAction
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
 
@@ -65,7 +67,8 @@ const actions = {
   setUserAddressesAction,
   selectUserAddressAction,
   setCardsAction,
-  selectCardAction
+  selectCardAction,
+  setSaleOrdersAction
 };
 
 /**
@@ -82,6 +85,7 @@ class Checkout extends BaseContainer {
 
   state = {
     openedSection: 'user',
+    loading:false,
     userSectionLoading: false,
     addressSectionLoading: false,
     paymentSectionLoading: false,
@@ -425,6 +429,7 @@ class Checkout extends BaseContainer {
 
     return (
       <div className={classes.wrapper}>
+        {this.state.loading && <Loading absolute/>}
         <h1>
           CHECKOUT
         </h1>

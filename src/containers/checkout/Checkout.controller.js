@@ -1,4 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CardHelper } from '../../helpers';
+<<<<<<< HEAD
 import { User } from '../../entities';
 import {
   UserRepository,
@@ -7,6 +8,10 @@ import {
   SaleOrdersRepository,
   SaleSubscriptionsRepository
 } from '../../repositories';
+=======
+import { User, SaleOrders } from '../../entities';
+import { UserRepository, UserAddressesRepository, PaymentRepository, SaleOrdersRepository } from '../../repositories';
+>>>>>>> 365654f44f6eca52d1d588b511a30de6cc8028d0
 import { CheckoutValidation } from '../../validation';
 
 export class CheckoutController extends BaseController {
@@ -586,6 +591,27 @@ export class CheckoutController extends BaseController {
   }
 
   async handleConfirmOrder() {
+    const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard, setSaleOrdersAction } = this.getProps();
+
+    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard });
+    this.toState({loading:true})
+    const promise = await this.saleOrdersRepo.createOrder(toApi);
+    this.toState({loading:false})
+
+
+    if (promise.err){
+      console.log("ERROR");
+      return ;
+    }
+    else {
+      const saleOrders = new SaleOrders(promise.data)
+      setSaleOrdersAction(saleOrders)
+      return history.push("/pedido-finalizado")
+
+    }
+  }
+
+  async handleConfirmSubscription() {
     const {
       cart,
       user,
