@@ -118,7 +118,7 @@ export class StateToApi {
         customer_id: user.mpid,
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),
-        payments: [selectedCard.getMpFormattedPayment({ amount:transaction.totals.totalImediateValue*100 })]
+        payments: [selectedCard.getMpFormattedPayment({ amount:(transaction.totals.totalImediateValue*100).toFixed(0) })]
       }
     };
   }

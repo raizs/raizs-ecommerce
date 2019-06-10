@@ -138,7 +138,14 @@ class OrderCompleted extends Component{
 		if (nextProps.saleOrders){
 			this.setState({loading:false, order: nextProps.saleOrders.getLastOrder()})
 		}
+
 	}
+
+  componentWillMount(){
+    if (this.props.saleOrders){
+      this.setState({loading:false, order: this.props.saleOrders.getLastOrder()})
+    }    
+  }
 
 	_renderFamilyInfo(){
 		const { inLine, labelTitle, labelSubtitle } = this.props.classes;

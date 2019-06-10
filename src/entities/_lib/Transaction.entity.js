@@ -9,7 +9,7 @@ export class Transaction extends BaseModel {
 		this.subcart = subcart;
 		this.donation = donation;
 		this.coupon = coupon;
-		this.giftCard = giftCard;
+		this.giftCard = giftCard || {};
 		this.totals = this.calculateTotals();
 	}
 
@@ -103,7 +103,7 @@ export class Transaction extends BaseModel {
 
 		// aqui verificaremos se os pedidos avulsos e de assinatura tem datas de entrega no mesmo dia, e assim cobraremos
 		// soh na subscription nesse caso. Se forem dias da semana diferentes, cobraremos 2 taxas
-		return { imediateShipping: 0, recurrencyShipping:9.90 }
+		return { imediateShipping: 9.90, recurrencyShipping:9.90 }
 	}
 
 

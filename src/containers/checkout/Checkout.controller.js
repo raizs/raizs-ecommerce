@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CardHelper } from '../../helpers';
-import { User } from '../../entities';
+import { User, SaleOrders } from '../../entities';
 import { UserRepository, UserAddressesRepository, PaymentRepository, SaleOrdersRepository } from '../../repositories';
 import { CheckoutValidation } from '../../validation';
 
@@ -579,12 +579,23 @@ export class CheckoutController extends BaseController {
   }
 
   async handleConfirmOrder() {
-    const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard } = this.getProps();
+    const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard, setSaleOrdersAction } = this.getProps();
 
     const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard });
+    this.toState({loading:true})
     const promise = await this.saleOrdersRepo.createOrder(toApi);
-    if (promise.err)
-      console.log("ERROR")
-    else return history.push("pedido-finalizado")
+    this.toState({loading:false})
+
+
+    if (promise.err){
+      console.log("ERROR");
+      return ;
+    }
+    else {
+      const saleOrders = new SaleOrders(promise.data)
+      setSaleOrdersAction(saleOrders)
+      return history.push("/pedido-finalizado")
+
+    }
   }
 }

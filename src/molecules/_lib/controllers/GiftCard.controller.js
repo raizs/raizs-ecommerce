@@ -1,5 +1,6 @@
 import { BaseController } from '../../../helpers';
 import { GiftCardRepository } from "../../../repositories"
+import { Transaction } from "../../../entities"
 
 
 export class GiftCardController extends BaseController {
@@ -21,14 +22,9 @@ export class GiftCardController extends BaseController {
   }    
 
   getCheckoutTotals(){
-    const { cart, subscriptionCart, coupon } = this.getProps();
-    let couponValue = 0;
-    if (coupon){
-      couponValue = coupon.calculateDiscount(cart, subscriptionCart)   
-    }
-    let total = cart.subtotal + subscriptionCart.current.subtotal - couponValue;
-
-    return total
+    const { cart, subscriptionCart, coupon, giftCard } = this.getProps();
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon });
+    return transaction.totals.totalImediateValue;
 
   }
 

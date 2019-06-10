@@ -7,6 +7,6 @@ export class SaleOrdersRepository extends BaseRepository {
   }
 
   getOrders(userId){
-    return this.get(`sale-orders/get?user=${userId}`);
+    return this.get(`sale-orders/get?partner_id=${userId}`);
   }
 }
