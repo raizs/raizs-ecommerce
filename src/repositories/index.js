@@ -9,6 +9,7 @@ export { UnitsOfMeasureRepository } from './_lib/UnitsOfMeasure.repository';
 export { UserRepository } from './_lib/User.repository';
 export { UserAddressesRepository } from './_lib/UserAddresses.repository';
 export { SaleOrdersRepository } from './_lib/SaleOrders.repository';
+export { SaleSubscriptionsRepository } from './_lib/SaleSubscriptions.repository';
 export { PayPalRepository } from './_lib/PayPal.repository';
 export { CouponsRepository } from './_lib/Coupons.repository';
 export { MailRepository } from './_lib/Mail.repository';

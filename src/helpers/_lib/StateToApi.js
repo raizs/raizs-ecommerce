@@ -104,22 +104,36 @@ export class StateToApi {
     };
   }
 
-  static checkout({ user, cart, selectedUserAddress, selectedCard, momentDate, coupon, subcart, giftCard }) {
+  static checkout({
+    user,
+    cart,
+    selectedUserAddress,
+    selectedCard,
+    momentDate,
+    coupon,
+    subcart,
+    giftCard
+  }) {
     const transaction = new Transaction({ cart, subcart, coupon, giftCard });
-    return {
+    const to = {
       toPg: {
         resPartnerId: user.id,
-        date:momentDate.format("YYYY-MM-DD"),
+        date: momentDate.format("YYYY-MM-DD"),
         address: selectedUserAddress,
         coupon,
         transaction,
-      },
-      toMp: {
-        customer_id: user.mpid,
-        items: cart.getMpFormattedItems(),
-        shipping: selectedUserAddress.getMpFormattedShipping(),
-        payments: [selectedCard.getMpFormattedPayment({ amount:(transaction.totals.totalImediateValue*100).toFixed(0) })]
       }
     };
+
+    if(cart.items.length) to.toMp = {
+      customer_id: user.mpid,
+      items: cart.getMpFormattedItems(),
+      shipping: selectedUserAddress.getMpFormattedShipping(),
+      payments: [selectedCard.getMpFormattedPayment({ amount:(transaction.totals.totalImediateValue*100).toFixed(0) })]
+    };
+
+    if(subcart.items.length) to.toMpSubscriptions = subcart.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id })
+
+    return to;
   }
 }

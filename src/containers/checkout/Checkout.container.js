@@ -23,6 +23,7 @@ const CONTENT_MAX_WIDTH = 1100;
 
 const styles = theme => ({
   wrapper: {
+    minHeight: window.innerHeight - 64,
     userSelect: 'none',
     backgroundColor: theme.palette.gray.bg,
     width: '100%',
@@ -424,7 +425,7 @@ class Checkout extends BaseContainer {
   }
 
   render() {
-    const { classes, currentCep } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.wrapper}>
@@ -457,9 +458,8 @@ const mapStateToProps = state => ({
   selectedDate: state.datePicker.selected,
   momentDate: state.datePicker.momentDate,
   currentCep: state.cep.current,
-  coupon:state.coupon.selected,
-  giftCard:state.giftCard,
-
+  coupon: state.coupon.selected,
+  giftCard: state.giftCard,
 });
 
 export default compose(
