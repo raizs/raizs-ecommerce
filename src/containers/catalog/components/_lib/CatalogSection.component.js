@@ -11,7 +11,9 @@ const _renderSubcategories = ({
   cart,
   openModalProductAction,
   small,
-  shouldAnchor = true
+  shouldAnchor = true,
+  filter,
+  ascending
 }) => {
   return subcategories.map(subcategory => {
     const groupedProducts = products.groupedByCategoryId[subcategory.subcategoryId] || [];
@@ -27,6 +29,8 @@ const _renderSubcategories = ({
         openModalProductAction={openModalProductAction}
         small={small}
         shouldAnchor={shouldAnchor}
+        filter={filter}
+        ascending={ascending}
       />
     )
   });
@@ -43,7 +47,9 @@ let CatalogSection = props => {
     cart,
     openModalProductAction,
     small,
-    shouldAnchor
+    shouldAnchor,
+    filter,
+    ascending
   } = props;
 
   return (
@@ -57,7 +63,9 @@ let CatalogSection = props => {
         cart,
         openModalProductAction,
         small,
-        shouldAnchor
+        shouldAnchor,
+        filter,
+        ascending
       })}
     </div>
   )

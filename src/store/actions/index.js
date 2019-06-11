@@ -116,3 +116,8 @@ export {
   SET_GIFT_CARD_ACTION,
   setGiftCardAction
 } from './_lib/giftCard.actions';
+
+export {
+  SET_STOCK_ACTION,
+  setStockAction
+} from './_lib/stock.actions';

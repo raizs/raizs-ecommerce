@@ -594,7 +594,7 @@ export class CheckoutController extends BaseController {
     else {
       const saleOrders = new SaleOrders(promise.data)
       setSaleOrdersAction(saleOrders)
-      return history.push("/pedido-finalizado")
+      // return history.push("/pedido-finalizado")
 
     }
   }

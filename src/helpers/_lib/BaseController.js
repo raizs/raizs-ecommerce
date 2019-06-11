@@ -24,4 +24,5 @@ export default class BaseController {
 		const newCart = cart.update(item, quantity, periodicity, secondaryPeriodicity);
 		updateCartAction(newCart);
 	}
+
 }

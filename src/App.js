@@ -30,7 +30,8 @@ import {
   toggleSearchBarAction,
   setCepAction,
   updateCartAction,
-  updateSubscriptionCartAction
+  updateSubscriptionCartAction,
+  setStockAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -72,7 +73,8 @@ const actions = {
   toggleSearchBarAction,
   setCepAction,
   updateCartAction,
-  updateSubscriptionCartAction
+  updateSubscriptionCartAction,
+  setStockAction
 };
 
 class App extends BaseContainer {
@@ -114,6 +116,7 @@ class App extends BaseContainer {
       speedAsDuration: true
     });
   }
+
   
   _renderTopHeader(currentPath) {
     const { history } = this.props;
@@ -229,7 +232,8 @@ const mapStateToProps = state => ({
   user: state.user.current,
   searching: state.header.isSearchBarOpen,
   cart: state.cart.current,
-  subscriptionCart: state.subscriptionCart.current
+  subscriptionCart: state.subscriptionCart.current,
+  selectedDate: state.datePicker,
 });
 
 export default compose(

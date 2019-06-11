@@ -62,6 +62,18 @@ class CatalogSectionList extends Component {
 
       this.setState({ perRow, anchor });
     }
+
+    const { ascending, filter } = nextProps;
+    const prevAscending = this.props.ascending, prevFilter = this.props.filter;
+
+
+    if(ascending !== prevAscending || filter !== prevFilter) {
+      const { loaded, perRow } = this.state;
+      const { groupedProducts } = nextProps;
+      const items = groupedProducts.slice(0, loaded + perRow);
+
+      this.setState({ items });
+    }
   }
 
   _loadMore() {

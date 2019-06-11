@@ -128,8 +128,9 @@ class Catalog extends BaseContainer {
 
   _renderTimelineSections() {
     const { categories, availableWidth, brands, cart, openModalProductAction } = this.props;
-    const { handleUpdateCart, getProductsSortedByFilter } = this.controller;
-    const products = getProductsSortedByFilter();
+    const { handleUpdateCart, getAvailableProducts } = this.controller;
+    const { filter, ascending } = this.state;
+    const { products } = getAvailableProducts();
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
@@ -141,6 +142,8 @@ class Catalog extends BaseContainer {
             handleUpdateCart={handleUpdateCart}
             cart={cart}
             openModalProductAction={openModalProductAction}
+            filter={filter}
+            ascending={ascending}
           />
         </TimelineSection>
       );
@@ -184,7 +187,9 @@ const mapStateToProps = state => ({
   categories: state.categories.model,
   products: state.products.model,
   uom: state.unitsOfMeasure.model,
-  cart: state.cart.current
+  cart: state.cart.current,
+  date: state.datePicker,
+  stock: state.stock.stock,
 })
 
 export default compose(

@@ -13,3 +13,4 @@ export { PayPalRepository } from './_lib/PayPal.repository';
 export { CouponsRepository } from './_lib/Coupons.repository';
 export { MailRepository } from './_lib/Mail.repository';
 export { GiftCardRepository } from './_lib/GiftCard.repository';
+export { StockRepository } from './_lib/Stock.repository';

@@ -6,11 +6,11 @@ export class SaleOrder extends BaseModel {
     super();
     this.shippingEstimatedDate = moment(order.shippingEstimatedDate, "YYYY-MM-DD");
     this.id = order.id;
-    this.amountTotal = parseFloat(order.amountTotal);
+    this.amountTotal = parseFloat(order.amount_total);
     this.lines = order.lines;
     this.freeShipping = this.amountTotal > 100;
     this.subscriptionId = this.subscriptionId;
-    this.hasDonation = true;
+    this.hasDonation = false;
     this.shippingTimeRange = "7:30 até 13:00"
   }
 

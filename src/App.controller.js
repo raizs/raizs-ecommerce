@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
-import { User, Categories, Cards, Products, SaleOrders } from './entities';
+import { User, Categories, Cards, Products, SaleOrders, Stock } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,
@@ -7,6 +7,7 @@ import {
   PaymentRepository,
   ProductsRepository,
   SaleOrdersRepository,
+  StockRepository
 } from './repositories';
 import { toast } from 'react-toastify';
 
@@ -20,6 +21,7 @@ export class AppController extends BaseController {
     this.productsRepo = new ProductsRepository();
     this.paymentRepo = new PaymentRepository();
     this.saleOrdersRepo = new SaleOrdersRepository();
+    this.stockRepo = new StockRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.fetchPgUser = this.fetchPgUser.bind(this);
@@ -77,7 +79,8 @@ export class AppController extends BaseController {
       setCardsAction,
       selectCardAction,
       setSaleOrdersAction,
-      setCepAction
+      setCepAction, 
+      setStockAction
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -98,6 +101,12 @@ export class AppController extends BaseController {
         setCepAction(cep);
       }
 
+      const stockPromise = await this.stockRepo.getDailyStockLines();
+      if (!stockPromise.err) {
+        const stock = new Stock(stockPromise.data);
+        setStockAction(stock);
+      }
+
       const userCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCards.err) {
         const newCards = new Cards(userCards.data.data);
@@ -110,6 +119,7 @@ export class AppController extends BaseController {
         const saleOrders = new SaleOrders(ordersPromise.data)
         setSaleOrdersAction(saleOrders)
       }
+
     } else {
       await setUserAction(new User({}));
       setUserAction(null);

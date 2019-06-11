@@ -14,6 +14,7 @@ export class CatalogController extends BaseController {
     this.initialFetch = this.initialFetch.bind(this);
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
     this.getProductsSortedByFilter = this.getProductsSortedByFilter.bind(this);
+    this.getAvailableProducts = this.getAvailableProducts.bind(this);
     this.toggleSort = this.toggleSort.bind(this);
   }
 
@@ -52,6 +53,16 @@ export class CatalogController extends BaseController {
     this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
   }
 
+  getAvailableProducts(){
+    const { stock, products, date } = this.getProps();
+    let { available, unavailable } = stock ? stock.groupAvailabilitiesByDate(products, date) : {
+      available:products, unavailable:[]
+    }
+
+    // let products = this.getProductsSortedByFilter();
+    return { products };
+  }
+
 
   getProductsSortedByFilter(){
     const { filter, ascending } = this.getState();
@@ -61,7 +72,8 @@ export class CatalogController extends BaseController {
 
     if (filter=="price") {
       sorted = sortby(products.original, product => {
-        return parseFloat(product['productTmpl.list_price'])
+        const price = parseFloat(product['productTmpl.list_price'])
+        return price
       });
     }
 
