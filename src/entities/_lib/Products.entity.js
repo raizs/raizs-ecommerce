@@ -1,9 +1,9 @@
 import { BaseModel } from '../../helpers';
-import { Product } from '..';
+import { Product, Stock } from '..';
 import sortby from 'lodash.sortby';
 
 export class Products extends BaseModel {
-  constructor(products, from = null) {
+  constructor(products, from = null, stock) {
     super();
 
     if(['popularProducts', 'newProducts'].includes(from)) {

@@ -31,7 +31,8 @@ import {
   setCepAction,
   updateCartAction,
   updateSubscriptionCartAction,
-  setStockAction
+  setProductsAction,
+  setUnitsOfMeasureAction,
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -74,7 +75,8 @@ const actions = {
   setCepAction,
   updateCartAction,
   updateSubscriptionCartAction,
-  setStockAction
+  setProductsAction,
+  setUnitsOfMeasureAction,
 };
 
 class App extends BaseContainer {
