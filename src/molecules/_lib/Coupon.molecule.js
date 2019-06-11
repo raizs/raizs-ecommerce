@@ -164,6 +164,7 @@ class Coupon extends BaseContainer {
 const mapStateToProps = state => ({
   coupon:state.coupon.selected,
   user: state.user.current,
+  giftCard:state.giftCard,
 
 });
 

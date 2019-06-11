@@ -8,7 +8,7 @@ export class GiftCardController extends BaseController {
     super({ toState, getState, getProps });
     this.giftCardRepo = new GiftCardRepository()
     this.getGiftCardValue = this.getGiftCardValue.bind(this);
-    this.getCheckoutTotals = this.getCheckoutTotals.bind(this);
+    this.getAvailableGiftCardValue = this.getAvailableGiftCardValue.bind(this);
     this.handleGiftCard = this.handleGiftCard.bind(this);
   }
 
@@ -20,19 +20,29 @@ export class GiftCardController extends BaseController {
 
   }    
 
-  getCheckoutTotals(){
+  getAvailableGiftCardValue(totalCredits){
     const { cart, subscriptionCart, coupon, giftCard } = this.getProps();
+
     const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon });
-    return transaction.totals.totalImediateValue;
+
+    if (!transaction.totals.recurrency.subtotal){
+      return Math.min(transaction.totals.immediate.total, totalCredits)
+    }
+
+    return totalCredits;
 
   }
 
   async getGiftCardValue(){
-    const { user } = this.getProps();
-    const promise = await this.giftCardRepo.getGiftCard(user.id);
-    if(promise.data) {
-      const value = Math.min(promise.data.value, this.getCheckoutTotals())
-      this.toState({ value, id:promise.data.id })
+    const { user, setGiftCardAction } = this.getProps();
+    setGiftCardAction({})
+    if (user){
+      const promise = await this.giftCardRepo.getGiftCard(user.id);
+      if(promise.data) {
+        const value =  this.getAvailableGiftCardValue(promise.data.value);
+        this.toState({ value, id:promise.data.id })
+      }
+      
     }
   }
 }

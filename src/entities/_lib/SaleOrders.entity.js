@@ -15,8 +15,8 @@ export class SaleOrders extends BaseModel {
 
 	getLastOrder(){
 		if (this.all && this.all.length){
-			let sorted = sortby(this.all, order => -order.shippingEstimatedDate.valueOf())
-			return sorted[0]
+			let sorted = sortby(this.all, order => -order.createDate.valueOf());
+			return sorted[0];
 		}
 	}
 

@@ -42,7 +42,6 @@ export class AppController extends BaseController {
 
   async initialFetch() {
     const { setCategoriesAction, setPopularProductsAction, setNewProductsAction, setStockAction, setProductsAction, setUnitsOfMeasureAction } = this.getProps();
-    console.time("ronaldo")
     
     const promises = [
       this.categoriesRepo.fetchCategories(),
@@ -63,7 +62,6 @@ export class AppController extends BaseController {
     ] = await Promise.all(promises);
 
 
-    console.timeEnd("ronaldo")
 
 
     if(!productsPromise.err && !stockPromise.err) {

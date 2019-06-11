@@ -587,8 +587,13 @@ export class CheckoutController extends BaseController {
 
   async handleConfirmOrder() {
     const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard, setSaleOrdersAction } = this.getProps();
+    const { selectedPaymentMethod } = this.getState();
 
-    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard });
+    if (selectedPaymentMethod=="payPal"){
+      console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE")
+    }
+
+    const toApi = StateToApi.saleOrderCheckout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard, selectedPaymentMethod });
     this.toState({loading:true})
     const promise = await this.saleOrdersRepo.createOrder(toApi);
     this.toState({loading:false})
@@ -601,8 +606,7 @@ export class CheckoutController extends BaseController {
     else {
       const saleOrders = new SaleOrders(promise.data)
       setSaleOrdersAction(saleOrders)
-      // return history.push("/pedido-finalizado")
-
+      return history.push("/pedido-finalizado")
     }
   }
 
@@ -626,7 +630,7 @@ export class CheckoutController extends BaseController {
       selectedCard,
       momentDate,
       coupon,
-      subcart: subscriptionCart.current,
+      subcart: subscriptionCart,
       giftCard
     });
 

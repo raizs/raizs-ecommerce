@@ -96,6 +96,8 @@ export class Cart {
       })
     });
 
+    console.log(arr);
+
     return arr;
   }
 }

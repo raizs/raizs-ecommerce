@@ -2,108 +2,85 @@ import { BaseModel, Formatter } from '../../helpers';
 
 export class Transaction extends BaseModel {
 
-	constructor({cart, subcart, coupon, donation, giftCard}) {
+	constructor({ cart, subcart, coupon, donation, giftCard, selectedPaymentMethod }) {
 
 		super();
 		this.cart = cart;
 		this.subcart = subcart;
 		this.donation = donation;
 		this.coupon = coupon;
+		this.selectedPaymentMethod = selectedPaymentMethod;
 		this.giftCard = giftCard || {};
 		this.totals = this.calculateTotals();
 	}
 
-
-	// applyGiftCard(value){
-	// 	const { giftCard } = this;
-	// 	if (giftCard){
-	// 		if (value > giftCard.value){
-	// 			value -= giftCard.value;
-	// 			this.updateGiftCardBalance(giftCard.value);
-	// 		}
-	// 	}
-	// 	return value;
-		
-	// }
-
 	calculateTotals(){
+		let totals = {
+			immediate: {
+				coupon: 0,
+				giftCard:0,
+				shipping:0,
+				subtotal:0,
+				total:0
+			},
+			recurrency: {
+				coupon: 0,
+				shipping:0,
+				subtotal:0,
+				total:0
+			}
+		}
 
-		//imediateValue é o valor total que será cobrado a vista
-		//recurrencyValue é o valor total que sera cobrado periodicamente
+		totals = this.calculateSubtotals(totals);
+		totals = this.calculateDiscounts(totals);
+		totals = this.calculateGiftCardValue(totals);
+		totals = this.calculateShipping(totals);
+		totals = this.calculateFinalTotals(totals)
+			
+		return totals;
+	}
 
-		const { donation, cart, subcart, coupon, giftCard } = this;
-		console.log("\n\n\n\n", giftCard)
+	calculateFinalTotals(totals){
+		totals.recurrency.total = totals.recurrency.subtotal + totals.recurrency.shipping - totals.recurrency.coupon;
+		totals.immediate.total = totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon - totals.immediate.giftCard;
+		return totals;
+	}
+
+	calculateGiftCardValue(totals){
+		if (this.giftCard){
+			totals.immediate.giftCard = this.giftCard.value || 0;
+		}
+		return totals;
+	}
+
+	calculateDiscounts(totals){
+		if (this.coupon){
+			let coupon = this.coupon.calculateDiscount(this.cart, this.subcart);
+			totals.recurrency.coupon = coupon.recurrency; 
+			totals.immediate.coupon = coupon.immediate; 
+		}
+		return totals;
+	}
+
+
+	calculateSubtotals(totals){
+		totals.immediate.subtotal = this.cart ? this.cart.subtotal : 0;
+		totals.recurrency.subtotal = this.subcart && this.subcart.current ? this.subcart.current.subtotal : 0;
+		return totals;
+	}
+
+	calculateShipping(totals){
+		//logica de calcular fretes;
+		let shippingValue = 9.90;
 		
-		let imediateValue = this.calculateCartTotals();
-		let recurrencyValue = this.calculateSubcartTotals();
-		let couponValue = coupon ? coupon.calculateDiscount(cart, subcart) : 0;
-		let giftCardValue = giftCard.value || 0;
-
-
-		const { imediateShipping, recurrencyShipping } = this.getShippingTotals();
-
-		let commonCharge = 0;
-		let firstCharge = 0;
-
-		if (imediateValue && !recurrencyValue){
-			if (donation){
-				imediateValue += donation.value;
-			}
-
-			return { 
-				imediateValue,
-				couponValue, 
-				giftCardValue, 
-				imediateShipping, 
-				totalImediateValue: imediateValue + imediateShipping - couponValue - giftCardValue };
-
+		if (!totals.recurrency.subtotal){
+			totals.immediate.shipping = shippingValue;
+		}
+		else {
+			totals.recurrency.shipping = shippingValue;
 		}
 
-		commonCharge = recurrencyValue + recurrencyShipping;
-
-		if (recurrencyValue && !imediateValue){
-			//aplicar doações e descontos (gift card e cupom (???? cupom nao faz sentido)) na primeira venda e atualizar a subscription dele na semana seguinte
-			firstCharge = recurrencyValue;
-			if (donation){
-				firstCharge += donation.value;
-			}
-			// firstCharge = this.applyGiftCard(firstCharge);
-		}
-
-		if (recurrencyValue && imediateValue){
-			if (donation){
-				firstCharge += donation.value;
-			}
-			// firstCharge = this.applyGiftCard(firstCharge);
-		}
-		//damos o update na subscription, ou fazemos uma cobrança a parte e soh cobramos a subscription na outra semana?
-		// casos paypal e rede podem ser diferentes 
-
-
-
-	}
-
-	calculateCartTotals(){
-		if (this.cart && this.cart.subtotal){
-			return this.cart.subtotal
-		}
-
-		return 0;
-	}
-
-	calculateSubcartTotals(){
-		if (this.subcart && this.subcart.current && this.subcart.current.subtotal){
-			return this.subcart.current.subtotal;
-		}
-
-		return 0;
-	}
-
-	getShippingTotals(cart, subcart){
-
-		// aqui verificaremos se os pedidos avulsos e de assinatura tem datas de entrega no mesmo dia, e assim cobraremos
-		// soh na subscription nesse caso. Se forem dias da semana diferentes, cobraremos 2 taxas
-		return { imediateShipping: 9.90, recurrencyShipping:9.90 }
+		return totals;
 	}
 
 

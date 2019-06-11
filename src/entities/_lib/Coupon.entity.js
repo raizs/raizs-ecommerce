@@ -1,5 +1,3 @@
-import { Formatter } from "../../helpers";
-
 export class Coupon {
 
   constructor(coupon) {
@@ -14,16 +12,24 @@ export class Coupon {
   calculateDiscount(cart, subcart){
   	const { couponType, percentageValue } = this;
 
-  	let discount = 0;
   	switch (couponType){
+      
   		case "percentage": {
-	  		const total = cart.subtotal + subcart.current.subtotal;
-	  		discount = percentageValue*total;
+        return {
+          immediate: cart ? cart.subtotal*percentageValue : 0,
+          recurrency: subcart && subcart.current ? subcart.current.subtotal*percentageValue : 0
+        }
 	  		break;
-
   		}
+
+      default:{
+        return {
+          immediate:0, 
+          recurrency:0
+        }
+      }
+
   	}
-  	return discount;
   }
 
 }

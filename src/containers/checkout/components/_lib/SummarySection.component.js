@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import { MiniDatePickerHelper, Formatter, StringMapper } from '../../../../helpers';
+import { Transaction } from '../../../../entities';
 
 const styles = theme => ({
   wrapper: {
@@ -163,18 +164,17 @@ class SummarySection extends Component {
   }
 
 
-  _renderDiscount(){
+  _renderDiscount(transaction){
     const { classes, cart, subscriptionCart, coupon } = this.props;
     if (!coupon) return null;
-
     return <div className={classes.keyValue}>
       <div className={classes.subtitle}>DESCONTO</div>
-      <div className={classes.subValue}>-{Formatter.currency(coupon.calculateDiscount(cart, subscriptionCart))}</div>
+      <div className={classes.subValue}>-{Formatter.currency(transaction.totals.recurrency.coupon + transaction.totals.immediate.coupon)}</div>
     </div>
   }
 
 
-  _renderGiftCard(){
+  _renderGiftCard(transaction){
     const { classes, giftCard } = this.props;
     if (!giftCard.value) return null;
 
@@ -186,6 +186,8 @@ class SummarySection extends Component {
 
   render() {
     const { classes, selectedDate, cart, subscriptionCart, coupon, giftCard } = this.props;
+    let transaction = new Transaction({cart, subcart:subscriptionCart, coupon, giftCard});
+    const { totals } = transaction;
     const sCart = subscriptionCart.current;
 
     return (
@@ -199,19 +201,17 @@ class SummarySection extends Component {
         {this._renderSummary()}
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>SUBTOTAL</div>
-          <div className={classes.subValue}>{Formatter.currency(cart.subtotal + sCart.subtotal)}</div>
+          <div className={classes.subValue}>{Formatter.currency(totals.recurrency.subtotal + totals.immediate.subtotal)}</div>
         </div>
-        {this._renderGiftCard()}
-        {this._renderDiscount()}
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>FRETE</div>
-          <div className={classes.subValue}>{Formatter.currency(9.9)}</div>
+          <div className={classes.subValue}>{Formatter.currency(totals.recurrency.shipping + totals.immediate.shipping)}</div>
         </div>
+        {this._renderGiftCard(transaction)}
+        {this._renderDiscount(transaction)}
         <div className={classes.keyValue} style={{ marginTop: '24px' }}>
           <div className={classes.total}>TOTAL</div>
-          <div className={classes.total}>{Formatter.currency(
-            cart.subtotal + sCart.subtotal + 9.9 - (coupon ? coupon.calculateDiscount(cart, subscriptionCart) : 0) - giftCard.value
-            )}</div>
+          <div className={classes.total}>{Formatter.currency(totals.recurrency.total + totals.immediate.total)}</div>
         </div>
       </div>
     )
