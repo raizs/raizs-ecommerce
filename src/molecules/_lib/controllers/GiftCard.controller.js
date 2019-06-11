@@ -2,7 +2,6 @@ import { BaseController } from '../../../helpers';
 import { GiftCardRepository } from "../../../repositories"
 import { Transaction } from "../../../entities"
 
-
 export class GiftCardController extends BaseController {
 
   constructor({ toState, getState, getProps }) {
@@ -31,8 +30,9 @@ export class GiftCardController extends BaseController {
   async getGiftCardValue(){
     const { user } = this.getProps();
     const promise = await this.giftCardRepo.getGiftCard(user.id);
-    const value = Math.min(promise.data.value, this.getCheckoutTotals())
-    this.toState({ value, id:promise.data.id })
-
+    if(promise.data) {
+      const value = Math.min(promise.data.value, this.getCheckoutTotals())
+      this.toState({ value, id:promise.data.id })
+    }
   }
 }

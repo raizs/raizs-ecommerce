@@ -11,7 +11,6 @@ export class CatalogController extends BaseController {
     this.productsRepo = new ProductsRepository();
     this.uomRepo = new UnitsOfMeasureRepository();
 
-    this.initialFetch = this.initialFetch.bind(this);
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
     this.getProductsSortedByFilter = this.getProductsSortedByFilter.bind(this);
     this.getAvailableProducts = this.getAvailableProducts.bind(this);

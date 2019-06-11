@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
-import { User, Categories, Cards, Products, SaleOrders, Stock } from './entities';
+import { User, Categories, Cards, Products, SaleOrders, Stock, UnitsOfMeasure } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,
@@ -7,7 +7,8 @@ import {
   PaymentRepository,
   ProductsRepository,
   SaleOrdersRepository,
-  StockRepository
+  StockRepository, 
+  UnitsOfMeasureRepository,
 } from './repositories';
 import { toast } from 'react-toastify';
 
@@ -22,6 +23,7 @@ export class AppController extends BaseController {
     this.paymentRepo = new PaymentRepository();
     this.saleOrdersRepo = new SaleOrdersRepository();
     this.stockRepo = new StockRepository();
+    this.uomRepo = new UnitsOfMeasureRepository();
 
     this.initialFetch = this.initialFetch.bind(this);
     this.fetchPgUser = this.fetchPgUser.bind(this);
@@ -39,19 +41,43 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction, setPopularProductsAction, setNewProductsAction } = this.getProps();
+    const { setCategoriesAction, setPopularProductsAction, setNewProductsAction, setStockAction, setProductsAction, setUnitsOfMeasureAction } = this.getProps();
+    console.time("ronaldo")
     
     const promises = [
       this.categoriesRepo.fetchCategories(),
       this.productsRepo.fetchPopularProducts(),
       this.productsRepo.fetchNewProducts(),
+      this.stockRepo.getDailyStockLines(),
+      this.productsRepo.fetchProducts(),
+      this.uomRepo.fetchUnitsOfMeasure(),
     ];
 
     const [
       categoriesPromise,
       popularProductsPromise,
-      newProductsPromise
+      newProductsPromise,
+      stockPromise,
+      productsPromise,
+      uomPromise,
     ] = await Promise.all(promises);
+
+
+    console.timeEnd("ronaldo")
+
+
+    if(!productsPromise.err && !stockPromise.err) {
+      const products = new Products(productsPromise.data, null, stockPromise.data);
+      setProductsAction(products);
+    }
+    
+    if(!uomPromise.err) {
+      const uom = new UnitsOfMeasure(uomPromise.data);
+
+      setUnitsOfMeasureAction(uom);
+    }
+    
+
 
     if(!categoriesPromise.err) {
       const categories = new Categories(categoriesPromise.data);
@@ -80,7 +106,6 @@ export class AppController extends BaseController {
       selectCardAction,
       setSaleOrdersAction,
       setCepAction, 
-      setStockAction
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -101,11 +126,6 @@ export class AppController extends BaseController {
         setCepAction(cep);
       }
 
-      const stockPromise = await this.stockRepo.getDailyStockLines();
-      if (!stockPromise.err) {
-        const stock = new Stock(stockPromise.data);
-        setStockAction(stock);
-      }
 
       const userCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCards.err) {

@@ -17,7 +17,6 @@ export class Stock {
 
   groupAvailabilitiesByDate(products, date){
   	const selectedDateStock = this.grouped[date.momentDate.format("YYYY-MM-DD")]
-  	// console.log(selectedDateStock)
   	let available = [];
   	let unavailable = [];
   	if (selectedDateStock){

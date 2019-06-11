@@ -1,5 +1,4 @@
 import { BaseController, StateToApi, SocialMediaHelper, Formatter, CepHelper, CardHelper } from '../../helpers';
-import { User, SaleOrders } from '../../entities';
 import {
   UserRepository,
   UserAddressesRepository,
@@ -7,6 +6,7 @@ import {
   SaleOrdersRepository,
   SaleSubscriptionsRepository
 } from '../../repositories';
+import { User, SaleOrders } from '../../entities';
 import { CheckoutValidation } from '../../validation';
 
 export class CheckoutController extends BaseController {

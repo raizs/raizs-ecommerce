@@ -15,8 +15,6 @@ import { catalogFilters } from '../../assets';
 import classnames from "classnames";
 
 import {
-  setProductsAction,
-  setUnitsOfMeasureAction,
   updateCartAction,
   openModalProductAction
 } from '../../store/actions';
@@ -56,8 +54,6 @@ const styles = theme => ({
 });
 
 const actions = {
-  setProductsAction,
-  setUnitsOfMeasureAction,
   updateCartAction,
   openModalProductAction
 };
@@ -85,9 +81,6 @@ class Catalog extends BaseContainer {
     classes: PropTypes.object,
   }
 
-  componentDidMount = () => {
-    this.controller.initialFetch();
-  }
 
   /**
    * _renderTimelineSections - renders the correct section based on the
@@ -130,7 +123,7 @@ class Catalog extends BaseContainer {
     const { categories, availableWidth, brands, cart, openModalProductAction } = this.props;
     const { handleUpdateCart, getAvailableProducts } = this.controller;
     const { filter, ascending } = this.state;
-    const { products } = getAvailableProducts();
+    const { products, unavailableProducts } = getAvailableProducts();
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
