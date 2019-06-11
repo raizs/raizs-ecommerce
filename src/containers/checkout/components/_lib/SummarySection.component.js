@@ -176,11 +176,10 @@ class SummarySection extends Component {
 
   _renderGiftCard(transaction){
     const { classes, giftCard } = this.props;
-    if (!giftCard.value) return null;
-
+    if (!transaction.totals.immediate.subtotal) return null;
     return <div className={classes.keyValue}>
       <div className={classes.subtitle}>VALE</div>
-      <div className={classes.subValue}>-{Formatter.currency(giftCard.value)}</div>
+      <div className={classes.subValue}>-{Formatter.currency(transaction.totals.immediate.giftCard)}</div>
     </div>
   }
 

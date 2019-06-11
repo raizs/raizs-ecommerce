@@ -110,12 +110,8 @@ export class StateToApi {
     selectedUserAddress,
     selectedCard,
     momentDate,
-    coupon,
-    subcart,
-    giftCard,
-    selectedPaymentMethod
+    transaction
   }){
-    const transaction = new Transaction({ cart, subcart, coupon, giftCard, selectedPaymentMethod });
     const to = {
       toPg: {
         resPartnerId: user.id,
@@ -134,7 +130,25 @@ export class StateToApi {
     return to;
   }
 
-  static subscriptionCheckout(){
+  static subscriptionCheckout({
+    user,
+    cart,
+    selectedUserAddress,
+    selectedCard,
+    momentDate,
+    transaction,
+    subcart
+  }){
+    const to = {
+      toPg: {
+        resPartnerId: user.id,
+        date: momentDate.format("YYYY-MM-DD"),
+        address: selectedUserAddress,
+        transaction,
+      },
+      toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id })
+    }
+    return to;
 
   }
 

@@ -33,8 +33,8 @@ export class Transaction extends BaseModel {
 
 		totals = this.calculateSubtotals(totals);
 		totals = this.calculateDiscounts(totals);
-		totals = this.calculateGiftCardValue(totals);
 		totals = this.calculateShipping(totals);
+		totals = this.calculateGiftCardValue(totals);
 		totals = this.calculateFinalTotals(totals)
 			
 		return totals;
@@ -47,8 +47,14 @@ export class Transaction extends BaseModel {
 	}
 
 	calculateGiftCardValue(totals){
-		if (this.giftCard){
-			totals.immediate.giftCard = this.giftCard.value || 0;
+		const { giftCard } = this;
+		if (!giftCard) return totals;
+
+		if (!totals.recurrency.subtotal){
+			totals.immediate.giftCard = giftCard.value || 0;
+		}
+		else if (totals.recurrency.subtotal){
+			console.log(giftCard.value)
 		}
 		return totals;
 	}

@@ -252,7 +252,7 @@ class Checkout extends BaseContainer {
       handleSelectCard,
       handleCardNumberBlur,
       handleCardExpDateBlur,
-      handleConfirmOrder
+      handleConfirm
     } = this.controller;
 
     const {
@@ -404,7 +404,7 @@ class Checkout extends BaseContainer {
         />
         {
           isUserSectionDone && isAddressSectionDone && isPaymentSectionDone ?
-          <Button id='checkout' className={classes.button} onClick={handleConfirmOrder}>
+          <Button id='checkout' className={classes.button} onClick={handleConfirm}>
             Finalizar Pedido    
           </Button>
           : null

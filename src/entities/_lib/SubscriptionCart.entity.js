@@ -104,6 +104,7 @@ export class SubscriptionCart {
 
   getMpFormattedItems(items) {
     const arr = [];
+    let subtotal = 0;
 
     items = items || this.items;
 
@@ -115,13 +116,14 @@ export class SubscriptionCart {
         pricing_scheme: {
           price: product.mpPrice
         }
-      })
+      });
+      subtotal += product.mpPrice * quantity;
     });
 
     return arr;
   }
 
-  getMpFormattedSubscription({ momentDate, customerId, cardId }) {
+  getMpFormattedSubscription({ momentDate, customerId, cardId, subtotal }) {
     const defaultInfo = {
       customer_id: customerId,
       card_id: cardId,
