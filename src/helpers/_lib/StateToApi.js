@@ -146,7 +146,7 @@ export class StateToApi {
         address: selectedUserAddress,
         transaction,
       },
-      toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id })
+      toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id, transaction })
     }
     return to;
 

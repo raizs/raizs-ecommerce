@@ -589,10 +589,10 @@ export class CheckoutController extends BaseController {
 
 
   async handleConfirm(){
-    const { cart, coupon, subscriptionCart, giftCard, history } = this.getProps();
+    const { cart, coupon, subscriptionCart, giftCard, history, momentDate } = this.getProps();
     const { selectedPaymentMethod } = this.getState();
 
-    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod });
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate });
 
     this.toState({loading:true});
 
@@ -601,12 +601,9 @@ export class CheckoutController extends BaseController {
     }
     else{
       if (transaction.totals.immediate.subtotal){
-        console.log("tem carrinho")
         // await this.createSaleOrder(transaction);
       }
-      if (transaction.totals.recurrency.subtotal){
-        console.log("tem sub")
-
+      if (transaction.hasSubcart){
         await this.createSubscription(transaction);
       }
     }
@@ -666,6 +663,7 @@ export class CheckoutController extends BaseController {
       subcart: subscriptionCart,
       transaction
     });
+
     console.log(toApi);
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);

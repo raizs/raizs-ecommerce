@@ -25,7 +25,7 @@ export class GiftCardController extends BaseController {
 
     const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon });
 
-    if (!transaction.totals.recurrency.subtotal){
+    if (!transaction.hasSubcart){
       return Math.min(transaction.totals.immediate.total, totalCredits)
     }
 

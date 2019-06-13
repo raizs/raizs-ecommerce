@@ -1,3 +1,5 @@
+const recurrencyKeys = ["first", "second", "third", "fourth"];
+
 export class Coupon {
 
   constructor(coupon) {
@@ -9,27 +11,21 @@ export class Coupon {
     this.percentageValue = coupon.percentage_value
   }
 
-  calculateDiscount(cart, subcart){
+  calculateDiscount(totals){
   	const { couponType, percentageValue } = this;
 
   	switch (couponType){
       
   		case "percentage": {
-        return {
-          immediate: cart ? cart.subtotal*percentageValue : 0,
-          recurrency: subcart && subcart.current ? subcart.current.subtotal*percentageValue : 0
-        }
+          totals.immediate.coupon = +(totals.immediate.subtotal*percentageValue).toFixed(2);
+          recurrencyKeys.forEach(key=>{
+            totals.recurrencies[key].coupon = +(totals.recurrencies[key].subtotal*percentageValue).toFixed(2) 
+          })
 	  		break;
   		}
 
-      default:{
-        return {
-          immediate:0, 
-          recurrency:0
-        }
-      }
-
   	}
+    return totals;
   }
 
 }

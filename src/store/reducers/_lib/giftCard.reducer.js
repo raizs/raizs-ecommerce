@@ -10,7 +10,7 @@ export const giftCardReducer = (state = initialState, action) => {
 		case SET_GIFT_CARD_ACTION:
 			return {
 				...state,
-				value: action.data.value,
+				value: action.data.value||0,
 				id:action.data.id
 			};
 		default:
