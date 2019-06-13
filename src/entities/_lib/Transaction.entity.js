@@ -159,7 +159,6 @@ export class Transaction extends BaseModel {
 		const { totals } = this;
 		let discounts = [];
 		const charges = totals.singularCharges[week];
-		console.log(charges)
 
 		if (!charges) return discounts;
 		let cicles = Object.keys(charges);
