@@ -15,11 +15,14 @@ const emptyValues = {
 
 export class Transaction extends BaseModel {
 
-	constructor({ cart, subcart, coupon, donation, giftCard, selectedPaymentMethod, momentDate }) {
+	constructor({ cart, subcart, coupon, donation, giftCard, selectedPaymentMethod, momentDate, shipping }) {
 
 		super();
 		this.giftCard = giftCard || { value: 0, id: null };
 		this.hasSubcart = !!subcart.current.subtotal;
+		this.shipping = shipping || {
+			value:9.90
+		}
 		this.cart = cart;
 		this.subcart = subcart;
 		this.momentDate = momentDate||moment();
@@ -124,14 +127,14 @@ export class Transaction extends BaseModel {
 
 	calculateShipping(totals){
 		//logica de calcular fretes;
-		let shippingValue = 9.90;
+		const  { shipping, hasSubcart } = this;
 		
-		if (!this.hasSubcart){
-			totals.immediate.shipping = shippingValue;
+		if (!hasSubcart){
+			totals.immediate.shipping = shipping.value;
 		}
 		else {
 			recurrencyKeys.forEach(key=>{
-				totals.recurrencies[key].shipping = totals.recurrencies[key].subtotal ?  shippingValue : 0;
+				totals.recurrencies[key].shipping = totals.recurrencies[key].subtotal ?  shipping.value : 0;
 			})
 		}
 
@@ -156,39 +159,40 @@ export class Transaction extends BaseModel {
 		const { totals } = this;
 		let discounts = [];
 		const charges = totals.singularCharges[week];
+		console.log(charges)
 
-		if (charges){
-			let cicles = Object.keys(charges);
-			let commonCharge = charges["0"];
-			let lastCicle = cicles.length - 1;
-			let lastCharge = charges[lastCicle];
-			if (commonCharge.total != lastCharge.total){
-				const lastDiscount = this.getEquivalentPercentageDiscount(lastCharge);
-				discounts = [
-			        {
-			            "cycles": lastCicle + 1,
-			            "value": lastDiscount,
-			            "discount_type": "percentage"
-			        },
-			        {
-			            "cycles": lastCicle,
-			            "value": 100 - lastDiscount,
-			            "discount_type": "percentage"
-			        },
-			    ]
-
-			}
-			else {
-				discounts = [
-					{
-						"cycles": lastCicle + 1,
-			            "value": this.getEquivalentPercentageDiscount(commonCharge),
-			            "discount_type": "percentage"	
-					}
-				]
-			}
+		if (!charges) return discounts;
+		let cicles = Object.keys(charges);
+		if (!cicles.length) return discounts;
+ 		let commonCharge = charges["0"];
+		let lastCicle = cicles.length - 1;
+		let lastCharge = charges[lastCicle];
+		if (commonCharge.total != lastCharge.total){
+			const lastDiscount = this.getEquivalentPercentageDiscount(lastCharge);
+			discounts = [
+		        {
+		            "cycles": lastCicle + 1,
+		            "value": lastDiscount,
+		            "discount_type": "percentage"
+		        },
+		        {
+		            "cycles": lastCicle,
+		            "value": 100 - lastDiscount,
+		            "discount_type": "percentage"
+		        },
+		    ]
 
 		}
+		else {
+			discounts = [
+				{
+					"cycles": lastCicle + 1,
+		            "value": this.getEquivalentPercentageDiscount(commonCharge),
+		            "discount_type": "percentage"	
+				}
+			]
+		}
+
 		return discounts;
 
 

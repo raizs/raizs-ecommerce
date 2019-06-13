@@ -102,7 +102,7 @@ export class SubscriptionCart {
     return value;
   }
 
-  getMpFormattedItems(items) {
+  getMpFormattedItems(items, transaction) {
     const arr = [];
     items = items || this.items;
 
@@ -116,6 +116,14 @@ export class SubscriptionCart {
         }
       });
     });
+    arr.length && arr.push({
+      description: "Frete",
+      code: "shipping",
+      quantity:1,
+      pricing_scheme: {
+        price: transaction.shipping.value*100
+      }
+    })
 
     return arr;
   }
@@ -160,12 +168,13 @@ export class SubscriptionCart {
     let filtersAndDates = this.getFiltersAndDates(momentDate);
     let toMp = [];
     ["first", "second", "third", "fourth"].forEach(key=>{
-      let items = this.getMpFormattedItems(this.items.filter(filtersAndDates[key].filter));
+      let items = this.getMpFormattedItems(this.items.filter(filtersAndDates[key].filter), transaction);
       if (items.length) toMp.push({
         ...defaultInfo,
         items,
-        start_at: filtersAndDates[key].date,
-        discounts: transaction.calculateMpDiscount(key)
+        // start_at: filtersAndDates[key].date,
+        code:"teste",
+        discounts: transaction.calculateMpDiscount(key),
       })
     })
     return toMp;

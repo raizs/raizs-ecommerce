@@ -664,10 +664,8 @@ export class CheckoutController extends BaseController {
       transaction
     });
 
-    console.log(toApi);
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
-    console.log(promise)
     // if (promise.err)
     //   console.log("ERROR")
     // else return history.push("pedido-finalizado")
