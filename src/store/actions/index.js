@@ -4,6 +4,13 @@ export {
 } from './_lib/cart.actions';
 
 export {
+  OPEN_CART_WARNING_MODAL,
+  CLOSE_CART_WARNING_MODAL,
+  openCartWarningModalAction,
+  closeCartWarningModalAction  
+} from './_lib/cartWarningModal.actions';
+
+export {
   SET_CATEGORIES,
   setCategoriesAction
 } from './_lib/categories.actions';

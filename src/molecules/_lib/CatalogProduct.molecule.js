@@ -16,6 +16,7 @@ const styles = theme => ({
     margin: 2 * theme.spacing.unit,
     padding: theme.spacing.unit/2,
     borderRadius: theme.spacing.unit,
+    cursor: 'pointer',
     '&.-small': {
       minHeight: `${MIN_SMALL_PRODUCT_HEGHT}px`,
       width: '176px'
@@ -64,9 +65,10 @@ const styles = theme => ({
 class CatalogProduct extends Component {
 
   render() {
-    const { classes, product, handleUpdateCart, cart, small } = this.props;
+    const { classes, product, handleUpdateCart, cart, small, stockQuantity } = this.props;
     const wrapperClasses = [classes.wrapper];
     const imageClasses = [classes.imageWrapper];
+    
     if(small) {
       wrapperClasses.push('-small');
       imageClasses.push('-small');
@@ -76,7 +78,7 @@ class CatalogProduct extends Component {
       <div
         id={`product-${product.id}`}
         className={classnames(wrapperClasses)}
-        onClick={() => console.log(product)}
+        onClick={() => console.log(stockQuantity)}
       >
         <div className={classnames(imageClasses)}>
           <img-2
@@ -92,10 +94,11 @@ class CatalogProduct extends Component {
             changeAction={handleUpdateCart}
             item={product}
             quantity={cart.productQuantities[product.id] || 0}
+            maxQuantity={stockQuantity}
           />
         </div>
         <h6 className={classes.brand}>{product.brandName}</h6>
-        <h4 className={classes.name}>{product.name}</h4>
+        <h4 title={product.name} className={classes.name}>{product.name}</h4>
         <h4 className={classes.price}>{product.fullPrice}</h4>
        </div>
     )

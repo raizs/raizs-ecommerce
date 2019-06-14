@@ -2,26 +2,37 @@ export class Stock {
 
   constructor(stockLines) {
    	this.grouped = this.groupByDate(stockLines);
+   	this.groupedByProductId = this.groupByProductId(stockLines);
   }
 
-  groupByDate(lines){
-  	let groupedJson = {}
-  	for (var line of lines){
-  		if (!groupedJson[line["dailyStock.date"]]){
-  			groupedJson[line["dailyStock.date"]] = {  }
+  groupByDate(lines) {
+  	let grouped = {}
+  	for (var line of lines) {
+  		if (!grouped[line["dailyStock.date"]]) {
+  			grouped[line["dailyStock.date"]] = {};
   		}
-		groupedJson[line["dailyStock.date"]][line.product_id] = line.value
+			grouped[line["dailyStock.date"]][line.product_id] = line.value
   	}
-  	return groupedJson
+  	return grouped;
   }
 
-  groupAvailabilitiesByDate(products, date){
+  groupByProductId(lines) {
+  	let grouped = {}
+  	for (var line of lines) {
+  		if (!grouped[line.product_id]) {
+  			grouped[line.product_id] = {};
+  		}
+			grouped[line.product_id][line["dailyStock.date"]] = line.value;
+  	}
+  	return grouped;
+  }
+
+  groupAvailabilitiesByDate(products, date) {
   	const selectedDateStock = this.grouped[date.momentDate.format("YYYY-MM-DD")]
-  	let available = [];
-  	let unavailable = [];
-  	if (selectedDateStock){
-	  	for (var product of products.all){
-	  		if (selectedDateStock[product.id]){
+  	let available = [], unavailable = [];
+  	if (selectedDateStock) {
+	  	for (var product of products.all) {
+	  		if (selectedDateStock[product.id]) {
 	  			available.push(product)
 	  		}
 	  		else {
@@ -29,16 +40,10 @@ export class Stock {
 
 	  		}
 	  	}
-
   	}
-  	console.log(available, unavailable)
   	return {
   		available,
   		unavailable,
   	}
   }
-
-
 }
-
-

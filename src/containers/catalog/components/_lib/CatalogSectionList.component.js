@@ -1,9 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroller';
 import 'img-2';
 
-import { CatalogProduct } from '../../../../molecules';
+import { CatalogProduct, CatalogUnavailableProduct } from '../../../../molecules';
+
+const UNAVAILABLE_PRODUCT_WIDTH = 64;
+const UNAVAILABLE_PRODUCT_SPACE = UNAVAILABLE_PRODUCT_WIDTH + 32;
 
 const PRODUCT_WIDTH = 256 + 32;
 const SMALL_PRODUCT_WIDHT = 176 + 32;
@@ -13,7 +17,11 @@ const MIN_SMALL_PRODUCT_HEIGHT = 244 + 32;
 
 const styles = theme => ({
   title: {
-    padding: `${theme.spacing.unit}px 0`
+    padding: `${theme.spacing.unit}px 0`,
+    '&.-small': {
+      fontSize: theme.fontSizes.MD,
+      color: theme.palette.gray.main
+    }
   }
 });
 
@@ -22,11 +30,15 @@ class CatalogSectionList extends Component {
     super(props);
 
     this.state = {
-      perRow: 3,
+      availablePerRow: 3,
+      unavailablePerRow: 8,
       availableWidth: props.availableWidth,
       anchor: null,
-      items: [],
-      loaded: 3
+      availableItems: [],
+      unavailableItems: [],
+      availableLoaded: 3,
+      unavailableLoaded: 0,
+      loaded: false
     };
 
     this._renderProducts = this._renderProducts.bind(this);
@@ -34,83 +46,133 @@ class CatalogSectionList extends Component {
   }
 
   componentDidMount = () => {
-    const { id, groupedProducts, availableWidth, small } = this.props;
+    const { id, grouped, availableWidth, small } = this.props;
+    const { available, unavailable } = grouped;
     const anchorId = `#${id}`;
     const productWidth = small ? SMALL_PRODUCT_WIDHT : PRODUCT_WIDTH;
     const productHeight = small ? MIN_SMALL_PRODUCT_HEIGHT : MIN_PRODUCT_HEIGHT;
-    const perRow = Math.floor(availableWidth / productWidth);
+
+    const availablePerRow = Math.floor(availableWidth / productWidth);
+    const unavailablePerRow = Math.floor(availableWidth / UNAVAILABLE_PRODUCT_SPACE);
+    
+    const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight + 80;
+    const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE + 80;
+    
+    const fakeHeight = availableFakeHeight + unavailableFakeHeight;
+    
     const anchor = document.querySelector(anchorId);
-
-    const fakeHeight = Math.ceil(groupedProducts.length / perRow) * productHeight + 80;
-
     anchor.style.height = `${fakeHeight}px`;
-
-    this.setState({ perRow, anchor });
   }
   
-  componentWillReceiveProps = (nextProps) => {
-    const { availableWidth, groupedProducts, id, small } = nextProps;
-    if(availableWidth !== this.props.availableWidth) {
+  componentWillReceiveProps = nextProps => {
+    const { availableWidth, grouped, id, small, ascending, filter, stockDate } = nextProps;
+    const { available, unavailable } = grouped;
+    const prevAscending = this.props.ascending,
+      prevFilter = this.props.filter,
+      prevStockDate = this.props.stockDate;
+
+    if(
+      availableWidth !== this.props.availableWidth ||
+      (available.length && !this.props.grouped.available.length) ||
+      stockDate !== prevStockDate
+    ) {
       const productWidth = small ? SMALL_PRODUCT_WIDHT : PRODUCT_WIDTH;
       const productHeight = small ? MIN_SMALL_PRODUCT_HEIGHT : MIN_PRODUCT_HEIGHT;
       
-      const perRow = Math.floor(availableWidth / productWidth);
-      const fakeHeight = Math.ceil(groupedProducts.length / perRow) * productHeight + 80;
+      const availablePerRow = Math.floor(availableWidth / productWidth);
+      const unavailablePerRow = Math.floor(availableWidth / UNAVAILABLE_PRODUCT_SPACE);
+
+      const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight + 80;
+      const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE + 80;
+    
+      const fakeHeight = availableFakeHeight + unavailableFakeHeight;
       
       const anchor = document.querySelector(`#${id}`);
       anchor.style.height = `${fakeHeight}px`;
 
-      this.setState({ perRow, anchor });
+      this.setState({ availablePerRow, unavailablePerRow, anchor });
     }
 
-    const { ascending, filter } = nextProps;
-    const prevAscending = this.props.ascending, prevFilter = this.props.filter;
+    if(ascending !== prevAscending || filter !== prevFilter || stockDate !== prevStockDate) {
+      const { grouped } = nextProps;
+      const { availablePerRow, availableLoaded, unavailableLoaded } = this.state;
 
+      const availableSlice = availableLoaded < grouped.available.length ? availableLoaded + availablePerRow : availableLoaded;
+      const unavailableSlice = availableLoaded >= grouped.available.length ? unavailableLoaded < grouped.unavailable.length ? unavailableLoaded + availablePerRow : unavailableLoaded : 0;
 
-    if(ascending !== prevAscending || filter !== prevFilter) {
-      const { loaded, perRow } = this.state;
-      const { groupedProducts } = nextProps;
-      const items = groupedProducts.slice(0, loaded + perRow);
+      const availableItems = grouped.available.slice(0, availableSlice);
+      const unavailableItems = grouped.unavailable.slice(0, unavailableSlice);
 
-      this.setState({ items });
+      this.setState({ availableItems, unavailableItems, availableLoaded: availableSlice, unavailableLoaded: unavailableSlice });
     }
   }
 
   _loadMore() {
-    const { groupedProducts } = this.props;
-    const { perRow, loaded } = this.state;
-    const items = groupedProducts.slice(0, loaded + perRow);
+    const { grouped } = this.props;
+    const { availablePerRow, availableLoaded, unavailableLoaded } = this.state;
 
-    this.setState({ items, loaded: loaded + perRow });
+    const availableSlice = availableLoaded < grouped.available.length ? availableLoaded + availablePerRow : availableLoaded;
+    const unavailableSlice = availableLoaded >= grouped.available.length ? unavailableLoaded < grouped.unavailable.length ? unavailableLoaded + availablePerRow : unavailableLoaded : 0;
+
+    const availableItems = grouped.available.slice(0, availableSlice);
+    const unavailableItems = grouped.unavailable.slice(0, unavailableSlice);
+
+    this.setState({ availableItems, unavailableItems, availableLoaded: availableSlice, unavailableLoaded: unavailableSlice });
   }
   
   _renderProducts() {
-    const { items } = this.state;
-    const { groupedProducts, brands, handleUpdateCart, cart, openModalProductAction, small } = this.props;
+    const { availableItems, unavailableItems } = this.state;
+    const {
+      cart,
+      small,
+      grouped,
+      stockDate,
+      handleUpdateCart,
+      openModalProductAction
+    } = this.props;
 
     return (
-      <InfiniteScroll hasMore={groupedProducts.length > items.length} loadMore={this._loadMore}>
-        {items.map(product => {
-          return (
-            <CatalogProduct
-              cart={cart}
-              key={product.id}
-              product={product}
-              handleUpdateCart={handleUpdateCart}
-              openModalProductAction={openModalProductAction}
-              small={small}
-            />
-          );
-        })}
+      <InfiniteScroll
+        hasMore={grouped.available.length + grouped.unavailable.length > availableItems.length + unavailableItems.length}
+        loadMore={this._loadMore}
+      >
+        <div>
+          {availableItems.map(product => {
+            return (
+              <CatalogProduct
+                cart={cart}
+                small={small}
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateCart}
+                openModalProductAction={openModalProductAction}
+                stockQuantity={product.stock ? product.stock[stockDate] : 0}
+              />
+            );
+          })}  
+        </div>
+        <div>
+          {unavailableItems.map(product => {
+            return (
+              <CatalogUnavailableProduct
+                key={product.id}
+                product={product}
+              />
+            );
+          })}
+        </div>
       </InfiniteScroll>
     );
   }
 
   render() {
-    const { id, classes, title, shouldAnchor } = this.props;
+    const { id, classes, title, shouldAnchor, small } = this.props;
+    const classNames = [classes.title];
+    if(small) classNames.push('-small');
+
     return (
       <div id={id} className={shouldAnchor ? 'offset-important' : ''}>
-        <h2 className={classes.title}>{title}</h2>
+        <h2 className={classnames(classNames)}>{title}</h2>
         {this._renderProducts()}
       </div>
     )

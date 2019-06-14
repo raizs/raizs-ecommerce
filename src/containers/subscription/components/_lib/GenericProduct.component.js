@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import classnames from 'classnames';
 import { withStyles, Tooltip, Icon } from '@material-ui/core';
 import { QuantitySelector } from '../../../../molecules';
 import { genericExamples } from '../../../../assets';
@@ -164,9 +165,9 @@ class GenericProduct extends Component {
   };
 
   render() {
-    const { classes, item, changeAction, quantity } = this.props;
+    const { classes, item, changeAction, quantity, stockQuantity } = this.props;
     return (
-      <div key={item.id} className={classes.item}>
+      <div key={item.id} className={classnames(classes.item, 'generic-product')} id={item.id}>
         <img src={item.imageUrl} />
         <p className='label'>
           {item.name}
@@ -195,6 +196,7 @@ class GenericProduct extends Component {
             item={item}
             changeAction={changeAction}
             quantity={quantity}
+            maxQuantity={stockQuantity}
             shouldClose={false}
           />
         </div>

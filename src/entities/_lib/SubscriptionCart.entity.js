@@ -9,21 +9,25 @@ export class SubscriptionCart {
    * @param {Subscription} subscription
    * @memberof SubscriptionCart
    */
-  constructor(items = []) {
+  constructor({items = [], hasEdited = true, selectedDate = null }) {
     this.items = items;
+    this.selectedDate = selectedDate;
 
     this.productQuantities = this._getProductQuantitiesObj(items);
     this.productPartialPrices = this._getProductPartialPricesObj(items);
     this.subtotal = this._getSubtotal(items);
     this.productCount = this._getProductCount(items);
+    this.productStocks = this._getProductStocksObj(items);
 
     this.genericsCount = this._getProductCount(items, 'generics');
     this.complementsCount = this._getProductCount(items, 'complements');
     
     this.getMpFormattedSubscription = this.getMpFormattedSubscription.bind(this);
+
+    this.hasEdited = hasEdited;
   }
   
-  update(product, quantity, periodicity = 'weekly', secondaryPeriodicity) {
+  update({ product, quantity, periodicity = 'weekly', secondaryPeriodicity, selectedDate }) {
     product = clonedeep(product);
     const items = clonedeep(this.items);
     let index = -1;
@@ -47,7 +51,16 @@ export class SubscriptionCart {
     }
 
     if(index !== -1) {
-      if(!quantity) items.splice(index, 1);
+      if(!quantity) {
+        if(![1,2,3,4].includes(product.id)) items.splice(index, 1);
+        else {
+          if(periodicity === 'weekly') secondaryPeriodicity = 'first';
+          if(periodicity !== items[index].periodicity) secondaryPeriodicity = 'first';
+          items[index].quantity = quantity;
+          items[index].periodicity = periodicity;
+          items[index].secondaryPeriodicity = secondaryPeriodicity || items[index].secondaryPeriodicity;
+        }
+      }
       else {
         if(periodicity === 'weekly') secondaryPeriodicity = 'first';
         if(periodicity !== items[index].periodicity) secondaryPeriodicity = 'first';
@@ -57,7 +70,7 @@ export class SubscriptionCart {
       }
     }
 
-    return new SubscriptionCart(items);
+    return new SubscriptionCart({ items, selectedDate: selectedDate || this.selectedDate });
   }
 
   _getProductQuantitiesObj(items) {
@@ -65,6 +78,16 @@ export class SubscriptionCart {
 
     items.forEach(item => {
       obj[item.product.id] = item.quantity;
+    });
+
+    return obj;
+  }
+
+  _getProductStocksObj(items) {
+    const obj = {};
+
+    items.forEach(item => {
+      obj[item.product.id] = item.product.stock;
     });
 
     return obj;
@@ -163,5 +186,23 @@ export class SubscriptionCart {
         items: this.getMpFormattedItems(this.items.filter(fourthFilter))
       }
     ];
+  }
+
+  checkNewDate(oldDate, newDate) {
+    const { productQuantities, productStocks } = this;
+    const differences = [];
+    Object.keys(productQuantities).forEach(id => {
+      const newDateStock = productStocks[id][newDate];
+      if(newDateStock < productQuantities[id]) differences.push({
+        id: +id,
+        type: newDateStock > 0 ? 'withdraw' : 'remove',
+        difference: productQuantities[id] - newDateStock,
+        oldQuantity: productQuantities[id],
+        newQuantity: newDateStock,
+        oldDate,
+        newDate
+      })
+    });
+    return differences;
   }
 }

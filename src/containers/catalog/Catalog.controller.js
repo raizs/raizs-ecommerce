@@ -1,5 +1,5 @@
-import { BaseController } from '../../helpers';
-import { Products, UnitsOfMeasure, ProductBrands } from '../../entities';
+import { BaseController, MiniDatePickerHelper } from '../../helpers';
+import { Products, UnitsOfMeasure, ProductBrands, Cart, SubscriptionCart } from '../../entities';
 import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
 import sortby from 'lodash.sortby';
 
@@ -12,6 +12,7 @@ export class CatalogController extends BaseController {
     this.uomRepo = new UnitsOfMeasureRepository();
 
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
+    this.handleSelectDate = this.handleSelectDate.bind(this);
     this.getProductsSortedByFilter = this.getProductsSortedByFilter.bind(this);
     this.getAvailableProducts = this.getAvailableProducts.bind(this);
     this.toggleSort = this.toggleSort.bind(this);
@@ -48,11 +49,45 @@ export class CatalogController extends BaseController {
   }
 
   handleUpdateCart({ item, quantity }) {
-    const { cart, updateCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
+    const { cart, updateCartAction, stockDate } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate);
   }
 
-  getAvailableProducts(){
+  handleSelectDate(selected) {
+    const { selectDateAction, selectedDate, cart, subscriptionCart, openCartWarningModalAction } = this.getProps();
+    const dates = MiniDatePickerHelper.generateDatesObject();
+
+    const oldDate = dates[selectedDate];
+    const oldStockDate = oldDate.stockDate;
+    const newDate = dates[selected];
+    const newStockDate = newDate.stockDate;
+    
+    const cartInfo = cart.checkNewDate(oldStockDate, newStockDate);
+    const subscriptionCartInfo = subscriptionCart.checkNewDate(oldStockDate, newStockDate);
+    
+    if(cartInfo.length || subscriptionCartInfo.length) {
+      let newCart, newSubscriptionCart;
+      if(cartInfo.length) {
+        newCart = new Cart({ items: cart.items, selectedDate: newDate });
+        cartInfo.forEach(diff =>
+          newCart = newCart.update({ product: diff.product, quantity: diff.newQuantity })
+        );
+      }
+
+      if(subscriptionCartInfo.length) {
+        newSubscriptionCart = new SubscriptionCart({ items: cart.items, selectedDate: newDate });
+        subscriptionCartInfo.forEach(diff =>
+          newSubscriptionCart = newSubscriptionCart.update({ product: diff.product, quantity: diff.newQuantity })
+        );
+      }
+      
+      return openCartWarningModalAction({ cartInfo, newCart, subscriptionCartInfo, newSubscriptionCart, oldDate, newDate });
+    }
+
+    selectDateAction(selected);
+  }
+
+  getAvailableProducts() {
     const { stock, products, date } = this.getProps();
     let { available, unavailable } = stock ? stock.groupAvailabilitiesByDate(products, date) : {
       available:products, unavailable:[]
@@ -63,7 +98,7 @@ export class CatalogController extends BaseController {
   }
 
 
-  getProductsSortedByFilter(){
+  getProductsSortedByFilter() {
     const { filter, ascending } = this.getState();
     const { products } = this.getProps();
 
@@ -83,13 +118,13 @@ export class CatalogController extends BaseController {
     return newProducts;
   }
 
-  toggleSort(currentFilter){
+  toggleSort(currentFilter) {
     const { filter, ascending } = this.getState();
-    if (currentFilter == filter){
-      this.toState({ascending:!ascending})
+    if (currentFilter == filter) {
+      this.toState({ ascending:!ascending })
     }
     else {
-      this.toState({ascending:false, filter:currentFilter})
+      this.toState({ ascending:false, filter:currentFilter })
     }
   }
 }

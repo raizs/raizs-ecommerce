@@ -119,7 +119,7 @@ class CartCheckout extends Component {
       FREE_SHIPPING_VALUE
     } = this.props;
 
-    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const subtotal = cart.subtotal + sCart.subtotal;
 
     if(user && user.addresses.all.length) {
@@ -205,7 +205,7 @@ class CartCheckout extends Component {
 
   render() {
     const { classes, cart, subscriptionCart, subtotalError, MINIMUM_VALUE } = this.props;
-    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const subtotal = cart.subtotal + sCart.subtotal;
 
     const valueClasses = [classes.value];

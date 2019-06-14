@@ -67,7 +67,7 @@ const styles = theme => ({
 class MiniCartProduct extends Component {
 
   render() {
-    const { classes, product, handleUpdateCart } = this.props;
+    const { classes, product, handleUpdateCart, stockQuantity } = this.props;
 
     return (
       <div
@@ -96,6 +96,7 @@ class MiniCartProduct extends Component {
           changeAction={handleUpdateCart}
           item={product}
           quantity={product.quantity}
+          maxQuantity={stockQuantity}
         />
         <div className={classes.partialPriceAndClose}>
           <h5 className={classes.partialPrice}>

@@ -94,13 +94,12 @@ class CartProduct extends Component {
   }
   
   render() {
-    const { classes, product, handleUpdateCart } = this.props;
+    const { classes, product, handleUpdateCart, stockQuantity } = this.props;
 
     return (
       <div
         id={`cart-product-${product.id}`}
         className={classes.wrapper}
-        onClick={() => console.log(product)}
       >
         <div className={classes.imageAndInfo}>
           <div className={classes.imageWrapper}>
@@ -123,6 +122,7 @@ class CartProduct extends Component {
           changeAction={handleUpdateCart}
           item={product}
           quantity={product.quantity}
+          maxQuantity={stockQuantity}
         />
         <div className={classes.partialPriceAndClose}>
           <h5 className={classes.partialPrice}>

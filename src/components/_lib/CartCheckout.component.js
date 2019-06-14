@@ -123,7 +123,7 @@ class CartCheckout extends Component {
           <TextInput
             value={subscriptionName}
             id='subscriptionName'
-            placeholder='Digite um nome para sua cesta'
+            placeholder='Ex: Cesta semanal, cesta de frutas...'
             handleChange={e => this.setState({ subscriptionName: e.target.value })}
             className={classes.textInput}
           />

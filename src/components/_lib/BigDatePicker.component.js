@@ -117,7 +117,7 @@ class BigDatePicker extends Component {
             if(option.value == value) className.push('-selected');
 
             return (
-              <div className={classnames(className)}>
+              <div key={option.day} className={classnames(className)}>
                 <div onClick={async () => {
                   if(!initialSlide) await this.setState({ initialSlide: true });
                   handleSelectDate(option.value);

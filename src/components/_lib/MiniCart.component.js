@@ -256,7 +256,7 @@ class MiniCart extends Component {
   }
 
   _renderCart() {
-    const { cart, handleUpdateCart } = this.props;
+    const { cart, handleUpdateCart, dateObj } = this.props;
 
     return cart.items.length ? (
       <div className='items'>
@@ -268,7 +268,14 @@ class MiniCart extends Component {
             product.quantity = cart.productQuantities[product.id] || 0;
             product.partialPrice = cart.productPartialPrices[product.id] || 0;
 
-            return <MiniCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
+            return (
+              <MiniCartProduct
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateCart}
+                stockQuantity={product.stock ? product.stock[dateObj.stockDate] : 0}
+              />
+            );
           })}
         </div>
       </div>
@@ -280,9 +287,10 @@ class MiniCart extends Component {
       subscriptionCart,
       subscriptionName,
       isSubscriptionAdded,
-      handleUpdateSubscriptionCart
+      handleUpdateSubscriptionCart,
+      dateObj
     } = this.props;
-    const cart = isSubscriptionAdded ? subscriptionCart : new SubscriptionCart([]);
+    const cart = isSubscriptionAdded ? subscriptionCart : new SubscriptionCart({});
 
     return cart.items.length ? (
       <div className='items'>
@@ -303,6 +311,7 @@ class MiniCart extends Component {
                 key={product.id}
                 product={product}
                 handleUpdateCart={handleUpdateSubscriptionCart}
+                stockQuantity={product.stock ? product.stock[dateObj.stockDate] : 0}
               />
             );
           })}

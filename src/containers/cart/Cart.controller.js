@@ -1,6 +1,4 @@
-import React from 'react';
 import { BaseController, Formatter, CepHelper } from '../../helpers';
-import { toast } from 'react-toastify';
 
 export class CartController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -8,6 +6,7 @@ export class CartController extends BaseController {
 
     this.handleUpdateCart = this.handleUpdateCart.bind(this);
     this.handleUpdateSubscriptionCart = this.handleUpdateSubscriptionCart.bind(this);
+    this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.handleRemoveSubscription = this.handleRemoveSubscription.bind(this);
@@ -21,6 +20,11 @@ export class CartController extends BaseController {
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
     const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
     this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart.current, updateSubscriptionCartAction);
+  }
+
+  handleSelectDate(date) {
+    const { selectDateAction, cart } = this.getProps();
+
   }
 
   handleChange(e) {

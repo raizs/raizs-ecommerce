@@ -150,8 +150,8 @@ class QuantitySelector extends Component {
 
   _handleClick(direction) {
     const stateQuantity = this.state.quantity;
-    const { changeAction, item, item: { periodicity } } = this.props;
-    const quantity = Math.max(0, stateQuantity + direction);
+    const { changeAction, item, item: { periodicity }, maxQuantity } = this.props;
+    const quantity = Math.max(0, Math.min(stateQuantity + direction, maxQuantity));
 
     changeAction({ item, quantity, periodicity });
     this.setState({ quantity });
@@ -159,15 +159,15 @@ class QuantitySelector extends Component {
 
   _renderContent() {
     const { quantity } = this.state;
-    const { classes, shouldClose = true, mini } = this.props;
+    const { classes, item, shouldClose = true, mini } = this.props;
     let classNames = [classes.open];
     if(mini) classNames.push('-mini');
 
     const opened = (
       <div className={classnames(classNames)}>
         <div className='quantity'>{quantity}</div>
-        <div className='subtract' onClick={() => this._handleClick(-1)}>-</div>
-        <div className='add' onClick={() => this._handleClick(1)}>+</div>
+        <div id={item.id} className='subtract' onClick={() => this._handleClick(-1)}>-</div>
+        <div id={item.id} className='add' onClick={() => this._handleClick(1)}>+</div>
       </div>
     )
 

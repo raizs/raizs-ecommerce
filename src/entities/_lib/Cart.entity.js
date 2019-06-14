@@ -8,18 +8,20 @@ export class Cart {
    * @param {Array} items - Array of { product: {Product}, quantity: {Number}, partialValue: {Number} }
    * @memberof Cart
    */
-  constructor(items = []) {
+  constructor({ items = [], selectedDate = null }) {
     this.items = items;
+    this.selectedDate = selectedDate;
 
     this.productQuantities = this._getProductQuantitiesObj(items);
     this.productPartialPrices = this._getProductPartialPricesObj(items);
+    this.productStocks = this._getProductStocksObj(items);
     this.subtotal = this._getSubtotal(items);
     this.productCount = this._getProductCount(items);
 
     this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
   }
   
-  update(product, quantity) {
+  update({ product, quantity, selectedDate }) {
     product = clonedeep(product);
     const items = clonedeep(this.items);
     let index = -1;
@@ -45,7 +47,7 @@ export class Cart {
       else items[index].quantity = quantity;
     }
 
-    return new Cart(items);
+    return new Cart({ items, selectedDate: selectedDate || this.selectedDate });
   }
 
   _getProductQuantitiesObj(items) {
@@ -53,6 +55,16 @@ export class Cart {
 
     items.forEach(item => {
       obj[item.product.id] = item.quantity;
+    });
+
+    return obj;
+  }
+
+  _getProductStocksObj(items) {
+    const obj = {};
+
+    items.forEach(item => {
+      obj[item.product.id] = item.product.stock;
     });
 
     return obj;
@@ -97,5 +109,30 @@ export class Cart {
     });
 
     return arr;
+  }
+
+  checkNewDate(oldDate, newDate) {
+    const { productQuantities, productStocks } = this;
+    const differences = [];
+    Object.keys(productQuantities).forEach(id => {
+      const newDateStock = productStocks[id][newDate];
+      let product;
+
+      for(let item of this.items) {
+        if(item.product.id === +id) product = item.product;
+      }
+
+      if(newDateStock < productQuantities[id]) differences.push({
+        id: +id,
+        type: newDateStock > 0 ? 'withdraw' : 'remove',
+        difference: productQuantities[id] - newDateStock,
+        oldQuantity: productQuantities[id],
+        newQuantity: newDateStock,
+        oldDate,
+        newDate,
+        product
+      })
+    });
+    return differences;
   }
 }

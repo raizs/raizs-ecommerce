@@ -5,16 +5,22 @@ import {
 	ADD_SUBSCRIPTION_CART,
 	REMOVE_SUBSCRIPTION_CART
 } from "../../actions";
-import { Cache } from "../../../helpers";
+import { Cache, MiniDatePickerHelper } from "../../../helpers";
 import { SubscriptionCart } from "../../../entities";
+
+const selectedDate = MiniDatePickerHelper.generateDatesObject()[0].stockDate;
 
 const cachedSubscriptionCart = Cache.getItem('subscriptionCart');
 const cachedCurrentObservations = Cache.getItem('currentObservations');
 const cachedSubscriptionName = Cache.getItem('subscriptionName');
 const cachedIsSubscriptionCartAdded = Cache.getItem('isSubscriptionCartAdded');
 
+const current = cachedSubscriptionCart ?
+	new SubscriptionCart({ items: cachedSubscriptionCart, selectedDate }) :
+	new SubscriptionCart({ hasEdited: false, selectedDate });
+
 const initialState = {
-	current: cachedSubscriptionCart ? new SubscriptionCart(cachedSubscriptionCart) : new SubscriptionCart(),
+	current,
 	currentObservations: cachedCurrentObservations || null,
 	subscriptionName: cachedSubscriptionName || '',
 	isAdded: cachedIsSubscriptionCartAdded || false

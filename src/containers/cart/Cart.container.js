@@ -145,7 +145,6 @@ class Cart extends BaseContainer {
     // this.setState({ subtotalError: false });
 
     if(nextProps.currentCep && !this.props.currentCep) {
-      console.log(nextProps.currentCep)
       this.setState({
         cepSuccess: true,
         shippingValue: nextProps.currentCep.shippingValue,
@@ -155,7 +154,7 @@ class Cart extends BaseContainer {
   }
 
   _renderCartItems() {
-    const { cart } = this.props;
+    const { cart, stockDate } = this.props;
     const { handleUpdateCart } = this.controller;
 
     return cart.items.length ? (
@@ -168,7 +167,14 @@ class Cart extends BaseContainer {
             product.quantity = cart.productQuantities[product.id] || 0;
             product.partialPrice = cart.productPartialPrices[product.id] || 0;
 
-            return <CartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
+            return (
+              <CartProduct
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateCart}
+                stockQuantity={product.stock ? product.stock[stockDate] : 0}
+              />
+            );
           })}
         </div>
       </div>
@@ -176,9 +182,9 @@ class Cart extends BaseContainer {
   }
 
   _renderSubscriptionCartItems() {
-    const { subscriptionCart } = this.props;
+    const { subscriptionCart, stockDate } = this.props;
     const { handleUpdateSubscriptionCart, handleRemoveSubscription } = this.controller;
-    const cart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
+    const cart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const { subscriptionName } = subscriptionCart;
 
     return cart.items.length ? (
@@ -196,7 +202,14 @@ class Cart extends BaseContainer {
             product.periodicity = item.periodicity || 'weekly';
             product.secondaryPeriodicity = item.secondaryPeriodicity || 'first';
 
-            return <SubscriptionCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateSubscriptionCart} />;
+            return (
+              <SubscriptionCartProduct
+                key={product.id}
+                product={product}
+                handleUpdateCart={handleUpdateSubscriptionCart}
+                stockQuantity={product.stock ? product.stock[stockDate] : 0}
+              />
+            );
           })}
         </div>
       </div>
@@ -211,13 +224,12 @@ class Cart extends BaseContainer {
       history,
       subscriptionCart,
       selectedDate,
-      selectDateAction,
       selectUserAddressAction,
       user,
       currentCep
     } = this.props;
     const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
-    const { handleChange, handleCepBlur } = this.controller;
+    const { handleChange, handleCepBlur, handleSelectDate } = this.controller;
 
     const toCartCheckout = {
       history,
@@ -245,7 +257,7 @@ class Cart extends BaseContainer {
       <div className={classes.wrapper}>
         <h1>SEU CARRINHO</h1>
         <div className='date-picker-wrapper'>
-          <BigDatePicker handleSelectDate={selectDateAction} selected={selectedDate} />
+          <BigDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
         </div>
         {
           user && user.addresses.all.length ? null :
@@ -269,6 +281,7 @@ const mapStateToProps = state => ({
   currentCep: state.cep.current,
   subscriptionCart: state.subscriptionCart,
   selectedDate: state.datePicker.selected,
+  stockDate: state.datePicker.obj.stockDate,
   selectedAddress: state.userAddresses.selected
 });
 

@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import { toast } from "react-toastify";
 import { GenericProduct } from './GenericProduct.component';
-import { Formatter } from '../../../../helpers';
+import { Formatter, Cache } from '../../../../helpers';
 import { ObservationsModal } from './ObservationsModal.component';
 
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     userSelect: 'none',
-    paddingBottom: '120px'
+    paddingBottom: '120px',
+    minHeight: window.innerHeight - 64
   },
   top: {
     textAlign: 'center',
@@ -110,26 +111,49 @@ class Generics extends Component {
     }
   }
 
-  componentDidMount() {
-    const { currentObservations } = this.props;
+  async componentDidMount() {
+    const { currentObservations, cart } = this.props;
     if(currentObservations) this.setState({ currentObservations });
+    if(cart && !cart.hasEdited) {
+      const buttons = document.querySelectorAll('div.generic-product div.add');
+      for(let i = 0; i < buttons.length; i++) {
+        const defaultQuantities = { 1: 3, 2: 3, 3: 4, 4: 2 };
+        for(let j = 0; j < defaultQuantities[buttons[i].id]; j++) {
+          await buttons[i].click();
+        }
+      }
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { currentObservations } = nextProps, prevObservations = this.props.currentObservations;
+  async componentWillReceiveProps(nextProps) {
+    const { currentObservations, cart } = nextProps, prevObservations = this.props.currentObservations;
     if(currentObservations && !prevObservations) this.setState({ currentObservations });
+    if(cart && !cart.hasEdited) {
+      const buttons = document.querySelectorAll('div.generic-product div.add');
+      for(let i = 0; i < buttons.length; i++) {
+        const defaultQuantities = { 1: 3, 2: 3, 3: 4, 4: 2 };
+        for(let j = 0; j < defaultQuantities[buttons[i].id]; j++) {
+          await buttons[i].click();
+        }
+      }
+    }
   }
   
   _renderItems() {
-    const { products, cart, handleUpdate } = this.props;
-    return products.map(product =>
-      <GenericProduct
-        key={product.id}
-        item={product}
-        quantity={cart.productQuantities[product.id] || 0}
-        changeAction={handleUpdate}
-      />
-    );
+    const { products, cart, handleUpdate, stockDate } = this.props;
+    return products.map(product => {
+      const quantity = cart.productQuantities[product.id] || 0;
+
+      return (
+        <GenericProduct
+          key={product.id}
+          item={product}
+          quantity={quantity}
+          stockQuantity={product.stock ? product.stock[stockDate] : 0}
+          changeAction={handleUpdate}
+        />
+      );
+    });
   }
 
   _handleSubmit() {

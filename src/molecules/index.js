@@ -1,5 +1,6 @@
 export { AnchorMenu } from './_lib/AnchorMenu.molecule';
 export { CatalogProduct } from './_lib/CatalogProduct.molecule';
+export { CatalogUnavailableProduct } from './_lib/CatalogUnavailableProduct.molecule';
 export { CategoryItem } from './_lib/CategoryItem.molecule';
 export { ClientComment } from './_lib/ClientComment.molecule';
 export { CollapsibleTimelineItem } from './_lib/CollapsibleTimelineItem.molecule';

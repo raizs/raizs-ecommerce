@@ -10,7 +10,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.gray.bg,
     width: '100%',
     padding: 3 * theme.spacing.unit,
-    paddingBottom: 12 * theme.spacing.unit
+    paddingBottom: 12 * theme.spacing.unit,
+    minHeight: window.innerHeight - 64
   },
   title: theme.typography.raizs,
   items: {
@@ -53,7 +54,7 @@ class Review extends Component {
   }
 
   _renderItems() {
-    const { cart, handleUpdateCart } = this.props;
+    const { cart, handleUpdateCart, stockDate } = this.props;
 
     return cart.items.length ? cart.items.map(item => {
       const { product } = item;
@@ -63,7 +64,14 @@ class Review extends Component {
       product.periodicity = item.periodicity || 'weekly';
       product.secondaryPeriodicity = item.secondaryPeriodicity || 'first';
 
-      return <SubscriptionCartProduct key={product.id} product={product} handleUpdateCart={handleUpdateCart} />;
+      return (
+        <SubscriptionCartProduct
+          key={product.id}
+          product={product}
+          handleUpdateCart={handleUpdateCart}
+          stockQuantity={product.stock ? product.stock[stockDate] : 0}
+        />
+      );
     }) :
     <div>Não há itens em seu carrinho.</div>;
   }

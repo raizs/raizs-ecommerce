@@ -112,7 +112,7 @@ class SubscriptionCartProduct extends Component {
   }
   
   render() {
-    const { classes, product, handleUpdateCart } = this.props;
+    const { classes, product, handleUpdateCart, stockQuantity } = this.props;
 
     return (
       <div
@@ -154,9 +154,11 @@ class SubscriptionCartProduct extends Component {
         </div>
         <div style={{ width: '160px', padding: '0 16px' }}>
           <QuantitySelector
+            shouldClose={false}
             changeAction={handleUpdateCart}
             item={product}
             quantity={product.quantity}
+            maxQuantity={stockQuantity}
           />
         </div>
         <div className={classes.partialPriceAndClose}>

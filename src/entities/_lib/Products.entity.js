@@ -3,12 +3,15 @@ import { Product, Stock } from '..';
 import sortby from 'lodash.sortby';
 
 export class Products extends BaseModel {
-  constructor(products, from = null, stock) {
+  constructor(products, from = null, stock = []) {
     super();
 
     if(['popularProducts', 'newProducts'].includes(from)) {
       products = this._fixPopularProducts(products);
     }
+
+    this.stock = new Stock(stock);
+
     const catalogFilter = p => ![1,2,3,4].includes(p.id);
     const genericFilter = p => [1,2,3,4].includes(p.id);
     const withoutFLVFilter = p => ![5,6,7].includes(p.categoryId);
@@ -16,11 +19,14 @@ export class Products extends BaseModel {
     const ovosFilter = p => [25,26,27,28].includes(p.categoryId);
     const bebidasFilter = p => [30,31,32,33,34,35,36].includes(p.categoryId);
     const corpoFilter = p => [38,39,40,41,42,43].includes(p.categoryId);
-    const mapper = p => new Product(p);
+    const mapper = p => {
+      p.stock = this.stock.groupedByProductId[p.id];
+      return new Product(p);
+    };
     
     this.original = products;
-    this.all = products.map(product => new Product(product));
-    this.allWithoutFLV = products.map(product => new Product(product)).filter(withoutFLVFilter);
+    this.all = products.map(mapper);
+    this.allWithoutFLV = products.map(mapper).filter(withoutFLVFilter);
     this.catalogProducts = products.filter(catalogFilter).map(mapper);
     this.genericProducts = sortby(products.filter(genericFilter).map(mapper), 'id');
 
@@ -39,22 +45,21 @@ export class Products extends BaseModel {
       if(!obj[product.categoryId]) obj[product.categoryId] = [];
 
       obj[product.categoryId].push(product);
-    })
+    });
 
     return obj;
   }
 
-
-  _search(query){
+  _search(query) {
     let results = [];
-    for (var product of this.all){
+    for (let product of this.all) {
       if (
         (product.name.toLowerCase().indexOf(query.toLowerCase()) > -1) ||
         (product.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
         )
         results.push(product)
     }
-    return results
+    return results;
   }
 
   _fixPopularProducts(products) {

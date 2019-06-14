@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
-import { User, Categories, Cards, Products, SaleOrders, Stock, UnitsOfMeasure } from './entities';
+import { User, Categories, Cards, Products, SaleOrders, UnitsOfMeasure } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,
@@ -41,8 +41,13 @@ export class AppController extends BaseController {
   }
 
   async initialFetch() {
-    const { setCategoriesAction, setPopularProductsAction, setNewProductsAction, setStockAction, setProductsAction, setUnitsOfMeasureAction } = this.getProps();
-    console.time("ronaldo")
+    const {
+      setCategoriesAction,
+      setPopularProductsAction,
+      setNewProductsAction,
+      setProductsAction,
+      setUnitsOfMeasureAction
+    } = this.getProps();
     
     const promises = [
       this.categoriesRepo.fetchCategories(),
@@ -62,10 +67,6 @@ export class AppController extends BaseController {
       uomPromise,
     ] = await Promise.all(promises);
 
-
-    console.timeEnd("ronaldo")
-
-
     if(!productsPromise.err && !stockPromise.err) {
       const products = new Products(productsPromise.data, null, stockPromise.data);
       setProductsAction(products);
@@ -76,8 +77,6 @@ export class AppController extends BaseController {
 
       setUnitsOfMeasureAction(uom);
     }
-    
-
 
     if(!categoriesPromise.err) {
       const categories = new Categories(categoriesPromise.data);
@@ -214,8 +213,10 @@ export class AppController extends BaseController {
   }
 
   handleSelectDate(e) {
-    const { selectDateAction } = this.getProps();
+    const { selectDateAction, cart, subscriptionCart } = this.getProps();
     const { value } = e.target;
+
+    // todo: check cart changes
 
     selectDateAction(value);
   }
@@ -241,12 +242,12 @@ export class AppController extends BaseController {
   }
 
   handleUpdateCart({ item, quantity }) {
-    const { cart, updateCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
+    const { cart, updateCartAction, dateObj: { stockDate } } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate);
   }
 
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
-    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction);
+    const { subscriptionCart, updateSubscriptionCartAction, dateObj: { stockDate } } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction, stockDate);
   }
 }

@@ -1,9 +1,15 @@
-import { Formatter } from "../../helpers";
+import { Formatter, MiniDatePickerHelper } from "../../helpers";
+
+const genericsStock = {};
+MiniDatePickerHelper.generateDatesObject().forEach(({ stockDate }) => {
+  genericsStock[stockDate] = 10;
+})
 
 export class Product {
   constructor(product) {
     this.description = product.description || (product['productTmpl.name'] + product['productTmpl.name'] + product['productTmpl.name']);
     this.id = product.id;
+    this.stock = [1,2,3,4].includes(product.id) ? genericsStock : product.stock;
     this.name = product['productTmpl.name'];
     this.categoryId = product['productTmpl.categ_id'];
     this.templateId = product['productTmpl.id'];
@@ -22,7 +28,10 @@ export class Product {
       protein: "0"
     }
     this.popularity = product.popularity
-    // console.log(product)
+
+    if([1,2,3,4].includes(this.id) && this.stock) {
+      Object.keys(this.stock).forEach(key => this.stock[key] = 10);
+    }
 
     this.fullPrice = this._getFullPrice(this.price, this.weight, this.uomId);
     this.mpPrice = parseInt(this.price * 100);

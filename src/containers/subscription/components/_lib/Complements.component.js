@@ -11,7 +11,8 @@ const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     userSelect: 'none',
-    paddingBottom: '120px'
+    paddingBottom: '120px',
+    minHeight: window.innerHeight - 64
   },
   top: {
     textAlign: 'center',
@@ -59,7 +60,16 @@ const styles = theme => ({
 class Complements extends Component {
 
   _renderTimelineSections() {
-    const { categories, cart, newProducts, products, handleUpdate, availableWidth, brands } = this.props;
+    const {
+      categories,
+      cart,
+      newProducts,
+      products,
+      handleUpdate,
+      availableWidth,
+      brands,
+      stockDate
+    } = this.props;
     const to = categories.complementsSectionsArr.map(item => {
       return (
         <TimelineSection style={{ marginTop: 0 }} key={item.id} id={item.id}>
@@ -70,6 +80,7 @@ class Complements extends Component {
             handleUpdateCart={handleUpdate}
             width={availableWidth}
             brands={brands}
+            stockDate={stockDate}
           />
         </TimelineSection>
       );

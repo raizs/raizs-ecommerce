@@ -7,7 +7,12 @@ import { withStyles, Icon } from '@material-ui/core';
 import { CatalogController } from './Catalog.controller';
 import { BaseContainer } from '../../helpers';
 
-import { Timeline, TimelineSections, TimelineSection } from '../../components';
+import {
+  BigDatePicker,
+  Timeline,
+  TimelineSections,
+  TimelineSection
+} from '../../components';
 import { CatalogSection } from './components';
 import { withTimeline } from '../withTimeline';
 import { catalogFilters } from '../../assets';
@@ -16,38 +21,47 @@ import classnames from "classnames";
 
 import {
   updateCartAction,
-  openModalProductAction
+  openModalProductAction,
+  selectDateAction,
+  openCartWarningModalAction
 } from '../../store/actions';
 
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
-    width: '100%'
+    width: '100%',
+    '& div.date-picker-wrapper': {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 2 * theme.spacing.unit,
+    }
   },
-  sortBox:{
+  sortBox: {
     paddingBottom: 2*theme.spacing.unit,
+    position: 'absolute',
+    right: '32px'
   },
-  sortTitle:{
+  sortTitle: {
     display:"inline-block",
     fontWeight:800, 
     fontSize: theme.fontSizes.MD
   },
-  sortItem:{
+  sortItem: {
     display:"inline-block",
     marginLeft: 3*theme.spacing.unit,
     cursor:"pointer"
   },
-  sortItemTitle:{
+  sortItemTitle: {
     verticalAlign:"middle",
     display:"inline-block",
     fontWeight:800, 
     fontSize: theme.fontSizes.MD,
   },
-  sortIcon:{
+  sortIcon: {
     color: theme.palette.gray.main,
     verticalAlign:"middle"
   },
-  selectedSortIcon:{
+  selectedSortIcon: {
     color: theme.palette.green.main
 
   }
@@ -55,7 +69,9 @@ const styles = theme => ({
 
 const actions = {
   updateCartAction,
-  openModalProductAction
+  openModalProductAction,
+  selectDateAction,
+  openCartWarningModalAction
 };
 
 /**
@@ -81,7 +97,6 @@ class Catalog extends BaseContainer {
     classes: PropTypes.object,
   }
 
-
   /**
    * _renderTimelineSections - renders the correct section based on the
    * section id
@@ -90,53 +105,52 @@ class Catalog extends BaseContainer {
    * @memberof Catalog
    */
 
-   _renderFilters(){
+   _renderFilters() {
     const { classes } = this.props;
     const { filter, ascending } = this.state;
+
     return catalogFilters.map(f=>{
       let iconClassName = [classes.sortIcon];
       let icon = "arrow_upward";
-      if (filter === f.id){
+      if(filter === f.id) {
         iconClassName.push(classes.selectedSortIcon)
-        if (ascending){
-          icon = "arrow_downward"
-        }
-
+        if(ascending) icon = "arrow_downward"
       }
-      return <div className={classes.sortItem} onClick={()=>this.controller.toggleSort(f.id)}>
+      return <div key={f.id} className={classes.sortItem} onClick={()=>this.controller.toggleSort(f.id)}>
         <div className={classes.sortItemTitle}>{f.label}</div>
         <Icon fontSize="large" className={classnames(iconClassName)}>{icon}</Icon>
       </div>
-    })
+    });
    }
 
-   _renderSortFiltersBox(){
+   _renderSortFiltersBox() {
     const { classes } = this.props;
     return <div className={classes.sortBox}>
-        <div className={classes.sortTitle}>Ordenar por:</div>
-        {this._renderFilters()}
+      <div className={classes.sortTitle}>Ordenar por:</div>
+      {this._renderFilters()}
     </div>
    }
 
-
   _renderTimelineSections() {
-    const { categories, availableWidth, brands, cart, openModalProductAction } = this.props;
+    const { categories, availableWidth, cart, openModalProductAction, selectedDateObj } = this.props;
     const { handleUpdateCart, getAvailableProducts } = this.controller;
     const { filter, ascending } = this.state;
-    const { products, unavailableProducts } = getAvailableProducts();
+    const { products } = getAvailableProducts();
+    
     return categories.catalogSectionsArr.map(item => {
       return (
         <TimelineSection key={item.id} id={item.id}>
+          {this._renderSortFiltersBox()}
           <CatalogSection
             {...item}
-            brands={brands}
+            cart={cart}
+            filter={filter}
             products={products}
+            ascending={ascending}
             availableWidth={availableWidth}
             handleUpdateCart={handleUpdateCart}
-            cart={cart}
             openModalProductAction={openModalProductAction}
-            filter={filter}
-            ascending={ascending}
+            stockDate={selectedDateObj.stockDate}
           />
         </TimelineSection>
       );
@@ -151,12 +165,13 @@ class Catalog extends BaseContainer {
       timelineWidth,
       shouldFixTimeline,
       categories: { catalogTimelineObj },
-      currentSectionId
+      currentSectionId,
+      selectedDate
     } = this.props;
+    const { handleSelectDate } = this.controller;
 
     return (
       <div className={classes.wrapper}>
-        {this._renderSortFiltersBox()}
         <Timeline
           history={history}
           fixed={shouldFixTimeline}
@@ -168,6 +183,9 @@ class Catalog extends BaseContainer {
           fixed={shouldFixTimeline}
           timelineWidth={timelineWidth}
         >
+          <div className='date-picker-wrapper'>
+            <BigDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
+          </div>
           {this._renderTimelineSections()}
         </TimelineSections>
       </div>
@@ -181,8 +199,11 @@ const mapStateToProps = state => ({
   products: state.products.model,
   uom: state.unitsOfMeasure.model,
   cart: state.cart.current,
+  subscriptionCart: state.subscriptionCart.current,
   date: state.datePicker,
-  stock: state.stock.stock,
+  selectedDate: state.datePicker.selected,
+  selectedDateObj: state.datePicker.obj,
+  stockDate: state.datePicker.obj.stockDate
 })
 
 export default compose(

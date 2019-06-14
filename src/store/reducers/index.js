@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
 
 import { cartReducer } from "./_lib/cart.reducer"
+import { cartWarningModalReducer } from "./_lib/cartWarningModal.reducer"
 import { categoriesReducer } from "./_lib/categories.reducer"
 import { cepReducer } from "./_lib/cep.reducer"
 import { creditCardsReducer } from "./_lib/cards.reducer"
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   brands: productBrandsReducer,
   cart: cartReducer,
+  cartWarningModal: cartWarningModalReducer,
   categories: categoriesReducer,
   cep: cepReducer,
   cards: creditCardsReducer,

@@ -36,7 +36,7 @@ class ComplementsSection extends Component {
 
   _renderContent() {
     const { isOpen, all } = this.state;
-    const { cart, products, handleUpdateCart, width, section, brands } = this.props;
+    const { cart, products, handleUpdateCart, width, section, brands, stockDate } = this.props;
 
     return (
       <div>
@@ -47,6 +47,7 @@ class ComplementsSection extends Component {
             products={products}
             handleUpdateCart={handleUpdateCart}
             isArrowSmall={true}
+            stockDate={stockDate}
           />
         </Collapse>
         <Collapse in={isOpen}>
@@ -58,6 +59,7 @@ class ComplementsSection extends Component {
             cart={cart}
             brands={brands}
             shouldAnchor={isOpen}
+            stockDate={stockDate}
             small
           />
         </Collapse>

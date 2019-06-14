@@ -6,31 +6,42 @@ const _renderSubcategories = ({
   subcategories,
   products,
   availableWidth,
-  brands,
   handleUpdateCart,
   cart,
   openModalProductAction,
   small,
   shouldAnchor = true,
   filter,
-  ascending
+  ascending,
+  stockDate
 }) => {
   return subcategories.map(subcategory => {
     const groupedProducts = products.groupedByCategoryId[subcategory.subcategoryId] || [];
+    const grouped = {
+      available: [],
+      unavailable: []
+    };
+
+    groupedProducts.forEach(product => {
+      if(product.stock && product.stock[stockDate] > 0) grouped.available.push(product);
+      else if(product.stock && product.stock[stockDate] === 0)grouped.unavailable.push(product)
+    });
+
     return (
       <CatalogSectionList
         {...subcategory}
         cart={cart}
-        brands={brands}
         key={subcategory.id}
         availableWidth={availableWidth}
         groupedProducts={groupedProducts}
+        grouped={grouped}
         handleUpdateCart={handleUpdateCart}
         openModalProductAction={openModalProductAction}
         small={small}
         shouldAnchor={shouldAnchor}
         filter={filter}
         ascending={ascending}
+        stockDate={stockDate}
       />
     )
   });
@@ -42,14 +53,14 @@ let CatalogSection = props => {
     subcategories,
     products,
     availableWidth,
-    brands,
     handleUpdateCart,
     cart,
     openModalProductAction,
     small,
     shouldAnchor,
     filter,
-    ascending
+    ascending,
+    stockDate
   } = props;
 
   return (
@@ -58,14 +69,14 @@ let CatalogSection = props => {
         subcategories,
         products,
         availableWidth,
-        brands,
         handleUpdateCart,
         cart,
         openModalProductAction,
         small,
         shouldAnchor,
         filter,
-        ascending
+        ascending,
+        stockDate
       })}
     </div>
   )

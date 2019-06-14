@@ -20,11 +20,11 @@ const styles = theme => ({
 });
 
 let ProductsSlider = props => {
-  const { products, cart, handleUpdateCart, classes, isArrowSmall, all } = props;
+  const { products, cart, handleUpdateCart, classes, isArrowSmall, all, stockDate } = props;
 
   const settings = {
-    slidesToShow: Math.floor(window.innerWidth / 272) - 1,
-    slidesToScroll: Math.floor(window.innerWidth / 272) - 1,
+    slidesToShow: Math.floor(window.innerWidth / 300) - 1,
+    slidesToScroll: Math.floor(window.innerWidth / 300) - 1,
     prevArrow: <SliderArrow isSmall={isArrowSmall} to='prev' />,
     nextArrow: <SliderArrow isSmall={isArrowSmall} to='next' />,
     infinite: false,
@@ -38,12 +38,13 @@ let ProductsSlider = props => {
     <div className={classes.wrapper}>
       <Slider {...settings}>
         {sliced.map(product =>
-            <CatalogProduct
-              cart={cart}
-              key={product.id}
-              product={product}
-              handleUpdateCart={handleUpdateCart}
-            />
+          <CatalogProduct
+            cart={cart}
+            key={product.id}
+            product={product}
+            handleUpdateCart={handleUpdateCart}
+            stockQuantity={product.stock ? product.stock[stockDate] : 0}
+          />
         )}
       </Slider>
     </div>

@@ -7,7 +7,6 @@ import { withFirebase } from 'react-redux-firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import compose from 'recompose/compose';
 import SmoothScroll from 'smooth-scroll';
-import cep from 'cep-promise';
 
 import 'img-2';
 import './styles/css/index.css';
@@ -37,7 +36,7 @@ import {
 
 import defaultTheme from './muiTheme';
 
-import { Header, TopHeader, Footer } from './components';
+import { Header, TopHeader, Footer, BottomHeader, CartWarningModal } from './components';
 import { About } from './containers/about';
 import { Cart } from './containers/cart';
 import { Catalog } from './containers/catalog';
@@ -128,6 +127,16 @@ class App extends BaseContainer {
     );
   }
 
+  
+  _renderBottomHeader(currentPath) {
+    const { selectedDate } = this.props;
+    const { handleSelectDate } = this.controller;
+
+    return ['assinatura'].includes(currentPath) && (
+      <BottomHeader handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
+    );
+  }
+
   _renderFooter(currentPath) {
     const { history } = this.props;
 
@@ -192,7 +201,8 @@ class App extends BaseContainer {
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <div className='App'>
-          <ProductModal/>
+          <ProductModal />
+          <CartWarningModal />
           <ToastContainer
             autoClose={5000}
             toastClassName='raizs-toast'
@@ -200,6 +210,7 @@ class App extends BaseContainer {
           />
           {this._renderTopHeader(currentPath)}
           <Header {...headerProps} />
+          {this._renderBottomHeader(currentPath)}
           <div onClick={() => searching ? this.props.toggleSearchBarAction(false) : null}>
             <Switch>
               <Route path='/' exact component={Landing} />
@@ -235,7 +246,7 @@ const mapStateToProps = state => ({
   searching: state.header.isSearchBarOpen,
   cart: state.cart.current,
   subscriptionCart: state.subscriptionCart.current,
-  selectedDate: state.datePicker,
+  selectedDate: state.datePicke,
 });
 
 export default compose(

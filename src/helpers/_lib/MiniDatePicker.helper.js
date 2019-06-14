@@ -31,6 +31,7 @@ export class MiniDatePickerHelper {
       weekday = weekday.split('-')[0];
       const prefix = date.split(' ')[0];
       const suffix = date.split(' ').pop();
+      const stockDate = momentDate.format('YYYY-MM-DD');
       let bigSuffix = suffix;
 
       if(i >= 6) bigSuffix += ` (${date.split(' - ')[0]})`
@@ -43,7 +44,8 @@ export class MiniDatePickerHelper {
         suffix,
         bigSuffix,
         value: i,
-        momentDate
+        momentDate,
+        stockDate
       });
     }
 

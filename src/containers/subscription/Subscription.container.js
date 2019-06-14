@@ -51,7 +51,8 @@ class Subscription extends BaseContainer {
       newProducts,
       brands,
       history,
-      subscriptionName
+      subscriptionName,
+      stockDate
     } = this.props;
     const {
       handleUpdateSubscriptionCart,
@@ -70,6 +71,7 @@ class Subscription extends BaseContainer {
             handleUpdate={handleUpdateSubscriptionCart}
             currentObservations={currentObservations}
             handleContinueAction={handleContinueAction}
+            stockDate={stockDate}
           />
         </Route>
         <Route path='/assinatura/complementos'>
@@ -80,6 +82,7 @@ class Subscription extends BaseContainer {
             categories={categories}
             newProducts={newProducts}
             brands={brands}
+            stockDate={stockDate}
           />
         </Route>
         <Route path='/assinatura/revisao'>
@@ -98,6 +101,7 @@ class Subscription extends BaseContainer {
             coupon={coupon}
             subscriptionName={subscriptionName}
             handleCheckout={handleCheckout}
+            stockDate={stockDate}
           />
         </Route>
       </Switch>
@@ -112,7 +116,8 @@ const mapStateToProps = state => ({
   products: state.products.model,
   categories: state.categories.model,
   newProducts: state.products.newProducts,
-  brands: state.brands.model
+  brands: state.brands.model,
+  stockDate: state.datePicker.obj.stockDate
 });
 
 export default compose(

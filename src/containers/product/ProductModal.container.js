@@ -31,15 +31,13 @@ const styles = theme => ({
   },
   rightBox:{
     width:"350px"
-  },
-
-
+  }
 });
 
 class Product extends BaseContainer {
 
   constructor(props) {
-    super(props, ProductController)
+    super(props, ProductController);
   }
 
 	state = {
@@ -82,7 +80,6 @@ class Product extends BaseContainer {
         <div className={classes.wrapper} >
           {product && this._renderModalContent()}
         </div>
-
       </Modal>
     )
   }
@@ -99,5 +96,4 @@ export default compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, { closeModalProductAction, updateCartAction }),
-  )(Product);
-  
+)(Product);

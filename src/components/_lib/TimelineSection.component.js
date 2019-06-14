@@ -9,6 +9,9 @@ const styles = theme => ({
     marginTop: 8 * theme.spacing.unit,
     '&:first-child': {
       marginTop: 2 * theme.spacing.unit
+    },
+    '&#nossa-horta': {
+      marginTop: 2 * theme.spacing.unit
     }
   }
 });
