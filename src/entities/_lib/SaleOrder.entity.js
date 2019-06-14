@@ -11,7 +11,8 @@ export class SaleOrder extends BaseModel {
     this.freeShipping = this.amountTotal > 100;
     this.subscriptionId = this.subscriptionId;
     this.hasDonation = false;
-    this.shippingTimeRange = "7:30 até 13:00"
+    this.shippingTimeRange = "7:30 até 13:00";
+    this.createDate = moment(order.create_date);
   }
 
   getTotalOfItems(){

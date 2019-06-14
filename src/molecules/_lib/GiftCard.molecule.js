@@ -34,6 +34,12 @@ class GiftCard extends BaseContainer {
     this.controller.getGiftCardValue();
   }
 
+  componentWillReceiveProps(nextProps){
+    if (nextProps.coupon != this.props.coupon){
+      this.controller.getGiftCardValue();
+    }
+  }
+
 
   render() {
     const { classes, coupon, giftCard } = this.props;

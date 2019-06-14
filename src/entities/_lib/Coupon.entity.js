@@ -1,4 +1,4 @@
-import { Formatter } from "../../helpers";
+const recurrencyKeys = ["first", "second", "third", "fourth"];
 
 export class Coupon {
 
@@ -11,19 +11,21 @@ export class Coupon {
     this.percentageValue = coupon.percentage_value
   }
 
-  calculateDiscount(cart, subcart){
+  calculateDiscount(totals){
   	const { couponType, percentageValue } = this;
 
-  	let discount = 0;
   	switch (couponType){
+      
   		case "percentage": {
-	  		const total = cart.subtotal + subcart.current.subtotal;
-	  		discount = percentageValue*total;
+          totals.immediate.coupon = +(totals.immediate.subtotal*percentageValue).toFixed(2);
+          recurrencyKeys.forEach(key=>{
+            totals.recurrencies[key].coupon = +(totals.recurrencies[key].subtotal*percentageValue).toFixed(2) 
+          })
 	  		break;
-
   		}
+
   	}
-  	return discount;
+    return totals;
   }
 
 }

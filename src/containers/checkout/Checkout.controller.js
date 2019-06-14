@@ -6,7 +6,7 @@ import {
   SaleOrdersRepository,
   SaleSubscriptionsRepository
 } from '../../repositories';
-import { User, SaleOrders } from '../../entities';
+import { User, SaleOrders, Transaction } from '../../entities';
 import { CheckoutValidation } from '../../validation';
 
 export class CheckoutController extends BaseController {
@@ -56,7 +56,9 @@ export class CheckoutController extends BaseController {
     this.handleSelectCard = this.handleSelectCard.bind(this);
     this.handleContinuePayment = this.handleContinuePayment.bind(this);
     
-    this.handleConfirmOrder = this.handleConfirmOrder.bind(this);
+    this.createSaleOrder = this.createSaleOrder.bind(this);
+    this.createSubscription = this.createSubscription.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
   }
 
   _getUserSignupValues() {
@@ -585,13 +587,51 @@ export class CheckoutController extends BaseController {
     return null;
   }
 
-  async handleConfirmOrder() {
-    const { cart, user, selectedUserAddress, selectedCard, momentDate, history, coupon, subscriptionCart, giftCard, setSaleOrdersAction } = this.getProps();
 
-    const toApi = StateToApi.checkout({ cart, user, selectedUserAddress, selectedCard, momentDate, coupon, subcart:subscriptionCart, giftCard });
-    this.toState({loading:true})
+  async handleConfirm(){
+    const { cart, coupon, subscriptionCart, giftCard, history, momentDate } = this.getProps();
+    const { selectedPaymentMethod } = this.getState();
+
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate });
+
+    this.toState({loading:true});
+
+    if (selectedPaymentMethod=="payPal"){
+      console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE");
+    }
+    else{
+      if (transaction.totals.immediate.subtotal){
+        // await this.createSaleOrder(transaction);
+      }
+      if (transaction.hasSubcart){
+        await this.createSubscription(transaction);
+      }
+    }
+
+    this.toState({loading:false});
+    // return history.push("/pedido-finalizado")
+  }
+
+  async createSaleOrder(transaction) {
+    const { 
+      cart,
+      user, 
+      selectedUserAddress, 
+      selectedCard, 
+      momentDate, 
+      setSaleOrdersAction 
+    } = this.getProps();
+
+    const toApi = StateToApi.saleOrderCheckout({
+      cart,
+      user, 
+      selectedUserAddress, 
+      selectedCard, 
+      momentDate,
+      transaction
+    });
+
     const promise = await this.saleOrdersRepo.createOrder(toApi);
-    this.toState({loading:false})
 
 
     if (promise.err){
@@ -601,40 +641,34 @@ export class CheckoutController extends BaseController {
     else {
       const saleOrders = new SaleOrders(promise.data)
       setSaleOrdersAction(saleOrders)
-      // return history.push("/pedido-finalizado")
-
     }
   }
 
-  async handleConfirmSubscription() {
+  async createSubscription(transaction) {
     const {
       cart,
       user,
       selectedUserAddress,
       selectedCard,
       momentDate,
-      history,
-      coupon,
       subscriptionCart,
-      giftCard
     } = this.getProps();
 
-    const toApi = StateToApi.checkout({
+    const toApi = StateToApi.subscriptionCheckout({
       cart,
       user,
       selectedUserAddress,
       selectedCard,
       momentDate,
-      coupon,
-      subcart: subscriptionCart.current,
-      giftCard
+      subcart: subscriptionCart,
+      transaction
     });
 
-    // const promise = await this.saleOrdersRepo.createOrder(toApi);
+
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
     // if (promise.err)
     //   console.log("ERROR")
     // else return history.push("pedido-finalizado")
-    console.log(promise);
+    // console.log(promise);
   }
 }
