@@ -7,7 +7,8 @@ export const openCartWarningModalAction = ({
   newCart,
   newSubscriptionCart,
   oldDate,
-  newDate
+  newDate,
+  selectedDate
 }) => {
   const data = {
     oldDate,
@@ -17,6 +18,7 @@ export const openCartWarningModalAction = ({
   if(cartInfo.length) {
     data.cartInfo = cartInfo;
     data.newCart = newCart;
+    data.selectedDate = selectedDate;
   }
   
   if(subscriptionCartInfo.length) {

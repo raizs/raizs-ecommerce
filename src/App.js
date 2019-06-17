@@ -32,6 +32,7 @@ import {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
+  openCartWarningModalAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -76,6 +77,7 @@ const actions = {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
+  openCartWarningModalAction
 };
 
 class App extends BaseContainer {
@@ -118,7 +120,6 @@ class App extends BaseContainer {
     });
   }
 
-  
   _renderTopHeader(currentPath) {
     const { history } = this.props;
 
@@ -127,7 +128,6 @@ class App extends BaseContainer {
     );
   }
 
-  
   _renderBottomHeader(currentPath) {
     const { selectedDate } = this.props;
     const { handleSelectDate } = this.controller;
@@ -153,7 +153,7 @@ class App extends BaseContainer {
       forgotPasswordError,
       loginLoading
     } = this.state;
-    const { history, storeFirebase, isUserPopperOpen, searching } = this.props;
+    const { history, storeFirebase, isUserPopperOpen, searching, categories } = this.props;
     const {
       logout,
       handleTextInputChange,
@@ -175,6 +175,7 @@ class App extends BaseContainer {
       history,
       isUserPopperOpen,
       isSubscription,
+      categories,
       currentPath,
       handleSelectDate,
       handleUpdateCart,
@@ -246,7 +247,7 @@ const mapStateToProps = state => ({
   searching: state.header.isSearchBarOpen,
   cart: state.cart.current,
   subscriptionCart: state.subscriptionCart.current,
-  selectedDate: state.datePicke,
+  selectedDate: state.datePicker.selected,
 });
 
 export default compose(

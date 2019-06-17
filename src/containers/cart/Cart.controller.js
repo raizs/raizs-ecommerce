@@ -1,4 +1,5 @@
 import { BaseController, Formatter, CepHelper } from '../../helpers';
+import { Cart, SubscriptionCart } from '../../entities';
 
 export class CartController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -19,12 +20,34 @@ export class CartController extends BaseController {
 
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
     const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart.current, updateSubscriptionCartAction);
+    this.baseHandleUpdateCart({
+      item,
+      quantity,
+      periodicity,
+      secondaryPeriodicity
+    }, subscriptionCart.current, updateSubscriptionCartAction);
   }
 
-  handleSelectDate(date) {
-    const { selectDateAction, cart } = this.getProps();
+  handleSelectDate(selected) {
+    const {
+      selectDateAction,
+      selectedDate,
+      cart,
+      openCartWarningModalAction
+    } = this.getProps();
 
+    const subscriptionCart = this.getProps().subscriptionCart.current;
+
+    this.baseHandleSelectDate({
+      selectDateAction,
+      selectedDate,
+      cart,
+      subscriptionCart,
+      openCartWarningModalAction,
+      selected,
+      Cart,
+      SubscriptionCart
+    });
   }
 
   handleChange(e) {

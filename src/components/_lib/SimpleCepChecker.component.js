@@ -114,8 +114,6 @@ class SimpleCepChecker extends BaseContainer {
     const { classes } = this.props;
     const { success, searched, msg } = this.state;
 
-    console.log(this.props.cep);
-
     return (
       <section className={classes.wrapper}>
         <h5>{msg}</h5>

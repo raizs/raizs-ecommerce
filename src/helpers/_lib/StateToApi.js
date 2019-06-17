@@ -112,7 +112,7 @@ export class StateToApi {
     momentDate,
     transaction,
     payPalData
-  }){
+  }) {
     const to = {
       toPg: {
         resPartnerId: user.id,
@@ -139,7 +139,7 @@ export class StateToApi {
     momentDate,
     transaction,
     subcart
-  }){
+  }) {
     const to = {
       toPg: {
         resPartnerId: user.id,
@@ -149,30 +149,7 @@ export class StateToApi {
       },
       toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id, transaction })
     }
+
     return to;
-
   }
-
-  // static checkout({
-  //   user,
-  //   cart,
-  //   selectedUserAddress,
-  //   selectedCard,
-  //   momentDate,
-  //   coupon,
-  //   subcart,
-  //   giftCard
-  // }) {
-
-  //   if(cart.items.length) to.toMp = {
-  //     customer_id: user.mpid,
-  //     items: cart.getMpFormattedItems(),
-  //     shipping: selectedUserAddress.getMpFormattedShipping(),
-  //     payments: [selectedCard.getMpFormattedPayment({ amount:(transaction.totals.totalImediateValue*100).toFixed(0) })]
-  //   };
-
-  //   if(subcart.current.items.length) to.toMpSubscriptions = subcart.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id })
-
-  //   return to;
-  // }
 }

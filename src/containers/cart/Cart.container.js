@@ -12,7 +12,8 @@ import {
   updateSubscriptionCartAction,
   selectDateAction,
   removeSubscriptionCartAction,
-  selectUserAddressAction
+  selectUserAddressAction,
+  openCartWarningModalAction
 } from '../../store/actions';
 import {
   CartProduct,
@@ -86,7 +87,8 @@ const actions = {
   updateSubscriptionCartAction,
   removeSubscriptionCartAction,
   selectDateAction,
-  selectUserAddressAction
+  selectUserAddressAction,
+  openCartWarningModalAction
 };
 
 const MINIMUM_VALUE = 0; // todo: get from db

@@ -85,7 +85,7 @@ const _renderMoreInfo = ({ img, title, description, clickAction }, classes) => {
   );
 };
 
-const _renderSubcategories = (categoryId, classes) => {
+const _renderSubcategories = (categoryId, classes, history) => {
   const subs = subcategories[categoryId];
 
   return Boolean(subs) ? subs.map(subcategory => (
@@ -93,7 +93,7 @@ const _renderSubcategories = (categoryId, classes) => {
       key={subcategory.id}
       title={subcategory.label}
       className={classes.subcategory}
-      onClick={() => console.log(subcategory.id)}
+      onClick={() => history.push(`/catalogo#${categoryId}--${subcategory.id}`)}
     >
       {subcategory.label}
     </div>
@@ -107,13 +107,13 @@ const _renderSubcategories = (categoryId, classes) => {
  * @param {Object} props - This component's props
  * @returns {JSX}
  */
-let HeaderPopper = ({ classes, id, moreInfo }) => {
+let HeaderPopper = ({ classes, id, moreInfo, history }) => {
   return (
     <div>
       <div className={classes.subcategories} id={id}>
-        {_renderSubcategories(id, classes)}
+        {_renderSubcategories(id, classes, history)}
       </div>
-      {Boolean(moreInfo) ? _renderMoreInfo(moreInfo, classes) : null}
+      {/* {Boolean(moreInfo) ? _renderMoreInfo(moreInfo, classes) : null} */}
     </div>
   );
 };
