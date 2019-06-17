@@ -11,6 +11,7 @@ const actions = { closeCartWarningModalAction, updateCartAction };
 const styles = theme => ({
   wrapper: {
     userSelect: 'none',
+    padding: 2 * theme.spacing.unit,
     '& > h2': {
       textAlign: 'center',
       marginBottom: 2 * theme.spacing.unit
@@ -124,9 +125,28 @@ class CartWarningModal extends Component {
     )
   }
 
+  _renderSubscriptionCartDiffs() {
+    const { subscriptionCartInfo, oldDate, newDate } = this.props.cartWarningModal;
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>{oldDate.date}</th>
+            <th></th>
+            <th>{newDate.date}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this._renderRows(subscriptionCartInfo)}
+        </tbody>
+      </table>
+    )
+  }
+
   render() {
     const { classes, cartWarningModal, closeCartWarningModalAction } = this.props;
-    const { isOpen, cartInfo } = cartWarningModal;
+    const { isOpen, cartInfo, subscriptionCartInfo } = cartWarningModal;
 
     console.log(cartWarningModal);
 
@@ -136,6 +156,7 @@ class CartWarningModal extends Component {
           <h2>Atenção</h2>
           <h6>Um ou mais ítens do seu carrinho serão afetados pela mudança de data devido à disponibilidade do(s) mesmo(s) em nosso estoque.<br/>Confira abaixo se deseja prosseguir com a alteração.</h6>
           {cartInfo.length && this._renderCartDiffs()}
+          {subscriptionCartInfo.length && this._renderSubscriptionCartDiffs()}
         </div>
       </Modal>
     )
