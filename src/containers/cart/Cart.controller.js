@@ -33,9 +33,10 @@ export class CartController extends BaseController {
       selectDateAction,
       selectedDate,
       cart,
-      subscriptionCart,
       openCartWarningModalAction
     } = this.getProps();
+
+    const subscriptionCart = this.getProps().subscriptionCart.current;
 
     this.baseHandleSelectDate({
       selectDateAction,
@@ -46,7 +47,7 @@ export class CartController extends BaseController {
       selected,
       Cart,
       SubscriptionCart
-  })
+    });
   }
 
   handleChange(e) {

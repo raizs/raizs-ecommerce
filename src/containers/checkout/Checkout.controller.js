@@ -616,7 +616,7 @@ export class CheckoutController extends BaseController {
     }
 
     this.toState({loading:false});
-    return history.push("/pedido-finalizado")
+    // return history.push("/pedido-finalizado")
   }
 
   async createSaleOrder(transaction, payPalData=null) {
