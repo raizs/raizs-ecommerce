@@ -44,7 +44,11 @@ const withTimeline = WrappedComponent => {
     }
     
     _timelineResizeEvent = (e, context) => {
-      const timelineWidth = document.querySelector('#side-timeline').clientWidth;
+      
+      const timeline = document.querySelector('#side-timeline')
+      let timelineWidth = 0;
+      if (timeline)
+        timelineWidth = timeline.clientWidth;
       const availableWidth = window.innerWidth - timelineWidth - 16;
       const { shouldFixTimeline } = context.state;
 
