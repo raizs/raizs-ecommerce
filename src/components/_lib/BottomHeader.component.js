@@ -19,7 +19,7 @@ let BottomHeader = props => {
     <div className={classes.wrapper}>
       <MiniDatePicker
         handleSelectDate={handleSelectDate}
-        selected={selectedDate.selected}
+        selected={selectedDate ? selectedDate.selected : 0}
       />
     </div>
   )

@@ -34,6 +34,7 @@ export class SubscriptionCart {
 
     for(let i in items) {
       const item = items[i];
+      console.log('in for', item);
 
       if(item.product.id === product.id) {
         index = i;
@@ -209,6 +210,12 @@ export class SubscriptionCart {
     const differences = [];
     Object.keys(productQuantities).forEach(id => {
       const newDateStock = productStocks[id][newDate];
+      let product;
+
+      for(let item of this.items) {
+        if(item.product.id === +id) product = item.product;
+      }
+
       if(newDateStock < productQuantities[id]) differences.push({
         id: +id,
         type: newDateStock > 0 ? 'withdraw' : 'remove',
@@ -216,7 +223,8 @@ export class SubscriptionCart {
         oldQuantity: productQuantities[id],
         newQuantity: newDateStock,
         oldDate,
-        newDate
+        newDate,
+        product
       })
     });
     return differences;

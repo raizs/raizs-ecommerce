@@ -5,23 +5,23 @@ export const categories = [
     width: 100
   }, {
     label: 'NOSSA HORTA',
-    id: 'garden',
+    id: 'nossa-horta',
     width: 117
   }, {
     label: 'MERCEARIA',
-    id: 'grocery',
+    id: 'mercearia',
     width: 101
   }, {
     label: 'OVOS E CARNES',
-    id: 'eggs_and_meat',
+    id: 'ovos-e-carnes',
     width: 126
   }, {
     label: 'BEBIDAS E LATICÍNIOS',
-    id: 'beverages_and_dairy',
+    id: 'bebidas-e-laticinios',
     width: 162
   }, {
     label: 'CORPO E CASA',
-    id: 'body_and_home',
+    id: 'corpo-e-casa',
     width: 129
   }
 ];
@@ -29,127 +29,127 @@ export const categories = [
 export const MORE_CATEGORY_WIDTH = 80;
 
 export const subcategories = {
-  garden: [
+  'nossa-horta': [
     {
-      id: 'fruits',
+      id: 'frutas',
       label: 'Frutas'
     }, {
-      id: 'sanitized',
+      id: 'higienizados',
       label: 'Higienizados'
     }, {
-      id: 'vegetables',
+      id: 'legumes',
       label: 'Legumes'
     }, {
-      id: 'seasonings',
+      id: 'temperos',
       label: 'Temperos'
     }, {
-      id: 'greens',
+      id: 'verduras',
       label: 'Verduras'
     }
   ],
-  grocery: [
+  mercearia: [
     {
-      id: 'acai_and_granola',
+      id: 'acai-e-granola',
       label: 'Açaí e Granola'
     }, {
-      id: 'rice_and_beans',
+      id: 'arroz-e-feijao',
       label: 'Arroz e Feijão'
     }, {
-      id: 'olive_oils_vinagers_and_oils',
+      id: 'azeite-vinagre-e-oleo',
       label: 'Azeite, Vinagre e Óleo'
     }, {
-      id: 'coffees_and_teas',
+      id: 'cafes-e-chas',
       label: 'Cafés e Chás'
     }, {
-      id: 'nuts_and_dry_fruits',
+      id: 'castanhas-e-frutas-secas',
       label: 'Castanhas e Frutas Secas'
     }, {
-      id: 'cereals_and_flours',
+      id: 'cereais-e-farinhas',
       label: 'Cereais e Farinhas'
     }, {
-      id: 'chocolates_and_candies',
+      id: 'chocolates-e-doces',
       label: 'Chocolates e Doces'
     }, {
-      id: 'condiment_sauces_and_spices',
+      id: 'condimentos-molhos-e-especiarias',
       label: 'Condimentos, Molhos e Especiarias'
     }, {
-      id: 'cookies_biscuits_and_cereal_bars',
+      id: 'cookies-biscoitos-e-barrinhas',
       label: 'Cookies, Biscoitos e Barrinhas'
     }, {
-      id: 'jam_honey_and_sugar',
+      id: 'geleia-mel-e-acucar',
       label: 'Geléia, Mel e Açúcar'
     }, {
-      id: 'grains_and_seeds',
+      id: 'graos-e-sementes',
       label: 'Grãos e Sementes'
     }, {
-      id: 'breads_and_pasta',
+      id: 'paes-e-massas',
       label: 'Pães e Massas'
     }, {
-      id: 'vegetable_proteins_and_mil',
+      id: 'proteinas-e-leites-vegetais',
       label: 'Proteínas e Leites Vegetais'
     }
   ],
-  eggs_and_meat: [
+  'ovos-e-carnes': [
     {
-      id: 'bovine',
+      id: 'bovina',
       label: 'Bovina'
     }, {
-      id: 'chicken',
+      id: 'frangos',
       label: 'Frangos'
     }, {
-      id: 'eggs',
+      id: 'ovos',
       label: 'Ovos'
     }, {
-      id: 'fish',
+      id: 'pescados',
       label: 'Pescados'
     }
   ],
-  beverages_and_dairy: [
+  'bebidas-e-laticinios': [
     {
-      id: 'coffees_and_teas',
+      id: 'cafes-e-chas',
       label: 'Cafés e Chás'
     }, {
-      id: 'iogurt_and_milk',
+      id: 'iogurtes-e-leites',
       label: 'Iogurtes e Leites'
     }, {
-      id: 'cheese_butter_and_others',
+      id: 'queijos-mantei-ga-e-outros',
       label: 'Queijos, Manteiga e Outros'
     }, {
-      id: 'sodas',
+      id: 'refrigerantes',
       label: 'Refrigerantes'
     }, {
-      id: 'lactose_free',
+      id: 'sem-lactose',
       label: 'Sem Lactose'
     }, {
-      id: 'juices_and_others',
+      id: 'sucos-e-outros',
       label: 'Sucos e Outros'
     }, {
-      id: 'alcoholics',
+      id: 'vinhos-e-alcoolicos',
       label: 'Vinhos e Alcoólicos'
     }
   ],
-  body_and_home: [
+  'corpo-e-casa': [
     {
-      id: 'cosmetics',
+      id: 'cosmeticos',
       label: 'Cosméticos',
       subs: [
         {
-          id: 'mouth_and_skin',
+          id: 'boca-e-pele',
           label: 'Boca e Pele'
         }, {
-          id: 'oils_and_hydration',
+          id: 'oleos-e-hidratacao',
           label: 'Óleos e Hidratação'
         }, {
-          id: 'shampoo_and_soap',
+          id: 'shampoo-e-sabonete',
           label: 'Shampoo e Sabonete'
         }
       ]
     }, {
-      id: 'for_the_house',
+      id: 'para-a-casa',
       label: 'Para a Casa',
       subs: [
         {
-          id: 'cleaning_products',
+          id: 'produtos-de-limpeza',
           label: 'Produtos de Limpeza'
         }
       ]

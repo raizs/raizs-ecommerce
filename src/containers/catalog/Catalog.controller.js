@@ -1,5 +1,5 @@
-import { BaseController, MiniDatePickerHelper } from '../../helpers';
-import { Products, UnitsOfMeasure, ProductBrands, Cart, SubscriptionCart } from '../../entities';
+import { BaseController } from '../../helpers';
+import { Products, UnitsOfMeasure, Cart, SubscriptionCart } from '../../entities';
 import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
 import sortby from 'lodash.sortby';
 
@@ -54,37 +54,24 @@ export class CatalogController extends BaseController {
   }
 
   handleSelectDate(selected) {
-    const { selectDateAction, selectedDate, cart, subscriptionCart, openCartWarningModalAction } = this.getProps();
-    const dates = MiniDatePickerHelper.generateDatesObject();
+    const {
+      cart,
+      selectDateAction,
+      selectedDate,
+      subscriptionCart,
+      openCartWarningModalAction
+    } = this.getProps();
 
-    const oldDate = dates[selectedDate];
-    const oldStockDate = oldDate.stockDate;
-    const newDate = dates[selected];
-    const newStockDate = newDate.stockDate;
-    
-    const cartInfo = cart.checkNewDate(oldStockDate, newStockDate);
-    const subscriptionCartInfo = subscriptionCart.checkNewDate(oldStockDate, newStockDate);
-    
-    if(cartInfo.length || subscriptionCartInfo.length) {
-      let newCart, newSubscriptionCart;
-      if(cartInfo.length) {
-        newCart = new Cart({ items: cart.items, selectedDate: newDate });
-        cartInfo.forEach(diff =>
-          newCart = newCart.update({ product: diff.product, quantity: diff.newQuantity })
-        );
-      }
-
-      if(subscriptionCartInfo.length) {
-        newSubscriptionCart = new SubscriptionCart({ items: cart.items, selectedDate: newDate });
-        subscriptionCartInfo.forEach(diff =>
-          newSubscriptionCart = newSubscriptionCart.update({ product: diff.product, quantity: diff.newQuantity })
-        );
-      }
-      
-      return openCartWarningModalAction({ cartInfo, newCart, subscriptionCartInfo, newSubscriptionCart, oldDate, newDate });
-    }
-
-    selectDateAction(selected);
+    this.baseHandleSelectDate({
+      Cart,
+      SubscriptionCart,
+      cart,
+      selected,
+      selectDateAction,
+      selectedDate,
+      subscriptionCart,
+      openCartWarningModalAction
+    });
   }
 
   getAvailableProducts() {

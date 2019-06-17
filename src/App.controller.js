@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
-import { User, Categories, Cards, Products, SaleOrders, UnitsOfMeasure } from './entities';
+import { User, Categories, Cards, Products, SaleOrders, UnitsOfMeasure, Cart, SubscriptionCart } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,
@@ -213,12 +213,25 @@ export class AppController extends BaseController {
   }
 
   handleSelectDate(e) {
-    const { selectDateAction, cart, subscriptionCart } = this.getProps();
-    const { value } = e.target;
+    const {
+      selectDateAction,
+      selectedDate,
+      cart,
+      subscriptionCart,
+      openCartWarningModalAction
+    } = this.getProps();
+    const selected = e.target.value;
 
-    // todo: check cart changes
-
-    selectDateAction(value);
+    this.baseHandleSelectDate({
+      selected,
+      selectDateAction,
+      selectedDate,
+      cart,
+      subscriptionCart,
+      openCartWarningModalAction,
+      Cart,
+      SubscriptionCart
+    });
   }
 
   async handleSubmitForgotPassword() {
