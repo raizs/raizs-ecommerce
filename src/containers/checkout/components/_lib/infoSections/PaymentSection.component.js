@@ -145,7 +145,8 @@ class PaymentSection extends Component {
       debitCardName,
       debitCardExp,
       debitCardCvv,
-      debitCardShouldSave
+      debitCardShouldSave,
+      createSaleOrder
     } = this.props;
 
     const toCreditCardForm = {
@@ -188,7 +189,8 @@ class PaymentSection extends Component {
 
     const compProps = {
       creditCard: toCreditCardForm,
-      debitCard: toDebitCardForm
+      debitCard: toDebitCardForm, 
+      payPal: { createSaleOrder }
     }[selectedPaymentMethod];
 
     if(Comp) return <Comp {...compProps} />;

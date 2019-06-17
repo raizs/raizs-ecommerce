@@ -20,7 +20,10 @@ const withTimeline = WrappedComponent => {
       window.addEventListener('resize', e => this._timelineResizeEvent(e, context));
       window.addEventListener('scroll', e => this._timelineScrollEvent(e, context));
 
-      const timelineWidth = document.querySelector('#side-timeline').clientWidth;
+      const timeline = document.querySelector('#side-timeline')
+      let timelineWidth = 0;
+      if (timeline)
+        timelineWidth = timeline.clientWidth;
       const availableWidth = window.innerWidth - timelineWidth - 16;
       const { shouldFixTimeline } = this.state.timelineData;
 

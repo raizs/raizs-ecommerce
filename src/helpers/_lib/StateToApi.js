@@ -110,7 +110,8 @@ export class StateToApi {
     selectedUserAddress,
     selectedCard,
     momentDate,
-    transaction
+    transaction,
+    payPalData
   }){
     const to = {
       toPg: {
@@ -124,8 +125,8 @@ export class StateToApi {
         items: cart.getMpFormattedItems(),
         shipping: selectedUserAddress.getMpFormattedShipping(),
         payments: [selectedCard.getMpFormattedPayment({ amount:(transaction.totals.immediate.total*100).toFixed(0) })]
-      }
-
+      },
+      payPalData
     };
     return to;
   }

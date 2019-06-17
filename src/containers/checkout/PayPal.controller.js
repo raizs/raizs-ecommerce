@@ -12,18 +12,15 @@ export class PayPalController extends BaseController {
   }
 
   setCheckoutButton(){
-    console.log("working")
-    const { cart, subscriptionCart } = this.getProps();
-    const transaction = new Transaction(cart, subscriptionCart, null, null, null);
-    console.log(transaction)
-    return
-    const createOrder = (data, actions) => {
-      console.log("STARTING")
+    const { cart, coupon, subscriptionCart, giftCard, history, momentDate, createSaleOrder } = this.getProps();
 
+    const transaction = new Transaction({cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod:"payPal", momentDate});
+    const createOrder = (data, actions) => {
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '0.01'
+            currency_code:'BRL',
+            value: transaction.totals.immediate.total
           }
         }]
       });
@@ -32,10 +29,10 @@ export class PayPalController extends BaseController {
     const onApprove = (data, actions) => {
       console.log("APROVED", data, actions)
       return actions.order.capture().then(async function(details) {
-          console.log("SUCESSO")
+          createSaleOrder(transaction, details);
       })
-
     }
+
     if (window.paypal && window.paypal.Buttons){
       window.paypal.Buttons({
         createOrder,

@@ -8,6 +8,7 @@ import {
 } from '../../repositories';
 import { User, SaleOrders, Transaction } from '../../entities';
 import { CheckoutValidation } from '../../validation';
+import { toast } from 'react-toastify';
 
 export class CheckoutController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -492,7 +493,7 @@ export class CheckoutController extends BaseController {
   }
 
   handleSelectPaymentMethod(id) {
-    const { cards, selectCardAction } = this.getProps();
+    const { cards, selectCardAction, cart } = this.getProps();
     
     if(id === 'debitCard') {
       if(!cards.debitCards.length) selectCardAction(null);
@@ -503,6 +504,12 @@ export class CheckoutController extends BaseController {
       if(!cards.creditCards.length) selectCardAction(null);
       else selectCardAction(cards.getDefaultCreditCard());
     }
+    if(id === 'payPal') {
+      if (!cart.subtotal){
+        return toast("O pagamento de assinaturas com paypal ainda não está disponível. Selecione outro método de pagamento")
+      }
+    }
+
     
     this.toState({ selectedPaymentMethod: id });
   }
@@ -601,7 +608,7 @@ export class CheckoutController extends BaseController {
     }
     else{
       if (transaction.totals.immediate.subtotal){
-        // await this.createSaleOrder(transaction);
+        await this.createSaleOrder(transaction);
       }
       if (transaction.hasSubcart){
         await this.createSubscription(transaction);
@@ -609,17 +616,17 @@ export class CheckoutController extends BaseController {
     }
 
     this.toState({loading:false});
-    // return history.push("/pedido-finalizado")
+    return history.push("/pedido-finalizado")
   }
 
-  async createSaleOrder(transaction) {
+  async createSaleOrder(transaction, payPalData=null) {
     const { 
       cart,
       user, 
       selectedUserAddress, 
       selectedCard, 
       momentDate, 
-      setSaleOrdersAction 
+      setSaleOrdersAction
     } = this.getProps();
 
     const toApi = StateToApi.saleOrderCheckout({
@@ -628,7 +635,8 @@ export class CheckoutController extends BaseController {
       selectedUserAddress, 
       selectedCard, 
       momentDate,
-      transaction
+      transaction,
+      payPalData
     });
 
     const promise = await this.saleOrdersRepo.createOrder(toApi);
@@ -639,8 +647,9 @@ export class CheckoutController extends BaseController {
       return ;
     }
     else {
-      const saleOrders = new SaleOrders(promise.data)
-      setSaleOrdersAction(saleOrders)
+      const saleOrders = new SaleOrders(promise.data);
+      setSaleOrdersAction(saleOrders);
+      return promise;
     }
   }
 
