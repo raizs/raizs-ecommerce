@@ -252,7 +252,8 @@ class Checkout extends BaseContainer {
       handleSelectCard,
       handleCardNumberBlur,
       handleCardExpDateBlur,
-      handleConfirm
+      handleConfirm,
+      createSaleOrder
     } = this.controller;
 
     const {
@@ -306,7 +307,7 @@ class Checkout extends BaseContainer {
       classes,
       selectedUserAddress,
       cards,
-      selectedCard
+      selectedCard,
     } = this.props;
 
     const toUserSection = {
@@ -392,7 +393,8 @@ class Checkout extends BaseContainer {
       debitCardName,
       debitCardExp,
       debitCardCvv,
-      debitCardShouldSave
+      debitCardShouldSave,
+      createSaleOrder
     };
 
     return (

@@ -3,6 +3,7 @@ import { withStyles} from '@material-ui/core';
 import { TextInput } from '../../../../../molecules';
 import { PayPalRepository } from '../../../../../repositories';
 import { BaseContainer } from '../../../../../helpers';
+import { withRouter } from 'react-router';
 import { PayPalController } from "../../../PayPal.controller.js"
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -51,6 +52,9 @@ class PayPalForm extends BaseContainer {
 const mapStateToProps = state => ({
   cart: state.cart.current,
   subscriptionCart: state.subscriptionCart,
+  momentDate: state.datePicker.momentDate,
+  coupon: state.coupon.selected,
+  giftCard: state.giftCard,
 });
 
 PayPalForm = compose(
