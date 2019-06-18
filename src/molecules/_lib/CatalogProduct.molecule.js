@@ -3,37 +3,41 @@ import { withStyles } from '@material-ui/core';
 import classnames from 'classnames';
 
 import { QuantitySelector } from '..';
+import { sizes } from '../../constants/sizes';
 
-const MIN_PRODUCT_HEIGHT = 332;
-const MIN_SMALL_PRODUCT_HEGHT = 240;
+const MIN_PRODUCT_HEIGHT = sizes.CATALOG_PRODUCT_HEIGHT;
+const MIN_SMALL_PRODUCT_HEIGHT = sizes.SMALL_CATALOG_PRODUCT_HEIGHT;
+
+const WIDTH = sizes.CATALOG_PRODUCT_WIDTH;
+const SMALL_WIDTH = sizes.SMALL_CATALOG_PRODUCT_WIDTH;
 
 const styles = theme => ({
   wrapper: {
-    width: '256px',
+    width: WIDTH,
     minHeight: `${MIN_PRODUCT_HEIGHT}px`,
     backgroundColor: 'white',
     display: 'inline-block',
-    margin: 2 * theme.spacing.unit,
+    margin: theme.spacing.unit,
     padding: theme.spacing.unit/2,
     borderRadius: theme.spacing.unit,
     cursor: 'pointer',
     '&.-small': {
-      minHeight: `${MIN_SMALL_PRODUCT_HEGHT}px`,
-      width: '176px'
+      minHeight: MIN_SMALL_PRODUCT_HEIGHT,
+      width: sizes.SMALL_CATALOG_PRODUCT_WIDTH
     }
   },
   imageWrapper: {
     position: 'relative',
-    height: '224px',
-    width: '248px',
+    height: WIDTH - 8,
+    width: WIDTH - 8,
     '& div.quantity-selector': {
       position: 'absolute',
       bottom: theme.spacing.unit,
       right: theme.spacing.unit
     },
     '&.-small': {
-      height: '176px',
-      width: '176px',
+      height: sizes.SMALL_CATALOG_PRODUCT_WIDTH,
+      width: sizes.SMALL_CATALOG_PRODUCT_WIDTH,
     }
   },
   image: {
@@ -83,8 +87,8 @@ class CatalogProduct extends Component {
         <div className={classnames(imageClasses)}>
           <img-2
             className={classes.image}
-            width={small ? 168 : 248}
-            height={small ? 168 : 224}
+            width={small ? SMALL_WIDTH - 8 : WIDTH - 8}
+            height={small ? SMALL_WIDTH - 8 : WIDTH - 8}
             alt={product.name}
             src={product.imageUrl}
             src-preview={product.imageUrl}

@@ -21,19 +21,19 @@ const GOOGLE_RED = '#D34836';
 const XXS = '11px';
 const XS = '12px';
 const SM = '14px';
-const MD = '16px';
-const MMD = '20px';
-const LG = '24px';
-const XL = '36px';
+const MD = '15px';
+const MMD = '18px';
+const LG = '20px';
+const XL = '28px';
 const XXL = '48px';
 
 const nXXS = 11;
 const nXS = 12;
 const nSM = 14;
-const nMD = 16;
-const nMMD = 20;
-const nLG = 24;
-const nXL = 36;
+const nMD = 15;
+const nMMD = 18;
+const nLG = 20;
+const nXL = 28;
 const nXXL = 48;
 
 const SPACING_UNIT = 8;

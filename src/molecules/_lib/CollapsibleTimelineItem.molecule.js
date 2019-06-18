@@ -3,18 +3,21 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Collapse, withStyles, Icon } from '@material-ui/core';
 
+const LINE_WIDTH = 3;
+
 const styles = theme => ({
   group: {
     borderTop: `1px solid ${theme.palette.gray.border}`,
+    marginBottom: 2 * theme.spacing.unit, 
     '&:first-child': {
       borderTop: 'none'
     }
   },
   title: {
     fontSize: theme.fontSizes.SM,
-    fontWeight: 700,
+    fontWeight: 600,
     cursor: 'pointer',
-    padding: `${2 * theme.spacing.unit}px 0`,
+    paddingTop: 2 * theme.spacing.unit,
     display: 'flex',
     justifyContent: 'space-between',
     '& > *': {
@@ -25,17 +28,37 @@ const styles = theme => ({
     }
   },
   subtitle: {
+    position: 'relative',
     fontSize: theme.fontSizes.XS,
+    lineHeight: '20px',
     color: theme.palette.gray.main,
     fontWeight: 500,
-    marginBottom: theme.spacing.unit,
     cursor: 'pointer',
+    paddingLeft: theme.spacing.unit + LINE_WIDTH,
     '&:hover a': {
       color: theme.palette.green.main
     },
     '&.-active *': {
       color: theme.palette.green.main,
       fontWeight: 700
+    },
+    '&.-active:after': {
+      content: "''",
+      position: 'absolute',
+      left: 0,
+      width: LINE_WIDTH,
+      height: '100%',
+      top: 0,
+      backgroundColor: theme.palette.green.main
+    },
+    '&:after': {
+      content: "''",
+      position: 'absolute',
+      left: 0,
+      width: LINE_WIDTH,
+      height: '100%',
+      top: 0,
+      backgroundColor: theme.palette.gray.darkBg
     }
   }
 });

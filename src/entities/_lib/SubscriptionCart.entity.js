@@ -34,7 +34,6 @@ export class SubscriptionCart {
 
     for(let i in items) {
       const item = items[i];
-      console.log('in for', item);
 
       if(item.product.id === product.id) {
         index = i;
