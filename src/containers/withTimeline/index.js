@@ -36,10 +36,10 @@ const withTimeline = WrappedComponent => {
     }
     
     componentDidUpdate(prevProps, prevState) {
-      if(this.props.location && this.props.location.hash) {
+      if(this.props.location && this.props.location.hash && !prevState.initialScroll) {
         const el = document.querySelector(this.props.location.hash);
         if(el) window.scrollTo(el.offsetLeft, el.offsetTop);
-        // this.setState({ initialScroll: true });
+        this.setState({ initialScroll: true });
       }
     }
     
@@ -91,7 +91,6 @@ const withTimeline = WrappedComponent => {
       if(currentWindowId !== currentSectionId) {
         timelineData.currentSectionId = currentWindowId;
         shouldSetState = true;
-        document.location.hash = currentWindowId ? `#${currentWindowId}_` : '';
       }
 
       if(shouldSetState) context.setState({ timelineData });

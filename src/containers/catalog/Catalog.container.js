@@ -34,6 +34,9 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'center',
       marginTop: 2 * theme.spacing.unit,
+    },
+    '& h1.title': {
+      ...theme.typography.raizs
     }
   },
   sortBox: {
@@ -109,12 +112,12 @@ class Catalog extends BaseContainer {
     const { classes } = this.props;
     const { filter, ascending } = this.state;
 
-    return catalogFilters.map(f=>{
+    return catalogFilters.map(f => {
       let iconClassName = [classes.sortIcon];
       let icon = "arrow_upward";
       if(filter === f.id) {
-        iconClassName.push(classes.selectedSortIcon)
-        if(ascending) icon = "arrow_downward"
+        iconClassName.push(classes.selectedSortIcon);
+        if(ascending) icon = "arrow_downward";
       }
       return <div key={f.id} className={classes.sortItem} onClick={()=>this.controller.toggleSort(f.id)}>
         <div className={classes.sortItemTitle}>{f.label}</div>
@@ -166,9 +169,7 @@ class Catalog extends BaseContainer {
       shouldFixTimeline,
       categories: { catalogTimelineObj },
       currentSectionId,
-      selectedDate
     } = this.props;
-    const { handleSelectDate } = this.controller;
 
     return (
       <div className={classes.wrapper}>
@@ -183,9 +184,7 @@ class Catalog extends BaseContainer {
           fixed={shouldFixTimeline}
           timelineWidth={timelineWidth}
         >
-          <div className='date-picker-wrapper'>
-            <BigDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
-          </div>
+          <h1 className='title'>Catálogo</h1>
           {this._renderTimelineSections()}
         </TimelineSections>
       </div>

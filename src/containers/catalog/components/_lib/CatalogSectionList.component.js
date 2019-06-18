@@ -5,19 +5,23 @@ import InfiniteScroll from 'react-infinite-scroller';
 import 'img-2';
 
 import { CatalogProduct, CatalogUnavailableProduct } from '../../../../molecules';
+import { sizes } from '../../../../constants/sizes';
+
+const MARGIN = 8;
 
 const UNAVAILABLE_PRODUCT_WIDTH = 64;
-const UNAVAILABLE_PRODUCT_SPACE = UNAVAILABLE_PRODUCT_WIDTH + 32;
+const UNAVAILABLE_PRODUCT_SPACE = UNAVAILABLE_PRODUCT_WIDTH + (2 * MARGIN);
 
-const PRODUCT_WIDTH = 256 + 32;
-const SMALL_PRODUCT_WIDHT = 176 + 32;
+const PRODUCT_WIDTH = sizes.CATALOG_PRODUCT_WIDTH + (2 * MARGIN);
+const SMALL_PRODUCT_WIDHT = sizes.SMALL_CATALOG_PRODUCT_WIDTH + (2 * MARGIN);
 
-const MIN_PRODUCT_HEIGHT = 328 + 32;
-const MIN_SMALL_PRODUCT_HEIGHT = 244 + 32;
+const MIN_PRODUCT_HEIGHT = sizes.CATALOG_PRODUCT_HEIGHT + (2 * MARGIN);
+const MIN_SMALL_PRODUCT_HEIGHT = 244 + (2 * MARGIN);
 
 const styles = theme => ({
   title: {
     padding: `${theme.spacing.unit}px 0`,
+    fontSize: theme.fontSizes.MMD,
     '&.-small': {
       fontSize: theme.fontSizes.MD,
       color: theme.palette.gray.main

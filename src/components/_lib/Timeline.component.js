@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core';
 
 import { CollapsibleTimelineItem } from '../../molecules';
 
-export const TIMELINE_MAX_WIDTH = 256;
+export const TIMELINE_MAX_WIDTH = 200;
 const TIMELINE_LINE_HEIGHT = 4;
 const TIMELINE_LINE_WIDTH = 80;
 
@@ -18,7 +18,7 @@ const styles = theme => ({
     display: 'inline-block',
     height: '100%',
     verticalAlign: 'top',
-    padding: `${4 * theme.spacing.unit}px ${2 * theme.spacing.unit}px ${2 * theme.spacing.unit}px ${3 * theme.spacing.unit}px`,
+    padding: `${2 * theme.spacing.unit}px ${2 * theme.spacing.unit}px ${2 * theme.spacing.unit}px ${3 * theme.spacing.unit}px`,
     '& *': {
       userSelect: 'none'
     }

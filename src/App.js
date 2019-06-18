@@ -114,10 +114,10 @@ class App extends BaseContainer {
 
     this.controller.initialFetch();
 
-    new SmoothScroll('a[href^="#"]', {
-      speed: 750,
-      speedAsDuration: true
-    });
+    // new SmoothScroll('a[href^="#"]', {
+    //   speed: 750,
+    //   speedAsDuration: true
+    // });
   }
 
   _renderTopHeader(currentPath) {

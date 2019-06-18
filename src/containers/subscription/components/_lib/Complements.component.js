@@ -16,8 +16,9 @@ const styles = theme => ({
   },
   top: {
     textAlign: 'center',
-    backgroundColor: theme.palette.gray.darkBg,
+    backgroundColor: theme.palette.gray.bg,
     padding: 4 * theme.spacing.unit,
+    paddingBottom: 0,
     '& > h1': theme.typography.raizs,
     '& > h2': {
       marginTop: 4 * theme.spacing.unit,
@@ -133,7 +134,7 @@ class Complements extends Component {
 
         <section className={classes.top}>
           <h1>Complete sua cesta</h1>
-          <h2>Descubra diversos produtos e não perca mais tempo indo até o mercado.</h2>
+          {/* <h2>Descubra diversos produtos e não perca mais tempo indo até o mercado.</h2> */}
         </section>
 
         <section className={classes.main}>

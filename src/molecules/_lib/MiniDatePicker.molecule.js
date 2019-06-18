@@ -40,7 +40,7 @@ class MiniDatePicker extends Component {
     value: 0
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if(this.props.selected !== this.state.value) 
       this.setState({
         value: this.props.selected,

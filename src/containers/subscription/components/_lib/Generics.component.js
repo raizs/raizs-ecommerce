@@ -14,8 +14,9 @@ const styles = theme => ({
   },
   top: {
     textAlign: 'center',
-    backgroundColor: theme.palette.gray.darkBg,
+    backgroundColor: theme.palette.gray.bg,
     padding: 4 * theme.spacing.unit,
+    paddingBottom: 0,
     '& > h1': theme.typography.raizs,
     '& > h2': {
       marginTop: 4 * theme.spacing.unit,
@@ -25,7 +26,7 @@ const styles = theme => ({
     }
   },
   main: {
-    padding: 6 * theme.spacing.unit,
+    padding: 4 * theme.spacing.unit,
     textAlign: 'center',
     '& > h3': {
       fontSize: theme.fontSizes.MMD,
@@ -198,7 +199,7 @@ class Generics extends Component {
 
         <section className={classes.top}>
           <h1>Assinatura</h1>
-          <h2>Sua cesta de orgânicos personalizada,<br/>entregue em casa periodicamente.</h2>
+          {/* <h2>Sua cesta de orgânicos personalizada,<br/>entregue em casa periodicamente.</h2> */}
         </section>
 
         <section className={classes.main}>
