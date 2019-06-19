@@ -7,7 +7,7 @@ export const howItWorksTooltips = [
   }, {
     label: 'Pedido avulso',
     id: 'bgSingleOrder',
-    tooltip: 'Faça um pedido selecionando exatamente o que você quer receber! Aproveite ao máximo a diversidade do nosso catálogo CHEIO de produtos orgânicos DELICIOSOS! ',
+    tooltip: 'Faça um pedido selecionando exatamente o que você quer receber! Aproveite ao máximo a diversidade do nosso catálogo CHEIO de produtos orgânicos DELICIOSOS!',
   }, {
     label: 'Agende sua entrega',
     id: 'bgShippSchedule',
