@@ -19,7 +19,7 @@ import {
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
 
-const CONTENT_MAX_WIDTH = 1100;
+const CONTENT_MAX_WIDTH = 1024;
 
 const styles = theme => ({
   wrapper: {
@@ -163,7 +163,8 @@ class Checkout extends BaseContainer {
    * @memberof Checkout
    */
   componentDidMount() {
-    const { user } = this.props;
+    const { user, history, cart, subscriptionCart } = this.props;
+    if(!cart.productCount && !subscriptionCart.isAdded) return history.push('/');
     if(user) {
       this.controller.setUserInfo(user);
       if(user.addresses && user.addresses.all.length) {
@@ -423,7 +424,14 @@ class Checkout extends BaseContainer {
    */
   _renderSummary() {
     const { selectedDate, cart, subscriptionCart, coupon, giftCard } = this.props;
-    return <SummarySection giftCard={giftCard} coupon={coupon} selectedDate={selectedDate} cart={cart} subscriptionCart={subscriptionCart} />;
+    return (
+      <SummarySection
+        cart={cart}
+        coupon={coupon}
+        giftCard={giftCard}
+        selectedDate={selectedDate}
+        subscriptionCart={subscriptionCart} />
+    );
   }
 
   render() {

@@ -4,8 +4,8 @@ export const dashboardSections = [
     title: "Geral"
   },
   {
-    route:"/painel/usuario",
-    title: "Usuário"
+    route:"/painel/perfil",
+    title: "Perfil"
   },
   {
     route:"/painel/assinaturas",

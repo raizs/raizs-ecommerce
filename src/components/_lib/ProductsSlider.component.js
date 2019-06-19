@@ -2,6 +2,7 @@ import React from 'react'
 import Slider from 'react-slick';
 import { CatalogProduct, SliderArrow } from '../../molecules';
 import { withStyles } from '@material-ui/core';
+import { sizes } from '../../constants/sizes';
 
 const styles = theme => ({
   wrapper: {
@@ -23,8 +24,8 @@ let ProductsSlider = props => {
   const { products, cart, handleUpdateCart, classes, isArrowSmall, all, stockDate } = props;
 
   const settings = {
-    slidesToShow: Math.floor(window.innerWidth / 300) - 1,
-    slidesToScroll: Math.floor(window.innerWidth / 300) - 1,
+    slidesToShow: Math.floor(window.innerWidth / (sizes.CATALOG_PRODUCT_WIDTH + 24)) - 1,
+    slidesToScroll: Math.floor(window.innerWidth / (sizes.CATALOG_PRODUCT_WIDTH + 24)) - 1,
     prevArrow: <SliderArrow isSmall={isArrowSmall} to='prev' />,
     nextArrow: <SliderArrow isSmall={isArrowSmall} to='next' />,
     infinite: false,

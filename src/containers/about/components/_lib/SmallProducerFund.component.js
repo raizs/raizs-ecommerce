@@ -47,11 +47,6 @@ const styles = theme => ({
       fontSize: '48px',
       marginTop: '10px'
     }
-  },
-  toRemove: {
-    width: `calc(100% + ${5 * theme.spacing.unit}px)`,
-    height: '330px',
-    backgroundColor: theme.palette.green.main
   }
 });
 
@@ -76,7 +71,6 @@ let SmallProducerFund = ({ classes, id }) => {
         </div>
         <p className={classes.info}>{smallFundProducerInfoText}</p>
       </div>
-      <div className={classes.toRemove}></div>
     </div>
   );
 }

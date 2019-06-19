@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Icon } from '@material-ui/core';
 
 import { CartController } from './Cart.controller';
 import { BaseContainer } from '../../helpers';
@@ -61,9 +61,6 @@ const styles = theme => ({
           display: 'inline-block',
           float: 'right',
           fontWeight: 600,
-          '&:hover': {
-            color: theme.palette.green.main
-          }
         }
       },
       '& > div': {
@@ -193,7 +190,7 @@ class Cart extends BaseContainer {
       <div className='items'>
         <h4>
           Assinatura - {subscriptionName}
-          <span onClick={handleRemoveSubscription}>remover</span>
+          <span onClick={handleRemoveSubscription}><Icon>close</Icon></span>
         </h4>
         <div>
           {cart.items.map(item => {
@@ -216,6 +213,14 @@ class Cart extends BaseContainer {
         </div>
       </div>
     ) : null;
+  }
+
+  _renderEmptyCart() {
+    const { cart, subscriptionCart } = this.props;
+    if(!cart.productCount && !subscriptionCart.isAdded)
+      return (
+        <div style={{ textAlign: 'center' }}>Não há ítens em seu carrinho.</div>
+      );
   }
 
   render() {
@@ -269,6 +274,7 @@ class Cart extends BaseContainer {
         }
         {this._renderCartItems()}
         {this._renderSubscriptionCartItems()}
+        {this._renderEmptyCart()}
         <div className='checkout'>
           <CartCheckout {...toCartCheckout} />
         </div>

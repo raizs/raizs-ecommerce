@@ -2,13 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles, Icon, Button } from '@material-ui/core';
 
 import { CatalogController } from './Catalog.controller';
 import { BaseContainer } from '../../helpers';
 
 import {
-  BigDatePicker,
   Timeline,
   TimelineSections,
   TimelineSection
@@ -30,13 +29,31 @@ const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     width: '100%',
+    position: 'relative',
+    userSelect: 'none',
     '& div.date-picker-wrapper': {
       display: 'flex',
       justifyContent: 'center',
       marginTop: 2 * theme.spacing.unit,
     },
-    '& h1.title': {
-      ...theme.typography.raizs
+    '& > button#backToTop': {
+      ...theme.buttons.secondary,
+      height: 40,
+      width: '40px',
+      minWidth: '40px',
+      borderRadius: '50%',
+      position: 'fixed',
+      top: -48,
+      right: 32,
+      boxShadow: theme.shadows[5],
+      textAlign: 'center',
+      lineHeight: '40px',
+      zIndex: 10,
+      transition: 'top .4s',
+      '& *': { color: theme.palette.green.main },
+      '& > span': { position: 'absolute' },
+      '&.-show': { top: 4 * theme.spacing.unit },
+      '&:hover': { top: '200px !important' },
     }
   },
   sortBox: {
@@ -66,7 +83,6 @@ const styles = theme => ({
   },
   selectedSortIcon: {
     color: theme.palette.green.main
-
   }
 });
 
@@ -92,6 +108,7 @@ class Catalog extends BaseContainer {
   state = {
     filter: "popularity",
     ascending: false,
+    shouldDisplayBackButton: false,
 
     currentSectionId: ''
   }
@@ -100,6 +117,23 @@ class Catalog extends BaseContainer {
     classes: PropTypes.object,
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this._scrollEvent.bind(this));
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._scrollEvent);
+  }
+  
+  _scrollEvent(e) {
+    const { shouldDisplayBackButton } = this.state;
+    const scrollTop = document.documentElement.scrollTop;
+    const breakpoint = 200;
+
+    if(!shouldDisplayBackButton && scrollTop > breakpoint) this.setState({ shouldDisplayBackButton: true });
+    if(shouldDisplayBackButton && scrollTop <= breakpoint) this.setState({ shouldDisplayBackButton: false });
+  }
+  
   /**
    * _renderTimelineSections - renders the correct section based on the
    * section id
@@ -161,6 +195,7 @@ class Catalog extends BaseContainer {
   }
 
   render() {
+    const { shouldDisplayBackButton } = this.state;
     const {
       classes,
       history,
@@ -184,9 +219,15 @@ class Catalog extends BaseContainer {
           fixed={shouldFixTimeline}
           timelineWidth={timelineWidth}
         >
-          <h1 className='title'>Catálogo</h1>
           {this._renderTimelineSections()}
         </TimelineSections>
+        <Button
+          id='backToTop'
+          onClick={() => window.scrollTo({ top: 0 })}
+          className={shouldDisplayBackButton ? '-show' : ''}
+        >
+          <Icon>keyboard_arrow_up</Icon>
+        </Button>
       </div>
     )
   }

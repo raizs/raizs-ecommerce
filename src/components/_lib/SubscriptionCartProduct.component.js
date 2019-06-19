@@ -61,7 +61,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    '& > span.material-icons': {
+      cursor: 'pointer'
+    }
   },
   partialPrice: {
     fontSize: theme.fontSizes.SM,
@@ -165,7 +168,7 @@ class SubscriptionCartProduct extends Component {
           <h5 className={classes.partialPrice}>
             {Formatter.currency(product.partialPrice)}
           </h5>
-          <Icon fontSize='small'>close</Icon>
+          <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon>
         </div>
       </div>
     )

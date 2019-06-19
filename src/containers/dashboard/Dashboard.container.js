@@ -9,57 +9,70 @@ import { Route, Switch,Redirect } from 'react-router-dom';
 import { dashboardSections } from "../../assets";
 import { DashboardGeneral, DashboardUser, DashboardForms } from "./components"
 
-
 const styles = theme => ({
   wrapper: {
     backgroundColor: theme.palette.gray.bg,
     padding: 3*theme.spacing.unit,
   	minHeight: "500px",
   },
-  withMenuComponent:{
-    width:"calc(100% - 250px)",
-    display:"inline-block",
-    minHeight:"800px",
-    verticalAlign:"top"
+  withMenuComponent: {
+    width: "calc(100% - 250px)",
+    display: "inline-block",
+    minHeight: "800px",
+    verticalAlign: "top"
   }
 });
 
-class Dashboard extends Component{
+class Dashboard extends Component {
 
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
   }
 
   state = {
-    name:""
+    name: ""
   }
-	
+
+  componentWillMount() {
+    const { storeFirebase } = this.props;
+    const isAuth = !storeFirebase.auth.isEmpty;
+
+    if(!isAuth) this.props.history.push('/');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { storeFirebase } = nextProps;
+    const isAuth = !storeFirebase.auth.isEmpty;
+
+    if(!isAuth) this.props.history.push('/');
+  }
+  
 	render() {
     const { wrapper, withMenuComponent } = this.props.classes;
 
-	    return (
-			<div className={wrapper}>
+    return (
+      <div className={wrapper}>
         <SideMenu title="MEU PAINEL" sections={dashboardSections}/>
         <Switch>
           <Route path='/painel/geral'><div className={withMenuComponent}>
             <DashboardGeneral/>
           </div></Route>
-          <Route path='/painel/usuario'><div className={withMenuComponent}>
+          <Route path='/painel/perfil'><div className={withMenuComponent}>
             <DashboardUser />
           </div></Route>
           <Route path='/painel/editar/:form/:id'><div className={withMenuComponent}>
             <DashboardForms controller={this.controller}/>
           </div></Route>
           <Route path="/painel*" component={() => <Redirect to="/painel/geral" />} />
-
         </Switch>
-			</div>
-	    )
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
-	saleOrders: state.saleOrders.orders
+  saleOrders: state.saleOrders.orders,
+  storeFirebase: state.firebase  
 })
 
 export default compose(

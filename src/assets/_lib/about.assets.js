@@ -1,5 +1,5 @@
 export const aboutTimeline = {
-  title: 'RAIZS',
+  title: 'RAÍZS',
   items: [
     {
       label: 'Quem Somos',

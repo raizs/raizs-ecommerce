@@ -157,7 +157,7 @@ class Header extends Component {
           label={label}
           clickAction={() => history.push(StringMapper.categoryToURL(id))}
         >
-          <HeaderPopper history={history} id={id} />
+          <HeaderPopper history={history} id={id} moreInfo={id === 'mercearia'} />
         </HeaderPopperButton>
       );
     });

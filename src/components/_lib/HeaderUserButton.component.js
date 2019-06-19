@@ -38,6 +38,7 @@ let HeaderUserButton = props => {
       from='headerUserButton'
       placement='bottom-end'
       label={label}
+      zIndex={10}
       open={isUserPopperOpen}
       shouldCloseOnInsideClick={isAuth}
       fadeTimeout={isAuth ? { enter: 350, exit: 0 } : null}

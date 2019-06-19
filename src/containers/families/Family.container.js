@@ -219,7 +219,7 @@ class Family extends BaseContainer {
                 de diferentes famílias produtoras,<br/>
                 toda semana!
               </h2>
-              <Button id='assinatura' onClick={() => history.push('/assinatura')}>Montar cesta</Button>
+              <Button id='assinatura' onClick={() => history.push('/assinatura/genericos')}>Montar cesta</Button>
             </div>
             <div className='dream'>
               <div className='image'/>

@@ -10,7 +10,7 @@ import { sizes } from '../../../../constants/sizes';
 const MARGIN = 8;
 
 const UNAVAILABLE_PRODUCT_WIDTH = 64;
-const UNAVAILABLE_PRODUCT_SPACE = UNAVAILABLE_PRODUCT_WIDTH + (2 * MARGIN);
+const UNAVAILABLE_PRODUCT_SPACE = UNAVAILABLE_PRODUCT_WIDTH + (4 * MARGIN);
 
 const PRODUCT_WIDTH = sizes.CATALOG_PRODUCT_WIDTH + (2 * MARGIN);
 const SMALL_PRODUCT_WIDHT = sizes.SMALL_CATALOG_PRODUCT_WIDTH + (2 * MARGIN);
@@ -60,7 +60,7 @@ class CatalogSectionList extends Component {
     const unavailablePerRow = Math.floor(availableWidth / UNAVAILABLE_PRODUCT_SPACE);
     
     const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight + 80;
-    const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE + 80;
+    const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE;
     
     const fakeHeight = availableFakeHeight + unavailableFakeHeight;
     

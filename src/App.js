@@ -121,10 +121,11 @@ class App extends BaseContainer {
   }
 
   _renderTopHeader(currentPath) {
-    const { history } = this.props;
+    const { history, selectedDate } = this.props;
+    const { handleSelectDate } = this.controller;
 
     return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && (
-      <TopHeader history={history} />
+      <TopHeader history={history} handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
     );
   }
 
@@ -195,6 +196,10 @@ class App extends BaseContainer {
         loginLoading
       },
       toLoggedIn: {
+        general: () => history.push('/painel/geral'),
+        profile: () => history.push('/painel/perfil'),
+        subscriptions: () => history.push('/painel/assinaturas'),
+        orders: () => history.push('/painel/pedidos'),
         logout
       }
     };

@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { MiniDatePicker } from '../../molecules';
 
 /**
  * renderNavLink - Renders the buttons that navigate in the different routes of the website
@@ -20,15 +21,16 @@ const renderNavLink = ({label, route}) => {
  * @returns {JSX} 
  */
 export const TopHeader = props => {
-
+  const { selectedDate, handleSelectDate } = props;
   return (
     <div className="top-header flex h sb al-c" >
       <nav className="side-buttons">
-        {renderNavLink({route:"quem-somos", label:"Sobre a Raízs"})}
+        {renderNavLink({route:"/", label:"Home"})}
         {renderNavLink({route:"familias", label:"Conheça os Produtores"})}
       </nav>
+      <MiniDatePicker handleSelectDate={handleSelectDate} selected={selectedDate}  />
       <nav className="side-buttons">
-        {renderNavLink({route:"route", label:"Refazer Pedido"})}
+        {renderNavLink({route:"quem-somos", label:"Sobre a Raízs"})}
         {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}
       </nav>
     </div>

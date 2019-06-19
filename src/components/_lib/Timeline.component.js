@@ -25,9 +25,10 @@ const styles = theme => ({
   },
   title: {
     marginBottom: 3 * theme.spacing.unit,
-    fontSize: theme.fontSizes.SM,
+    fontSize: theme.fontSizes.MMD,
     fontWeight: 600,
     cursor: 'default',
+    fontFamily: 'raizs'
   },
   line: {
     height: TIMELINE_LINE_HEIGHT,

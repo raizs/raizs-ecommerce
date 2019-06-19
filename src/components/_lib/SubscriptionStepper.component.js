@@ -54,7 +54,7 @@ class SubscriptionStepper extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const id = nextProps.location.pathname.split('/')[2];
+    const id = nextProps.location.pathname.split('/')[2] || 'genericos';
 
     if(id !== this.state.activeStepId) {
       this.setState({ activeStepNumber: steps[id].number, activeStepId: id });

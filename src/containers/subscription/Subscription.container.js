@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { Generics, Complements, Review } from './components';
@@ -104,6 +104,8 @@ class Subscription extends BaseContainer {
             stockDate={stockDate}
           />
         </Route>
+        <Route path="/assinatura" component={() => <Redirect to="/assinatura/genericos" />} />
+        <Route path="/assinatura*" component={() => <Redirect to="/assinatura/genericos" />} />
       </Switch>
     )
   }

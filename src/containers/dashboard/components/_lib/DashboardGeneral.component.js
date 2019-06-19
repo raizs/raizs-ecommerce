@@ -54,31 +54,29 @@ const styles = theme => ({
 });
 
 class DashboardGeneral extends Component{
-  constructor(props){
-    super(props)
-
+  constructor(props) {
+    super(props);
   }
 
-  state={
-    loading:true
+  state = {
+    loading: true
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.saleOrders){
-      this.setState({loading:false})
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.saleOrders) {
+      this.setState({ loading:false });
     }
   }
 
-  componentWillMount(){
-    if (this.props.saleOrders){
-      this.setState({loading:false})
+  componentWillMount() {
+    if (this.props.saleOrders) {
+      this.setState({ loading:false });
     }
   }
 
-
-  _renderWhiteBoxes(){
+  _renderWhiteBoxes() {
     const { classes } = this.props;
-    return dashboardGeneralWhiteBoxes.map((box, key)=>{
+    return dashboardGeneralWhiteBoxes.map((box, key) => {
       return(
         <div className={classes.whiteBox} key={key}>
           <div className={classes.whiteBoxSection}>
@@ -89,16 +87,16 @@ class DashboardGeneral extends Component{
               {this.props.saleOrders[box.id]}
             </div>
           </div>
-          <img className={classes.whiteBoxImg} src={box.img}/>
+          <img className={classes.whiteBoxImg} src={box.img} />
         </div>
       );
     })
   }
 
-  render(){
+  render() {
     const { to, classes, title } = this.props;
 
-    if (this.state.loading){
+    if (this.state.loading) {
       return <div className={classes.box}>
         <Loading/>
       </div>
@@ -118,11 +116,12 @@ class DashboardGeneral extends Component{
 const mapStateToProps = state => ({
   user: state.user.current,
   saleOrders: state.saleOrders.orders
-})
+});
 
 DashboardGeneral = compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, {})
-  )(DashboardGeneral);
-  export { DashboardGeneral }
+)(DashboardGeneral);
+
+export { DashboardGeneral }
