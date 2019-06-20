@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const ROOT_URL = `${process.env.API_ROOT_URL || "http://localhost:3300/api/v1/"}`;
+const ROOT_URL = `${process.env.API_ROOT_URL || "http://raizs-api-dev.jy9ydwewbm.sa-east-1.elasticbeanstalk.com/api/v1/"}`;
 
 export class BaseRepository {
 
