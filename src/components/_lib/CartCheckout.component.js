@@ -138,7 +138,6 @@ class CartCheckout extends Component {
               >
                 {Formatter.currency(cart.subtotal)}
               </p>
-              <p className={classes.info}>Valor mínimo: {Formatter.currency(MINIMUM_VALUE)}</p>
             </div>
           </div>
           {this._renderCheckoutButton()}

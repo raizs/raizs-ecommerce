@@ -26,15 +26,15 @@ export const TopHeader = props => {
     <div className="top-header flex h sb al-c" >
       <nav className="side-buttons">
         {renderNavLink({route:"/", label:"Home"})}
-        {renderNavLink({route:"familias", label:"Conheça os Produtores"})}
+        {renderNavLink({route:"/familias", label:"Conheça os Produtores"})}
       </nav>
       <MiniDatePicker
         handleSelectDate={handleSelectDate}
         selected={selectedDate}
       />
       <nav className="side-buttons">
-        {renderNavLink({route:"quem-somos", label:"Sobre a Raízs"})}
-        {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}
+        {renderNavLink({route:"/quem-somos", label:"Sobre a Raízs"})}
+        {renderNavLink({route:"/route", label:"Precisa de Ajuda?"})}
       </nav>
     </div>
   )

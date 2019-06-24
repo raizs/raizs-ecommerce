@@ -7,13 +7,8 @@ import { connect } from "react-redux";
 import { dashboardUserPersonalData } from "../../../../assets";
 import { Loading } from '../../../../molecules';
 import { UserAddressesRepository } from '../../../../repositories';
-import {
-  setUserAction,
-} from '../../../../store/actions';
+import { setUserAction } from '../../../../store/actions';
 import { User } from '../../../../entities';
-
-
-
 
 const styles = theme => ({
   box:{
@@ -124,54 +119,52 @@ const styles = theme => ({
 });
 
 class DashboardUser extends Component{
-  constructor(props){
+  constructor(props) {
     super(props)
-
   }
 
   state={
     loading:true
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.user){
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
       this.setState({loading:false})
     }
   }
 
-  componentWillMount(){
-    if (this.props.user){
+  componentWillMount() {
+    if (this.props.user) {
       this.setState({loading:false})
     }
   }
 
-  _renderPersonalData(){
+  _renderPersonalData() {
     const { classes, user } = this.props
-    return dashboardUserPersonalData.map((data, key)=>{
-      return(
+    return dashboardUserPersonalData.map((data, key) => {
+      return (
         <div className={classes.personalData} key={key}>
-            <div className={classes.personalDataKey}>{data.label}:&nbsp;</div>          
-            <div className={classes.personalDataValue}>{user[data.id]}</div>          
+          <div className={classes.personalDataKey}>{data.label}:&nbsp;</div>          
+          <div className={classes.personalDataValue}>{user[data.id]}</div>          
         </div>
-        );      
+      );  
     })
 
   }
 
-  async deleteAddress(id, key){
+  async deleteAddress(id, key) {
     const adressRepo = new UserAddressesRepository();
     const { user } = this.props;
     const promise = await adressRepo.remove(id)
     const userOriginal = user.original;
     userOriginal.children.splice(key,1)
-    console.log(userOriginal.children)
 
     const newUser = new User(userOriginal);
     this.props.setUserAction(newUser)
   }
 
 
-  _renderAddresses(){
+  _renderAddresses() {
     const { user, classes } = this.props;
     if (!user.addresses.all.length) return <div>Você ainda não tem interessos cadastrados</div>
     return user.addresses.all.map((adr, key)=>{
@@ -192,10 +185,10 @@ class DashboardUser extends Component{
     })
   }
 
-  render(){
-    const { to, classes, title } = this.props;
+  render() {
+    const { classes } = this.props;
 
-    if (this.state.loading){
+    if (this.state.loading) {
       return <div className={classes.box}>
         <Loading/>
       </div>
@@ -204,9 +197,7 @@ class DashboardUser extends Component{
     return (
       <div className={classes.box}>
 
-        <h1 className={classes.pageTitle}>
-          Bem vindo, {this.props.user.name}
-        </h1>
+        <h1 className={classes.pageTitle}>Perfil</h1>
 
         <div className={classes.whiteBox}>
           <div className={classes.whiteBoxTitle}>DADOS PESSOAIS</div>

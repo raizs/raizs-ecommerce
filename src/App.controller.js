@@ -125,7 +125,6 @@ export class AppController extends BaseController {
         setCepAction(cep);
       }
 
-
       const userCards = await this.paymentRepo.listCards(newUser.mpid);
       if(!userCards.err) {
         const newCards = new Cards(userCards.data.data);

@@ -2,54 +2,52 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
-import classnames from "classnames";
 import { connect } from "react-redux";
 import { dashboardGeneralWhiteBoxes } from "../../../../assets";
 import { Loading } from '../../../../molecules';
 
-
-
 const styles = theme => ({
   box:{
-    display:"inline-block",
-    width:"100%",
-    height:"800px",
-    padding:5*theme.spacing.unit,
-    verticalAlign:"top"
+    display: "inline-block",
+    width: "100%",
+    height: "800px",
+    padding: 5*theme.spacing.unit,
+    verticalAlign: "top"
   },
-  pageTitle:{
+  pageTitle: {
     ...theme.typography.bigTitle,
-    textAlign:"left",
-    marginBottom:4*theme.spacing.unit
+    textAlign: "left",
+    marginBottom: 4*theme.spacing.unit
   },
-  whiteBox:{
-    marginTop:4*theme.spacing.unit,
+  whiteBox: {
+    marginTop: 4*theme.spacing.unit,
     backgroundColor: "white",
     width: "100%",
-    maxWidth:"1200px",
-    borderRadius: theme.spacing.unit,
+    maxWidth: "1200px",
+    borderRadius:  theme.spacing.unit,
+    overflow: 'hidden'
   },
-  whiteBoxTitle:{
+  whiteBoxTitle: {
      ...theme.typography.formTitle,
-    textAlign:"left"
+    textAlign: "left"
   },
-  whiteBoxSection:{
-    display:"inline-block",
-    verticalAlign:"top",
-    padding: 2*theme.spacing.unit,
-    width:"calc(100% - 380px)"
+  whiteBoxSection: {
+    display: "inline-block",
+    verticalAlign: "top",
+    padding: 2 * theme.spacing.unit,
+    width: "calc(100% - 380px)"
   },
-  whiteBoxImg:{
-    display:"inline-block",
-    verticalAlign:"top",
-    width:"380px",
-    height:"200px",
+  whiteBoxImg: {
+    display: "inline-block",
+    verticalAlign: "top",
+    width: "380px",
+    height: "200px",
   },
-  whiteBoxValue:{
+  whiteBoxValue: {
     fontSize: theme.fontSizes.LG,
-    fontWeight:800,
-    marginTop:6*theme.spacing.unit,
-    textAlign:"left"
+    fontWeight: 800,
+    marginTop: 6*theme.spacing.unit,
+    textAlign: "left"
   }
 });
 
@@ -94,7 +92,7 @@ class DashboardGeneral extends Component{
   }
 
   render() {
-    const { to, classes, title } = this.props;
+    const { classes } = this.props;
 
     if (this.state.loading) {
       return <div className={classes.box}>
