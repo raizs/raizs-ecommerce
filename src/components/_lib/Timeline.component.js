@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core';
 
 import { CollapsibleTimelineItem } from '../../molecules';
@@ -61,46 +62,48 @@ const styles = theme => ({
   }
 });
 
-const _renderCollapsibleItem = (item, currentSectionId) => {
-  return <CollapsibleTimelineItem key={item.id} item={item} currentSectionId={currentSectionId} />
-};
 
-const _renderItems = (items, classes, currentSectionId) => {
-  return items.map(item => {
-    const { id, label, url, isCollapsible, isBig } = item;
-    const classNames = [classes.item];
-    const isActive = currentSectionId && currentSectionId.startsWith(id);
-
-    if(isBig) classNames.push('-big');
-    if(isActive) classNames.push('-active');
-
-    return isCollapsible ? _renderCollapsibleItem(item, currentSectionId) : (
-      <a
-        key={id}
-        className={classnames(classNames)}
-        href={url}
+class Timeline extends Component {
+  _renderCollapsibleItem = (item, currentSectionId) => {
+    return <CollapsibleTimelineItem key={item.id} item={item} currentSectionId={currentSectionId} />
+  };
+  
+  _renderItems = (items, classes, currentSectionId) => {
+    return items.map(item => {
+      const { id, label, url, isCollapsible, isBig } = item;
+      const classNames = [classes.item];
+      const isActive = currentSectionId && currentSectionId.startsWith(id);
+  
+      if(isBig) classNames.push('-big');
+      if(isActive) classNames.push('-active');
+  
+      return isCollapsible ? this._renderCollapsibleItem(item, currentSectionId) : (
+        <a
+          key={id}
+          className={classnames(classNames)}
+          href={url}
+        >
+          {label}
+        </a>
+      );
+    });
+  }
+  render() {
+    const { classes, fixed, content: { items, title }, currentSectionId } = this.props;
+  
+    return (
+      <div
+        id='side-timeline'
+        style={fixed ? { top: 0, position: 'fixed' } : {}}
+        className={classes.wrapper}
       >
-        {label}
-      </a>
+        { title ? <div className={classes.title}>{title}</div> : null }
+        { title ? <div className={classes.line} /> : null }
+        { this._renderItems(items, classes, currentSectionId) }
+      </div>
     );
-  });
+  };
 }
-
-let Timeline = props => {
-  const { classes, fixed, content: { items, title }, currentSectionId } = props;
-
-  return (
-    <div
-      id='side-timeline'
-      style={fixed ? { top: 0, position: 'fixed' } : {}}
-      className={classes.wrapper}
-    >
-      { title ? <div className={classes.title}>{title}</div> : null }
-      { title ? <div className={classes.line} /> : null }
-      { _renderItems(items, classes, currentSectionId) }
-    </div>
-  );
-};
 
 Timeline.propTypes = {
   classes: PropTypes.object,
@@ -112,6 +115,8 @@ Timeline.defaultProps = {
   fixed: true
 };
 
-Timeline = withStyles(styles)(Timeline);
+Timeline = compose(
+  withStyles(styles)
+)(Timeline);
 
 export { Timeline };

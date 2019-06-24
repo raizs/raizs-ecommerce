@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles, Icon, Select, MenuItem } from '@material-ui/core';
 
 import { Formatter } from '../../helpers';
-import { QuantitySelector } from '../../molecules';
+import { QuantitySelector, PeriodicityTooltip } from '../../molecules';
 
 
 const LIST_PRODUCT_TOP_HEIGHT = 48;
@@ -32,12 +32,22 @@ const styles = theme => ({
         paddingTop: '4px',
         '& > div': {
           display: 'inline-block',
-          width: 'calc(50% - 16px)',
+          width: 'calc(50% - 36px)',
           margin: '0 8px 8px 8px',
           verticalAlign: 'bottom',
           fontSize: theme.fontSizes.SM
         }
       },
+    },
+    '& div.select-and-help': {
+      display: 'inline-block',
+      '& span.material-icons': {
+        verticalAlign: 'middle',
+        fontSize: '20px',
+        marginLeft: theme.spacing.unit,
+        color: theme.palette.gray.main,
+        cursor: 'pointer'
+      }
     }
   },
   imageAndInfo: {
@@ -89,42 +99,59 @@ const styles = theme => ({
 });
 
 class MiniSubscriptionCartProduct extends Component {
-  
+
   _renderSecondaryPeriodicity() {
-    const { product, handleUpdateCart } = this.props;
+    const { product, handleUpdateCart, stockDate } = this.props;
+    const { periodicity, secondaryPeriodicity, quantity } = product;
 
     return {
       biweekly: (
-        <Select
-          value={product.secondaryPeriodicity}
-          onChange={e => handleUpdateCart({
-            item: product,
-            quantity: product.quantity,
-            periodicity: product.periodicity,
-            secondaryPeriodicity: e.target.value
-          })}
-        >
-          <MenuItem value='first'>1ª e 3ª semanas</MenuItem>
-          <MenuItem value='second'>2ª e 4ª semanas</MenuItem>
-        </Select>
+        <div className='select-and-help'>
+          <Select
+            value={product.secondaryPeriodicity}
+            onChange={e => handleUpdateCart({
+              item: product,
+              quantity: quantity,
+              periodicity: periodicity,
+              secondaryPeriodicity: e.target.value
+            })}
+          >
+            <MenuItem value='first'>1ª semana</MenuItem>
+            <MenuItem value='second'>2ª semana</MenuItem>
+          </Select>
+          <PeriodicityTooltip
+            periodicity={periodicity}
+            secondaryPeriodicity={secondaryPeriodicity}
+            stockDate={stockDate}
+            placement='bottom-end'
+          />
+        </div>
       ),
       monthly: (
-        <Select
-          value={product.secondaryPeriodicity}
-          onChange={e => handleUpdateCart({
-            item: product,
-            quantity: product.quantity,
-            periodicity: product.periodicity,
-            secondaryPeriodicity: e.target.value
-          })}
-        >
-          <MenuItem value='first'>1ª semana</MenuItem>
-          <MenuItem value='second'>2ª semana</MenuItem>
-          <MenuItem value='third'>3ª semana</MenuItem>
-          <MenuItem value='fourth'>4ª semana</MenuItem>
-        </Select>
+        <div className='select-and-help'>
+          <Select
+            value={secondaryPeriodicity}
+            onChange={e => handleUpdateCart({
+              item: product,
+              quantity: quantity,
+              periodicity: periodicity,
+              secondaryPeriodicity: e.target.value
+            })}
+          >
+            <MenuItem value='first'>1ª semana</MenuItem>
+            <MenuItem value='second'>2ª semana</MenuItem>
+            <MenuItem value='third'>3ª semana</MenuItem>
+            <MenuItem value='fourth'>4ª semana</MenuItem>
+          </Select>
+          <PeriodicityTooltip
+            periodicity={periodicity}
+            secondaryPeriodicity={secondaryPeriodicity}
+            stockDate={stockDate}
+            placement='bottom-end'
+          />
+        </div>
       )
-    }[product.periodicity];
+    }[periodicity];
   }
 
   _renderPeriodicity() {

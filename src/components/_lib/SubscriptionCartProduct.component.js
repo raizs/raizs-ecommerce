@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { withStyles, Icon, Select, MenuItem } from '@material-ui/core';
+import { withStyles, Icon, Select, MenuItem, Tooltip } from '@material-ui/core';
 
-import { Formatter } from '../../helpers';
-import { QuantitySelector } from '../../molecules';
+import { Formatter, MiniDatePickerHelper } from '../../helpers';
+import { QuantitySelector, PeriodicityTooltip } from '../../molecules';
+import { periodicityHelpTexts } from '../../assets';
 
 const LIST_PRODUCT_HEIGHT = 72;
 const LIST_PRODUCT_HEIGHT_PX = '72px';
@@ -17,7 +18,17 @@ const styles = theme => ({
     borderRadius: theme.spacing.unit,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    '& div.select-and-help': {
+      display: 'inline-block',
+      '& span.material-icons': {
+        verticalAlign: 'middle',
+        fontSize: '20px',
+        marginLeft: theme.spacing.unit,
+        color: theme.palette.gray.main,
+        cursor: 'pointer'
+      }
+    }
   },
   imageAndInfo: {
     display: 'flex',
@@ -70,48 +81,63 @@ const styles = theme => ({
     fontSize: theme.fontSizes.SM,
     color: theme.palette.gray.main,
     fontWeight: 500
-  },
+  }
 });
 
 class SubscriptionCartProduct extends Component {
 
   _renderSecondaryPeriodicity() {
-    const { product, handleUpdateCart } = this.props;
+    const { product, handleUpdateCart, stockDate } = this.props;
+    const { periodicity, secondaryPeriodicity, quantity } = product;
 
     return {
       biweekly: (
-        <Select
-          style={{ width: '160px', marginLeft: '24px' }}
-          value={product.secondaryPeriodicity}
-          onChange={e => handleUpdateCart({
-            item: product,
-            quantity: product.quantity,
-            periodicity: product.periodicity,
-            secondaryPeriodicity: e.target.value
-          })}
-        >
-          <MenuItem value='first'>1ª e 3ª semanas</MenuItem>
-          <MenuItem value='second'>2ª e 4ª semanas</MenuItem>
-        </Select>
+        <div className='select-and-help'>
+          <Select
+            style={{ width: '160px', marginLeft: '24px' }}
+            value={secondaryPeriodicity}
+            onChange={e => handleUpdateCart({
+              item: product,
+              quantity: quantity,
+              periodicity: periodicity,
+              secondaryPeriodicity: e.target.value
+            })}
+          >
+            <MenuItem value='first'>1ª semana</MenuItem>
+            <MenuItem value='second'>2ª semana</MenuItem>
+          </Select>
+          <PeriodicityTooltip
+            stockDate={stockDate}
+            periodicity={periodicity}
+            secondaryPeriodicity={secondaryPeriodicity}
+          />
+        </div>
       ),
       monthly: (
-        <Select
-          style={{ width: '160px', marginLeft: '24px' }}
-          value={product.secondaryPeriodicity}
-          onChange={e => handleUpdateCart({
-            item: product,
-            quantity: product.quantity,
-            periodicity: product.periodicity,
-            secondaryPeriodicity: e.target.value
-          })}
-        >
-          <MenuItem value='first'>1ª semana</MenuItem>
-          <MenuItem value='second'>2ª semana</MenuItem>
-          <MenuItem value='third'>3ª semana</MenuItem>
-          <MenuItem value='fourth'>4ª semana</MenuItem>
-        </Select>
+        <div className='select-and-help'>
+          <Select
+            style={{ width: '160px', marginLeft: '24px' }}
+            value={secondaryPeriodicity}
+            onChange={e => handleUpdateCart({
+              item: product,
+              quantity: quantity,
+              periodicity: periodicity,
+              secondaryPeriodicity: e.target.value
+            })}
+          >
+            <MenuItem value='first'>1ª semana</MenuItem>
+            <MenuItem value='second'>2ª semana</MenuItem>
+            <MenuItem value='third'>3ª semana</MenuItem>
+            <MenuItem value='fourth'>4ª semana</MenuItem>
+          </Select>
+          <PeriodicityTooltip
+            stockDate={stockDate}
+            periodicity={periodicity}
+            secondaryPeriodicity={secondaryPeriodicity}
+          />
+        </div>
       )
-    }[product.periodicity];
+    }[periodicity];
   }
   
   render() {

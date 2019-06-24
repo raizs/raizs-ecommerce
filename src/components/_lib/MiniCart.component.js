@@ -19,7 +19,7 @@ const BOTTOM_HEIGHT = 160;
 const styles = theme => ({
   wrapper: {
     width: '420px',
-    maxHeight: window.innerHeight - 160,
+    maxHeight: window.innerHeight - 120,
     overflow: 'hidden',
     userSelect: 'none',
     
@@ -55,7 +55,7 @@ const styles = theme => ({
       padding: theme.spacing.unit,
       textAlign: 'center',
       overflowY: 'auto',
-      maxHeight: window.innerHeight - 200 - TOP_HEIGHT - BOTTOM_HEIGHT,
+      maxHeight: window.innerHeight - 120 - TOP_HEIGHT - BOTTOM_HEIGHT,
       width: '100%',    
       '& > div.items': {
         maxWidth: '100%'
@@ -312,6 +312,7 @@ class MiniCart extends Component {
                 product={product}
                 handleUpdateCart={handleUpdateSubscriptionCart}
                 stockQuantity={product.stock ? product.stock[dateObj.stockDate] : 0}
+                stockDate={dateObj.stockDate}
               />
             );
           })}

@@ -13,13 +13,12 @@ const styles = theme => ({
 
 let BottomHeader = props => {
   const { classes, handleSelectDate, selectedDate } = props;
-  console.log('in bottom header', props.selectedDate);
 
   return (
     <div className={classes.wrapper}>
       <MiniDatePicker
         handleSelectDate={handleSelectDate}
-        selected={selectedDate ? selectedDate.selected : 0}
+        selected={selectedDate}
       />
     </div>
   )

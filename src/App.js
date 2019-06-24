@@ -253,6 +253,7 @@ const mapStateToProps = state => ({
   cart: state.cart.current,
   subscriptionCart: state.subscriptionCart.current,
   selectedDate: state.datePicker.selected,
+  dateObj: state.datePicker.obj
 });
 
 export default compose(

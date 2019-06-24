@@ -112,6 +112,10 @@ export {
   closeModalProductAction
 } from './_lib/modal.actions';
 
+export {
+  SET_CURRENT_SECTION_ID,
+  setCurrentSectionIdSection
+} from './_lib/timeline.actions';
 
 export {
   SET_COUPON_ACTION,

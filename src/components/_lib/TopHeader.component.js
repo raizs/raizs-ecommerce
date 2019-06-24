@@ -11,7 +11,7 @@ import { MiniDatePicker } from '../../molecules';
  */
 
 const renderNavLink = ({label, route}) => {
-  return 	<NavLink to={route} className="nav-button">{label}</NavLink>
+  return 	<NavLink to={route} className="nav-button">{label}</NavLink>;
 }
 
  /**
@@ -28,7 +28,10 @@ export const TopHeader = props => {
         {renderNavLink({route:"/", label:"Home"})}
         {renderNavLink({route:"familias", label:"Conheça os Produtores"})}
       </nav>
-      <MiniDatePicker handleSelectDate={handleSelectDate} selected={selectedDate}  />
+      <MiniDatePicker
+        handleSelectDate={handleSelectDate}
+        selected={selectedDate}
+      />
       <nav className="side-buttons">
         {renderNavLink({route:"quem-somos", label:"Sobre a Raízs"})}
         {renderNavLink({route:"route", label:"Precisa de Ajuda?"})}

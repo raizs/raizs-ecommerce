@@ -52,7 +52,8 @@ class Subscription extends BaseContainer {
       brands,
       history,
       subscriptionName,
-      stockDate
+      stockDate,
+      dateObj
     } = this.props;
     const {
       handleUpdateSubscriptionCart,
@@ -102,6 +103,7 @@ class Subscription extends BaseContainer {
             subscriptionName={subscriptionName}
             handleCheckout={handleCheckout}
             stockDate={stockDate}
+            dateObj={dateObj}
           />
         </Route>
         <Route path="/assinatura" component={() => <Redirect to="/assinatura/genericos" />} />
@@ -119,7 +121,8 @@ const mapStateToProps = state => ({
   categories: state.categories.model,
   newProducts: state.products.newProducts,
   brands: state.brands.model,
-  stockDate: state.datePicker.obj.stockDate
+  stockDate: state.datePicker.obj.stockDate,
+  dateObj: state.datePicker.obj
 });
 
 export default compose(

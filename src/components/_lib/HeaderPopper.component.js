@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   subcategories: {
     padding: theme.spacing.unit,
-    '&#grocery': {
+    '&#mercearia': {
       columns: '2 150px'
     },
     verticalAlign: 'top',

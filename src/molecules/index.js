@@ -8,6 +8,7 @@ export { FacebookButton } from './_lib/FacebookButton.molecule';
 export { GoogleButton } from './_lib/GoogleButton.molecule';
 export { Loading } from './_lib/Loading.molecule';
 export { MiniDatePicker } from './_lib/MiniDatePicker.molecule';
+export { PeriodicityTooltip } from './_lib/PeriodicityTooltip.molecule';
 export { PickABox } from './_lib/PickABox.molecule';
 export { ProductExtraInfos } from './_lib/ProductExtraInfos.molecule';
 export { ProductFamilies } from './_lib/ProductFamilies.molecule';
