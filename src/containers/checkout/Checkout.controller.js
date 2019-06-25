@@ -608,7 +608,7 @@ export class CheckoutController extends BaseController {
     }
     else{
       if (transaction.totals.immediate.subtotal){
-        // await this.createSaleOrder(transaction);
+        await this.createSaleOrder(transaction);
       }
       if (transaction.hasSubcart){
         await this.createSubscription(transaction);
@@ -616,7 +616,7 @@ export class CheckoutController extends BaseController {
     }
 
     this.toState({loading:false});
-    // return history.push("/pedido-finalizado")
+    return history.push("/pedido-finalizado")
   }
 
   async createSaleOrder(transaction, payPalData=null) {
