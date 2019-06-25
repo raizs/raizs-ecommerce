@@ -7,29 +7,34 @@ import classnames from "classnames"
 
 const styles = theme => ({
   box:{
-    display:"inline-block",
-    width:"250px",
-    height:"800px",
-    // backgroundColor:"red",
-    paddingLeft:"100px",
-    verticalAlign:"top"
+    display: "inline-block",
+    width: "250px",
+    height: "800px",
+    // backgroundColor: "red",
+    paddingLeft: "100px",
+    verticalAlign: "top"
   },
   title:{
-    fontSize:theme.fontSizes.SM,
+    fontSize: theme.fontSizes.MD,
+    textDecoration: 'underline',
     color: theme.palette.black.main,
-    fontWeight:800,
-    marginTop:8*theme.spacing.unit,
-    marginBottom:2*theme.spacing.unit
+    fontWeight: 700,
+    marginTop: 5 * theme.spacing.unit,
+    marginBottom: 3 * theme.spacing.unit
   },
   sectionLink:{
-    cursor:"pointer",
-    marginBottom:theme.spacing.unit,
+    cursor: "pointer",
+    marginBottom: 2 * theme.spacing.unit,
+    fontSize: theme.fontSizes.SM,
+    color: theme.palette.gray.main,
+    fontWeight: 500,
     "&:hover":{
-      color:theme.palette.green.main
+      color: theme.palette.green.main
     }
   },
   selectedLink:{
-    fontWeight:800
+    color: theme.palette.black.main,
+    fontWeight: 700
   },
 });
 

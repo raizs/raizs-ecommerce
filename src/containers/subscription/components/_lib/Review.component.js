@@ -70,6 +70,7 @@ class Review extends Component {
           product={product}
           handleUpdateCart={handleUpdateCart}
           stockQuantity={product.stock ? product.stock[stockDate] : 0}
+          stockDate={stockDate}
         />
       );
     }) :

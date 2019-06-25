@@ -51,4 +51,31 @@ export class MiniDatePickerHelper {
 
     return arr;
   }
+
+
+  /**
+   * generateIntervalDatesObject - generates the next n days with 14 days interval
+   *
+   * @param {string} dateString - date in format YYYY-MM-DD
+   * @param {number} n - number of dates to be generated
+   * @memberof MiniDatePickerHelper
+   */
+  static generateIntervalDatesArray(dateString, interval = 14, offset = 0, n = 5) {
+    const arr = [];
+    for(let i = 0; i < n; i++) {
+      arr.push(moment(dateString).add(offset + i * interval, 'd').format('DD/MM'));
+    }
+    
+    return arr;
+  }
+
+  /**
+   * getDaty - gets day of week
+   *
+   * @param {string} dateString - date in format YYYY-MM-DD
+   * @memberof MiniDatePickerHelper
+   */
+  static getDay(dateString) {
+    return moment(dateString).format('dddd');
+  }
 }

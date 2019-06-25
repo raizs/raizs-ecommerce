@@ -6,67 +6,59 @@ import { connect } from "react-redux";
 
 import { DashboardGeneralForm, DashboardAddressForm } from "../"
 
-
-
-
 const styles = theme => ({
-  box:{
-    width:"100%",
-    padding:5*theme.spacing.unit,
-    position:"relative"
+  box: {
+    width: "100%",
+    padding: 5 * theme.spacing.unit,
+    position: "relative"
   },
-  pageTitle:{
+  pageTitle: {
     ...theme.typography.bigTitle,
-    // textAlign:"left",
-    marginBottom:6*theme.spacing.unit
+    // textAlign: "left",
+    marginBottom: 6 * theme.spacing.unit
   },
-  backButton:{
-    position:"absolute",
-    left:5*theme.spacing.unit,
-    top:5*theme.spacing.unit,
-    cursor:"pointer"
+  backButton: {
+    position: "absolute",
+    left: 5 * theme.spacing.unit,
+    top: 5 * theme.spacing.unit,
+    cursor: "pointer"
   },
-  backButtonArrow:{
-    verticalAlign:"middle", 
-    display:"inline-block",
-    fontSize:20
+  backButtonArrow: {
+    verticalAlign: "middle", 
+    display: "inline-block",
+    fontSize: 20
   },
-  backButtonText:{
-    fontSize:theme.fontSizes.MD,
-    verticalAlign:"middle", 
-    display:"inline-block",
-    fontWeight:800
+  backButtonText: {
+    fontSize: theme.fontSizes.MD,
+    verticalAlign: "middle", 
+    display: "inline-block",
+    fontWeight: 800
   }
 });
 
 class DashboardForms extends Component{
 
-  constructor(props){
+  constructor(props) {
     super(props)
-
   }
 
   state = {
     name:""
   }
 
-  render(){
-    const { classes } = this.props;
+  render() {
+    const { classes, match } = this.props;
+    const { form } = match.params
     const { name } = this.state;
 
-    const { form } = this.props.match.params
-
-    let title = ""
+    let title = "";
     let FormComponent = null;
-    switch(form){
+    switch(form) {
       case "dados-pessoais": title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
       case "endereco": title = "Endereço"; FormComponent = DashboardAddressForm; break;
-      default: title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
-
+      default: title = "Dados Pessoais"; FormComponent = DashboardGeneralForm;
     }
-    
-
-
+  
     return (
       <div className={classes.box}>
         <div className={classes.backButton} onClick={()=>this.props.history.goBack()}>
@@ -90,4 +82,5 @@ DashboardForms = compose(
   withRouter,
   connect(mapStateToProps, {})
   )(DashboardForms);
-export { DashboardForms }
+
+export { DashboardForms };

@@ -143,7 +143,6 @@ class GenericProduct extends Component {
     arrowRef: null
   }
 
-
   _renderTooltip = id => {
     const { classes } = this.props;
     return (

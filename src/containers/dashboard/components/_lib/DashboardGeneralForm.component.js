@@ -13,89 +13,78 @@ import {
   setUserAction,
 } from '../../../../store/actions';
 
-
-
-
 const styles = theme => ({
   wrapper: {
-  	display:"flex",
-  	justifyContent:"center",
-  	alignItems:"center",
+  	display: "flex",
+  	justifyContent: "center",
+  	alignItems: "center",
   	flexDirection: "column",
-    width:"100%",
+    width: "100%",
   },
-  form:{
-    width:"100%",
-    maxWidth:"800px",
-    padding:5*theme.spacing.unit,
+  form:  {
+    width: "100%",
+    maxWidth: "800px",
+    padding: 5 * theme.spacing.unit,
     verticalAlign: "top",
     backgroundColor: "white",
     borderRadius: theme.spacing.unit,
   },
-  inputBox:{
+  inputBox: {
     width:"50%",
     display:"inline-block",
-    verticalAlign:"top",
-    height:"76px"
+    verticalAlign: "top",
+    height: "76px"
   },
-  inputLabel:{
+  inputLabel: {
     fontSize: theme.fontSizes.XS,
     fontWeight:800,
     color: theme.palette.black.main,
     marginBottom: theme.spacing.unit
   },
-  inputValue:{
+  inputValue: {
     ...theme.inputs.text,
-    "&>input":{
+    "& > input": {
       fontSize: theme.fontSizes.XS,
       height: "40px"
-
     }
   },
-  buttonBox:{
-  	textAlign:"center"
+  buttonBox: {
+  	textAlign: "center"
   },
   button: {
     ...theme.buttons.primary,
     fontSize: theme.fontSizes.MD,
     marginTop: 3 * theme.spacing.unit,
-    width:"200px"
+    width: "200px"
   }
-
 });
 
 class DashboardGeneralForm extends BaseContainer{
-  constructor(props){
+  constructor(props) {
     super(props, DashboardFormsController)
-
   }
 
-  state={
-    loading:true,
-    errors:{
-
-    }
+  state = {
+    loading: true,
+    errors: {}
   }
   
-  
-  componentWillMount(){
-    if (this.props.user){
+  componentWillMount() {
+    if (this.props.user) {
       this.controller.userApiToState(this.props.user)
     }
   }
 
-
-  componentWillReceiveProps(nextProps){
-    if (nextProps.user){
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
       this.controller.userApiToState(nextProps.user)
     }
   }
   
-  
-  _renderInputs(){
+  _renderInputs() {
     const { handleChange } = this.controller
     const { classes } = this.props;
-    return dashboardGeneralForm.map(field=>{
+    return dashboardGeneralForm.map(field => {
       return <div className={classes.inputBox}>
       <TextInput 
         className={classes.inputValue}
@@ -106,14 +95,12 @@ class DashboardGeneralForm extends BaseContainer{
         label={field.label}
         labelClassName={classes.inputLabel}
         />
-    </div>
+      </div>
+    });
+  }
 
-})
-
-}
-
-render(){
-  const { updateUser } = this.controller
+  render() {
+    const { updateUser } = this.controller
     const { classes } = this.props
     return (
       <div className={classes.wrapper}>
@@ -126,7 +113,7 @@ render(){
           </div>
         </form>
       </div>
-    )
+    );
   }
 };
 

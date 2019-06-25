@@ -51,16 +51,7 @@ export class SubscriptionCart {
     }
 
     if(index !== -1) {
-      if(!quantity) {
-        if(![1,2,3,4].includes(product.id)) items.splice(index, 1);
-        else {
-          if(periodicity === 'weekly') secondaryPeriodicity = 'first';
-          if(periodicity !== items[index].periodicity) secondaryPeriodicity = 'first';
-          items[index].quantity = quantity;
-          items[index].periodicity = periodicity;
-          items[index].secondaryPeriodicity = secondaryPeriodicity || items[index].secondaryPeriodicity;
-        }
-      }
+      if(!quantity) items.splice(index, 1);
       else {
         if(periodicity === 'weekly') secondaryPeriodicity = 'first';
         if(periodicity !== items[index].periodicity) secondaryPeriodicity = 'first';
