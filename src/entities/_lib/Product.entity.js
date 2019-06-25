@@ -9,6 +9,7 @@ export class Product {
   constructor(product) {
     this.description = product.description || (product['productTmpl.name'] + product['productTmpl.name'] + product['productTmpl.name']);
     this.id = product.id;
+    this.sku = product.sku;
     this.stock = [1,2,3,4].includes(product.id) ? genericsStock : product.stock;
     this.name = product['productTmpl.name'];
     this.categoryId = product['productTmpl.categ_id'];

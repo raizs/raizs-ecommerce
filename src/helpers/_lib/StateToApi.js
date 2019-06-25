@@ -116,6 +116,7 @@ export class StateToApi {
     const to = {
       toPg: {
         resPartnerId: user.id,
+        document: user.document,
         date: momentDate.format("YYYY-MM-DD"),
         address: selectedUserAddress,
         transaction,
@@ -138,11 +139,13 @@ export class StateToApi {
     selectedCard,
     momentDate,
     transaction,
-    subcart
+    subcart,
+
   }) {
     const to = {
       toPg: {
         resPartnerId: user.id,
+        document: user.document,
         date: momentDate.format("YYYY-MM-DD"),
         address: selectedUserAddress,
         transaction,
