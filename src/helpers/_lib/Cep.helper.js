@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { ShippingRepository } from "../../repositories"
 
 export class CepHelper {
 
@@ -8,6 +9,7 @@ export class CepHelper {
     await Axios.get(`https://viacep.com.br/ws/${value}/json`)
     .then(res => {
       response.success = res.status === 200;
+      console.log(res)
       if(res.data.localidade !== 'São Paulo') {
         response.code = 'unreachable';
         response.msg = 'Não entregamos na sua região.';
@@ -28,7 +30,17 @@ export class CepHelper {
       response.description = 'O cep digitado não parece ser válido. Verifique e corrija o cep digitado e tente novamente '
     })
 
-    return response;
+    return this.checkShippingValue(response);
+  }
+
+  static async checkShippingValue(response){
+    console.log(response)
+    if (response.code === "success"){
+      let shippingRepo = new ShippingRepository();
+      let shippingData = await shippingRepo.getShippingData();
+      console.log(shippingData)
+    }
+    return response
   }
   
 }

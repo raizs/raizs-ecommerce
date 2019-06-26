@@ -15,3 +15,4 @@ export { CouponsRepository } from './_lib/Coupons.repository';
 export { MailRepository } from './_lib/Mail.repository';
 export { GiftCardRepository } from './_lib/GiftCard.repository';
 export { StockRepository } from './_lib/Stock.repository';
+export { ShippingRepository } from './_lib/Shipping.repository';
