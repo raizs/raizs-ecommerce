@@ -143,7 +143,7 @@ export class SubscriptionCart {
   }
 
   getFiltersAndDates(momentDate){
-    const mpChargeDate = momentDate.subtract(2, 'd')
+    const mpChargeDate = momentDate.clone().subtract(2, 'd')
     return {
       first:{
         filter: i => i.periodicity === 'weekly' || i.secondaryPeriodicity === 'first',
@@ -187,8 +187,8 @@ export class SubscriptionCart {
       if (items.length) toMp.push({
         ...defaultInfo,
         items,
-        start_at: filtersAndDates[key].date,
-        code:"teste",
+        // start_at: filtersAndDates[key].date,
+        // code:"teste",
         discounts: transaction.calculateMpDiscount(key),
       })
     })
