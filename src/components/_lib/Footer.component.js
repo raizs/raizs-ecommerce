@@ -103,6 +103,7 @@ const _renderIconsList = ({ title, items }) => {
       <div className='icons-wrapper'>
         {items.map(item =>
           <ReactSVG
+            key={item.id}
             className='icon'
             src={`/icons/${item.icon}.svg`}
           />

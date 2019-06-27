@@ -42,7 +42,8 @@ const styles = theme => ({
   },
   image: {
     '& img': {
-      borderRadius: theme.spacing.unit
+      borderRadius: theme.spacing.unit,
+      zIndex: 0
     }
   },
   brand: {
@@ -69,7 +70,7 @@ const styles = theme => ({
 class CatalogProduct extends Component {
 
   render() {
-    const { classes, product, handleUpdateCart, cart, small, stockQuantity } = this.props;
+    const { classes, product, handleUpdateCart, cart, small, stockQuantity, openModalProductAction } = this.props;
     const wrapperClasses = [classes.wrapper];
     const imageClasses = [classes.imageWrapper];
     
@@ -82,7 +83,7 @@ class CatalogProduct extends Component {
       <div
         id={`product-${product.id}`}
         className={classnames(wrapperClasses)}
-        onClick={() => console.log(stockQuantity)}
+        onClick={openModalProductAction}
       >
         <div className={classnames(imageClasses)}>
           <img-2

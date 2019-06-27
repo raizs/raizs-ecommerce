@@ -1,6 +1,7 @@
 export class Stock {
 
   constructor(stockLines) {
+		this.init = !!stockLines.length;
    	this.grouped = this.groupByDate(stockLines);
    	this.groupedByProductId = this.groupByProductId(stockLines);
   }

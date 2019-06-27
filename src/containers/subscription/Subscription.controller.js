@@ -17,8 +17,9 @@ export class SubscriptionController extends BaseController {
   }
 
   handleContinueAction(currentObservations) {
-    const { setCurrentObservationsAction, history } = this.getProps()
+    const { setCurrentObservationsAction, history, addSubscriptionCartToCartAction } = this.getProps()
     setCurrentObservationsAction(currentObservations);
+    addSubscriptionCartToCartAction();
     history.push('/assinatura/complementos');
   }
 

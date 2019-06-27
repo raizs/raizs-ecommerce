@@ -207,6 +207,7 @@ class Cart extends BaseContainer {
                 product={product}
                 handleUpdateCart={handleUpdateSubscriptionCart}
                 stockQuantity={product.stock ? product.stock[stockDate] : 0}
+                stockDate={stockDate}
               />
             );
           })}

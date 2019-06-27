@@ -53,7 +53,7 @@ const styles = theme => ({
       '& *': { color: theme.palette.green.main },
       '& > span': { position: 'absolute' },
       '&.-show': { top: 4 * theme.spacing.unit },
-      '&:hover': { top: '200px !important' },
+      // '&:hover': { top: '200px !important' },
     }
   },
   sortBox: {
@@ -106,6 +106,7 @@ class Catalog extends BaseContainer {
   }
 
   state = {
+    loading: true,
     filter: "popularity",
     ascending: false,
     shouldDisplayBackButton: false,
@@ -118,7 +119,18 @@ class Catalog extends BaseContainer {
   }
 
   componentDidMount() {
+    const { products } = this.props;
+    if(products && products.stock.init) this.setState({ loading: false });
+
     window.addEventListener('scroll', this._scrollEvent.bind(this));
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    const { loading } = this.state;
+    const { products } = nextProps, prevProducts = this.props.products;
+
+    if(loading && products && products.stock.init && prevProducts && !prevProducts.stock.init)
+      this.setState({ loading: false });
   }
   
   componentWillUnmount() {
@@ -180,6 +192,7 @@ class Catalog extends BaseContainer {
           {this._renderSortFiltersBox()}
           <CatalogSection
             {...item}
+            showTitle
             cart={cart}
             filter={filter}
             products={products}
@@ -247,7 +260,7 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  withTimeline,
+  withTimeline({ sectionOffset: 42, padding: 16 }),
   withStyles(styles),
   connect(mapStateToProps, actions)
 )(Catalog);

@@ -1,7 +1,7 @@
 import { SET_STOCK_ACTION } from "../../actions";
 
 const initialState = {
-	stock:null
+	stock: null
 };
 
 export const stockReducer = (state = initialState, action) => {

@@ -109,10 +109,14 @@ export class AppController extends BaseController {
 
     let pgUser = await this.userRepo.getUser(user.uid);
 
-    if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
+    if(pgUser.err) {
+      pgUser = await this.userRepo.checkEmail({ fuid: user.uid, email: user.email });
+      if(pgUser.err) pgUser = await this.userRepo.createUser(StateToApi.createUserFromGoogleSignIn(user));
+    }
 
     if(!pgUser.err) {
-      const children = await this.userRepo.getUserChildren(pgUser.data.id);
+      const { id } = pgUser.data;
+      const children = await this.userRepo.getUserChildren(id);
       pgUser.data.children = children.data;
       
       const newUser = new User(pgUser.data);
@@ -125,17 +129,22 @@ export class AppController extends BaseController {
         setCepAction(cep);
       }
 
-      const userCards = await this.paymentRepo.listCards(newUser.mpid);
-      if(!userCards.err) {
-        const newCards = new Cards(userCards.data.data);
-        setCardsAction(newCards);
-        selectCardAction(newCards.getDefaultCard());
-      }
-
-      const ordersPromise = await this.saleOrdersRepo.getOrders(pgUser.data.id)
+      const ordersPromise = await this.saleOrdersRepo.getOrders(id)
       if(!ordersPromise.err) {
         const saleOrders = new SaleOrders(ordersPromise.data)
         setSaleOrdersAction(saleOrders)
+      }
+      
+      if(newUser.mpid) {
+        const userCards = await this.paymentRepo.listCards(newUser.mpid);
+        if(!userCards.err) {
+          const newCards = new Cards(userCards.data.data);
+          setCardsAction(newCards);
+          selectCardAction(newCards.getDefaultCard());
+        }
+      } else {
+        const { name, cnpjCpf, email } = pgUser.data;
+        this.userRepo.addMpid({ id, name, cnpjCpf, email })
       }
 
     } else {

@@ -1,6 +1,16 @@
 import React from 'react'
 
 import { CatalogSectionList } from './CatalogSectionList.component';
+import { withStyles } from '@material-ui/core';
+import { StringMapper } from '../../../../helpers';
+
+const styles = theme => ({
+  h2: {
+    fontSize: theme.fontSizes.LG,
+    fontWeight: 700,
+    marginBottom: 4 * theme.spacing.unit
+  }
+});
 
 const _renderSubcategories = ({
   subcategories,
@@ -50,21 +60,25 @@ const _renderSubcategories = ({
 let CatalogSection = props => {
   const {
     id,
-    subcategories,
+    cart,
+    small,
+    filter,
+    classes,
     products,
+    stockDate,
+    ascending,
+    showTitle,
+    parentName,
+    shouldAnchor,
+    subcategories,
     availableWidth,
     handleUpdateCart,
-    cart,
-    openModalProductAction,
-    small,
-    shouldAnchor,
-    filter,
-    ascending,
-    stockDate
+    openModalProductAction
   } = props;
 
   return (
     <div id={id}>
+      {showTitle && <h2 className={classes.h2}>{parentName}</h2>}
       {_renderSubcategories({
         subcategories,
         products,
@@ -81,5 +95,7 @@ let CatalogSection = props => {
     </div>
   )
 };
+
+CatalogSection = withStyles(styles)(CatalogSection);
 
 export { CatalogSection };

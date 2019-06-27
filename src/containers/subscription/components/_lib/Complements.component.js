@@ -6,6 +6,7 @@ import { withTimeline } from '../../../withTimeline';
 import compose from 'recompose/compose';
 import { Timeline, TimelineSections, TimelineSection, ProductsSlider } from '../../../../components';
 import { ComplementsSection } from './ComplementsSection.component';
+import { BottomSection } from './BottomSection.component';
 
 const styles = theme => ({
   wrapper: {
@@ -113,6 +114,7 @@ class Complements extends Component {
       availableWidth,
       timelineWidth,
       shouldFixTimeline,
+      currentSectionId,
       categories: { complementsTimelineObj }
     } = this.props;
 
@@ -142,28 +144,19 @@ class Complements extends Component {
             history={history}
             content={timelineContent}
             fixed={shouldFixTimeline}
+            currentSectionId={currentSectionId}
+            maxHeight='calc(100% - 108px)'
           />
           <TimelineSections fixed={shouldFixTimeline} timelineWidth={timelineWidth} width={availableWidth}>
             {this._renderTimelineSections()}
           </TimelineSections>
         </section>
 
-        <section className={classes.bottom}>
-          <div className='summary'>
-            <p>Orgânicos Genéricos: <b>{cart.genericsCount} ite{cart.genericsCount === 1 ? 'm' : 'ns'}</b></p>
-            <p>Complementos: <b>{cart.complementsCount} ite{cart.complementsCount === 1 ? 'm' : 'ns'}</b></p>
-            <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
-          </div>
-          <div className='continue'>
-            <Button
-              id='continue'
-              onClick={() => history.push('/assinatura/revisao')}
-            >
-              Continuar para revisão
-            </Button>
-          </div>
-        </section>
-
+        <BottomSection
+          cart={cart}
+          buttonLabel='Continuar para carrinho'
+          buttonClickAction={() => history.push('/carrinho')}
+        />
       </div>
     )
   }

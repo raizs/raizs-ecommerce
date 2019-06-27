@@ -152,6 +152,10 @@ class FamiliesList extends BaseContainer {
     super(props, FamiliesController);
   }
 
+  componentDidMount() {
+    window.scrollTo({ y: 0 });
+  }
+  
   _renderList() {
     const { history } = this.props;
 

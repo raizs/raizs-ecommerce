@@ -20,7 +20,8 @@ const MIN_SMALL_PRODUCT_HEIGHT = 244 + (2 * MARGIN);
 
 const styles = theme => ({
   title: {
-    padding: `${theme.spacing.unit}px 0`,
+    // padding: `${theme.spacing.unit}px 0`,
+    paddingBottom: 2 * theme.spacing.unit,
     fontSize: theme.fontSizes.MMD,
     '&.-small': {
       fontSize: theme.fontSizes.MD,
@@ -59,7 +60,7 @@ class CatalogSectionList extends Component {
     const availablePerRow = Math.floor(availableWidth / productWidth);
     const unavailablePerRow = Math.floor(availableWidth / UNAVAILABLE_PRODUCT_SPACE);
     
-    const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight + 80;
+    const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight;
     const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE;
     
     const fakeHeight = availableFakeHeight + unavailableFakeHeight;
@@ -86,10 +87,10 @@ class CatalogSectionList extends Component {
       const availablePerRow = Math.floor(availableWidth / productWidth);
       const unavailablePerRow = Math.floor(availableWidth / UNAVAILABLE_PRODUCT_SPACE);
 
-      const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight + 80;
-      const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE + 80;
+      const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight;
+      const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE;
     
-      const fakeHeight = availableFakeHeight + unavailableFakeHeight;
+      const fakeHeight = availableFakeHeight + unavailableFakeHeight + 34 + 24; // title height
       
       const anchor = document.querySelector(`#${id}`);
       anchor.style.height = `${fakeHeight}px`;

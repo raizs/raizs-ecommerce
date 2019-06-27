@@ -1,7 +1,12 @@
 import React from 'react'
 import { TIMELINE_MAX_WIDTH } from '../../components/_lib/Timeline.component';
 
-const withTimeline = WrappedComponent => {
+const defaultOptions = {
+  sectionOffset: 0,
+  padding: 0
+};
+
+const withTimeline = (options = defaultOptions) => WrappedComponent => {
   return class extends React.Component {
     state = {
       initialScroll: false,
@@ -24,11 +29,14 @@ const withTimeline = WrappedComponent => {
       let timelineWidth = 0;
       if (timeline)
         timelineWidth = timeline.clientWidth;
-      const availableWidth = window.innerWidth - timelineWidth - 16;
+      const availableWidth = window.innerWidth - timelineWidth - (2 * options.padding);
       const { shouldFixTimeline } = this.state.timelineData;
 
       const sections = document.querySelectorAll('.timeline-section div.offset-important');
-      const offsets = [...sections].map(section => ({ value: section.offsetTop, id: section.id }));
+      const offsets = [...sections].map(section => ({
+        value: section.offsetTop + options.sectionOffset,
+        id: section.id
+      }));
 
       const timelineData = { timelineWidth, availableWidth, shouldFixTimeline, offsets };
 
@@ -49,7 +57,7 @@ const withTimeline = WrappedComponent => {
       let timelineWidth = 0;
       if (timeline)
         timelineWidth = timeline.clientWidth;
-      const availableWidth = window.innerWidth - timelineWidth - 16;
+      const availableWidth = window.innerWidth - timelineWidth - (2 * options.padding);
       const { shouldFixTimeline } = context.state;
 
       const timelineData = { availableWidth, timelineWidth, shouldFixTimeline };
@@ -60,21 +68,27 @@ const withTimeline = WrappedComponent => {
     _timelineScrollEvent = (e, context) => {
       const timelineSections = document.querySelector('#timeline-sections');
       const offset = timelineSections ? timelineSections.offsetTop : 0;
+      const top = timelineSections ? timelineSections.getBoundingClientRect().top : 0;
       const htmlScroll = document.querySelector('html').scrollTop;
       const bodyScroll = document.querySelector('body').scrollTop;
       const scroll = htmlScroll || bodyScroll;
       const { shouldFixTimeline, currentSectionId } = context.state.timelineData;
       const sections = document.querySelectorAll('div.offset-important');
-      const offsets = [...sections].map(section => ({value: section.offsetTop, id: section.id}));
+      const offsets = [...sections].map(section => ({
+        value: section.offsetTop + options.sectionOffset,
+        id: section.id
+      }));
+      // if(timelineSections) console.log(scroll, timelineSections.getBoundingClientRect())
       
       const { timelineData } = context.state;
       let shouldSetState = false;
       
-      if(scroll >= offset && !shouldFixTimeline) {
+      // should fix timeline logic
+      if(top <= 0 && !shouldFixTimeline) {
         timelineData.shouldFixTimeline = true;
         shouldSetState = true;
       }
-      if(scroll <= offset && shouldFixTimeline) {
+      if(top > 0 && shouldFixTimeline) {
         timelineData.shouldFixTimeline = false;
         shouldSetState = true;
       }
@@ -82,11 +96,11 @@ const withTimeline = WrappedComponent => {
       let currentWindowId = '';
       for(let i in offsets) {
         i = parseInt(i);
-        if(offsets[i].value <= scroll && offsets[i+1] && offsets[i + 1].value > scroll) {
+        if(offsets[i].value <= (scroll - offset) && offsets[i+1] && offsets[i + 1].value > (scroll - offset)) {
           currentWindowId = offsets[i].id;
           break;
         }
-        else if(offsets[i] && !offsets[i+1] && scroll >= offsets[i].value) {
+        else if(offsets[i] && !offsets[i+1] && (scroll - offset) >= offsets[i].value) {
           currentWindowId = offsets[i].id;
           break;
         }

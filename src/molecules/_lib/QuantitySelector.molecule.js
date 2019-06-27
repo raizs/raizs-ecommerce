@@ -10,7 +10,7 @@ const styles = theme => ({
       userSelect: 'none'
     },
     transition: '.3s',
-    zIndex: 1,
+    zIndex: 10,
     height: 5 * theme.spacing.unit,
     fontSize: theme.fontSizes.XL,
     '&.-mini': {

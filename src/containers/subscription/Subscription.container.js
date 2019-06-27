@@ -86,7 +86,7 @@ class Subscription extends BaseContainer {
             stockDate={stockDate}
           />
         </Route>
-        <Route path='/assinatura/revisao'>
+        {/* <Route path='/assinatura/revisao'>
           <Review
             cart={subscriptionCart}
             products={products}
@@ -105,7 +105,8 @@ class Subscription extends BaseContainer {
             stockDate={stockDate}
             dateObj={dateObj}
           />
-        </Route>
+        </Route> */}
+        <Route path='/assinatura/carrinho' component={() => <Redirect to='/carrinho' />} />
         <Route path="/assinatura" component={() => <Redirect to="/assinatura/genericos" />} />
         <Route path="/assinatura*" component={() => <Redirect to="/assinatura/genericos" />} />
       </Switch>
