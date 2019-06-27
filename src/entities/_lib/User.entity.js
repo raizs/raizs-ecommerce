@@ -16,6 +16,7 @@ export class User extends BaseModel {
     this.phoneString = Formatter.formatPhone(this.phone) || "Sem telefone"
     this.lastName = user.lastName;
     this.cpf = this._checkCpf(user.cnpjCpf);
+    this.document = user.cnpjCpf;
     this.cpfString = Formatter.formatCpf(this.cpf)
     this.cnpj = this._checkCnpj(user.cnpjCpf);
     this.active = user.active;

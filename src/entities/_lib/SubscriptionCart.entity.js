@@ -1,5 +1,6 @@
 import clonedeep from 'lodash.clonedeep';
 import { Subscription } from '..';
+import moment from "moment";
 
 export class SubscriptionCart {
 
@@ -124,6 +125,7 @@ export class SubscriptionCart {
       arr.push({
         description: product.name,
         code: product.id,
+        id: product.id,
         quantity,
         pricing_scheme: {
           price: product.mpPrice
@@ -133,6 +135,7 @@ export class SubscriptionCart {
     arr.length && arr.push({
       description: "Frete",
       code: "shipping",
+      id:"shipping",
       quantity:1,
       pricing_scheme: {
         price: transaction.shipping.value*100
@@ -146,22 +149,22 @@ export class SubscriptionCart {
     return {
       first:{
         filter: i => i.periodicity === 'weekly' || i.secondaryPeriodicity === 'first',
-        date: momentDate.clone().format('YYYY-MM-DD')
+        date: momentDate.clone()
       },
 
       second:{
         filter: i => i.periodicity === 'weekly' || i.secondaryPeriodicity === 'second',
-        date: momentDate.clone().add(7, 'd').format('YYYY-MM-DD')
+        date: momentDate.clone().add(7, 'd')
       },
 
       third:{
         filter: i => i.periodicity === 'weekly' || (i.periodicity === 'biweekly' && i.secondaryPeriodicity === 'first') || i.secondaryPeriodicity === 'third',
-        date: momentDate.clone().add(14, 'd').format('YYYY-MM-DD')
+        date: momentDate.clone().add(14, 'd')
       },
       
       fourth:{
         filter: i => i.periodicity === 'weekly' || (i.periodicity === 'biweekly' && i.secondaryPeriodicity === 'second') || i.secondaryPeriodicity === 'fourth',
-        date: momentDate.clone().add(21, 'd').format('YYYY-MM-DD')
+        date: momentDate.clone().add(21, 'd')
       },
     }
   }
@@ -182,13 +185,15 @@ export class SubscriptionCart {
     let filtersAndDates = this.getFiltersAndDates(momentDate);
     let toMp = [];
     ["first", "second", "third", "fourth"].forEach(key=>{
-      let items = this.getMpFormattedItems(this.items.filter(filtersAndDates[key].filter), transaction);
+      let { date, filter } = filtersAndDates[key];
+      let items = this.getMpFormattedItems(this.items.filter(filter), transaction);
       if (items.length) toMp.push({
         ...defaultInfo,
         items,
-        // start_at: filtersAndDates[key].date,
-        code:"teste",
+        start_at:date.format('YYYY-MM-DD'),
+        // code: "teste",
         discounts: transaction.calculateMpDiscount(key),
+        metadata: {  }
       })
     })
     return toMp;

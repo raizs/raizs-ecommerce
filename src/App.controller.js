@@ -254,7 +254,6 @@ export class AppController extends BaseController {
       toast(`E-mail enviado para ${forgotPasswordEmail}`);
       toState.forgotPasswordEmail = '';
     }).catch(({ code }) => {
-      console.log('aqui', code)
       if(code === 'auth/invalid-email') toState.forgotPasswordError = 'E-mail inválido';
       if(code === 'auth/user-not-found') toState.forgotPasswordError = 'E-mail não está cadastrado';
     });

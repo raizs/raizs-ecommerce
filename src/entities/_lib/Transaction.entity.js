@@ -20,6 +20,7 @@ export class Transaction extends BaseModel {
 		super();
 		this.giftCard = giftCard || { value: 0, id: null };
 		this.hasSubcart = !!subcart.current.subtotal;
+		this.hasCart = !!cart.subtotal;
 		this.shipping = shipping || {
 			value:9.90
 		}

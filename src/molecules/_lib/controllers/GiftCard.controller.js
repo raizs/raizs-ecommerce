@@ -38,7 +38,7 @@ export class GiftCardController extends BaseController {
     setGiftCardAction({})
     if (user){
       const promise = await this.giftCardRepo.getGiftCard(user.id);
-      if(promise.data) {
+      if(promise.data && promise.data.value) {
         const value =  this.getAvailableGiftCardValue(promise.data.value);
         this.toState({ value, id:promise.data.id })
       }

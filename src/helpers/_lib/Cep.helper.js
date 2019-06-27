@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { ShippingRepository } from "../../repositories"
 
 export class CepHelper {
 
@@ -28,7 +29,15 @@ export class CepHelper {
       response.description = 'O cep digitado não parece ser válido. Verifique e corrija o cep digitado e tente novamente '
     })
 
-    return response;
+    return this.checkShippingValue(response);
+  }
+
+  static async checkShippingValue(response){
+    if (response.code === "success"){
+      let shippingRepo = new ShippingRepository();
+      let shippingData = await shippingRepo.getShippingData();
+    }
+    return response
   }
   
 }

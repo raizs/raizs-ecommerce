@@ -607,7 +607,7 @@ export class CheckoutController extends BaseController {
       console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE");
     }
     else{
-      if (transaction.totals.immediate.subtotal){
+      if (transaction.hasCart){
         await this.createSaleOrder(transaction);
       }
       // if (transaction.hasSubcart){
@@ -619,7 +619,7 @@ export class CheckoutController extends BaseController {
     // return history.push("/pedido-finalizado")
   }
 
-  async createSaleOrder(transaction, payPalData=null) {
+  async createSaleOrder(transaction, payPalData={}) {
     const { 
       cart,
       user, 
@@ -672,6 +672,7 @@ export class CheckoutController extends BaseController {
       subcart: subscriptionCart,
       transaction
     });
+    console.log(momentDate)
 
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
