@@ -9,7 +9,6 @@ export class CepHelper {
     await Axios.get(`https://viacep.com.br/ws/${value}/json`)
     .then(res => {
       response.success = res.status === 200;
-      console.log(res)
       if(res.data.localidade !== 'São Paulo') {
         response.code = 'unreachable';
         response.msg = 'Não entregamos na sua região.';
@@ -34,11 +33,9 @@ export class CepHelper {
   }
 
   static async checkShippingValue(response){
-    console.log(response)
     if (response.code === "success"){
       let shippingRepo = new ShippingRepository();
       let shippingData = await shippingRepo.getShippingData();
-      console.log(shippingData)
     }
     return response
   }
