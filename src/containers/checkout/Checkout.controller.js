@@ -610,9 +610,9 @@ export class CheckoutController extends BaseController {
       if (transaction.hasCart){
         await this.createSaleOrder(transaction);
       }
-      // if (transaction.hasSubcart){
-      //   await this.createSubscription(transaction);
-      // }
+      if (transaction.hasSubcart){
+        await this.createSubscription(transaction);
+      }
     }
 
     this.toState({loading:false});
