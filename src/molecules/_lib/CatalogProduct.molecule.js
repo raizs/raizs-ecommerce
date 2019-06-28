@@ -83,7 +83,7 @@ class CatalogProduct extends Component {
       <div
         id={`product-${product.id}`}
         className={classnames(wrapperClasses)}
-        onClick={openModalProductAction}
+        onClick={()=>openModalProductAction(product)}
       >
         <div className={classnames(imageClasses)}>
           <img-2
