@@ -26,7 +26,7 @@ export class Transaction extends BaseModel {
 		}
 		this.cart = cart;
 		this.subcart = subcart;
-		this.momentDate = momentDate||moment();
+		this.momentDate = momentDate || moment();
 		this.donation = donation;
 		this.coupon = coupon;
 		this.selectedPaymentMethod = selectedPaymentMethod;
@@ -150,16 +150,32 @@ export class Transaction extends BaseModel {
 	}
 
 	getEquivalentPercentageDiscount(charge){
-		let discount = 100 -(100*charge.total/(charge.subtotal + charge.shipping)).toFixed(2);
+		let discount = 100*charge.giftCard/(charge.subtotal + charge.shipping);
+		return parseFloat(discount.toFixed(2));
 
-		return discount;
+	}
 
+	calculateMpBaseDiscount(sub){
+		// console.log(sub);
+		let value = 0;
+		if (sub.coupon){
+			value = parseFloat((100*sub.coupon/(sub.subtotal + sub.shipping)).toFixed(2))
+		}
+		return value;
 	}
 
 	calculateMpDiscount(week){
 		const { totals } = this;
-		let discounts = [];
 		const charges = totals.singularCharges[week];
+		const recurrency = totals.recurrencies[week];
+		let mpBaseDiscount = 0;
+		mpBaseDiscount = this.calculateMpBaseDiscount(recurrency);
+		let discounts = [];
+		mpBaseDiscount && discounts.push({
+			"cycles": 99999,
+            "value": mpBaseDiscount,
+            "discount_type": "percentage"
+		})
 
 		if (!charges) return discounts;
 		let cicles = Object.keys(charges);
@@ -169,7 +185,7 @@ export class Transaction extends BaseModel {
 		let lastCharge = charges[lastCicle];
 		if (commonCharge.total != lastCharge.total){
 			const lastDiscount = this.getEquivalentPercentageDiscount(lastCharge);
-			discounts = [
+			discounts.push(
 		        {
 		            "cycles": lastCicle + 1,
 		            "value": lastDiscount,
@@ -177,21 +193,23 @@ export class Transaction extends BaseModel {
 		        },
 		        {
 		            "cycles": lastCicle,
-		            "value": 100 - lastDiscount,
+		            "value": 100 - lastDiscount - mpBaseDiscount,
 		            "discount_type": "percentage"
 		        },
-		    ]
+		    );
 
 		}
 		else {
-			discounts = [
+			discounts.push(
 				{
 					"cycles": lastCicle + 1,
 		            "value": this.getEquivalentPercentageDiscount(commonCharge),
 		            "discount_type": "percentage"	
 				}
-			]
+			);
 		}
+
+		console.log(discounts)
 
 		return discounts;
 

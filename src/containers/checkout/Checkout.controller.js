@@ -610,9 +610,9 @@ export class CheckoutController extends BaseController {
       if (transaction.hasCart){
         await this.createSaleOrder(transaction);
       }
-      // if (transaction.hasSubcart){
-      //   await this.createSubscription(transaction);
-      // }
+      if (transaction.hasSubcart){
+        await this.createSubscription(transaction);
+      }
     }
 
     this.toState({loading:false});
@@ -672,13 +672,8 @@ export class CheckoutController extends BaseController {
       subcart: subscriptionCart,
       transaction
     });
-    console.log(momentDate)
 
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
-    // if (promise.err)
-    //   console.log("ERROR")
-    // else return history.push("pedido-finalizado")
-    // console.log(promise);
   }
 }
