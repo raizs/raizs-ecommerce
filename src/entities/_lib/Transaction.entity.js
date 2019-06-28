@@ -16,7 +16,7 @@ const emptyValues = {
 export class Transaction extends BaseModel {
 
 	constructor({ cart, subcart, coupon, donation, giftCard, selectedPaymentMethod, momentDate, shipping }) {
-
+		console.log(giftCard)
 		super();
 		this.giftCard = giftCard || { value: 0, id: null };
 		this.hasSubcart = !!subcart.current.subtotal;
@@ -70,17 +70,33 @@ export class Transaction extends BaseModel {
 			},
 			recurrencies: this.getGroupedRecurrencies(),
 			singularCharges:{
-				first: { },
-				second: { },
-				third: { },
-				fourth: { },
+				first: { "0": { emptyValues } },
+				second: { "0": { emptyValues } },
+				third: { "0": { emptyValues } },
+				fourth: { "0": { emptyValues } },
 			},
+			toChargeNow: { emptyValues }
 		};
 
 		totals = this.calculateDiscounts(totals);
 		totals = this.calculateShipping(totals);
 		totals = this.calculateTotals(totals);
 		totals = this.distributeGiftCardCharges(totals);
+
+		for (var key of recurrencyKeys){
+			let recurrency = totals.recurrencies[key];
+			if (recurrency.subtotal){
+				let firstCharge = totals.singularCharges[key]["0"];
+				totals.toChargeNow = {
+					coupon: recurrency.coupon + totals.immediate.coupon,
+					giftCard: firstCharge.giftCard + totals.immediate.giftCard,
+					total:  totals.immediate.total + (firstCharge.total == undefined ? recurrency.total : firstCharge.total),
+					subtotal: recurrency.subtotal + totals.immediate.subtotal,
+					shipping: this.shipping.value
+				}
+				break;
+			}
+		}
 			
 		return totals;
 	}
