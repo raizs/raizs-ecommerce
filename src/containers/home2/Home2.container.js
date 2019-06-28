@@ -29,7 +29,11 @@ const styles = theme => ({
 });
 
 class Home extends Component {
-
+  
+  componentDidMount() {
+    document.title = 'Raízs Orgânicos';    
+  }
+  
   render() {
     const { classes } = this.props;
 

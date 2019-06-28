@@ -34,6 +34,10 @@ class Subscription extends BaseContainer {
     coupon: ''
   }
 
+  componentDidMount() {
+    document.title = 'Raízs | Assinatura';
+  }
+  
   render() {
     const {
       cep,

@@ -126,7 +126,7 @@ const styles = theme => ({
   }
 });
 
-class OrderCompleted extends Component{
+class OrderCompleted extends Component {
 
 	state = {
 		showTopButton: true,
@@ -134,37 +134,39 @@ class OrderCompleted extends Component{
 		order: null
 	}
 
-	componentWillReceiveProps(nextProps){
-		if (nextProps.saleOrders){
+	componentDidMount() {
+		document.title = 'Raízs | Pedido finalizado';	
+	}
+	
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.saleOrders) {
 			this.setState({loading:false, order: nextProps.saleOrders.getLastOrder()})
 		}
-
 	}
 
-  componentWillMount(){
-    if (this.props.saleOrders){
+  componentWillMount() {
+    if (this.props.saleOrders) {
       this.setState({loading:false, order: this.props.saleOrders.getLastOrder()})
     }    
   }
 
-	_renderFamilyInfo(){
+	_renderFamilyInfo() {
 		const { inLine, labelTitle, labelSubtitle } = this.props.classes;
 		return <div className={inLine}>
 			<div className={labelTitle}>Família de Almeida</div>
 			<div className={labelSubtitle}>Fornecedora da maioria dos itens pedidos</div>
 		</div>
-		}
+	}
 
-	_renderExpensesInfo(){
+	_renderExpensesInfo() {
 		const { inLine, labelTitle, labelSubtitle } = this.props.classes;
 		return <div className={inLine}>
-	  		<div className={labelTitle}>{Formatter.currency(this.state.order.amountTotal*0.2)}</div>
-	  		<div className={labelSubtitle}>Destinado a agricultura familiar</div>
+			<div className={labelTitle}>{Formatter.currency(this.state.order.amountTotal*0.2)}</div>
+			<div className={labelSubtitle}>Destinado a agricultura familiar</div>
 		</div>
+	}
 
-		}
-
-	_renderCheckListItem(text){
+	_renderCheckListItem(text) {
 		const { checkList, checkListItem, checkListIcon } = this.props.classes;
 		return <div className={checkList}>
 			<Icon className={checkListIcon}>check_circle</Icon>
@@ -172,10 +174,9 @@ class OrderCompleted extends Component{
 		</div>
 	}
 
-	_renderInfos(){
+	_renderInfos() {
 		const { infoBox, separator, infoSection, greenTitle, priceUnit, infoTitle, note, shippingTimeLabel, shippingTimeValue, buttonBox, button } = this.props.classes;
 		const { order } = this.state;
-		console.log(order)
 
 		return (
 			<div className={infoBox}>
@@ -202,7 +203,6 @@ class OrderCompleted extends Component{
 						Visualizar Pedido    
 					</Button>
 				</div>
-
 			</div>
 			);
 	}
@@ -210,14 +210,13 @@ class OrderCompleted extends Component{
 	render() {
 		const { wrapper, confirmMessage, basketBox, basketImg, infoBox } = this.props.classes;
 
-
-		if (this.state.loading){
+		if (this.state.loading) {
 			return <div className={wrapper}>
 				<Loading/>
 			</div>
 		}
 
-	    return (
+		return (
 			<div className={wrapper}>
 				<div className={confirmMessage} >
 					Pedido Finalizado
@@ -229,13 +228,13 @@ class OrderCompleted extends Component{
 				</div>
 				{this._renderInfos()}
 			</div>
-	    )
+		);
   }
 }
 
 const mapStateToProps = state => ({
 	saleOrders: state.saleOrders.orders
-})
+});
 
 export default compose(
 	withStyles(styles),

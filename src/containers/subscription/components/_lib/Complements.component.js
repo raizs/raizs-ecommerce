@@ -83,6 +83,7 @@ class Complements extends Component {
             width={availableWidth}
             brands={brands}
             stockDate={stockDate}
+            availableWidth={availableWidth}
           />
         </TimelineSection>
       );
@@ -90,14 +91,14 @@ class Complements extends Component {
 
     to.unshift(
       <TimelineSection key='novidades' id='novidades'>
-        <div>
+        <div style={{ paddingLeft: '32px' }}>
           <h3>Novidades</h3>
           <ProductsSlider
             cart={cart}
             all='allWithoutFLV'
             products={newProducts}
             handleUpdateCart={handleUpdate}
-            isArrowSmall={true}
+            availableWidth={availableWidth}
           />
         </div>
       </TimelineSection>
@@ -163,7 +164,7 @@ class Complements extends Component {
 }
 
 Complements = compose(
-  withTimeline,
+  withTimeline({ sectionOffset: 50, padding: 16, sectionsOffset: 340 }),
   withStyles(styles),
   withRouter
 )(Complements);

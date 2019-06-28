@@ -138,6 +138,10 @@ class Home extends BaseContainer {
     newsletterLoading: false
   }
 
+  componentDidMount() {
+    document.title = 'Raízs Orgânicos';    
+  }
+  
   render() {
     const { classes, history, popularProducts, cart, categories } = this.props;
     const { newsletterEmail, newsletterLoading } = this.state;
@@ -167,6 +171,7 @@ class Home extends BaseContainer {
               cart={cart}
               handleUpdateCart={handleUpdateCart}
               products={popularProducts}
+              availableWidth={window.innerWidth}
             />
           </div>
           <div style={{ textAlign: 'center', paddingBottom: '48px' }}>

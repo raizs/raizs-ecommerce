@@ -9,9 +9,9 @@ import { CatalogSection } from '../../../catalog/components';
 const styles = theme => ({
   wrapper: {
     position: 'relative',
+    paddingLeft: 4 * theme.spacing.unit,
     '& > h3.title': {
       display: 'inline-block',
-      marginBottom: 2 * theme.spacing.unit
     },
     '& > h3.expand': {
       display: 'inline-block',
@@ -36,7 +36,16 @@ class ComplementsSection extends Component {
 
   _renderContent() {
     const { isOpen, all } = this.state;
-    const { cart, products, handleUpdateCart, width, section, brands, stockDate } = this.props;
+    const {
+      cart,
+      products,
+      handleUpdateCart,
+      width,
+      section,
+      brands,
+      stockDate,
+      availableWidth
+    } = this.props;
 
     return (
       <div>
@@ -46,7 +55,7 @@ class ComplementsSection extends Component {
             all={all}
             products={products}
             handleUpdateCart={handleUpdateCart}
-            isArrowSmall={true}
+            availableWidth={availableWidth}
             stockDate={stockDate}
           />
         </Collapse>

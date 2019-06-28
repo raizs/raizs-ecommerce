@@ -37,6 +37,10 @@ class About extends Component {
     classes: PropTypes.object,
   }
 
+  componentDidMount() {
+    document.title = 'Raízs | Sobre';
+  }
+  
   /**
    * _renderTimelineSections - renders the correct section based on the
    * section id

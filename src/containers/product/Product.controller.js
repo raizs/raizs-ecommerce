@@ -20,7 +20,7 @@ export class ProductController extends BaseController {
       const promise = await this.productRepo.fetchProduct(productId)
       if (!promise.err) {
         product = new Product(promise.data)
-        this.toState({product})
+        this.toState({ product })
       }
     }
   }

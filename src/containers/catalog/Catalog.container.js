@@ -119,6 +119,8 @@ class Catalog extends BaseContainer {
   }
 
   componentDidMount() {
+    document.title = 'Raízs | Catálogo';
+
     const { products } = this.props;
     if(products && products.stock.init) this.setState({ loading: false });
 
@@ -260,7 +262,7 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  withTimeline({ sectionOffset: 42, padding: 16 }),
+  withTimeline({ sectionOffset: 50, padding: 16 }),
   withStyles(styles),
   connect(mapStateToProps, actions)
 )(Catalog);

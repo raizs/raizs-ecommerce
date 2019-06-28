@@ -42,7 +42,6 @@ const styles = theme => ({
 let MediaSlider = props => {
   const { classes } = props;
   const centerPadding = SliderHelper.mediaCenterPadding(window.innerWidth, 240);
-  console.log(centerPadding);
 
   const settings = {
     centerMode: true,

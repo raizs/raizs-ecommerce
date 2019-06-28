@@ -4,8 +4,6 @@ import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 
-
-
 const styles = theme => ({
   wrapper: {
     // backgroundColor: theme.palette.gray.bg,
@@ -29,6 +27,9 @@ const styles = theme => ({
 
 class NotFound extends Component{
 
+	componentDidMount() {
+    document.title = 'Raízs | Página não encontrada';
+  }
 	
 	render() {
 		const { wrapper, title, subTitle } = this.props.classes;

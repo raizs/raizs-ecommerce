@@ -6,6 +6,7 @@ import { Formatter } from '../../../../helpers';
 
 const styles = theme => ({
   wrapper: {
+    zIndex: 12,
     textAlign: 'center',
     position: 'fixed',
     bottom: 0,
