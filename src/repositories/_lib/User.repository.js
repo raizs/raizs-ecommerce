@@ -12,6 +12,14 @@ export class UserRepository extends BaseRepository {
     return this.post('resPartner/create', body);
   }
 
+  checkEmail(body) {
+    return this.post('resPartner/checkEmail', body);
+  }
+
+  addMpid(body) {
+    return this.post('resPartner/addMpid', body);
+  }
+
   getUser(fuid) {
     return this.get(`resPartner?fuid=${fuid}`);
   }

@@ -40,9 +40,9 @@ const steps = {
     id: 'complementos',
     number: 1
   },
-  revisao: {
-    label: 'REVISÃO',
-    id: 'revisao',
+  carrinho: {
+    label: 'CARRINHO',
+    id: 'carrinho',
     number: 2
   }
 };

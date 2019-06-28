@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import { toast } from "react-toastify";
 import { GenericProduct } from './GenericProduct.component';
-import { Formatter, Cache } from '../../../../helpers';
+import { Formatter } from '../../../../helpers';
 import { ObservationsModal } from './ObservationsModal.component';
+import { BottomSection } from './BottomSection.component';
 
 const styles = theme => ({
   wrapper: {
@@ -237,22 +238,11 @@ class Generics extends Component {
           </div>
         </section>
 
-        <section className={classes.bottom}>
-          <div className='summary'>
-            <p>Orgânicos Genéricos: <b>{cart.productCount} ite{cart.productCount === 1 ? 'm' : 'ns'}</b></p>
-            <p>Complementos: <b>{cart.complementsCount} ite{cart.complementsCount === 1 ? 'm' : 'ns'}</b></p>
-            <p>Subtotal: <b>{Formatter.currency(cart.subtotal)}</b></p>
-          </div>
-          <div className='continue'>
-            <Button
-              id='continue'
-              onClick={() => handleContinueAction(currentObservations)}
-            >
-              Continuar montando cesta
-            </Button>
-          </div>
-        </section>
-
+        <BottomSection
+          cart={cart}
+          buttonLabel='Continuar montando cesta'
+          buttonClickAction={() => handleContinueAction(currentObservations)}
+        />
       </div>
     )
   }

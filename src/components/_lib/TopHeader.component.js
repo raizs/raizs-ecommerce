@@ -31,6 +31,7 @@ export const TopHeader = props => {
       <MiniDatePicker
         handleSelectDate={handleSelectDate}
         selected={selectedDate}
+        zIndex={10}
       />
       <nav className="side-buttons">
         {renderNavLink({route:"/quem-somos", label:"Sobre a Raízs"})}

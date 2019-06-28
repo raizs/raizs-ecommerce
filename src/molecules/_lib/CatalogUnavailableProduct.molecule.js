@@ -60,7 +60,13 @@ const styles = theme => ({
         display: 'inline-block',
         '&.info': {
           width: 'calc(100% - 72px)',
-          verticalAlign: 'top'
+          verticalAlign: 'top',
+          '& > p': {
+            color: theme.palette.red,
+            marginTop: theme.spacing.unit,
+            fontWeight: 700,
+            fontSize: theme.fontSizes.XSM
+          }
         }
       }
     }
@@ -97,6 +103,7 @@ class CatalogUnavailableProduct extends Component {
             <div className='info'>
               <h4 className={classes.name}>{product.name}</h4>
               <h6 className={classes.price}>{product.fullPrice}</h6>
+              <p>Este produto está indísponível para a data escolhida.</p>
             </div>
           </div>
         }

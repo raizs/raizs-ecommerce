@@ -20,6 +20,7 @@ const GOOGLE_RED = '#D34836';
 
 const XXS = '11px';
 const XS = '12px';
+const XSM = '13px';
 const SM = '14px';
 const MD = '15px';
 const MMD = '18px';
@@ -29,6 +30,7 @@ const XXL = '48px';
 
 const nXXS = 11;
 const nXS = 12;
+const nXSM = 13;
 const nSM = 14;
 const nMD = 15;
 const nMMD = 18;
@@ -127,7 +129,7 @@ const theme = createMuiTheme({
       }
     }
   },
-  fontSizes: { XXS, XS, SM, MD, MMD, LG, XL, XXL, nXXS, nXS, nSM, nMD, nMMD, nLG, nXL, nXXL },
+  fontSizes: { XXS, XS, XSM, SM, MD, MMD, LG, XL, XXL, nXXS, nXS, nXSM, nSM, nMD, nMMD, nLG, nXL, nXXL },
   palette: {
     green: {
       main: GREEN,

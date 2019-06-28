@@ -1,3 +1,5 @@
+export { BottomSection } from './_lib/BottomSection.component';
+
 export { GenericProduct } from './_lib/GenericProduct.component';
 export { Generics } from './_lib/Generics.component';
 export { ObservationsModal } from './_lib/ObservationsModal.component';

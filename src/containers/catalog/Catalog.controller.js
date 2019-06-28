@@ -84,7 +84,6 @@ export class CatalogController extends BaseController {
     return { products };
   }
 
-
   getProductsSortedByFilter() {
     const { filter, ascending } = this.getState();
     const { products } = this.getProps();

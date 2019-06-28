@@ -61,7 +61,7 @@ export class User extends BaseModel {
   }
 
   _checkCpf(value) {
-    if(!value) return '42061251803';
+    if(!value) return '';
     const length = typeof value === 'number' ? value.toSrting().length : value.length;
     if(length <= 11) return value;
     return '';

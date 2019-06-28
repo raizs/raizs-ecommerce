@@ -595,7 +595,7 @@ export class CheckoutController extends BaseController {
   }
 
 
-  async handleConfirm(){
+  async handleConfirm() {
     const { cart, coupon, subscriptionCart, giftCard, history, momentDate } = this.getProps();
     const { selectedPaymentMethod } = this.getState();
 
@@ -610,9 +610,9 @@ export class CheckoutController extends BaseController {
       if (transaction.hasCart){
         await this.createSaleOrder(transaction);
       }
-      if (transaction.hasSubcart){
-        await this.createSubscription(transaction);
-      }
+      // if (transaction.hasSubcart){
+      //   await this.createSubscription(transaction);
+      // }
     }
 
     this.toState({loading:false});

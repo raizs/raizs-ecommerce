@@ -49,7 +49,7 @@ const styles = theme => ({
     },
     '&.-big': {
       fontSize: theme.fontSizes.SM,
-      fontWeight: 700,
+      fontWeight: 600,
       color: theme.palette.black.main,
       '&:hover': {
         color: theme.palette.green.main
@@ -89,12 +89,18 @@ class Timeline extends Component {
     });
   }
   render() {
-    const { classes, fixed, content: { items, title }, currentSectionId } = this.props;
+    const { classes, fixed, content: { items, title }, currentSectionId, maxHeight } = this.props;
+    const style =  {};
+    if(fixed) {
+      style.top = 0;
+      style.position = 'fixed';
+      if(maxHeight) style.maxHeight = maxHeight;
+    }
   
     return (
       <div
         id='side-timeline'
-        style={fixed ? { top: 0, position: 'fixed' } : {}}
+        style={style}
         className={classes.wrapper}
       >
         { title ? <div className={classes.title}>{title}</div> : null }

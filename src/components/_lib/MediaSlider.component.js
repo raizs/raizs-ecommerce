@@ -2,6 +2,7 @@ import React from 'react'
 import Slider from 'react-slick';
 import { withStyles } from '@material-ui/core';
 import { mediaObjects } from '../../assets';
+import { SliderHelper } from '../../helpers';
 
 const N = 8;
 
@@ -12,31 +13,40 @@ const styles = theme => ({
     marginBottom: 4 * theme.spacing.unit
   },
   sliderWrapper: {
-    position: 'relative',
-    marginTop: 12 * theme.spacing.unit,
-    '& .slick-slide': {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      '& a': {
-        cursor: 'default',
-        textAlign: 'center',
-        '& img': {
-          cursor: 'pointer'
-        },
-        '&:focus': {
-          outline: 'none'
-        }
+    padding: `${8 * theme.spacing.unit}px 0`,
+    backgroundColor: 'white',
+    '& .slick-track': {
+      height: 80,
+      position: 'relative',
+      '& > div': {
+        verticalAlign: 'middle',
       }
+    }
+  },
+  item: {
+    cursor: 'default',
+    textAlign: 'center',
+    margin: 'auto',
+    height: 60,
+    '& img': {
+      cursor: 'pointer',
+      display: 'inline-block',
+      height: 60
+    },
+    '&:focus': {
+      outline: 'none'
     }
   }
 });
 
 let MediaSlider = props => {
   const { classes } = props;
+  const centerPadding = SliderHelper.mediaCenterPadding(window.innerWidth, 240);
+  console.log(centerPadding);
 
   const settings = {
-    slidesToShow: 3,
     centerMode: true,
+    centerPadding,
     arrows: false,
     infinite: true,
     draggable: false,
@@ -52,7 +62,11 @@ let MediaSlider = props => {
       <div className={classes.sliderWrapper}>
         <Slider {...settings}>
           {mediaObjects.map(obj => {
-            return <a key={obj.url} target='blank' href={obj.url}><img src={obj.src} /></a>;
+            return (
+              <a className={classes.item} key={obj.url} target='blank' href={obj.url}>
+                <img src={obj.src} />
+              </a>
+            );
           })}
         </Slider>
       </div>

@@ -2,15 +2,16 @@ import React from 'react'
 import classnames from 'classnames';
 import { withStyles, Icon } from '@material-ui/core';
 
+export const CLIENT_COMMENT_WIDTH = 540;
+
 const styles = theme => ({
   wrapper: {
     backgroundColor: 'white',
     borderRadius: theme.spacing.unit,
-    width: '540px',
+    width: 540,
     minHeight: '240px',
     padding: 4 * theme.spacing.unit,
-    display: 'inline-block',
-    margin: '0 16px',
+    margin: '16px auto',
     textAlign: 'left',
     fontFamily: 'Raleway',
     verticalAlign: 'top',
