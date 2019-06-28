@@ -20,7 +20,7 @@ const MIN_SMALL_PRODUCT_HEIGHT = 244 + (2 * MARGIN);
 
 const styles = theme => ({
   title: {
-    // padding: `${theme.spacing.unit}px 0`,
+    paddingTop: theme.spacing.unit,
     paddingBottom: 2 * theme.spacing.unit,
     fontSize: theme.fontSizes.MMD,
     '&.-small': {

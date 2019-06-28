@@ -167,6 +167,10 @@ class Family extends BaseContainer {
     super(props, FamiliesController);
   }
 
+  componentDidMount() {
+    document.title = 'Raízs | Família';    
+  }
+  
   _renderHistory() {
     return <div>{'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus, leo aliquam ullamcorper porttitor, justo orci semper massa, ut tincidunt ante velit ac lectus. Phasellus tristique enim diam. Integer iaculis rhoncus velit vel condimentum. Donec et tincidunt enim, ac maximus est.\n\nEtiam ullamcorper dui consequat finibus rutrum. In ante lacus, aliquet quis porta id, aliquam sit amet nulla. Donec convallis semper dolor, quis blandit enim dictum at. Nunc pretium massa ac elit laoreet, eu sagittis libero luctus. In commodo faucibus magna, sed posuere orci eleifend ut. Donec a rhoncus ligula. Duis ullamcorper quis lectus eget fermentum.Proin auctor volutpat nisi eu congue.\n\nAliquam consequat eros id nisl pellentesque malesuada. Integer non elit non nunc molestie eleifend. Ut nunc urna, fermentum eget venenatis nec, imperdiet a mauris. Nulla facilisi. Donec interdum sapien in metus gravida maximus. Fusce placerat feugiat sagittis. Suspendisse eu consectetur sem. Mauris eu enim mauris.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam dui lorem, pellentesque a posuere eget, tincidunt vel turpis.\n\nIn dictum, magna nec ultricies eleifend, ante ligula ultricies urna, a rutrum est ante ut odio. Aenean pretium nisl lorem. Cras sodales ut leo sit amet sollicitudin. Nam semper nec tellus vitae mollis. Sed laoreet arcu urna, ut faucibus mi viverra sed. Vivamus vitae eros molestie, auctor turpis in, viverra nunc. Donec imperdiet quam eget lacus posuere rhoncus.Morbi sagittis faucibus fermentum. Aenean tincidunt sagittis felis, vitae convallis risus fringilla tristique. Suspendisse potenti.\n\nNunc fringilla est id ullamcorper malesuada. Morbi tempus tempus turpis non convallis. Sed urna tortor, convallis at neque sed, mollis tristique felis. Nunc ut justo eu mi sagittis commodo elementum non massa.'}</div>
   }
@@ -206,6 +210,7 @@ class Family extends BaseContainer {
               cart={cart}
               handleUpdateCart={handleUpdateCart}
               products={popularProducts}
+              availableWidth={window.innerWidth}
             />
           </div>
         </section>

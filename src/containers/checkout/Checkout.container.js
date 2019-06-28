@@ -163,6 +163,8 @@ class Checkout extends BaseContainer {
    * @memberof Checkout
    */
   componentDidMount() {
+    document.title = 'Raízs | Checkout';
+
     const { user, history, cart, subscriptionCart } = this.props;
     if(!cart.productCount && !subscriptionCart.isAdded) return history.push('/');
     if(user) {

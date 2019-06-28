@@ -118,6 +118,7 @@ class Cart extends BaseContainer {
   }
 
   componentDidMount() {
+    document.title = 'Raízs | Carrinho';
     // const { cart, subscriptionCart } = this.props;
     // const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart([]);
     // const subtotal = cart.subtotal + sCart.subtotal;

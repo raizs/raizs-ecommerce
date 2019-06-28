@@ -35,6 +35,10 @@ class Dashboard extends Component {
     name: ""
   }
 
+  componentDidMount() {
+    document.title = 'Raízs | Painel';
+  }
+  
   componentWillMount() {
     const { storeFirebase } = this.props;
     const isAuth = !storeFirebase.auth.isEmpty;

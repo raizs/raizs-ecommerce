@@ -2,6 +2,7 @@ import React from 'react'
 import { TIMELINE_MAX_WIDTH } from '../../components/_lib/Timeline.component';
 
 const defaultOptions = {
+  sectionsOffset: 0,
   sectionOffset: 0,
   padding: 0
 };
@@ -67,7 +68,7 @@ const withTimeline = (options = defaultOptions) => WrappedComponent => {
     
     _timelineScrollEvent = (e, context) => {
       const timelineSections = document.querySelector('#timeline-sections');
-      const offset = timelineSections ? timelineSections.offsetTop : 0;
+      const offset = timelineSections ? timelineSections.offsetTop + options.sectionsOffset : 0;
       const top = timelineSections ? timelineSections.getBoundingClientRect().top : 0;
       const htmlScroll = document.querySelector('html').scrollTop;
       const bodyScroll = document.querySelector('body').scrollTop;

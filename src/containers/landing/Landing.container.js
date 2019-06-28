@@ -150,6 +150,7 @@ class Landing extends BaseContainer {
 
   componentDidMount() {
     window.localStorage.setItem('is_first_login', true);
+    document.title = 'Raízs Orgânicos';
   }
   
   _renderAbSections() {
@@ -224,6 +225,7 @@ class Landing extends BaseContainer {
               cart={cart}
               handleUpdateCart={handleUpdateCart}
               products={popularProducts}
+              availableWidth={window.innerWidth}
             />
           </div>
           <div style={{ textAlign: 'center' }}>

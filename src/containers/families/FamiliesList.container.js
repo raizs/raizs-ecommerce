@@ -153,6 +153,7 @@ class FamiliesList extends BaseContainer {
   }
 
   componentDidMount() {
+    document.title = 'Raízs | Famílias';
     window.scrollTo({ y: 0 });
   }
   

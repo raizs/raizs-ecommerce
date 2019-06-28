@@ -35,22 +35,25 @@ const styles = theme => ({
 });
 
 class Product extends BaseContainer {
-
   constructor(props) {
     super(props, ProductController);
   }
 
 	state = {
     loading: true,
-    product:null
+    product: null
 	}
   
+  componentDidMount() {
+    document.title = 'Raízs | Produto';
+  }
+  
   componentWillMount() {
-    this.controller.fetchProduct(this.props)
+    this.controller.fetchProduct(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.controller.fetchProduct(nextProps)
+    this.controller.fetchProduct(nextProps);
   }
 
   _renderModalContent() {

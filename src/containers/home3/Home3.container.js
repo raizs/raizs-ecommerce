@@ -40,8 +40,6 @@ const styles = theme => ({
     marginBottom: 4 * theme.spacing.unit,
     paddingLeft: 8 * theme.spacing.unit
   },
-  
-
   subscriptionSection: {
     height: '420px',
     width: '100%',
@@ -66,6 +64,10 @@ class Home3 extends BaseContainer {
     super(props, Home3Controller);
   }
 
+  componentDidMount() {
+    document.title = 'Raízs Orgânicos';    
+  }
+  
   render() {
     const { classes, newProducts, cart, categories } = this.props;
     const { handleUpdateCart } = this.controller;
@@ -82,6 +84,7 @@ class Home3 extends BaseContainer {
               cart={cart}
               handleUpdateCart={handleUpdateCart}
               products={newProducts}
+              availableWidth={window.innerWidth}
             />
           </div>
           <CategoriesMosaic categories={categories} />
