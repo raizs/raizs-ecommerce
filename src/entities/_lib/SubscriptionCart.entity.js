@@ -190,15 +190,53 @@ export class SubscriptionCart {
       if (items.length) toMp.push({
         ...defaultInfo,
         items,
-        start_at:date.format('YYYY-MM-DD'),
         // code: "teste",
         discounts: transaction.calculateMpDiscount(key),
-        metadata: {  }
+        metadata: { 
+          startAt: date.format('YYYY-MM-DD'),
+          week:key,
+          oneCycleSub:false,
+          couponValue:transaction.totals.recurrencies[key].coupon,
+          // couponId:transaction.coupon.id
+        }
       })
     })
+    toMp = this.cloneFirstCharge(toMp);
     return toMp;
 
   }
+
+  subtractOneCicle(discounts){
+    let newDiscounts = [];
+    for (var discount of discounts){
+      if (discount.cycles != 1){
+        newDiscounts.push({
+          ...discount,
+          cycles: discount.cycles - 1,
+        })
+      }
+    }
+    return newDiscounts;
+  }
+
+  cloneFirstCharge(toMp){
+    let clone = [...toMp];
+    for (var charge of toMp){
+      if (charge.metadata.week == "first"){
+        clone.push({
+          ...charge,
+          discounts:this.subtractOneCicle(charge.discounts),
+          metadata:{...charge.metadata,
+            startAt:moment(charge.metadata.startAt).add(28, 'd').format('YYYY-MM-DD')
+          }
+        })
+        charge.metadata.oneCycleSub = true;
+      }
+    }
+    return clone;
+  }
+
+
 
   checkNewDate(oldDate, newDate) {
     const { productQuantities, productStocks } = this;
