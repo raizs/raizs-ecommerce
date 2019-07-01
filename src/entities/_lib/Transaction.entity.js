@@ -35,7 +35,6 @@ export class Transaction extends BaseModel {
 
 	getGroupedRecurrencies(){
 		const { momentDate, subcart } = this;
-
 		if (!momentDate) return recurrencies;
 	    let filtersAndDates = subcart.current.getFiltersAndDates(momentDate);
 	    
@@ -124,7 +123,7 @@ export class Transaction extends BaseModel {
 			if (!copy.subtotal) continue;
 			copy = this.discountGiftCard(copy, totalValue); 
 			totalValue -= copy.giftCard;
-			totals.singularCharges[key][cicle]=copy;
+			totals.singularCharges[key][cicle] = copy;
 
 		}
 

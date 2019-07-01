@@ -2,7 +2,7 @@ import { BaseRepository } from './Base.repository';
 
 export class ShippingRepository extends BaseRepository {
 
-  getShippingData(){
-    return this.post("shipping");
+  getShippingData(cep){
+    return this.post(`shipping?cep=${cep}`);
   }
 }
