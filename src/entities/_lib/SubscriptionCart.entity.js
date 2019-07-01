@@ -197,7 +197,6 @@ export class SubscriptionCart {
           week:key,
           oneCycleSub:false,
           couponValue:transaction.totals.recurrencies[key].coupon,
-          // couponId:transaction.coupon.id
         }
       })
     })

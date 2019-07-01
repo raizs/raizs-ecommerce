@@ -165,21 +165,23 @@ class SummarySection extends Component {
 
 
   _renderDiscount(transaction){
-    const { classes, cart, subscriptionCart, coupon } = this.props;
+    const { classes } = this.props;
+    let { coupon } = transaction.totals.toChargeNow;
     if (!coupon) return null;
     return <div className={classes.keyValue}>
       <div className={classes.subtitle}>DESCONTO</div>
-      <div className={classes.subValue}>-{Formatter.currency(transaction.totals.immediate.coupon)}</div>
+      <div className={classes.subValue}>-{Formatter.currency(coupon)}</div>
     </div>
   }
 
 
   _renderGiftCard(transaction){
-    const { classes, giftCard } = this.props;
-    if (!transaction.totals.immediate.giftCard) return null;
+    const { classes } = this.props;
+    let { giftCard } = transaction.totals.toChargeNow;
+    if (!giftCard) return null;
     return <div className={classes.keyValue}>
       <div className={classes.subtitle}>VALE</div>
-      <div className={classes.subValue}>-{Formatter.currency(transaction.totals.immediate.giftCard)}</div>
+      <div className={classes.subValue}>-{Formatter.currency(giftCard)}</div>
     </div>
   }
 
@@ -188,6 +190,7 @@ class SummarySection extends Component {
     let transaction = new Transaction({cart, subcart:subscriptionCart, coupon, giftCard});
     const { totals } = transaction;
     const sCart = subscriptionCart.current;
+    let { toChargeNow } = transaction.totals;
 
     return (
       <div className={classes.wrapper}>
@@ -200,17 +203,17 @@ class SummarySection extends Component {
         {this._renderSummary()}
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>SUBTOTAL</div>
-          <div className={classes.subValue}>{Formatter.currency(/*totals.recurrency.subtotal + */totals.immediate.subtotal)}</div>
+          <div className={classes.subValue}>{Formatter.currency(toChargeNow.subtotal)}</div>
         </div>
         <div className={classes.keyValue}>
           <div className={classes.subtitle}>FRETE</div>
-          <div className={classes.subValue}>{Formatter.currency(/*totals.recurrency.shipping +*/ totals.immediate.shipping)}</div>
+          <div className={classes.subValue}>{Formatter.currency(toChargeNow.shipping)}</div>
         </div>
         {this._renderGiftCard(transaction)}
         {this._renderDiscount(transaction)}
         <div className={classes.keyValue} style={{ marginTop: '24px' }}>
           <div className={classes.total}>TOTAL</div>
-          <div className={classes.total}>{Formatter.currency(/*totals.recurrency.total + */totals.immediate.total)}</div>
+          <div className={classes.total}>{Formatter.currency(toChargeNow.total)}</div>
         </div>
       </div>
     )
