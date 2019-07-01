@@ -119,11 +119,8 @@ const styles = theme => ({
 });
 
 class DashboardUser extends Component{
-  constructor(props) {
-    super(props)
-  }
 
-  state={
+  state = {
     loading:true
   }
 

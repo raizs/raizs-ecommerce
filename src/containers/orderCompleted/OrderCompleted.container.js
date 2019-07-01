@@ -184,17 +184,17 @@ class OrderCompleted extends Component {
 					<div className={greenTitle}>RESUMO</div>
 					<div className={priceUnit}>R$</div><div className={infoTitle}>{Formatter.currency(order.amountTotal).slice(2)}</div>
 					{!order.freeShipping ||<div className={note}>Economizou com o frete grátis!</div>}
-					{this._renderCheckListItem(order.getTotalOfItems().toString()+" Itens")}
+					{this._renderCheckListItem(order.itemCountString)}
 					{!order.subscriptionId || this._renderCheckListItem("1 Assinatura de cesta")}
 					{!order.hasDonation || this._renderCheckListItem("Doação")}
 				</div>
 
-				<div className={separator}></div>
+				<div className={separator} />
 
 				<div className={infoSection}>
 					<div className={greenTitle}>ENTREGA</div>
-					<div className={infoTitle}>{order.shippingEstimatedDate.format("DD/MM")}</div>
-					<div className={note}>{order.shippingEstimatedDate.format("dddd")}</div>
+					<div className={infoTitle}>{order.shippingEstimatedDate}</div>
+					<div className={note}>{order.shippingEstimatedWeekDay}</div>
 					<div className={shippingTimeLabel}>Horário de entrega</div>
 					<div className={shippingTimeValue}>{order.shippingTimeRange} </div>
 				</div>

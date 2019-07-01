@@ -129,10 +129,10 @@ export class AppController extends BaseController {
         setCepAction(cep);
       }
 
-      const ordersPromise = await this.saleOrdersRepo.getOrders(id)
+      const ordersPromise = await this.saleOrdersRepo.getOrders(id);
       if(!ordersPromise.err) {
-        const saleOrders = new SaleOrders(ordersPromise.data)
-        setSaleOrdersAction(saleOrders)
+        const saleOrders = new SaleOrders(ordersPromise.data);
+        setSaleOrdersAction(saleOrders);
       }
       
       if(newUser.mpid) {

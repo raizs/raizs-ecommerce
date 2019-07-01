@@ -142,7 +142,7 @@ class Catalog extends BaseContainer {
   _scrollEvent(e) {
     const { shouldDisplayBackButton } = this.state;
     const scrollTop = document.documentElement.scrollTop;
-    const breakpoint = 200;
+    const breakpoint = 500;
 
     if(!shouldDisplayBackButton && scrollTop > breakpoint) this.setState({ shouldDisplayBackButton: true });
     if(shouldDisplayBackButton && scrollTop <= breakpoint) this.setState({ shouldDisplayBackButton: false });
@@ -262,7 +262,7 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  withTimeline({ sectionOffset: 50, padding: 16 }),
+  withTimeline({ sectionOffset: 50, padding: 16, sectionsOffset: 0 }),
   withStyles(styles),
   connect(mapStateToProps, actions)
 )(Catalog);

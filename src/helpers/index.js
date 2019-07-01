@@ -19,3 +19,5 @@ export { SliderHelper } from './_lib/Slider.helper';
 export { SocialMediaHelper } from './_lib/SocialMedia.helper';
 export { StateToApi } from './_lib/StateToApi';
 export { StringMapper } from './_lib/StringMapper';
+
+export { CartHelper } from './_lib/Cart.helper';

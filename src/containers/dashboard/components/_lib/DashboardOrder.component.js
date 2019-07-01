@@ -28,7 +28,7 @@ const styles = theme => ({
   }
 });
 
-class DashboardOrders extends Component {
+class DashboardOrder extends Component {
   state = {
     loading: true
   }
@@ -46,12 +46,6 @@ class DashboardOrders extends Component {
   }
 
   _renderOrders() {
-    const { classes, saleOrders, products } = this.props;
-    return saleOrders && saleOrders.all.length ? saleOrders.all.map(so => {
-      return (
-        <OrderCard key={so.id} {...so} products={products} />
-      )
-    }) : <p>Você ainda não fez nenhum pedido.</p>;
   }
 
   render() {
@@ -65,7 +59,7 @@ class DashboardOrders extends Component {
 
     return (
       <div className={classes.wrapper}>
-        <h1>Pedidos</h1>
+        <h1>Pedido</h1>
         <div className='orders'>
           {this._renderOrders()}
         </div>
@@ -79,10 +73,10 @@ const mapStateToProps = state => ({
   products: state.products.model
 });
 
-DashboardOrders = compose(
+DashboardOrder = compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, {})
-)(DashboardOrders);
+)(DashboardOrder);
 
-export { DashboardOrders }
+export { DashboardOrder }

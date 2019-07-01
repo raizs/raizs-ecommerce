@@ -60,9 +60,6 @@ const styles = theme => ({
 });
 
 class DashboardGeneralForm extends BaseContainer{
-  constructor(props) {
-    super(props, DashboardFormsController)
-  }
 
   state = {
     loading: true,

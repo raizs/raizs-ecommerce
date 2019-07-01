@@ -13,9 +13,6 @@ import {
   setUserAction,
 } from '../../../../store/actions';
 
-
-
-
 const styles = theme => ({
   wrapper: {
   	display:"flex",
@@ -69,27 +66,21 @@ const styles = theme => ({
     fontSize: theme.fontSizes.MD,
     marginTop: 3 * theme.spacing.unit,
     width:"200px"
-  },
-
+  }
 });
 
 class DashboardAddressForm extends BaseContainer{
-  constructor(props){
+  constructor(props) {
     super(props, DashboardFormsController)
-
   }
 
-  state={
-    loading:false,
-    new:true,
-    errors:{
-
-    }
+  state = {
+    loading: false,
+    new: true,
+    errors: {}
   }
-    
 
-  getRandomNewUser(){
-
+  getRandomNewUser() {
     const state = {...this.state}
     state.name = "Tia"
     state.receiverName = "Mãe"
@@ -102,51 +93,44 @@ class DashboardAddressForm extends BaseContainer{
     this.setState(state)
   }
 
-  componentWillMount(){
-    if (this.props.user && this.props.user.addresses && this.props.user.addresses.all ){
-      this.controller.addressApiToState(this.props.user.addresses.all)
-    }
-    if (this.props.match.params.id == "novo")
-      this.getRandomNewUser()
+  componentWillMount() {
+    const { user, match } = this.props;
+    if (user && user.addresses && user.addresses.all) this.controller.addressApiToState(user.addresses.all);
+    if (match.params.id === "novo") this.getRandomNewUser();
   }
 
-
-  componentWillReceiveProps(nextProps){
-    if (nextProps.user && nextProps.user.addresses && nextProps.user.addresses.all ){
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user && nextProps.user.addresses && nextProps.user.addresses.all)
       this.controller.addressApiToState(nextProps.user.addresses.all)
-    }
   }
   
-  
-  _renderInputs(){
+  _renderInputs() {
     const { handleChange, handleCepBlur } = this.controller
     const { classes } = this.props;
-    return dashboardAddressForm.map(field=>{
+
+    return dashboardAddressForm.map(field => {
       let classNames = [classes.inputBox];
-      if (field.className){
-        classNames.push(classes[field.className])
-      }
+      if (field.className) classNames.push(classes[field.className]);
+
       return <div className={classnames(classNames)}>
-      <TextInput 
-        className={classes.inputValue}
-        id={field.id}
-        error={this.state.errors[field.id]}
-        value={this.state[field.id]}
-        handleChange={e => handleChange(e, field.format)}
-        label={field.label}
-        handleBlur={handleCepBlur}
-        labelClassName={classes.inputLabel}
-        />
-    </div>
+        <TextInput 
+          className={classes.inputValue}
+          id={field.id}
+          error={this.state.errors[field.id]}
+          value={this.state[field.id]}
+          handleChange={e => handleChange(e, field.format)}
+          label={field.label}
+          handleBlur={handleCepBlur}
+          labelClassName={classes.inputLabel}
+          />
+      </div>;
   })
 
 }
 
-render(){
-  const { manageAddress } = this.controller
-    const { classes } = this.props
-    console.log(this.state)
-    
+render() {
+  const { manageAddress } = this.controller;
+    const { classes } = this.props;
     
     return (
       <div className={classes.wrapper}>

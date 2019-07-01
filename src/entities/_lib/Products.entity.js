@@ -74,4 +74,8 @@ export class Products extends BaseModel {
       'productTmpl.weight': p['productProduct.productTmpl.weight']
     }));
   }
+
+  getById(id) {
+    return this.baseGetById(id, this.all);
+  }
 }
