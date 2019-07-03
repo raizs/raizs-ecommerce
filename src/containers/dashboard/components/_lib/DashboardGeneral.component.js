@@ -23,7 +23,6 @@ const styles = theme => ({
     marginTop: 4*theme.spacing.unit,
     backgroundColor: "white",
     width: "100%",
-    maxWidth: "1200px",
     borderRadius:  theme.spacing.unit,
     overflow: 'hidden'
   },

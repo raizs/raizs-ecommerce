@@ -97,7 +97,7 @@ class CartProduct extends Component {
   }
   
   render() {
-    const { classes, product, handleUpdateCart, stockQuantity } = this.props;
+    const { classes, product, handleUpdateCart, stockQuantity, disabled } = this.props;
 
     return (
       <div
@@ -122,6 +122,7 @@ class CartProduct extends Component {
           </div>
         </div>
         <QuantitySelector
+          disabled={disabled}
           changeAction={handleUpdateCart}
           item={product}
           quantity={product.quantity}
@@ -131,7 +132,7 @@ class CartProduct extends Component {
           <h5 className={classes.partialPrice}>
             {Formatter.currency(product.partialPrice)}
           </h5>
-          <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon>
+          { !disabled && <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon> }
         </div>
       </div>
     )

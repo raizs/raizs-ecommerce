@@ -1,19 +1,19 @@
 import { BaseModel, Formatter } from '../../helpers';
-import { SaleOrder } from '..';
+import { SaleSubscription } from '..';
 import sortby from 'lodash.sortby';
 
-export class SaleOrders extends BaseModel {
+export class SaleSubscriptions extends BaseModel {
   constructor(orders) {
     super();
     
-		this.all = orders.filter(order => !order.origin_sub_id).map(order => new SaleOrder(order));
+		this.all = orders.map(order => new SaleSubscription(order));
     this.totalItems = this.getTotalItemsOfAllSales();
     this.amountTotalOfSales = this.all.reduce((partial_sum, order) => partial_sum + order.amountTotal,0); 
     this.donation = Formatter.currency(0.2*this.amountTotalOfSales)
     this.savedAgrotoxics = this.totalItems*18
   }
 
-	getLastOrder() {
+	getLastSubscription() {
 		if (this.all && this.all.length) {
 			let sorted = sortby(this.all, order => -order.createDate.valueOf());
 			return sorted[0];

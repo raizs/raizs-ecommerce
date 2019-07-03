@@ -61,7 +61,7 @@ const styles = theme => ({
   }
 });
 
-let OrderCard = props => {
+let SubscriptionCard = props => {
   const {
     saleOrder,
     handleViewSaleOrder,
@@ -105,6 +105,6 @@ let OrderCard = props => {
   );
 }
 
-OrderCard = withStyles(styles)(OrderCard);
+SubscriptionCard = withStyles(styles)(SubscriptionCard);
 
-export { OrderCard } ;
+export { SubscriptionCard } ;

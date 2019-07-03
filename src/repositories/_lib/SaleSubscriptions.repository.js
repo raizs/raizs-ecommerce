@@ -6,7 +6,7 @@ export class SaleSubscriptionsRepository extends BaseRepository {
     return this.post('sale-subscriptions/create', body);
   }
 
-  getSubscriptions(userId){
-    return this.get(`sale-subscriptions/get?user=${userId}`);
+  getSubscriptions(partnerId){
+    return this.get(`sale-subscriptions/get-user-subscriptions?partnerId=${partnerId}`);
   }
 }

@@ -19,7 +19,7 @@ const styles = theme => ({
       ...theme.typography.bigTitle,
       textAlign: 'left'
     },
-    '& > div.orders': {
+    '& > div.subscriptions': {
       marginTop: 4 * theme.spacing.unit
     }
   },
@@ -31,7 +31,7 @@ const styles = theme => ({
   }
 });
 
-class DashboardOrders extends Component {
+class DashboardSubscriptions extends Component {
   state = {
     loading: true
   }
@@ -44,7 +44,7 @@ class DashboardOrders extends Component {
     if (nextProps.saleOrders && !this.props.saleOrders) this.setState({ loading:false });
   }
 
-  _renderOrders() {
+  _renderSubscriptions() {
     const { saleOrders, selectSaleOrderAction, history } = this.props;
     const handleViewSaleOrder = saleOrder => {
       if(saleOrder) {
@@ -71,9 +71,9 @@ class DashboardOrders extends Component {
 
     return (
       <div className={classes.wrapper}>
-        <h1>Seus Pedidos</h1>
-        <div className='orders'>
-          {this._renderOrders()}
+        <h1>Suas Assinaturas</h1>
+        <div className='subscriptions'>
+          {this._renderSubscriptions()}
         </div>
       </div>
     );
@@ -84,10 +84,10 @@ const mapStateToProps = state => ({
   saleOrders: state.saleOrders.orders
 });
 
-DashboardOrders = compose(
+DashboardSubscriptions = compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, actions)
-)(DashboardOrders);
+)(DashboardSubscriptions);
 
-export { DashboardOrders }
+export { DashboardSubscriptions }

@@ -6,11 +6,9 @@ import classnames from "classnames"
 
 
 const styles = theme => ({
-  box:{
-    display: "inline-block",
-    width: "250px",
-    paddingLeft: "100px",
-    verticalAlign: "top"
+  wrapper: {
+    marginRight: 2 * theme.spacing.unit,
+    width: '136px'
   },
   title:{
     fontSize: theme.fontSizes.MD,
@@ -42,7 +40,7 @@ class SideMenu extends Component {
     const { classes, sections } = this.props;
     return sections.map(section => {
       const classesArr = [classes.sectionLink]
-      if (this.props.location.pathname == section.route) classesArr.push(classes.selectedLink) 
+      if (this.props.location.pathname.startsWith(section.route)) classesArr.push(classes.selectedLink) 
       return <div
         key={section.title}
         className={classnames(classesArr)}
@@ -56,7 +54,7 @@ class SideMenu extends Component {
   render() {
     const { classes, title } = this.props;
     return (
-      <div className={classes.box}>
+      <div className={classes.wrapper}>
         <div className={classes.title}>{title}</div>
         {this._renderSectionLinks()}
       </div>

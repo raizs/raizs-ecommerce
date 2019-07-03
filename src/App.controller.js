@@ -128,12 +128,6 @@ export class AppController extends BaseController {
         const cep = await CepHelper.check(address.cep);
         setCepAction(cep);
       }
-
-      const ordersPromise = await this.saleOrdersRepo.getOrders(id);
-      if(!ordersPromise.err) {
-        const saleOrders = new SaleOrders(ordersPromise.data);
-        setSaleOrdersAction(saleOrders);
-      }
       
       if(newUser.mpid) {
         const userCards = await this.paymentRepo.listCards(newUser.mpid);
