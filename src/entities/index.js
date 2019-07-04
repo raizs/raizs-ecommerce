@@ -7,6 +7,8 @@ export { Product } from './_lib/Product.entity';
 export { Products } from './_lib/Products.entity';
 export { SaleOrders } from './_lib/SaleOrders.entity';
 export { SaleOrder } from './_lib/SaleOrder.entity';
+export { SaleSubscriptions } from './_lib/SaleSubscriptions.entity';
+export { SaleSubscription } from './_lib/SaleSubscription.entity';
 export { Subscription } from './_lib/Subscription.entity';
 export { Subscriptions } from './_lib/Subscriptions.entity';
 export { SubscriptionCart } from './_lib/SubscriptionCart.entity';

@@ -1,7 +1,8 @@
-import { SET_SALE_ORDERS } from "../../actions";
+import { SET_SALE_ORDERS, SELECT_SALE_ORDER } from "../../actions";
 
 const initialState = {
-	orders:null
+	orders: null,
+	current: null
 };
 
 export const saleOrdersReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const saleOrdersReducer = (state = initialState, action) => {
 			return {
 				...state,
 				orders: action.data
+			};
+		case SELECT_SALE_ORDER:
+			return {
+				...state,
+				current: action.data
 			};
 		default:
 			return state;

@@ -159,15 +159,15 @@ class QuantitySelector extends Component {
 
   _renderContent() {
     const { quantity } = this.state;
-    const { classes, item, shouldClose = true, mini } = this.props;
+    const { classes, item, shouldClose = true, mini, disabled = false } = this.props;
     let classNames = [classes.open];
     if(mini) classNames.push('-mini');
 
     const opened = (
       <div className={classnames(classNames)}>
         <div className='quantity'>{quantity}</div>
-        <div id={item.id} className='subtract' onClick={() => this._handleClick(-1)}>-</div>
-        <div id={item.id} className='add' onClick={() => this._handleClick(1)}>+</div>
+        <div id={item.id} className='subtract' onClick={() => disabled ? null : this._handleClick(-1)}>-</div>
+        <div id={item.id} className='add' onClick={() => disabled ? null : this._handleClick(1)}>+</div>
       </div>
     )
 

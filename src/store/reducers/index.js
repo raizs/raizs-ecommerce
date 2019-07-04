@@ -12,6 +12,7 @@ import { miniCartReducer } from "./_lib/miniCart.reducer"
 import { productBrandsReducer } from "./_lib/productBrands.reducer"
 import { productsReducer } from "./_lib/products.reducer"
 import { saleOrdersReducer } from "./_lib/saleOrders.reducer"
+import { saleSubscriptionsReducer } from "./_lib/saleSubscriptions.reducer"
 import { subscriptionCartReducer } from "./_lib/subscriptionCart.reducer"
 import { subscriptionsReducer } from "./_lib/subscriptions.reducer"
 import { unitsOfMeasureReducer } from "./_lib/unitsOfMeasure.reducer"
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   miniCart: miniCartReducer,
   products: productsReducer,
   saleOrders: saleOrdersReducer,
+  saleSubscriptions: saleSubscriptionsReducer,
   subscriptionCart: subscriptionCartReducer,
   subscriptions: subscriptionsReducer,
   unitsOfMeasure: unitsOfMeasureReducer,

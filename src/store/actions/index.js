@@ -84,8 +84,17 @@ export {
 
 export {
   SET_SALE_ORDERS,
+  SELECT_SALE_ORDER,
   setSaleOrdersAction,
+  selectSaleOrderAction
 } from './_lib/saleOrders.actions';
+
+export {
+  SET_SALE_SUBSCRIPTIONS,
+  SELECT_SALE_SUBSCRIPTION,
+  setSaleSubscriptionsAction,
+  selectSaleSubscriptionAction
+} from './_lib/saleSubscriptions.actions';
 
 export {
   SET_UNITS_OF_MEASURE,

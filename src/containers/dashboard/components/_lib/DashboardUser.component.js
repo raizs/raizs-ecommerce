@@ -27,7 +27,6 @@ const styles = theme => ({
     marginTop:4*theme.spacing.unit,
     backgroundColor: "white",
     width: "100%",
-    maxWidth:"900px",
     borderRadius: theme.spacing.unit,
     padding:2*theme.spacing.unit,
     position:"relative",

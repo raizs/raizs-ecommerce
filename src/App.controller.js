@@ -129,12 +129,6 @@ export class AppController extends BaseController {
         let shipping = await CepHelper.checkShippingByCep(Formatter.extractNumbers(address.cep).toString());
         setCepAction(cep, shipping.data.availability);
       }
-
-      const ordersPromise = await this.saleOrdersRepo.getOrders(id);
-      if(!ordersPromise.err) {
-        const saleOrders = new SaleOrders(ordersPromise.data);
-        setSaleOrdersAction(saleOrders);
-      }
       
       if(newUser.mpid) {
         const userCards = await this.paymentRepo.listCards(newUser.mpid);

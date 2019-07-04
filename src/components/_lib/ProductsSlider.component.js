@@ -49,12 +49,11 @@ let ProductsSlider = props => {
   return products && products.all.length ? (
     <div className={classes.wrapper}>
       <Slider {...settings}>
-        {chunked.map(products =>
-          <div className={classes.chunk}>
+        {chunked.map((products, key) =>
+          <div key={key} className={classes.chunk}>
             {products.map(product => 
               <CatalogProduct
                 cart={cart}
-                key={product.id}
                 product={product}
                 handleUpdateCart={handleUpdateCart}
                 stockQuantity={product.stock ? product.stock[stockDate] : 0}
