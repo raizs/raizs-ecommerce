@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   miniCart: miniCartReducer,
   products: productsReducer,
   saleOrders: saleOrdersReducer,
-  saleSubscriptionsReducer: saleSubscriptionsReducer,
+  saleSubscriptions: saleSubscriptionsReducer,
   subscriptionCart: subscriptionCartReducer,
   subscriptions: subscriptionsReducer,
   unitsOfMeasure: unitsOfMeasureReducer,

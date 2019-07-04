@@ -4,10 +4,10 @@ import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 import { Loading } from '../../../../molecules';
-import { OrderCard } from '../../molecules';
-import { selectSaleOrderAction } from '../../../../store/actions';
+import { SubscriptionCard } from '../../molecules';
+import { selectSaleSubscriptionAction } from '../../../../store/actions';
 
-const actions = { selectSaleOrderAction };
+const actions = { selectSaleSubscriptionAction };
 
 const styles = theme => ({
   wrapper:{
@@ -37,32 +37,32 @@ class DashboardSubscriptions extends Component {
   }
   
   componentWillMount() {
-    if (this.props.saleOrders) this.setState({ loading:false });
+    if (this.props.subscriptions) this.setState({ loading:false });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.saleOrders && !this.props.saleOrders) this.setState({ loading:false });
+    if (nextProps.subscriptions && !this.props.subscriptions) this.setState({ loading:false });
   }
 
   _renderSubscriptions() {
-    const { saleOrders, selectSaleOrderAction, history } = this.props;
-    const handleViewSaleOrder = saleOrder => {
-      if(saleOrder) {
-        selectSaleOrderAction(saleOrder);
-        history.push(`/painel/pedidos/${saleOrder.id}`);
+    const { subscriptions, selectSaleSubscriptionAction, history } = this.props;
+    const handleViewSaleSubscription = subscription => {
+      if(subscription) {
+        selectSaleSubscriptionAction(subscription);
+        history.push(`/painel/pedidos/${subscription.id}`);
       }
     }
 
-    return saleOrders && saleOrders.all.length ? saleOrders.all.map(saleOrder => {
+    return subscriptions && subscriptions.all.length ? subscriptions.all.map(subscription => {
       return (
-        <OrderCard key={saleOrder.id} saleOrder={saleOrder} handleViewSaleOrder={handleViewSaleOrder} />
+        <SubscriptionCard key={subscription.id} subscription={subscription} handleViewSaleSubscription={handleViewSaleSubscription} />
       )
     }) : <p>Você ainda não fez nenhum pedido.</p>;
   }
 
   render() {
     const { classes } = this.props;
-
+    
     if (this.state.loading) {
       return <div className={classes.wrapper}>
         <Loading />
@@ -81,7 +81,7 @@ class DashboardSubscriptions extends Component {
 };
 
 const mapStateToProps = state => ({
-  saleOrders: state.saleOrders.orders
+  subscriptions: state.saleSubscriptions.subscriptions
 });
 
 DashboardSubscriptions = compose(

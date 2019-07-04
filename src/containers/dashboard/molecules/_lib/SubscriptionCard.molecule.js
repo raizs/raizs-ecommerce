@@ -63,8 +63,8 @@ const styles = theme => ({
 
 let SubscriptionCard = props => {
   const {
-    saleOrder,
-    handleViewSaleOrder,
+    subscription,
+    handleViewSaleSubscription,
     classes
   } = props;
   
@@ -75,12 +75,12 @@ let SubscriptionCard = props => {
     itemCountString,
     shippingEstimatedDate,
     shippingEstimatedWeekDay
-  } = saleOrder;
+  } = subscription;
 
   return (
     <div className={classnames(classes.wrapper, 'order-card')}>
       <div>
-        <p className='bold green xs'>PEDIDO</p>
+        <p className='bold green xs'>ASSINATURA</p>
         <p className='bold'>{name}</p>
         <p className='semibold gray xs'>{itemCountString}</p>
       </div>
@@ -99,7 +99,7 @@ let SubscriptionCard = props => {
         <Button>Refazer Pedido</Button>
       </div>
       <div>
-        <p className='details xsm' onClick={() => handleViewSaleOrder(saleOrder)}>visualizar</p>
+        <p className='details xsm' onClick={() => handleViewSaleSubscription(subscription)}>visualizar</p>
       </div>
     </div>
   );

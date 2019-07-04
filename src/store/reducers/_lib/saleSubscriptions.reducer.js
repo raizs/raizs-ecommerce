@@ -10,7 +10,7 @@ export const saleSubscriptionsReducer = (state = initialState, action) => {
 		case SET_SALE_SUBSCRIPTIONS:
 			return {
 				...state,
-				orders: action.data
+				subscriptions: action.data
 			};
 		case SELECT_SALE_SUBSCRIPTION:
 			return {

@@ -37,7 +37,6 @@ export class CepHelper {
     if (response.code === "success"){
       let shippingRepo = new ShippingRepository();
       let shippingData = await shippingRepo.getShippingData(Formatter.extractNumbers(cep));
-      console.log(shippingData)
     }
     return response
   }
