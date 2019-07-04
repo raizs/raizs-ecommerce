@@ -7,6 +7,7 @@ import compose from 'recompose/compose';
 
 import { CheckoutController } from './Checkout.controller';
 import { BaseContainer } from '../../helpers';
+import { Transaction } from '../../entities';
 import { Loading } from '../../molecules';
 
 import {
@@ -18,6 +19,7 @@ import {
   setSaleOrdersAction
 } from '../../store/actions';
 import { FormSections, SummarySection } from './components';
+
 
 const CONTENT_MAX_WIDTH = 1024;
 
@@ -232,7 +234,7 @@ class Checkout extends BaseContainer {
    * 
    * @memberof Checkout
    */
-  _renderForms() {
+  _renderForms(transaction) {
     const {
       handleChange,
       handleCheckboxChange,
@@ -397,7 +399,8 @@ class Checkout extends BaseContainer {
       debitCardExp,
       debitCardCvv,
       debitCardShouldSave,
-      createSaleOrder
+      createSaleOrder,
+      transaction
     };
 
     return (
@@ -424,7 +427,7 @@ class Checkout extends BaseContainer {
    * @returns {SummarySection}
    * @memberof Checkout
    */
-  _renderSummary() {
+  _renderSummary(transaction) {
     const { selectedDate, cart, subscriptionCart, coupon, giftCard } = this.props;
     return (
       <SummarySection
@@ -432,12 +435,18 @@ class Checkout extends BaseContainer {
         coupon={coupon}
         giftCard={giftCard}
         selectedDate={selectedDate}
-        subscriptionCart={subscriptionCart} />
+        transaction={transaction}
+        subscriptionCart={subscriptionCart}
+         />
     );
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, cart, subscriptionCart, coupon, giftCard, momentDate, currentCep } = this.props;
+    const { selectedPaymentMethod } = this.state;
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate, 
+      shipping: currentCep.shipping ? { value: currentCep.shipping[momentDate.format('dddd').split('-')[0]] } : null 
+    });
 
     return (
       <div className={classes.wrapper}>
@@ -448,10 +457,10 @@ class Checkout extends BaseContainer {
         <h3>Falta pouco para você finalizar o seu pedido!<br/>Basta preencher os dados abaixo:</h3>
         <div className={classes.content}>
           <div className={classes.info}>
-            {this._renderForms()}
+            {this._renderForms(transaction)}
           </div>
           <div className={classes.summary}>
-            {this._renderSummary()}
+            {this._renderSummary(transaction)}
           </div>
         </div>
       </div>
@@ -469,7 +478,7 @@ const mapStateToProps = state => ({
   selectedCard: state.cards.selected,
   selectedDate: state.datePicker.selected,
   momentDate: state.datePicker.momentDate,
-  currentCep: state.cep.current,
+  currentCep: state.cep,
   coupon: state.coupon.selected,
   giftCard: state.giftCard,
 });

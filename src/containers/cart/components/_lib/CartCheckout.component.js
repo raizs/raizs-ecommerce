@@ -11,7 +11,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: '1100px',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   box: {
     width: '100%',
@@ -73,11 +73,9 @@ const styles = theme => ({
 });
 
 class CartCheckout extends Component {
-  _renderShippingAndCoupons() {
-    const { classes, subtotalError, shippingValue } = this.props;
 
-    if(subtotalError) return;
-
+  _renderShipping() {
+    const { classes, subtotalError, transaction } = this.props;
     return (
       <div>
         <div className={classes.shipping}>
@@ -92,12 +90,11 @@ class CartCheckout extends Component {
               className={classes.value}
               style={{ display: 'inline-block', float: 'right' }}
             >
-              {Formatter.currency(shippingValue)}
+              {transaction.totals.toChargeNow.shipping ? Formatter.currency(transaction.totals.toChargeNow.shipping) : "-"}
             </p>
           </div>
           {this._renderCepField()}
         </div>
-        {this._renderCouponField()}
       </div>
     );
   }
@@ -116,16 +113,20 @@ class CartCheckout extends Component {
       handleChange,
       handleCepBlur,
       cepLoading,
-      FREE_SHIPPING_VALUE
+      transaction,
+      currentCep
     } = this.props;
 
     const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const subtotal = cart.subtotal + sCart.subtotal;
 
-    if(user && user.addresses.all.length) {
+    let shippingData = transaction.calculateShippingProgress(transaction.totals.toChargeNow.total - transaction.totals.toChargeNow.giftCard);
+    let shouldRenderShippingLeft = shippingData.progress != 100
+
+    if((user && user.addresses.all.length) || currentCep.current ) {
       return (
         <div style={{ marginTop: '16px' }}>
-          <Select
+          {Boolean(currentCep.current) || <Select
             style={{ width: '160px' }}
             value={selectedAddress}
             onChange={e => selectUserAddressAction(e.target.value)}
@@ -133,83 +134,52 @@ class CartCheckout extends Component {
             {user.addresses.all.map(address => 
               <MenuItem value={address}>{address.name}</MenuItem>
             )}
-          </Select>
-          <div
+          </Select>}
+          {shouldRenderShippingLeft && <div
             className={classes.info}
             style={{ margin: '16px 0' }}
           >
-            Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - subtotal)} para Frete Grátis.
-          </div>
-          <LinearProgress variant="determinate" value={100 * subtotal/FREE_SHIPPING_VALUE} />
+            Faltam apenas {Formatter.currency(shippingData.leftValue)} para Frete Grátis.
+          </div>}
+          <LinearProgress variant="determinate" value={shippingData.progress} />
         </div>
       )
     }
 
-    return cepSuccess ? (
-      <div className={classes.cepSuccess}>
-        <div className={classes.value}>CEP: <span className={classes.greenCep}>{cep}</span></div>
-        <div
-          className={classes.info}
-          style={{ margin: '16px 0' }}
-        >
-          Faltam apenas {Formatter.currency(FREE_SHIPPING_VALUE - subtotal)} para Frete Grátis.
-        </div>
-        <LinearProgress variant="determinate" value={100 * subtotal/FREE_SHIPPING_VALUE} />
-      </div>
-    ) : (
-      <div>
-        <div style={{ width: '50%', display: 'inline-block' }}>
-          <TextInput
-            id='cep'
-            value={cep}
-            placeholder='CEP'
-            className={classes.textInput}
-            handleChange={handleChange}
-            handleBlur={handleCepBlur}
-            disabled={cepLoading}
-          />
-        </div>
-        { cepLoading ? <Loading inline size={20} /> : null }
-        <div className={classes.errorText}>{cepError}</div>
-      </div>
-    )
-  }
-
-  _renderCouponField() {
-    const { classes, coupon, handleChange } = this.props;
-
-    return (
-      <div style={{ marginTop: '16px' }}>
-        <p className={classes.label}>CUPOM DE DESCONTO</p>
-        <TextInput
-          id='coupon'
-          value={coupon}
-          placeholder='Digite o cupom'
-          className={classes.textInput}
-          onChange={handleChange}
-        />
-        <div className={classes.errorText}>{''}</div>
-      </div>
-    )
-  }
-
-  _renderCheckoutButton() {
-    const { classes, subtotalError, history } = this.props;
-
-    return subtotalError ? (
-      <Button onClick={() => history.push('catalogo')} className={classes.errorButton}>Adicione mais produtos</Button>
-    ) : (
-      <Button onClick={() => history.push('checkout')} className={classes.successButton}>CHECKOUT</Button>
-    );
+    // return cepSuccess ? (
+    //   <div className={classes.cepSuccess}>
+    //     <div className={classes.value}>CEP: <span className={classes.greenCep}>{cep}</span></div>
+    //     <div
+    //       className={classes.info}
+    //       style={{ margin: '16px 0' }}
+    //     >
+    //       Faltam apenas {Formatter.currency(10)} para Frete Grátis.
+    //     </div>
+    //     <LinearProgress variant="determinate" value={80} />
+    //   </div>
+    // ) : (
+    //   <div>
+    //     <div style={{ width: '50%', display: 'inline-block' }}>
+    //       <TextInput
+    //         id='cep'
+    //         value={cep}
+    //         placeholder='CEP'
+    //         className={classes.textInput}
+    //         handleChange={handleChange}
+    //         handleBlur={handleCepBlur}
+    //         disabled={cepLoading}
+    //       />
+    //     </div>
+    //     { cepLoading ? <Loading inline size={20} /> : null }
+    //     <div className={classes.errorText}>{cepError}</div>
+    //   </div>
+    // )
   }
 
   render() {
-    const { classes, cart, subscriptionCart, subtotalError, MINIMUM_VALUE } = this.props;
+    const { classes, cart, subscriptionCart, history } = this.props;
     const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const subtotal = cart.subtotal + sCart.subtotal;
-
-    const valueClasses = [classes.value];
-    if(subtotalError) valueClasses.push('error');
 
     return (
       <div className={classes.wrapper}>
@@ -218,16 +188,15 @@ class CartCheckout extends Component {
             <p className={classes.label}>SUB TOTAL</p>
             <div>
               <p
-                className={classnames(...valueClasses)}
+                className={classes.value}
                 style={{ marginBottom: '8px' }}
               >
                 {Formatter.currency(subtotal)}
               </p>
-              {/* <p className={classes.info}>Valor mínimo: {Formatter.currency(MINIMUM_VALUE)}</p> */}
             </div>
           </div>
-          {this._renderShippingAndCoupons()}
-          {this._renderCheckoutButton()}
+          {this._renderShipping()}
+          <Button onClick={() => history.push('checkout')} className={classes.successButton}>CHECKOUT</Button>
         </div>
       </div>
     )

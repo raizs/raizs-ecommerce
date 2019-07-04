@@ -1,6 +1,5 @@
 import { BaseController } from '../../../helpers';
 import { GiftCardRepository } from "../../../repositories"
-import { Transaction } from "../../../entities"
 
 export class GiftCardController extends BaseController {
 
@@ -21,16 +20,8 @@ export class GiftCardController extends BaseController {
   }    
 
   getAvailableGiftCardValue(totalCredits){
-    const { cart, subscriptionCart, coupon, giftCard } = this.getProps();
-
-    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon });
-
-    if (!transaction.hasSubcart){
-      return Math.min(transaction.totals.immediate.total, totalCredits)
-    }
-
-    return totalCredits;
-
+    const { transaction } = this.getProps();
+    return Math.min(transaction.totals.toChargeNow.total, totalCredits)
   }
 
   async getGiftCardValue(){

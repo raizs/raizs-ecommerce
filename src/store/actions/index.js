@@ -132,3 +132,8 @@ export {
   SET_STOCK_ACTION,
   setStockAction
 } from './_lib/stock.actions';
+
+export {
+  SET_SHIPPING_ACTION,
+  setShippingAction
+} from './_lib/shipping.actions';

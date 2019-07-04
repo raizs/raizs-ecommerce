@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import ReactTooltip from 'react-tooltip'
 import { howItWorksTooltips } from "../../assets";
 import { AnchorMenu } from "../../molecules";
-import { CepChecker } from "../../components";
+import { SimpleCepChecker } from "../../components";
 import "img-2";
 
 
@@ -237,7 +237,7 @@ class HowItWorks extends Component{
 					</div>
 				</div>
 
-				<CepChecker/>
+				<SimpleCepChecker/>
 
 			</section>
 	    )

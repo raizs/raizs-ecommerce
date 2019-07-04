@@ -641,7 +641,6 @@ export class CheckoutController extends BaseController {
 
     const promise = await this.saleOrdersRepo.createOrder(toApi);
 
-
     if (promise.err){
       console.log("ERROR");
       return ;
@@ -672,7 +671,6 @@ export class CheckoutController extends BaseController {
       subcart: subscriptionCart,
       transaction
     });
-
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
   }

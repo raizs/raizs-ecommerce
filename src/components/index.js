@@ -4,7 +4,6 @@ export { CartCheckout } from './_lib/CartCheckout.component';
 export { CartProduct } from './_lib/CartProduct.component';
 export { CartWarningModal } from './_lib/CartWarningModal.component';
 export { CategoriesMosaic } from './_lib/CategoriesMosaic.component';
-export { CepChecker } from './_lib/CepChecker.component';
 export { Characteristics } from './_lib/Characteristics.component';
 export { ClientCommentsSlider } from './_lib/ClientCommentsSlider.component';
 export { DropdownMenu } from './_lib/DropdownMenu.component';

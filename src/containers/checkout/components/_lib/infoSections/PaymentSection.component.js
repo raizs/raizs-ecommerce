@@ -203,7 +203,8 @@ class PaymentSection extends Component {
       paymentSectionLoading,
       handleSelectPaymentMethod,
       handleSubmitPayment,
-      selectedPaymentMethod
+      selectedPaymentMethod,
+      transaction
     } = this.props;
 
     return (
@@ -222,7 +223,7 @@ class PaymentSection extends Component {
             {this._renderSelectedMethodForm()}
           </div>
           <Coupon/>
-          <GiftCard/>
+          <GiftCard transaction={transaction}/>
           <Button
             onClick={handleSubmitPayment}
             className={classes.button}

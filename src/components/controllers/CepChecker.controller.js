@@ -19,17 +19,20 @@ export class CepCheckerController extends BaseController {
   }
   
   async handleSubmit() {
-    const { setCepAction } = this.getProps();
+    const { setCepAction, setShippingAction } = this.getProps();
     const { cep } = this.getState();
     
     if(cep) {
       this.toState({ loading: true });
-      const res = await CepHelper.check(Formatter.extractNumbers(cep).toString());
-      const { success, msg, description, code } = res;
-      console.log('in cep checker response', res);
-  
-      this.toState({ cep, loading: false, searched: true, success, code, msg, description });
-      if(success) setCepAction(res);
+      let promise = await CepHelper.checkShippingByCep(Formatter.extractNumbers(cep).toString());
+      if (promise.error){
+        setCepAction(null)
+        return this.toState({ cep:"", loading: false, searched: true, success:false, msg:promise.error.msg });
+      }
+      console.log(promise);
+      this.toState({ loading: false, searched: true, success:true,  msg:"" });
+      setCepAction(cep , promise.data.availability);
+
     }
   }
 }

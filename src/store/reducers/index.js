@@ -21,6 +21,7 @@ import { modalReducer } from "./_lib/modal.reducer"
 import { couponReducer } from "./_lib/coupon.reducer"
 import { giftCardReducer } from "./_lib/giftCard.reducer"
 import { stockReducer } from "./_lib/stock.reducer"
+// import { shippingReducer } from "./_lib/shipping.reducer"
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   coupon: couponReducer,
   giftCard: giftCardReducer,
   stock: stockReducer,
+  // shipping: shippingReducer,
 
 });
 
