@@ -13,7 +13,8 @@ import {
   DashboardForms,
   DashboardOrders,
   DashboardOrder,
-  DashboardSubscriptions
+  DashboardSubscriptions,
+  DashboardSubscription
 } from "./components"
 import { BaseContainer } from '../../helpers';
 import { DashboardController } from './Dashboard.controller';
@@ -97,6 +98,11 @@ class Dashboard extends BaseContainer {
             <Route exact path='/painel/assinaturas'>
               <div className='content'>
                 <DashboardSubscriptions />
+              </div>
+            </Route>
+            <Route exact path='/painel/assinaturas/:id'>
+              <div className='content'>
+                <DashboardSubscription />
               </div>
             </Route>
             <Route exact path='/painel/pedidos'>

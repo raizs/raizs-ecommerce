@@ -46,7 +46,7 @@ export const dashboardUserPersonalData = [
     id: "name"
   },
   {
-    label: "EMAIL",
+    label: "E-MAIL",
     id: "email"
   },
   {

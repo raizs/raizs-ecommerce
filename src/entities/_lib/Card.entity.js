@@ -7,8 +7,9 @@ export class Card {
     this.brand = card.brand;
     this.logoUrl = card.brand;
     this.finalString = `${card.brand} - final ${card.last_four_digits}`
-    this.brand = card.brand;
+    this.finalStringNumbers = `final ${card.last_four_digits}`
     this.type = card.metadata ? card.metadata.type : card.type;
+    this.exp = `${card.exp_month}/${card.exp_year}`;
 
     this.getMpFormattedPayment = this.getMpFormattedPayment.bind(this);
   }

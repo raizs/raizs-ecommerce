@@ -4,6 +4,7 @@ export { CatalogUnavailableProduct } from './_lib/CatalogUnavailableProduct.mole
 export { CategoryItem } from './_lib/CategoryItem.molecule';
 export { ClientComment } from './_lib/ClientComment.molecule';
 export { CollapsibleTimelineItem } from './_lib/CollapsibleTimelineItem.molecule';
+export { DashboardSliderArrow } from './_lib/DashboardSliderArrow.molecule';
 export { FacebookButton } from './_lib/FacebookButton.molecule';
 export { GoogleButton } from './_lib/GoogleButton.molecule';
 export { Loading } from './_lib/Loading.molecule';

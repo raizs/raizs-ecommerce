@@ -87,16 +87,17 @@ const styles = theme => ({
 class SubscriptionCartProduct extends Component {
 
   _renderSecondaryPeriodicity() {
-    const { product, handleUpdateCart, stockDate } = this.props;
+    const { product, handleUpdateCart, stockDate, disabled } = this.props;
     const { periodicity, secondaryPeriodicity, quantity } = product;
 
     return {
       biweekly: (
         <div className='select-and-help'>
           <Select
+            disabled={disabled}
             style={{ width: '160px', marginLeft: '24px' }}
             value={secondaryPeriodicity}
-            onChange={e => handleUpdateCart({
+            onChange={e => disabled ? null : handleUpdateCart({
               item: product,
               quantity: quantity,
               periodicity: periodicity,
@@ -116,9 +117,10 @@ class SubscriptionCartProduct extends Component {
       monthly: (
         <div className='select-and-help'>
           <Select
+            disabled={disabled}
             style={{ width: '160px', marginLeft: '24px' }}
             value={secondaryPeriodicity}
-            onChange={e => handleUpdateCart({
+            onChange={e => disabled ? null : handleUpdateCart({
               item: product,
               quantity: quantity,
               periodicity: periodicity,
@@ -141,7 +143,7 @@ class SubscriptionCartProduct extends Component {
   }
   
   render() {
-    const { classes, product, handleUpdateCart, stockQuantity } = this.props;
+    const { classes, product, handleUpdateCart, stockQuantity, disabled } = this.props;
 
     return (
       <div
@@ -167,6 +169,7 @@ class SubscriptionCartProduct extends Component {
         </div>
         <div style={{ width: 'calc(60% - 280px)' }}>
           <Select
+            disabled={disabled}
             style={{ width: '120px' }}
             value={product.periodicity}
             onChange={e => handleUpdateCart({
@@ -183,6 +186,7 @@ class SubscriptionCartProduct extends Component {
         </div>
         <div style={{ width: '160px', padding: '0 16px' }}>
           <QuantitySelector
+            disabled={disabled}
             shouldClose={false}
             changeAction={handleUpdateCart}
             item={product}
@@ -194,7 +198,7 @@ class SubscriptionCartProduct extends Component {
           <h5 className={classes.partialPrice}>
             {Formatter.currency(product.partialPrice)}
           </h5>
-          <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon>
+          {!disabled && <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon>}
         </div>
       </div>
     )
