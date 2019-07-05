@@ -188,23 +188,27 @@ class DashboardSubscription extends Component {
             <MenuItem value='close'>Inativa</MenuItem>
             <MenuItem value='cancel'>Cancelada</MenuItem>
           </Select>
-          <p className='bold'>{stateString}</p>
         </div>
         <div>
-          <p className='green bold xs'>ENTREGA</p>
+          <p className='green bold xs'>PRÓXIMA ENTREGA</p>
           <p className='bold md'>{shippingEstimatedDate}</p>
           <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
           <p className='bold xxs' style={{ marginTop: '16px' }}>HORÁRIO DE ENTREGA</p>
           <p className='semibold gray xs'>{shippingTimeRange}</p>
         </div>
         <div>
+          <p className='green bold xs'>PRÓXIMA COBRANÇA</p>
+          <p className='bold md'>{shippingEstimatedDate}</p>
+          <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
+          <p className='bold xxs' style={{ marginTop: '16px' }}>ALTERE PRODUTOS ATÉ</p>
+          <p className='semibold gray xs'>{shippingTimeRange}</p>
+        </div>
+        <div>
           <p className='green bold xs'>VALOR</p>
           <p className='bold md'>{Formatter.currency(totalPrice)}</p>
         </div>
-        <div></div>
         <div>
-          <Button id='rebuy'>Refazer pedido</Button>
-          <Button id='cancel'>Cancelar pedido</Button>
+          <Button id='cancel'>Cancelar assinatura</Button>
         </div>
       </div>
     );

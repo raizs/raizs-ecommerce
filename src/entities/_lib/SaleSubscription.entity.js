@@ -59,7 +59,7 @@ export class SaleSubscription extends BaseModel {
       open: 'Ativa',
       pending: 'Pendente',
       close: 'Inativa',
-      cancel: 'Cancelado]a'
+      cancel: 'Cancelada'
     }[state] || '-';
   }
 }

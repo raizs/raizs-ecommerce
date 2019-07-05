@@ -31,7 +31,7 @@ export class Product {
     this.popularity = product.popularity
 
     if([1,2,3,4].includes(this.id) && this.stock) {
-      Object.keys(this.stock).forEach(key => this.stock[key] = 10);
+      Object.keys(this.stock).forEach(key => this.stock[key] = 20);
     }
 
     this.fullPrice = this._getFullPrice(this.price, this.weight, this.uomId);
