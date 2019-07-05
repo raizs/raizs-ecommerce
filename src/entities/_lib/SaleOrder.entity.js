@@ -6,9 +6,9 @@ export class SaleOrder extends BaseModel {
     super();
     this.original = order;
 
-    this.shippingEstimatedMonmentDate = moment(order.shippingEstimatedDate, "YYYY-MM-DD");
-    this.shippingEstimatedDate = moment(this.shippingEstimatedMonmentDate).format("DD/MM");
-    this.shippingEstimatedWeekDay = moment(this.shippingEstimatedMonmentDate).format("dddd");
+    this.shippingEstimatedMomentDate = moment(order.shippingEstimatedDate, "YYYY-MM-DD");
+    this.shippingEstimatedDate = moment(this.shippingEstimatedMomentDate).format("DD/MM");
+    this.shippingEstimatedWeekDay = moment(this.shippingEstimatedMomentDate).format("dddd");
     this.id = order.id;
     this.name = order.name;
     this.amountTotal = parseFloat(order.amount_total);

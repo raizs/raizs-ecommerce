@@ -49,7 +49,7 @@ class DashboardSubscriptions extends Component {
     const handleViewSaleSubscription = subscription => {
       if(subscription) {
         selectSaleSubscriptionAction(subscription);
-        history.push(`/painel/pedidos/${subscription.id}`);
+        history.push(`/painel/assinaturas/${subscription.id}`);
       }
     }
 

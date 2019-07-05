@@ -140,10 +140,10 @@ export class StateToApi {
     momentDate,
     transaction,
     subcart,
-
   }) {
     const to = {
       toPg: {
+        name: subcart.subscriptionName,
         resPartnerId: user.id,
         document: user.document,
         date: momentDate.format("YYYY-MM-DD"),

@@ -445,7 +445,10 @@ class Checkout extends BaseContainer {
         <h1>
           CHECKOUT
         </h1>
-        <h3>Falta pouco para você finalizar o seu pedido!<br/>Basta preencher os dados abaixo:</h3>
+        <h3>
+          Falta pouco para você finalizar o seu pedido!<br/>
+          Basta preencher os dados abaixo:
+        </h3>
         <div className={classes.content}>
           <div className={classes.info}>
             {this._renderForms()}

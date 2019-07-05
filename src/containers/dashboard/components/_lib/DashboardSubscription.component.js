@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { withStyles, Icon, Button } from '@material-ui/core';
+import { withStyles, Icon, Button, Select, MenuItem } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 import { Loading } from '../../../../molecules';
-import { selectSaleOrderAction } from '../../../../store/actions';
+import { selectSaleSubscriptionAction } from '../../../../store/actions';
 import { Formatter, CartHelper } from '../../../../helpers';
-import { CartProduct } from '../../../../components';
+import { SubscriptionCartProduct } from '../../../../components';
 
-const actions = { selectSaleOrderAction };
+const actions = { selectSaleSubscriptionAction };
 
 const styles = theme => ({
   wrapper: {
@@ -94,17 +94,17 @@ const styles = theme => ({
   }
 });
 
-class DashboardOrder extends Component {
+class DashboardSubscription extends Component {
   state = {
     loading: true,
     cart: null
   }
 
   componentWillMount() {
-    const { saleOrder, products } = this.props;
-    if(saleOrder && products && products.all.length) {
-      const { lines } = saleOrder;
-      const cart = CartHelper.createCartFromLines({ products, lines });
+    const { saleSubscription, products } = this.props;
+    if(saleSubscription && products && products.all.length) {
+      const { lines } = saleSubscription;
+      const cart = CartHelper.createSubscriptionCartFromLines({ products, lines });
       this.setState({ loading: false, cart });
     }
   }
@@ -112,32 +112,31 @@ class DashboardOrder extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       history,
-      saleOrder,
-      saleOrders,
+      saleSubscription,
+      saleSubscriptions,
       products,
       match: { params: { id } },
-      selectSaleOrderAction
+      selectSaleSubscriptionAction
     } = nextProps;
-    const prevSaleOrder = this.props.saleOrder;
-    if(!id) return history.push('/painel/pedidos');
+    const prevSaleSubscription = this.props.saleSubscription;
+    if(!id) return history.push('/painel/assinaturas');
 
-    else if(saleOrders && products && products.all.length) {
-      if(!saleOrder) {
-        const so = saleOrders.getById(+id);
+    else if(saleSubscriptions && products && products.all.length) {
+      if(!saleSubscription) {
+        const so = saleSubscriptions.getById(+id);
         if(so) {
-          const cart = CartHelper.createCartFromLines({ products, lines: so.lines });
+          const cart = CartHelper.createSubscriptionCartFromLines({ products, lines: so.lines });
           this.setState({ cart, loading: false });
-          selectSaleOrderAction(so);
+          selectSaleSubscriptionAction(so);
         }
-        else return history.push('/painel/pedidos');
+        else return history.push('/painel/assinaturas');
       }
-      else if(saleOrder && !prevSaleOrder) this.setState({ loading: false });
+      else if(saleSubscription && !prevSaleSubscription) this.setState({ loading: false });
     }
   }
 
   _renderCartItems() {
     const { cart } = this.state;
-    // const { handleUpdateCart } = this.controller;
 
     return cart.items.length ? (
       <div style={{ marginTop: '32px' }}>
@@ -146,15 +145,16 @@ class DashboardOrder extends Component {
 
           product.quantity = cart.productQuantities[product.id] || 0;
           product.partialPrice = cart.productPartialPrices[product.id] || 0;
+          product.periodicity = item.periodicity || 'weekly';
+          product.secondaryPeriodicity = item.secondaryPeriodicity || 'first';
 
           return (
-            <CartProduct
+            <SubscriptionCartProduct
+              disabled
               key={product.id}
               product={product}
               handleUpdateCart={() => null}
-              stockQuantity={10}
-              disabled
-            />
+              stockQuantity={10} />
           );
         })}
       </div>
@@ -163,30 +163,43 @@ class DashboardOrder extends Component {
 
   _renderSummary() {
     const {
-      saleOrder: {
-        amountTotal,
+      saleSubscription: {
+        totalPrice,
         shippingTimeRange,
+        state,
         stateString,
         shippingEstimatedDate,
         shippingEstimatedWeekDay
       }
     } = this.props
+
     return (
       <div className='summary'>
         <div>
           <p className='green bold xs'>STATUS</p>
+          <Select
+            style={{ width: '120px' }}
+            value={state}
+            onChange={e => console.log(e)}
+          >
+            <MenuItem value='draft'>Nova</MenuItem>
+            <MenuItem value='open'>Ativa</MenuItem>
+            <MenuItem value='pending'>Pendente</MenuItem>
+            <MenuItem value='close'>Inativa</MenuItem>
+            <MenuItem value='cancel'>Cancelada</MenuItem>
+          </Select>
           <p className='bold'>{stateString}</p>
         </div>
         <div>
           <p className='green bold xs'>ENTREGA</p>
           <p className='bold md'>{shippingEstimatedDate}</p>
           <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
-          <p className='bold xxs' style={{ marginTop: '16px' }}>PREVISÃO DE ENTREGA</p>
+          <p className='bold xxs' style={{ marginTop: '16px' }}>HORÁRIO DE ENTREGA</p>
           <p className='semibold gray xs'>{shippingTimeRange}</p>
         </div>
         <div>
           <p className='green bold xs'>VALOR</p>
-          <p className='bold md'>{Formatter.currency(amountTotal)}</p>
+          <p className='bold md'>{Formatter.currency(totalPrice)}</p>
         </div>
         <div></div>
         <div>
@@ -198,8 +211,7 @@ class DashboardOrder extends Component {
   }
 
   render() {
-    const { classes, saleOrder, history } = this.props;
-    console.log(this.state.cart);
+    const { classes, saleSubscription, history } = this.props;
 
     if(this.state.loading) {
       return <div className={classes.wrapper}>
@@ -209,9 +221,9 @@ class DashboardOrder extends Component {
 
     return (
       <div className={classes.wrapper}>
-        <h1>Pedido {saleOrder.name}</h1>
-        <span onClick={() => history.push('/painel/pedidos')}><Icon>keyboard_arrow_left</Icon>Voltar</span>
-        {this._renderSummary()}
+        <h1>Assinatura{saleSubscription ? ` - ${saleSubscription.name}` : ''}</h1>
+        <span onClick={() => history.push('/painel/assinaturas')}><Icon>keyboard_arrow_left</Icon>Voltar</span>
+        {saleSubscription && this._renderSummary()}
         {this.state.cart && this._renderCartItems()}
       </div>
     );
@@ -219,15 +231,15 @@ class DashboardOrder extends Component {
 };
 
 const mapStateToProps = state => ({
-  saleOrders: state.saleOrders.orders,
-  saleOrder: state.saleOrders.current,
+  saleSubscriptions: state.saleSubscriptions.subscriptions,
+  saleSubscription: state.saleSubscriptions.current,
   products: state.products.model
 });
 
-DashboardOrder = compose(
+DashboardSubscription = compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, actions)
-)(DashboardOrder);
+)(DashboardSubscription);
 
-export { DashboardOrder }
+export { DashboardSubscription }

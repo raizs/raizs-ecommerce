@@ -26,7 +26,6 @@ let ClientCommentsSlider = props => {
     arrows: false,
     dots: true,
     infinite: true,
-    draggable: false,
     autoplay: true,
     autoplaySpeed: 5000
   };
