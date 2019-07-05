@@ -13,7 +13,7 @@ export class Card {
     this.getMpFormattedPayment = this.getMpFormattedPayment.bind(this);
   }
 
-  getMpFormattedPayment({ installments = 1, recurrence = false, amount }) {
+  getMpFormattedPayment({ installments = 1, recurrence = false, amount=0 }) {
     return {
       payment_method: `${this.type}_card`,
       amount,

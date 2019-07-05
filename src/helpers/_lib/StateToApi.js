@@ -142,17 +142,16 @@ export class StateToApi {
     subcart,
   }) {
     const to = {
-      toPg: {
-        name: subcart.subscriptionName,
-        resPartnerId: user.id,
-        document: user.document,
-        date: momentDate.format("YYYY-MM-DD"),
-        address: selectedUserAddress,
-        transaction,
-      },
-      toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id, transaction })
+      name: subcart.subscriptionName,
+      resPartnerId: user.id,
+      document: user.document,
+      date: momentDate.format("YYYY-MM-DD"),
+      address: selectedUserAddress,
+      transaction,
+      mpCardId: selectedCard.id
     }
 
     return to;
   }
 }
+      // toMpSubscriptions: subcart.current.getMpFormattedSubscription({ momentDate, customerId: user.mpid, cardId: selectedCard.id, transaction })

@@ -16,13 +16,14 @@ const emptyValues = {
 export class Transaction extends BaseModel {
 
 	constructor({ cart, subcart, coupon, donation, giftCard, selectedPaymentMethod, momentDate, shipping }) {
-		console.log(giftCard)
 		super();
+		this.shippingMinDiscount = 220;
+		this.shippingDiscount = 9.90
 		this.giftCard = giftCard || { value: 0, id: null };
 		this.hasSubcart = !!subcart.current.subtotal;
 		this.hasCart = !!cart.subtotal;
 		this.shipping = shipping || {
-			value:9.90
+			value:0
 		}
 		this.cart = cart;
 		this.subcart = subcart;
@@ -31,6 +32,31 @@ export class Transaction extends BaseModel {
 		this.coupon = coupon;
 		this.selectedPaymentMethod = selectedPaymentMethod;
 		this.totals = this.calculateCharges();
+	}
+
+	calculateShippingProgress(value){
+		let { shippingMinDiscount, shipping, shippingDiscount } = this;
+		if (value){
+
+			let progress = parseInt(100*value/shippingMinDiscount);
+			if (progress>100){
+				return {
+					shippingValue: shipping.value - shippingDiscount,
+					progress:100,
+					leftValue: 0
+				}
+			}
+			else return {
+				shippingValue: shipping.value,
+				progress,
+				leftValue: shippingMinDiscount - value
+			}
+		}
+		return {
+			shippingValue: 0,
+			progress:0,
+			leftValue: shippingDiscount
+		}
 	}
 
 	getGroupedRecurrencies(){
@@ -57,6 +83,14 @@ export class Transaction extends BaseModel {
 		return recurrencies;
 	}
 
+	calculateGiftCard(totals){
+		let { value } = this.giftCard;
+		const toImmediate = Math.min((totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon), value)
+		totals.immediate.giftCard = toImmediate;
+		totals.recurrencies.first.giftCard = value - toImmediate;
+		return totals;
+	}
+
 	calculateCharges(){
 		const { cart, momentDate } = this;
 
@@ -68,73 +102,30 @@ export class Transaction extends BaseModel {
 				date:momentDate.format('YYYY-MM-DD')
 			},
 			recurrencies: this.getGroupedRecurrencies(),
-			singularCharges:{
-				first: { "0": { emptyValues } },
-				second: { "0": { emptyValues } },
-				third: { "0": { emptyValues } },
-				fourth: { "0": { emptyValues } },
-			},
-			toChargeNow: { emptyValues }
+			toChargeNow: emptyValues
 		};
 
 		totals = this.calculateDiscounts(totals);
 		totals = this.calculateShipping(totals);
+		totals = this.calculateGiftCard(totals);
 		totals = this.calculateTotals(totals);
-		totals = this.distributeGiftCardCharges(totals);
-
-		for (var key of recurrencyKeys){
-			let recurrency = totals.recurrencies[key];
-			if (recurrency.subtotal){
-				let firstCharge = totals.singularCharges[key]["0"];
-				totals.toChargeNow = {
-					coupon: recurrency.coupon + totals.immediate.coupon,
-					giftCard: firstCharge.giftCard + totals.immediate.giftCard,
-					total:  totals.immediate.total + (firstCharge.total == undefined ? recurrency.total : firstCharge.total),
-					subtotal: recurrency.subtotal + totals.immediate.subtotal,
-					shipping: this.shipping.value
-				}
-				break;
-			}
+		totals.toChargeNow = {
+			coupon: totals.immediate.coupon + totals.recurrencies.first.coupon,
+			total: totals.immediate.total + totals.recurrencies.first.total,
+			subtotal: totals.immediate.subtotal + totals.recurrencies.first.subtotal,
+			shipping: totals.immediate.shipping + totals.recurrencies.first.shipping,
+			giftCard: totals.immediate.giftCard + totals.recurrencies.first.giftCard
 		}
 			
 		return totals;
 	}
 
-	discountGiftCard(payment, totalValue){
-		payment.giftCard = Math.min(payment.total, totalValue);
-		payment.total -= payment.giftCard;
-		return payment;
-
-	}
-
-	distributeGiftCardCharges(totals){
-		let totalValue = this.giftCard.value;
-		if (!totalValue) return totals;
-
-		totals.immediate = this.discountGiftCard(totals.immediate, totalValue); 
-		totalValue -= totals.immediate.giftCard; 
-		let i = 0;
-		while (totalValue != 0){
-			let cicle = Math.floor(i/4);
-			const key = recurrencyKeys[i%4];
-			i++;
-
-			let copy = {...totals.recurrencies[key]}
-			if (!copy.subtotal) continue;
-			copy = this.discountGiftCard(copy, totalValue); 
-			totalValue -= copy.giftCard;
-			totals.singularCharges[key][cicle] = copy;
-
-		}
-
-		return totals;
-	}
-
 
 	calculateTotals(totals){
-		totals.immediate.total = totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon;
+		totals.immediate.total = totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon - totals.immediate.giftCard;
 		recurrencyKeys.forEach(key=>{
-			totals.recurrencies[key].total = totals.recurrencies[key].subtotal + totals.recurrencies[key].shipping - totals.recurrencies[key].coupon;
+			let recurrency = totals.recurrencies[key];
+			totals.recurrencies[key].total = recurrency.subtotal + recurrency.shipping - recurrency.coupon - recurrency.giftCard;
 		})
 		return totals;
 	}
@@ -143,14 +134,21 @@ export class Transaction extends BaseModel {
 
 	calculateShipping(totals){
 		//logica de calcular fretes;
-		const  { shipping, hasSubcart } = this;
+		const  { shipping, hasSubcart, hasCart } = this;
+		let { immediate, recurrencies } = totals;
 		
 		if (!hasSubcart){
-			totals.immediate.shipping = shipping.value;
+			totals.immediate.shipping = this.calculateShippingProgress(immediate.subtotal - immediate.coupon).shippingValue;
 		}
 		else {
 			recurrencyKeys.forEach(key=>{
-				totals.recurrencies[key].shipping = totals.recurrencies[key].subtotal ?  shipping.value : 0;
+				let rec = recurrencies[key];
+				if (key=="first" && hasCart){
+					totals.recurrencies[key].shipping = this.calculateShippingProgress(immediate.subtotal + rec.subtotal - immediate.coupon - rec.coupon).shippingValue;
+				}
+				else{
+					totals.recurrencies[key].shipping = this.calculateShippingProgress(rec.subtotal - rec.coupon).shippingValue;
+				}
 			})
 		}
 
@@ -164,72 +162,6 @@ export class Transaction extends BaseModel {
 		return totals;
 	}
 
-	getEquivalentPercentageDiscount(charge){
-		let discount = 100*charge.giftCard/(charge.subtotal + charge.shipping);
-		return parseFloat(discount.toFixed(2));
-
-	}
-
-	calculateMpBaseDiscount(sub){
-		// console.log(sub);
-		let value = 0;
-		if (sub.coupon){
-			value = parseFloat((100*sub.coupon/(sub.subtotal + sub.shipping)).toFixed(2))
-		}
-		return value;
-	}
-
-	calculateMpDiscount(week){
-		const { totals } = this;
-		const charges = totals.singularCharges[week];
-		const recurrency = totals.recurrencies[week];
-		let mpBaseDiscount = 0;
-		mpBaseDiscount = this.calculateMpBaseDiscount(recurrency);
-		let discounts = [];
-		mpBaseDiscount && discounts.push({
-			"cycles": 99999,
-            "value": mpBaseDiscount,
-            "discount_type": "percentage"
-		})
-
-		if (!charges) return discounts;
-		let cicles = Object.keys(charges);
-		if (!cicles.length) return discounts;
- 		let commonCharge = charges["0"];
-		let lastCicle = cicles.length - 1;
-		let lastCharge = charges[lastCicle];
-		if (commonCharge.total != lastCharge.total){
-			const lastDiscount = this.getEquivalentPercentageDiscount(lastCharge);
-			discounts.push(
-		        {
-		            "cycles": lastCicle + 1,
-		            "value": lastDiscount,
-		            "discount_type": "percentage"
-		        },
-		        {
-		            "cycles": lastCicle,
-		            "value": 100 - lastDiscount - mpBaseDiscount,
-		            "discount_type": "percentage"
-		        },
-		    );
-
-		}
-		else {
-			discounts.push(
-				{
-					"cycles": lastCicle + 1,
-		            "value": this.getEquivalentPercentageDiscount(commonCharge),
-		            "discount_type": "percentage"	
-				}
-			);
-		}
-
-		console.log(discounts)
-
-		return discounts;
-
-
-	}
 
 
 

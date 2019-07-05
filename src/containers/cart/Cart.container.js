@@ -22,7 +22,7 @@ import {
   SimpleCepChecker
 } from '../../components';
 import { CartCheckout } from './components';
-import { SubscriptionCart } from '../../entities';
+import { SubscriptionCart, Transaction } from '../../entities';
 
 const styles = theme => ({
   wrapper: {
@@ -88,8 +88,6 @@ const actions = {
   openCartWarningModalAction
 };
 
-const MINIMUM_VALUE = 0; // todo: get from db
-const FREE_SHIPPING_VALUE = 200; // todo: get from db
 
 /**
  * Cart - Container 'Carrinho'
@@ -105,12 +103,10 @@ class Cart extends BaseContainer {
 
   state = {
     cep: '',
-    coupon: '',
-    shippingValue: null,
+    shipping: null,
     cepLoading: false,
     cepSuccess: false,
     cepError: false,
-    subtotalError: false
   }
 
   static propTypes = {
@@ -127,8 +123,8 @@ class Cart extends BaseContainer {
     if(this.props.currentCep) {
       this.setState({
         cepSuccess: true,
-        shippingValue: this.props.currentCep.shippingValue,
-        cep: this.props.currentCep.value
+        shipping: this.props.currentCep.shipping,
+        cep: this.props.currentCep.current
       });
     }
   }
@@ -147,8 +143,8 @@ class Cart extends BaseContainer {
     if(nextProps.currentCep && !this.props.currentCep) {
       this.setState({
         cepSuccess: true,
-        shippingValue: nextProps.currentCep.shippingValue,
-        cep: nextProps.currentCep.value
+        shipping: nextProps.currentCep.shipping,
+        cep: nextProps.currentCep.current
       });
     }
   }
@@ -235,10 +231,17 @@ class Cart extends BaseContainer {
       selectedDate,
       selectUserAddressAction,
       user,
-      currentCep
+      currentCep,
+      giftCard, 
+      coupon,
+      momentDate,
     } = this.props;
-    const { cep, coupon, cepLoading, cepSuccess, cepError, subtotalError, shippingValue } = this.state;
+    const { cep, cepLoading, cepSuccess, cepError} = this.state;
     const { handleChange, handleCepBlur, handleSelectDate } = this.controller;
+
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod:null, momentDate, 
+      shipping: currentCep.shipping ? { value: currentCep.shipping[momentDate.format('dddd').split('-')[0]] } : null 
+    });
 
     const toCartCheckout = {
       history,
@@ -247,30 +250,28 @@ class Cart extends BaseContainer {
       currentCep,
       user,
       cep,
-      coupon,
       cepLoading,
       cepSuccess,
       cepError,
-      subtotalError,
       handleChange,
       handleCepBlur,
-      shippingValue,
       selectedAddress,
       selectUserAddressAction,
-
-      MINIMUM_VALUE, // todo: get from db
-      FREE_SHIPPING_VALUE // todo: get from db
+      transaction,
+      momentDate
     };
+
+    let shouldRenderDatePicker = (user && user.addresses.all.length) || currentCep.current;
+    let shouldRenderCepChecker = !shouldRenderDatePicker;
 
     return (
       <div className={classes.wrapper}>
         <h1>SEU CARRINHO</h1>
-        <div className='date-picker-wrapper'>
-          <BigDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
-        </div>
-        {
-          user && user.addresses.all.length ? null :
-          <div className='cep-wrapper'>
+        {shouldRenderDatePicker && <div className='date-picker-wrapper'>
+            <BigDatePicker handleSelectDate={handleSelectDate} selected={selectedDate} />
+          </div>
+        }
+        {shouldRenderCepChecker && <div className='cep-wrapper'>
             <SimpleCepChecker />
           </div>
         }
@@ -288,12 +289,16 @@ class Cart extends BaseContainer {
 const mapStateToProps = state => ({
   user: state.user.current,
   cart: state.cart.current,
-  currentCep: state.cep.current,
+  currentCep: state.cep,
   subscriptionCart: state.subscriptionCart,
   selectedDate: state.datePicker.selected,
   stockDate: state.datePicker.obj.stockDate,
-  selectedAddress: state.userAddresses.selected
+  selectedAddress: state.userAddresses.selected,
+  momentDate: state.datePicker.momentDate,
+  coupon: state.coupon.selected,
+  giftCard: state.giftCard,
 });
+
 
 export default compose(
   withStyles(styles),

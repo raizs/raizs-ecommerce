@@ -77,18 +77,12 @@ class SimpleCepChecker extends BaseContainer {
   }
   
   _renderDescription() {
-    const descriptions = {
-      success: 'Entregando para: ',
-      invalid: 'O cep digitado é inválido.',
-      unreachable: ''
-    };
 
-    const { code, cep }  = this.state;
+    const { msg, success, searched }  = this.state;
 
-    let string = descriptions[code];
-    if(code === 'success') string += cep;
-
-    return string && <p className='description'>{string}</p>;
+    if (searched){
+      return <p className='description'>{msg}</p>;
+    }
   }
 
   _renderForm() {
@@ -97,7 +91,8 @@ class SimpleCepChecker extends BaseContainer {
     const { classes } = this.props;
 
     return (!searched || !success) &&
-      <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+      <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>        
+        {loading && <Loading absolute noBg size={20}/>}
         <TextInput
           id="cep"
           value={cep}
@@ -106,7 +101,6 @@ class SimpleCepChecker extends BaseContainer {
           handleBlur={handleSubmit}
           className={classes.textInput}
         />
-        {loading && <Loading inline size={20}/>}
       </form>;
   }
 

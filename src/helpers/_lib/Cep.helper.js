@@ -30,15 +30,16 @@ export class CepHelper {
       response.description = 'O cep digitado não parece ser válido. Verifique e corrija o cep digitado e tente novamente '
     })
 
-    return this.checkShippingValue(response, value);
   }
 
-  static async checkShippingValue(response, cep){
-    if (response.code === "success"){
-      let shippingRepo = new ShippingRepository();
-      let shippingData = await shippingRepo.getShippingData(Formatter.extractNumbers(cep));
-    }
-    return response
+  static async getAddressByCep(cep){
+    let promise = await Axios.get(`https://viacep.com.br/ws/${Formatter.extractNumbers(cep)}/json`)
+  }
+
+  static async checkShippingByCep(cep){
+    let shippingRepo = new ShippingRepository();
+    let shippingData = await shippingRepo.getShippingData(Formatter.extractNumbers(cep));
+    return shippingData
   }
   
 }

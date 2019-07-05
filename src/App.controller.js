@@ -1,4 +1,4 @@
-import { BaseController, StateToApi, SocialMediaHelper, CepHelper } from './helpers';
+import { BaseController, StateToApi, SocialMediaHelper, CepHelper, Formatter } from './helpers';
 import { User, Categories, Cards, Products, SaleOrders, UnitsOfMeasure, Cart, SubscriptionCart } from './entities';
 import {
   UserRepository,
@@ -126,7 +126,8 @@ export class AppController extends BaseController {
         const address = newUser.addresses.getDefaultUserAddress();
         selectUserAddressAction(address);
         const cep = await CepHelper.check(address.cep);
-        setCepAction(cep);
+        let shipping = await CepHelper.checkShippingByCep(Formatter.extractNumbers(address.cep).toString());
+        setCepAction(cep, shipping.data.availability);
       }
       
       if(newUser.mpid) {

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import { MiniDatePickerHelper, Formatter, StringMapper } from '../../../../helpers';
-import { Transaction } from '../../../../entities';
 
 const styles = theme => ({
   wrapper: {
@@ -164,8 +163,8 @@ class SummarySection extends Component {
   }
 
 
-  _renderDiscount(transaction){
-    const { classes } = this.props;
+  _renderDiscount(){
+    const { classes, transaction } = this.props;
     let { coupon } = transaction.totals.toChargeNow;
     if (!coupon) return null;
     return <div className={classes.keyValue}>
@@ -175,8 +174,8 @@ class SummarySection extends Component {
   }
 
 
-  _renderGiftCard(transaction){
-    const { classes } = this.props;
+  _renderGiftCard(){
+    const { classes, transaction } = this.props;
     let { giftCard } = transaction.totals.toChargeNow;
     if (!giftCard) return null;
     return <div className={classes.keyValue}>
@@ -186,11 +185,10 @@ class SummarySection extends Component {
   }
 
   render() {
-    const { classes, selectedDate, cart, subscriptionCart, coupon, giftCard } = this.props;
-    let transaction = new Transaction({cart, subcart:subscriptionCart, coupon, giftCard});
+    const { classes, selectedDate, cart, subscriptionCart, coupon, giftCard, transaction } = this.props;
     const { totals } = transaction;
+    let { toChargeNow } = totals;
     const sCart = subscriptionCart.current;
-    let { toChargeNow } = transaction.totals;
 
     return (
       <div className={classes.wrapper}>
@@ -209,8 +207,8 @@ class SummarySection extends Component {
           <div className={classes.subtitle}>FRETE</div>
           <div className={classes.subValue}>{Formatter.currency(toChargeNow.shipping)}</div>
         </div>
-        {this._renderGiftCard(transaction)}
-        {this._renderDiscount(transaction)}
+        {this._renderGiftCard()}
+        {this._renderDiscount()}
         <div className={classes.keyValue} style={{ marginTop: '24px' }}>
           <div className={classes.total}>TOTAL</div>
           <div className={classes.total}>{Formatter.currency(toChargeNow.total)}</div>
