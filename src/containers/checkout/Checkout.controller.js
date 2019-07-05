@@ -596,10 +596,11 @@ export class CheckoutController extends BaseController {
 
 
   async handleConfirm() {
-    const { cart, coupon, subscriptionCart, giftCard, history, momentDate } = this.getProps();
+    const { cart, coupon, subscriptionCart, giftCard, history, momentDate, currentCep } = this.getProps();
     const { selectedPaymentMethod } = this.getState();
 
-    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate });
+    const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate,
+      shipping: currentCep.shipping ? { value: currentCep.shipping[momentDate.format('dddd').split('-')[0]] } : null });
 
     this.toState({loading:true});
 
@@ -608,7 +609,7 @@ export class CheckoutController extends BaseController {
     }
     else{
       if (transaction.hasCart){
-        await this.createSaleOrder(transaction);
+        // await this.createSaleOrder(transaction);
       }
       if (transaction.hasSubcart){
         await this.createSubscription(transaction);
@@ -671,6 +672,8 @@ export class CheckoutController extends BaseController {
       subcart: subscriptionCart,
       transaction
     });
+
+    console.log(transaction)
 
     const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
   }

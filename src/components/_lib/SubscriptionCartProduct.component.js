@@ -179,7 +179,7 @@ class SubscriptionCartProduct extends Component {
             <MenuItem value='biweekly'>Quinzenal</MenuItem>
             <MenuItem value='monthly'>Mensal</MenuItem>
           </Select>
-          {['biweekly', 'monthly'].includes(product.periodicity) && this._renderSecondaryPeriodicity()}
+          {/*['biweekly', 'monthly'].includes(product.periodicity) && this._renderSecondaryPeriodicity()*/}
         </div>
         <div style={{ width: '160px', padding: '0 16px' }}>
           <QuantitySelector

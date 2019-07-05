@@ -120,7 +120,7 @@ class CartCheckout extends Component {
     const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
     const subtotal = cart.subtotal + sCart.subtotal;
 
-    let shippingData = transaction.calculateShippingProgress(transaction.totals.toChargeNow.total - transaction.totals.toChargeNow.giftCard);
+    let shippingData = transaction.calculateShippingProgress(transaction.totals.toChargeNow.total - transaction.totals.toChargeNow.shipping);
     let shouldRenderShippingLeft = shippingData.progress != 100
 
     if((user && user.addresses.all.length) || currentCep.current ) {
@@ -135,13 +135,15 @@ class CartCheckout extends Component {
               <MenuItem value={address}>{address.name}</MenuItem>
             )}
           </Select>}
-          {shouldRenderShippingLeft && <div
-            className={classes.info}
-            style={{ margin: '16px 0' }}
-          >
-            Faltam apenas {Formatter.currency(shippingData.leftValue)} para Frete Grátis.
-          </div>}
-          <LinearProgress variant="determinate" value={shippingData.progress} />
+          {shouldRenderShippingLeft && <span><div
+              className={classes.info}
+              style={{ margin: '16px 0' }}
+            >
+              Faltam apenas {Formatter.currency(shippingData.leftValue)} para desconto de R$9.90 no Frete.
+            </div>
+            <LinearProgress variant="determinate" value={shippingData.progress} />
+          </span>
+          }
         </div>
       )
     }

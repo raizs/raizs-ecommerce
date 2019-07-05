@@ -37,7 +37,6 @@ export class Transaction extends BaseModel {
 	calculateShippingProgress(value){
 		let { shippingMinDiscount, shipping, shippingDiscount } = this;
 		if (value){
-
 			let progress = parseInt(100*value/shippingMinDiscount);
 			if (progress>100){
 				return {
