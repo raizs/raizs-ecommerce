@@ -46,7 +46,8 @@ const styles = theme => ({
         fontSize: '20px',
         marginLeft: theme.spacing.unit,
         color: theme.palette.gray.main,
-        cursor: 'pointer'
+        cursor: 'pointer',
+        display: 'inline-block'
       }
     }
   },
@@ -155,11 +156,11 @@ class MiniSubscriptionCartProduct extends Component {
   }
 
   _renderPeriodicity() {
-    const { product, handleUpdateCart, classes } = this.props;
+    const { product, handleUpdateCart, classes, stockDate } = this.props;
     return (
       <div>
         <Select
-          style={{ width: '100%' }}
+          style={{ width: 'calc(100% - 28px)' }}
           className={classes.select}
           value={product.periodicity}
           onChange={e => handleUpdateCart({
@@ -171,7 +172,13 @@ class MiniSubscriptionCartProduct extends Component {
           <MenuItem value='weekly'>Semanal</MenuItem>
           <MenuItem value='biweekly'>Quinzenal</MenuItem>
           <MenuItem value='monthly'>Mensal</MenuItem>
+          <MenuItem value='once'>Avulso</MenuItem>
         </Select>
+        {product.periodicity === 'once' && <div className='select-and-help'><PeriodicityTooltip
+          stockDate={stockDate}
+          periodicity={product.periodicity}
+          secondaryPeriodicity={null}
+        /></div>}
       </div>
     );
   }

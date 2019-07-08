@@ -129,6 +129,15 @@ class PeriodicityTooltip extends Component {
       fourth: 3
     }[secondaryPeriodicity];
 
+    if(periodicity === 'once') return (
+      <div className='wrapper'>
+        <p>
+          Ao selecionar avulso você receberá este produto somente uma vez, em sua primeira entrega.
+        </p>
+        <span className={classes.arrow} ref={this._handleArrowRef} />
+      </div>
+    );
+
     const dates = MiniDatePickerHelper.generateIntervalDatesArray(stockDate, p, offset).join(', ');
     return (
       <div className='wrapper'>

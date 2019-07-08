@@ -143,7 +143,14 @@ class SubscriptionCartProduct extends Component {
   }
   
   render() {
-    const { classes, product, handleUpdateCart, stockQuantity, disabled } = this.props;
+    const {
+      classes,
+      product,
+      handleUpdateCart,
+      stockQuantity,
+      disabled,
+      stockDate
+    } = this.props;
 
     return (
       <div
@@ -181,8 +188,14 @@ class SubscriptionCartProduct extends Component {
             <MenuItem value='weekly'>Semanal</MenuItem>
             <MenuItem value='biweekly'>Quinzenal</MenuItem>
             <MenuItem value='monthly'>Mensal</MenuItem>
+            <MenuItem value='once'>Avulso</MenuItem>
           </Select>
-          {/*['biweekly', 'monthly'].includes(product.periodicity) && this._renderSecondaryPeriodicity()*/}
+          {['biweekly', 'monthly'].includes(product.periodicity) && this._renderSecondaryPeriodicity()}
+          {product.periodicity === 'once' && <div className='select-and-help'><PeriodicityTooltip
+            stockDate={stockDate}
+            periodicity={product.periodicity}
+            secondaryPeriodicity={null}
+          /></div>}
         </div>
         <div style={{ width: '160px', padding: '0 16px' }}>
           <QuantitySelector

@@ -13,7 +13,7 @@ const styles = theme => ({
     height: '80%',
     width: '48px',
     borderRadius: theme.spacing.unit,
-    backgroundColor: 'rgba(230, 230, 230, .5)',
+    backgroundColor: 'rgba(230, 230, 230, .2)',
     cursor: 'pointer',
     fontSize: theme.fontSizes.LG,
     fontWeight: 600,
