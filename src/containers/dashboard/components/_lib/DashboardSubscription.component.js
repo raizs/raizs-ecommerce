@@ -76,7 +76,7 @@ const styles = theme => ({
             color: theme.palette.green.main
           }
         },
-        '& > button#rebuy': {
+        '& > button#unfreeze': {
           ...theme.buttons.secondary,
           width: '100%',
           fontSize: theme.fontSizes.XSM,
@@ -161,6 +161,38 @@ class DashboardSubscription extends Component {
     ) : null;
   }
 
+  _renderNextDelivery() {
+    const {
+      shippingEstimatedDate,
+      shippingEstimatedWeekDay,
+      shippingTimeRange
+    } = this.props.saleSubscription;
+
+    return <React.Fragment>
+      <p className='green bold xs'>PRÓXIMA ENTREGA</p>
+      <p className='bold md'>{shippingEstimatedDate}</p>
+      <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
+      <p className='bold xxs' style={{ marginTop: '16px' }}>HORÁRIO DE ENTREGA</p>
+      <p className='semibold gray xs'>{shippingTimeRange}</p>
+    </React.Fragment>;
+  }
+
+  _renderNextCharge() {
+    const {
+      shippingEstimatedDate,
+      shippingEstimatedWeekDay,
+      shippingTimeRange
+    } = this.props.saleSubscription;
+
+    return <React.Fragment>
+      <p className='green bold xs'>PRÓXIMA COBRANÇA</p>
+      <p className='bold md'>{shippingEstimatedDate}</p>
+      <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
+      <p className='bold xxs' style={{ marginTop: '16px' }}>ALTERE PRODUTOS ATÉ</p>
+      <p className='semibold gray xs'>{shippingTimeRange}</p>
+    </React.Fragment>;
+  }
+
   _renderSummary() {
     const {
       saleSubscription: {
@@ -177,7 +209,7 @@ class DashboardSubscription extends Component {
       <div className='summary'>
         <div>
           <p className='green bold xs'>STATUS</p>
-          <Select
+          {/* <Select
             style={{ width: '120px' }}
             value={state}
             onChange={e => console.log(e)}
@@ -187,31 +219,32 @@ class DashboardSubscription extends Component {
             <MenuItem value='pending'>Pendente</MenuItem>
             <MenuItem value='close'>Inativa</MenuItem>
             <MenuItem value='cancel'>Cancelada</MenuItem>
-          </Select>
+          </Select> */}
+          <p className='bold md'>{stateString}</p>
         </div>
         <div>
-          <p className='green bold xs'>PRÓXIMA ENTREGA</p>
-          <p className='bold md'>{shippingEstimatedDate}</p>
-          <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
-          <p className='bold xxs' style={{ marginTop: '16px' }}>HORÁRIO DE ENTREGA</p>
-          <p className='semibold gray xs'>{shippingTimeRange}</p>
+          {['open', 'pending'].includes(state) && this._renderNextDelivery()}
         </div>
         <div>
-          <p className='green bold xs'>PRÓXIMA COBRANÇA</p>
-          <p className='bold md'>{shippingEstimatedDate}</p>
-          <p className='semibold gray xs'>{shippingEstimatedWeekDay}</p>
-          <p className='bold xxs' style={{ marginTop: '16px' }}>ALTERE PRODUTOS ATÉ</p>
-          <p className='semibold gray xs'>{shippingTimeRange}</p>
+          {['open', 'pending'].includes(state) && this._renderNextCharge()}
         </div>
         <div>
           <p className='green bold xs'>VALOR</p>
           <p className='bold md'>{Formatter.currency(totalPrice)}</p>
         </div>
         <div>
-          <Button id='cancel'>Cancelar assinatura</Button>
+          {state && this._renderButton()}
         </div>
       </div>
     );
+  }
+
+  _renderButton() {
+    const { state } = this.props.saleSubscription;
+
+    return ['open', 'pending'].includes(state) ?
+      <Button id='cancel'>Cancelar Assinatura</Button> :
+      <Button id='unfreeze'>Descongelar Assinatura</Button>;
   }
 
   render() {
