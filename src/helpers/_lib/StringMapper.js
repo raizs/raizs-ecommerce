@@ -14,7 +14,8 @@ export class StringMapper {
     return {
       weekly: 'Semanal',
       biweekly: 'Quinzenal',
-      monthly: 'Mensal'
+      monthly: 'Mensal',
+      once: 'Avulso'
     }[p] || 'periodicity_not_found';
   }
 }

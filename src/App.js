@@ -32,7 +32,8 @@ import {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
-  openCartWarningModalAction
+  openCartWarningModalAction, 
+  showConfirmationModalAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -57,6 +58,7 @@ import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
 import { Families } from './containers/families';
 import ProductModal from './containers/product/ProductModal.container'
+import { ConfirmationModal } from './containers/confirmationModal'
 
 const actions = {
   closeUserPopperAction,
@@ -77,7 +79,8 @@ const actions = {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
-  openCartWarningModalAction
+  openCartWarningModalAction,
+  showConfirmationModalAction
 };
 
 class App extends BaseContainer {
@@ -111,6 +114,8 @@ class App extends BaseContainer {
         this.props.setCepAction(null);
       }
     });
+
+    // setTimeout(()=>this.props.showConfirmationModalAction({error:true, title:"ERRO", msg: "Tem certeza que deseja Bla bla bla?. Vamo escrever mais um pouco como se eu tivesse falando uma consequência de você Bla bla bla.", callback: ()=>console.log("CALLBACKKKKK")}), 1000)
 
     this.controller.initialFetch();
 
@@ -208,6 +213,7 @@ class App extends BaseContainer {
       <MuiThemeProvider theme={defaultTheme}>
         <div className='App'>
           <ProductModal />
+          <ConfirmationModal />
           <CartWarningModal />
           <ToastContainer
             autoClose={5000}

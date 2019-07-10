@@ -117,8 +117,12 @@ export {
 export {
   OPEN_MODAL_PRODUCT,
   CLOSE_MODAL_PRODUCT,
+  SHOW_CONFIRMATION_MODAL,
+  CLOSE_CONFIRMATION_MODAL,
   openModalProductAction,
-  closeModalProductAction
+  closeModalProductAction,
+  showConfirmationModalAction,
+  closeConfirmationModalAction
 } from './_lib/modal.actions';
 
 export {

@@ -89,7 +89,6 @@ class Product extends BaseContainer {
 }
   
 const mapStateToProps = state => ({
-  saleOrders: state.saleOrders.orders,
   cart: state.cart.current,
   modal: state.modal.product,
   product: state.modal.selectedProduct
