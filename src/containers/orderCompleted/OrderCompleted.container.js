@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles, Icon, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import { Loading } from '../../molecules';
-import { Formatter } from '../../helpers';
+import { Formatter, BaseContainer } from '../../helpers';
+import { OrderCompletedController } from "./OrderCompleted.controller";
+import { setSaleOrdersAction, setSaleSubscriptionsAction } from "../../store/actions"
 
 
 const styles = theme => ({
@@ -48,7 +50,7 @@ const styles = theme => ({
   	backgroundColor: "white",
   	padding: 2*theme.spacing.unit,
   	width: "100%",
-  	maxWidth:"500px",
+  	maxWidth:"600px",
   	borderRadius: theme.spacing.unit,
   },
   infoSection:{
@@ -126,28 +128,24 @@ const styles = theme => ({
   }
 });
 
-class OrderCompleted extends Component {
+class OrderCompleted extends BaseContainer {
+
+  constructor(props){
+    super(props, OrderCompletedController)
+  }
 
 	state = {
-		showTopButton: true,
 		loading: true,
-		order: null
+		order: null, 
+    total: 0
 	}
 
 	componentDidMount() {
 		document.title = 'Raízs | Pedido finalizado';	
 	}
 	
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.saleOrders) {
-			this.setState({loading:false, order: nextProps.saleOrders.getLastOrder()})
-		}
-	}
-
   componentWillMount() {
-    if (this.props.saleOrders) {
-      this.setState({loading:false, order: this.props.saleOrders.getLastOrder()})
-    }    
+    this.controller.fetchData();
   }
 
 	_renderFamilyInfo() {
@@ -176,16 +174,20 @@ class OrderCompleted extends Component {
 
 	_renderInfos() {
 		const { infoBox, separator, infoSection, greenTitle, priceUnit, infoTitle, note, shippingTimeLabel, shippingTimeValue, buttonBox, button } = this.props.classes;
-		const { order } = this.state;
-
+		const { order, sub, total, shippingDiscount } = this.state;
+    let itemCount = 0;
+    if (sub) itemCount += sub._countItems(sub.lines, "first");
+    
+    if (order) itemCount += order.itemCount;
+    itemCount += " items";
 		return (
 			<div className={infoBox}>
 				<div className={infoSection}>
 					<div className={greenTitle}>RESUMO</div>
-					<div className={priceUnit}>R$</div><div className={infoTitle}>{Formatter.currency(order.amountTotal).slice(2)}</div>
-					{!order.freeShipping ||<div className={note}>Economizou com o frete grátis!</div>}
-					{this._renderCheckListItem(order.itemCountString)}
-					{!order.subscriptionId || this._renderCheckListItem("1 Assinatura de cesta")}
+					<div className={priceUnit}>R$</div><div className={infoTitle}>{Formatter.currency(total)}</div>
+					{shippingDiscount && <div className={note}>Economizou com o frete!</div>}
+					{order && this._renderCheckListItem(itemCount)}
+					{sub && this._renderCheckListItem("1 Assinatura de cesta")}
 					{!order.hasDonation || this._renderCheckListItem("Doação")}
 				</div>
 
@@ -200,7 +202,7 @@ class OrderCompleted extends Component {
 				</div>
 				<div className={buttonBox}>
 					<Button className={button} onClick={()=>this.props.history.push("/dashboard/sale-orders")} >
-						Visualizar Pedido    
+						Visualizar Pedidos    
 					</Button>
 				</div>
 			</div>
@@ -233,11 +235,13 @@ class OrderCompleted extends Component {
 }
 
 const mapStateToProps = state => ({
-	saleOrders: state.saleOrders.orders
+	saleOrders: state.saleOrders.orders,
+  user: state.user.current,
+  saleSubscriptions: state.saleSubscriptions.subscriptions,
 });
 
 export default compose(
 	withStyles(styles),
 	withRouter,
-	connect(mapStateToProps, {}),
+	connect(mapStateToProps, { setSaleOrdersAction, setSaleSubscriptionsAction }),
 )(OrderCompleted);

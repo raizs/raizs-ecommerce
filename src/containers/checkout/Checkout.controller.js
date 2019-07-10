@@ -602,22 +602,36 @@ export class CheckoutController extends BaseController {
     const transaction = new Transaction({ cart, subcart:subscriptionCart, coupon, giftCard, selectedPaymentMethod, momentDate,
       shipping: currentCep.shipping ? { value: currentCep.shipping[momentDate.format('dddd').split('-')[0]] } : null });
 
-    this.toState({loading:true});
+    this.toState({ loading:true });
+
+    let query = "";
 
     if (selectedPaymentMethod=="payPal"){
       console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE");
     }
-    else{
+    else {
       if (transaction.hasCart){
-        await this.createSaleOrder(transaction);
+        const promise = await this.createSaleOrder(transaction);
+        if (!promise.err){
+          console.log(promise)
+          query += `?saleId=${promise.data.saleId}` 
+        }
       }
       if (transaction.hasSubcart){
-        await this.createSubscription(transaction);
+        const promise = await this.createSubscription(transaction);
+        if (!promise.err){
+          console.log(promise)
+          query += query ? "&" : "?"
+          query += `subscriptionId=${promise.data.subId}`
+        }
       }
     }
+    query += query ? "&" : "?"
+    query += `total=${parseInt(transaction.totals.toChargeNow.total*100)}`
+    if (transaction.totals.toChargeNow.shipping != transaction.shipping.value) query += "&shippingDiscount=true";
 
     this.toState({loading:false});
-    // return history.push("/pedido-finalizado")
+    return history.push("/pedido-finalizado"+query)
   }
 
   async createSaleOrder(transaction, payPalData={}) {
@@ -640,17 +654,8 @@ export class CheckoutController extends BaseController {
       payPalData
     });
 
-    const promise = await this.saleOrdersRepo.createOrder(toApi);
+    return await this.saleOrdersRepo.createOrder(toApi);
 
-    if (promise.err){
-      console.log("ERROR");
-      return ;
-    }
-    else {
-      const saleOrders = new SaleOrders(promise.data);
-      setSaleOrdersAction(saleOrders);
-      return promise;
-    }
   }
 
   async createSubscription(transaction) {
@@ -673,8 +678,6 @@ export class CheckoutController extends BaseController {
       transaction
     });
 
-    console.log(transaction)
-
-    const promise = await this.saleSubscriptionsRepo.createSubscription(toApi);
+    return await this.saleSubscriptionsRepo.createSubscription(toApi);
   }
 }

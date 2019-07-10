@@ -31,10 +31,11 @@ export class SaleSubscription extends BaseModel {
     this.shouldShowNextDelivery = ['draft','open'].includes(this.state);
   }
 
-  _countItems(lines) {
+  _countItems(lines, weekFilter) {
     if(!lines) return 0;
   	let sum = 0;
   	for (let line of lines) {
+      if (weekFilter && weekFilter != line.delivery_week) continue;
   		sum += parseInt(line.quantity);
   	}
   	return sum;

@@ -12,8 +12,8 @@ export class DashboardController extends BaseController {
   async initialFetch(id) {
     const { setSaleOrdersAction, setSaleSubscriptionsAction } = this.getProps();
     const promises = [
-      this.saleOrdersRepo.getOrders(id),
-      this.saleSubscriptionsRepo.getSubscriptions(id)
+      this.saleOrdersRepo.getOrders(`partnerId=${id}`),
+      this.saleSubscriptionsRepo.getSubscriptions(`partnerId=${id}`)
     ];
 
     const [ saleOrders, saleSubscriptions ] = await Promise.all(promises);
