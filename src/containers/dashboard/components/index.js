@@ -7,3 +7,4 @@ export { DashboardOrders } from './_lib/DashboardOrders.component';
 export { DashboardSubscription } from './_lib/DashboardSubscription.component';
 export { DashboardSubscriptions } from './_lib/DashboardSubscriptions.component';
 export { DashboardAddressForm } from './_lib/DashboardAddressForm.component';
+export { DashboardCardForm } from './_lib/DashboardCardForm.component';

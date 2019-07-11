@@ -1,7 +1,7 @@
 import { Cart, SubscriptionCart } from "../../entities";
 
 export class CartHelper {
-  static createCartFromLines({ lines, products }) {
+  static createCartFromLines({ lines, products, withStock }) {
     if(!products || !products.all.length) return null;
     const items = lines.map(line => ({
       product: products.getById(line.productId),
@@ -9,6 +9,27 @@ export class CartHelper {
     }));
 
     return new Cart({ items });
+  }
+
+  static createCartFromLinesWithStock({ lines, products, stockDate }) {
+    let hasModifications = false;
+
+    if(!products || !products.all.length) return null;
+    const items = lines.map(line => {
+      const product = products.getById(line.productId);
+      const stock = product.stock[stockDate];
+      let quantity = parseInt(line.productUomQty);
+      if(quantity < stock) {
+        quantity = stock;
+        hasModifications = true;
+      }
+
+      if(quantity) return { product, quantity };
+    }).filter(item => item);
+
+    const cart = items.length ? new Cart({ items }) : null;
+
+    return { cart, hasModifications };
   }
 
   static createSubscriptionCartFromLines({ lines, products }) {
@@ -21,5 +42,16 @@ export class CartHelper {
     }));
 
     return new SubscriptionCart({ items });
+  }
+
+  static createCartFromCookie({ cookieCart, products }) {
+    if(!products || !products.all.length) return null;
+
+    const items = cookieCart.items.map(item => ({
+      product: products.getById(item.product),
+      quantity: parseInt(item.quantity),
+    }));
+
+    return new Cart({ items });
   }
 }

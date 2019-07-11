@@ -7,10 +7,11 @@ import { connect } from "react-redux";
 import { Loading, TextInput } from '../../../../molecules';
 import { DashboardFormsController } from "../../DashboardForms.controller"
 import { BaseContainer } from '../../../../helpers';
-import { dashboardAddressForm } from "../../../../assets";
+import { dashboardCardForm } from "../../../../assets";
 
 import {
   setUserAction,
+  setCardsAction
 } from '../../../../store/actions';
 
 const styles = theme => ({
@@ -69,7 +70,7 @@ const styles = theme => ({
   }
 });
 
-class DashboardAddressForm extends BaseContainer{
+class DashboardCardForm extends BaseContainer{
   constructor(props) {
     super(props, DashboardFormsController)
   }
@@ -80,23 +81,19 @@ class DashboardAddressForm extends BaseContainer{
     errors: {}
   }
 
-  getRandomNewUser() {
+  getRandomNewCard() {
     const state = {...this.state}
-    state.name = "Tia"
-    state.receiverName = "Mãe"
-    state.city = "São Paulo"
-    state.cep = "02423-110"
-    state.state= "SP"
-    state.neighbourhood= "Lauzane Paulista"
-    state.number= "120"
-    state.street= "Rua Laudelino Bicudo"
+    state.cardNumber = "5555-6666-7777-8884"
+    state.cardName = "CARTAO TESTE"
+    state.cardExp = "12/2022"
+    state.cardCvv = "123"
     this.setState(state)
   }
 
   componentWillMount() {
     const { user, match } = this.props;
     if (user && user.addresses && user.addresses.all) this.controller.addressApiToState(user.addresses.all);
-    if (match.params.id === "novo") this.getRandomNewUser();
+    if (match.params.id === "novo") this.getRandomNewCard();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,7 +105,7 @@ class DashboardAddressForm extends BaseContainer{
     const { handleChange, handleCepBlur } = this.controller
     const { classes } = this.props;
 
-    return dashboardAddressForm.map(field => {
+    return dashboardCardForm.map(field => {
       let classNames = [classes.inputBox];
       if (field.className) classNames.push(classes[field.className]);
 
@@ -129,7 +126,7 @@ class DashboardAddressForm extends BaseContainer{
 }
 
 render() {
-  const { manageAddress } = this.controller;
+  const { handleCardSubmit } = this.controller;
     const { classes } = this.props;
     
     return (
@@ -139,7 +136,7 @@ render() {
           {this._renderInputs()}
          
           <div className={classes.buttonBox}>
-            <Button id='editAddress' className={classes.button} onClick={manageAddress} >
+            <Button id='createCard' className={classes.button} onClick={handleCardSubmit} >
               Salvar    
             </Button>
           </div>
@@ -151,12 +148,14 @@ render() {
 
 const mapStateToProps = state => ({
   user: state.user.current,
-  saleOrders: state.saleOrders.orders
+  saleOrders: state.saleOrders.orders,
+  cards: state.cards.model
 })
 
-DashboardAddressForm = compose(
+DashboardCardForm = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, { setUserAction })
-  )(DashboardAddressForm);
-  export { DashboardAddressForm }
+  connect(mapStateToProps, { setUserAction, setCardsAction })
+)(DashboardCardForm);
+
+  export { DashboardCardForm }

@@ -17,7 +17,6 @@ export class DashboardController extends BaseController {
     ];
 
     const [ saleOrders, saleSubscriptions ] = await Promise.all(promises);
-    console.log('saleSubscriptions', saleSubscriptions);
 
     if(!saleOrders.err) {
       const newSaleOrders = new SaleOrders(saleOrders.data);
@@ -26,7 +25,6 @@ export class DashboardController extends BaseController {
 
     if(!saleSubscriptions.err) {
       const newSaleSubscriptions = new SaleSubscriptions(saleSubscriptions.data);
-      console.log('newSale', newSaleSubscriptions);
       setSaleSubscriptionsAction(newSaleSubscriptions);
     } else console.log('sale orders fetch error', saleSubscriptions.err);
   }

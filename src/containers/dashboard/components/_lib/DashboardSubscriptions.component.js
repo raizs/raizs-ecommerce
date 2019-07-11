@@ -57,7 +57,7 @@ class DashboardSubscriptions extends Component {
       return (
         <SubscriptionCard key={subscription.id} subscription={subscription} handleViewSaleSubscription={handleViewSaleSubscription} />
       )
-    }) : <p>Você ainda não fez nenhum pedido.</p>;
+    }) : <p>Você ainda não fez nenhuma assinatura.</p>;
   }
 
   render() {

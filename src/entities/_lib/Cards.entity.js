@@ -19,6 +19,10 @@ export class Cards extends BaseModel {
     return this.baseAdd(newCard, this.original, Cards);
   }
 
+  remove(id) {
+    return this.baseRemove(id, this.original, Cards);
+  }
+
   getById(id) {
     let item = null;
     this.all.forEach(card => {

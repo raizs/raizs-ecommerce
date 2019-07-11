@@ -21,9 +21,16 @@ export default class BaseController {
 		return { [id]: !currentValue };
 	}
 	
-	baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, cart, updateCartAction, selectedDate) {
-		const newCart = cart.update({ product: item, quantity, periodicity, secondaryPeriodicity, selectedDate });
-		updateCartAction(newCart);
+	baseHandleUpdateCart(
+    { item, quantity, periodicity, secondaryPeriodicity },
+    cart,
+    updateCartAction,
+    selectedDate,
+    cookies
+  ) {
+    const newCart = cart.update({ product: item, quantity, periodicity, secondaryPeriodicity, selectedDate });
+    updateCartAction(newCart);
+    cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 1800 });
 	}
 
 	baseHandleSelectDate({

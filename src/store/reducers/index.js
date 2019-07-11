@@ -8,6 +8,7 @@ import { cepReducer } from "./_lib/cep.reducer"
 import { creditCardsReducer } from "./_lib/cards.reducer"
 import { datePickerReducer } from "./_lib/datePicker.reducer"
 import { headerReducer } from "./_lib/header.reducer"
+import { loadingReducer } from "./_lib/loading.reducer"
 import { miniCartReducer } from "./_lib/miniCart.reducer"
 import { productBrandsReducer } from "./_lib/productBrands.reducer"
 import { productsReducer } from "./_lib/products.reducer"
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   cards: creditCardsReducer,
   datePicker: datePickerReducer,
   header: headerReducer,
+  loading: loadingReducer,
   miniCart: miniCartReducer,
   products: productsReducer,
   saleOrders: saleOrdersReducer,

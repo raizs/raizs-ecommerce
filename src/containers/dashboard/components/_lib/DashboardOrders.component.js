@@ -5,9 +5,11 @@ import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 import { Loading } from '../../../../molecules';
 import { OrderCard } from '../../molecules';
-import { selectSaleOrderAction } from '../../../../store/actions';
+import { selectSaleOrderAction, updateCartAction } from '../../../../store/actions';
+import { CartHelper } from '../../../../helpers';
+import { toast } from 'react-toastify';
 
-const actions = { selectSaleOrderAction };
+const actions = { selectSaleOrderAction, updateCartAction };
 
 const styles = theme => ({
   wrapper:{
@@ -45,17 +47,45 @@ class DashboardOrders extends Component {
   }
 
   _renderOrders() {
-    const { saleOrders, selectSaleOrderAction, history } = this.props;
+    const {
+      saleOrders,
+      selectSaleOrderAction,
+      history,
+      products,
+      stockDate,
+      updateCartAction
+    } = this.props;
+
     const handleViewSaleOrder = saleOrder => {
       if(saleOrder) {
         selectSaleOrderAction(saleOrder);
         history.push(`/painel/pedidos/${saleOrder.id}`);
       }
     }
+    
+    const handleRebuyClick = saleOrder => {
+      if(saleOrder && products) {
+        const { lines } = saleOrder;
+        const { cart, hasModifications } = CartHelper.createCartFromLinesWithStock({ products, lines, stockDate });
+
+        if(cart) {
+          updateCartAction(cart);
+          history.push('/carrinho');
+          if(hasModifications) toast('Um ou mais itens do seu pedido foram alterados devido à disponibilidade em nosso estoque para a data escolhida.', { autoClose: 8000 });
+        } else {
+          toast('Não é possível refazer o seu pedido pois nenhum dos tens deste pedido está disponível para a data de entrega escolhida. Tente mudar a data de entrega.', { autoClose: 8000 });
+        }
+      }
+    }
 
     return saleOrders && saleOrders.all.length ? saleOrders.all.map(saleOrder => {
       return (
-        <OrderCard key={saleOrder.id} saleOrder={saleOrder} handleViewSaleOrder={handleViewSaleOrder} />
+        <OrderCard
+          key={saleOrder.id}
+          saleOrder={saleOrder}
+          handleViewSaleOrder={handleViewSaleOrder}
+          handleRebuyClick={handleRebuyClick}
+        />
       )
     }) : <p>Você ainda não fez nenhum pedido.</p>;
   }
@@ -64,7 +94,7 @@ class DashboardOrders extends Component {
     const { classes } = this.props;
 
     if (this.state.loading) {
-      return <div className={classes.wrapper}>
+      return <div style={{ height: window.innerHeight - 96 }}>
         <Loading />
       </div>;
     }
@@ -81,7 +111,9 @@ class DashboardOrders extends Component {
 };
 
 const mapStateToProps = state => ({
-  saleOrders: state.saleOrders.orders
+  saleOrders: state.saleOrders.orders,
+  products: state.products.model,
+  stockDate: state.datePicker.obj.stockDate
 });
 
 DashboardOrders = compose(

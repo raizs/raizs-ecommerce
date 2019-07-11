@@ -19,7 +19,12 @@ const styles = theme => ({
     '&.absolute': {
       position: 'absolute',
       zIndex: 10,
-      backgroundColor: 'rgba(255,255,255,.7)'
+      backgroundColor: 'rgba(255,255,255,.7)',
+    },
+    '&.fixed': {
+      position: 'fixed',
+      zIndex: 100,
+      backgroundColor: 'rgba(255,255,255,.7)',
     },
     '&.noBg': {
       backgroundColor: 'transparent'
@@ -37,6 +42,7 @@ let Loading = props => {
   const wrapperClasses = [classes.wrapper, 'loading'];
   if(props.inline) wrapperClasses.push('inline');
   if(props.absolute) wrapperClasses.push('absolute');
+  if(props.fixed) wrapperClasses.push('fixed');
   if(props.noBg) wrapperClasses.push('noBg')
 
   return (

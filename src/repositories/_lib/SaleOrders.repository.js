@@ -6,7 +6,7 @@ export class SaleOrdersRepository extends BaseRepository {
     return this.post('sale-orders/create', body);
   }
 
-  getOrders(query){
+  getOrders(query) {
     return this.get(`sale-orders/get?${query}`);
   }
 }

@@ -9,13 +9,30 @@ import Slider from 'react-slick';
 
 import { dashboardUserPersonalData } from "../../../../assets";
 import { Loading, DashboardSliderArrow } from '../../../../molecules';
-import { UserAddressesRepository } from '../../../../repositories';
-import { setUserAction } from '../../../../store/actions';
+import { UserAddressesRepository, PaymentRepository } from '../../../../repositories';
+import {
+  setUserAction,
+  setCardsAction,
+  showConfirmationModalAction,
+  closeConfirmationModalAction,
+  showFixedLoadingAction,
+  closeFixedLoadingAction
+} from '../../../../store/actions';
 import { User } from '../../../../entities';
 
 import mastercard from 'payment-icons/min/single/mastercard-old.svg';
 import visa from 'payment-icons/min/single/visa.svg';
 import flat from 'payment-icons/min/flat/default.svg';
+import { toast } from 'react-toastify';
+
+const actions = {
+  setUserAction,
+  setCardsAction,
+  showConfirmationModalAction,
+  closeConfirmationModalAction,
+  showFixedLoadingAction,
+  closeFixedLoadingAction
+};
 
 const BOX_WIDTH = 300;
 
@@ -174,15 +191,72 @@ class DashboardUser extends Component {
     ));
   }
 
-  async deleteAddress(id, key) {
-    const adressRepo = new UserAddressesRepository();
-    const { user } = this.props;
-    const promise = await adressRepo.remove(id)
-    const userOriginal = user.original;
-    userOriginal.children.splice(key,1)
+  _deleteAddressClick(address_id, key) {
+    this.props.showConfirmationModalAction({
+      msg: 'Tem certeza que deseja excluir este endereço?',
+      callback: () => this._deleteAddressSubmit(address_id, key),
+      title: 'Atenção',
+      confirmationLabel: 'Sim, tenho certeza'
+    });
+  }
 
-    const newUser = new User(userOriginal);
-    this.props.setUserAction(newUser)
+  async _deleteAddressSubmit(id, key) {
+    const adressRepo = new UserAddressesRepository();
+    const {
+      user,
+      closeConfirmationModalAction,
+      showFixedLoadingAction,
+      closeFixedLoadingAction
+    } = this.props;
+
+    closeConfirmationModalAction();
+    showFixedLoadingAction();
+    const promise = await adressRepo.remove(id);
+    closeFixedLoadingAction();
+
+    if(!promise.err) {
+      const userOriginal = user.original;
+      userOriginal.children.splice(key, 1);
+  
+      const newUser = new User(userOriginal);
+      this.props.setUserAction(newUser);
+      toast('Endereço excluído com sucesso.');
+    } else {
+      toast('Ocorreu um erro em nossos servidores. Tente novamente mais tarde.');
+    }
+  }
+
+  _deleteCardClick(card_id) {
+    this.props.showConfirmationModalAction({
+      msg: 'Tem certeza que deseja excluir este cartão?',
+      callback: () => this._deleteCardSubmit(card_id),
+      title: 'Atenção',
+      confirmationLabel: 'Sim, tenho certeza'
+    });
+  }
+
+  async _deleteCardSubmit(card_id) {
+    const repo = new PaymentRepository();
+    const customer_id = this.props.user.mpid;
+    const {
+      cards,
+      closeConfirmationModalAction,
+      showFixedLoadingAction,
+      closeFixedLoadingAction
+    } = this.props;
+    
+    closeConfirmationModalAction();
+    showFixedLoadingAction();
+    const promise = await repo.deleteCard({ customer_id, card_id })
+    closeFixedLoadingAction();
+
+    if(!promise.err) {
+      const newCards = cards.remove(card_id);
+      this.props.setCardsAction(newCards);
+      toast('Cartão excluído com sucesso.')
+    } else {
+      if(promise.err.code === 672) toast('Este cartão está sendo usado em uma assinatura. Cancele a assinatura para poder excluir o cartão.');
+    }
   }
 
   _renderAddresses() {
@@ -219,7 +293,7 @@ class DashboardUser extends Component {
                     </div>
                     <div
                       className={classes.underlineButton}
-                      onClick={()=>this.deleteAddress(adr.id, key)}
+                      onClick={()=>this._deleteAddressClick(adr.id, key)}
                     >
                       excluir
                     </div>
@@ -272,7 +346,7 @@ class DashboardUser extends Component {
                   <div className={classes.underlineButtonsBox}>
                     <div
                       className={classes.underlineButton}
-                      onClick={()=>this.deleteAddress(card.id, key)}
+                      onClick={()=>this._deleteCardClick(card.id)}
                     >
                       excluir
                     </div>
@@ -297,7 +371,6 @@ class DashboardUser extends Component {
 
     return (
       <div className={classes.wrapper}>
-
         <h1 className={classes.pageTitle}>Perfil</h1>
 
         <div className={classes.whiteBox}>
@@ -344,6 +417,6 @@ const mapStateToProps = state => ({
 DashboardUser = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, {setUserAction})
+  connect(mapStateToProps, actions)
   )(DashboardUser);
 export { DashboardUser }

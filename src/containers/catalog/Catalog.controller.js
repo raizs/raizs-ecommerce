@@ -49,8 +49,8 @@ export class CatalogController extends BaseController {
   }
 
   handleUpdateCart({ item, quantity }) {
-    const { cart, updateCartAction, stockDate } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate);
+    const { cart, updateCartAction, stockDate, cookies } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate, cookies);
   }
 
   handleSelectDate(selected) {
