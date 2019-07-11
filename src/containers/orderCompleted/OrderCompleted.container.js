@@ -235,9 +235,7 @@ class OrderCompleted extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-	saleOrders: state.saleOrders.orders,
   user: state.user.current,
-  saleSubscriptions: state.saleSubscriptions.subscriptions,
 });
 
 export default compose(

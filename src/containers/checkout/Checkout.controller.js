@@ -604,7 +604,8 @@ export class CheckoutController extends BaseController {
 
     this.toState({ loading:true });
 
-    let query = "";
+    let query = `?total=${parseInt(transaction.totals.toChargeNow.total*100)}`
+    if (transaction.totals.toChargeNow.shipping != transaction.shipping.value) query += "&shippingDiscount=true";
 
     if (selectedPaymentMethod=="payPal"){
       console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE");
@@ -613,22 +614,16 @@ export class CheckoutController extends BaseController {
       if (transaction.hasCart){
         const promise = await this.createSaleOrder(transaction);
         if (!promise.err){
-          console.log(promise)
-          query += `?saleId=${promise.data.saleId}` 
+          query += `&saleId=${promise.data.saleId}` 
         }
       }
       if (transaction.hasSubcart){
         const promise = await this.createSubscription(transaction);
         if (!promise.err){
-          console.log(promise)
-          query += query ? "&" : "?"
-          query += `subscriptionId=${promise.data.subId}`
+          query += `&subscriptionId=${promise.data.subId}`
         }
       }
     }
-    query += query ? "&" : "?"
-    query += `total=${parseInt(transaction.totals.toChargeNow.total*100)}`
-    if (transaction.totals.toChargeNow.shipping != transaction.shipping.value) query += "&shippingDiscount=true";
 
     this.toState({loading:false});
     return history.push("/pedido-finalizado"+query)
