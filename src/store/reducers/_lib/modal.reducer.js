@@ -11,7 +11,9 @@ const initialState = {
   confirmation: false,
   confirmationError: false,
   confirmationMessage: "",
-  confirmationTitle:""
+  confirmationTitle:"",
+  confirmationLabel: '',
+  cancelLabel: ''
 };
 
 export const modalReducer = (state = initialState, action) => {
@@ -36,6 +38,8 @@ export const modalReducer = (state = initialState, action) => {
         confirmationMessage: action.data.msg,
         confirmationCallback: action.data.callback,
         confirmationTitle: action.data.title,
+        confirmationLabel: action.data.confirmationLabel,
+        cancelLabel: action.data.cancelLabel,
       };
     case CLOSE_CONFIRMATION_MODAL:
       return {

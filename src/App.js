@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withFirebase } from 'react-redux-firebase';
 import { ToastContainer, toast } from 'react-toastify';
+import { CookiesProvider, withCookies } from 'react-cookie';
 import compose from 'recompose/compose';
 import SmoothScroll from 'smooth-scroll';
 
@@ -53,12 +54,13 @@ import { HowItWorks } from './containers/howItWorks';
 import { Dashboard } from './containers/dashboard';
 import { Product } from './containers/product';
 import { HelpCenter } from './containers/helpCenter';
-import { BaseContainer } from './helpers';
+import { BaseContainer, CartHelper } from './helpers';
 import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
 import { Families } from './containers/families';
 import ProductModal from './containers/product/ProductModal.container'
 import { ConfirmationModal } from './containers/confirmationModal'
+import { Loading } from './molecules';
 
 const actions = {
   closeUserPopperAction,
@@ -79,8 +81,7 @@ const actions = {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
-  openCartWarningModalAction,
-  showConfirmationModalAction
+  openCartWarningModalAction
 };
 
 class App extends BaseContainer {
@@ -115,14 +116,23 @@ class App extends BaseContainer {
       }
     });
 
-    // setTimeout(()=>this.props.showConfirmationModalAction({error:true, title:"ERRO", msg: "Tem certeza que deseja Bla bla bla?. Vamo escrever mais um pouco como se eu tivesse falando uma consequência de você Bla bla bla.", callback: ()=>console.log("CALLBACKKKKK")}), 1000)
-
     this.controller.initialFetch();
 
     // new SmoothScroll('a[href^="#"]', {
     //   speed: 750,
     //   speedAsDuration: true
     // });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { cart, cookies, updateCartAction } = this.props;
+    const { products } = nextProps;
+    const cookieCart = cookies.get('cart');
+    
+    if(cookieCart && !cart.productCount && products && products.all.length) {
+      const newCart = CartHelper.createCartFromCookie({ cookieCart, products });
+      updateCartAction(newCart);
+    }
   }
 
   _renderTopHeader(currentPath) {
@@ -159,7 +169,14 @@ class App extends BaseContainer {
       forgotPasswordError,
       loginLoading
     } = this.state;
-    const { history, storeFirebase, isUserPopperOpen, searching, categories } = this.props;
+    const {
+      history,
+      storeFirebase,
+      isUserPopperOpen,
+      searching,
+      categories,
+      showFixedLoading
+    } = this.props;
     const {
       logout,
       handleTextInputChange,
@@ -211,40 +228,43 @@ class App extends BaseContainer {
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>
-        <div className='App'>
-          <ProductModal />
-          <ConfirmationModal />
-          <CartWarningModal />
-          <ToastContainer
-            autoClose={5000}
-            toastClassName='raizs-toast'
-            progressClassName='raizs-toast-progress'
-          />
-          {this._renderTopHeader(currentPath)}
-          <Header {...headerProps} />
-          {this._renderBottomHeader(currentPath)}
-          <div onClick={() => searching ? this.props.toggleSearchBarAction(false) : null}>
-            <Switch>
-              <Route path='/' exact component={Landing} />
-              <Route path='/home' exact component={Home} />
-              <Route path='/home2' exact component={Home2} />
-              <Route path='/home3' exact component={Home3} />
-              <Route path='/catalogo' exact component={Catalog} />
-              <Route path='/carrinho' exact component={Cart} />
-              <Route path='/checkout' exact component={Checkout} />
-              <Route path='/quem-somos' exact component={About} />
-              <Route path='/pedido-finalizado' exact component={OrderCompleted} />
-              <Route path='/painel' component={Dashboard} />
-              <Route path='/assinatura' component={Subscription} />
-              <Route path='/produto/:productId' component={Product} />
-              <Route path='/como-funciona' component={HowItWorks} />
-              <Route path='/familias' component={Families} />
-              <Route path='/ajuda' component={HelpCenter} />
-              <Route path='*' component={NotFound} />
-            </Switch>
+        <CookiesProvider>
+          <div className='App' style={{ backgroundColor: '#EFEFEF' }}>
+            {showFixedLoading && <Loading fixed />}
+            <ProductModal />
+            <CartWarningModal />
+            <ConfirmationModal />
+            <ToastContainer
+              autoClose={5000}
+              toastClassName='raizs-toast'
+              progressClassName='raizs-toast-progress'
+            />
+            {this._renderTopHeader(currentPath)}
+            <Header {...headerProps} />
+            {this._renderBottomHeader(currentPath)}
+            <div onClick={() => searching ? this.props.toggleSearchBarAction(false) : null}>
+              <Switch>
+                <Route path='/' exact component={Landing} />
+                <Route path='/home' exact component={Home} />
+                <Route path='/home2' exact component={Home2} />
+                <Route path='/home3' exact component={Home3} />
+                <Route path='/catalogo' exact component={Catalog} />
+                <Route path='/carrinho' exact component={Cart} />
+                <Route path='/checkout' exact component={Checkout} />
+                <Route path='/quem-somos' exact component={About} />
+                <Route path='/pedido-finalizado' exact component={OrderCompleted} />
+                <Route path='/painel' component={Dashboard} />
+                <Route path='/assinatura' component={Subscription} />
+                <Route path='/produto/:productId' component={Product} />
+                <Route path='/como-funciona' component={HowItWorks} />
+                <Route path='/familias' component={Families} />
+                <Route path='/ajuda' component={HelpCenter} />
+                <Route path='*' component={NotFound} />
+              </Switch>
+            </div>
+            {this._renderFooter(currentPath)}
           </div>
-          {this._renderFooter(currentPath)}
-        </div>
+        </CookiesProvider>
       </MuiThemeProvider>
     );
   }
@@ -259,10 +279,13 @@ const mapStateToProps = state => ({
   cart: state.cart.current,
   subscriptionCart: state.subscriptionCart.current,
   selectedDate: state.datePicker.selected,
-  dateObj: state.datePicker.obj
+  dateObj: state.datePicker.obj,
+  products: state.products.model,
+  showFixedLoading: state.loading.showFixed
 });
 
 export default compose(
+  withCookies,
   withRouter,
   withFirebase,
 	connect(

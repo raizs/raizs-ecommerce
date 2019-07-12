@@ -9,36 +9,34 @@ import { closeConfirmationModalAction } from '../../store/actions';
 import { Modal } from '../../components';
 
 const styles = theme => ({
-  wrapper: {
-  },
-  modalContent:{
-    padding:2*theme.spacing.unit,
+  modalContent: {
     fontSize: theme.fontSizes.MMD,
-    lineHeight: theme.fontSizes.LG
+    lineHeight: theme.fontSizes.LG,
+    textAlign: 'center'
   },
-  buttonsBox:{
+  buttonsBox: {
   	display: "flex",
-    alignItems:"center",
-    justifyContent:"center",
-    width:"100%"
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%"
   },
   button: {
-    ...theme.buttons.primary,
-    fontSize: theme.fontSizes.MMD,
-    margin:`${3*theme.spacing.unit}px ${2*theme.spacing.unit}px 0 ${2*theme.spacing.unit}px`
+    '&#confirmation-confirm': theme.buttons.primary,
+    '&#confirmation-cancel': theme.buttons.secondary,
+    margin: `${3*theme.spacing.unit}px ${2*theme.spacing.unit}px 0 ${2*theme.spacing.unit}px`,
+    maxWidth: '50%'
   },
-  errorButton:{
+  errorButton: {
   	backgroundColor: theme.palette.red
   },
-  title:{
+  title: {
     fontSize: theme.fontSizes.LG,
-    fontWeight:800,
-    textAlign:"center",
-    width:"100%",
+    fontWeight: 700,
+    textAlign: "center",
+    width: "100%",
     marginBottom: 2*theme.spacing.unit,
-    color:theme.palette.green.main
   },
-  errorTitle:{
+  errorTitle: {
     color:theme.palette.red
   }
 
@@ -46,31 +44,34 @@ const styles = theme => ({
 
 class ConfirmationModal extends Component {
 
-  _renderButtons(){
+  _renderButtons() {
     let { classes, modal, closeConfirmationModalAction } = this.props;
     let buttonClasses = [classes.button];
     modal.confirmationError && buttonClasses.push(classes.errorButton)
-  	if (!modal.confirmationCallback){
+
+  	if (!modal.confirmationCallback) {
   		return <div className={classes.buttonsBox}>
-			<Button id='confirmation-confirm' className={classnames(buttonClasses)} onClick={closeConfirmationModalAction}>
-				CONFIRMAR    
-			</Button>
+        <Button id='confirmation-confirm' className={classnames(buttonClasses)} onClick={closeConfirmationModalAction}>
+          {modal.confirmationLabel || 'CONFIRMAR'}
+        </Button>
   		</div>
-  	}
+    }
+    
   	return <div className={classes.buttonsBox}>
-		<Button id='confirmation-confirm' className={classnames(buttonClasses)} onClick={modal.confirmationCallback}>
-			CONFIRMAR    
-		</Button>
-		<Button id='confirmation-cancel' className={classnames(buttonClasses)} onClick={closeConfirmationModalAction}>
-			CANCELAR    
-		</Button>
-	</div>
+      <Button id='confirmation-cancel' className={classnames(buttonClasses)} onClick={closeConfirmationModalAction}>
+        {modal.cancelLabel || 'CANCELAR'}
+      </Button>
+      <Button id='confirmation-confirm' className={classnames(buttonClasses)} onClick={modal.confirmationCallback}>
+        {modal.confirmationLabel || 'CONFIRMAR'}
+      </Button>
+    </div>;
   }
 
   _renderModalContent() {
     const { classes, modal } = this.props;
     let titleClasses = [classes.title];
-    modal.confirmationError && titleClasses.push(classes.errorTitle)
+    modal.confirmationError && titleClasses.push(classes.errorTitle);
+
     return <div className={classes.modalContent}>
     	<div className={classnames(titleClasses)}>{modal.confirmationTitle}</div>          
     	{modal.confirmationMessage}
@@ -79,12 +80,10 @@ class ConfirmationModal extends Component {
   }
 
   render() {
-    const { classes, modal, closeConfirmationModalAction } = this.props;
+    const { modal, closeConfirmationModalAction } = this.props;
     return (
       <Modal open={modal.confirmation} width="500px" handleClose={closeConfirmationModalAction} closeIcon>
-        <div className={classes.wrapper} >
-          {modal.confirmation && this._renderModalContent()}
-        </div>
+        {modal.confirmation && this._renderModalContent()}
       </Modal>
     )
   }

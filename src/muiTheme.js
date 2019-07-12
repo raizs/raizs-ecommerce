@@ -179,7 +179,7 @@ const theme = createMuiTheme({
     secondary: {
       backgroundColor: 'white',
       color: GREEN,
-      fontSize: MMD,
+      fontSize: SM,
       fontWeight: 700,
       padding: `${SPACING_UNIT}px ${2 * SPACING_UNIT}px`,
       borderRadius: `${SPACING_UNIT}px`,

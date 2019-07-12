@@ -4,7 +4,7 @@ import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 
-import { DashboardGeneralForm, DashboardAddressForm } from "../"
+import { DashboardGeneralForm, DashboardAddressForm, DashboardCardForm } from "..";
 
 const styles = theme => ({
   box: {
@@ -49,13 +49,13 @@ class DashboardForms extends Component{
   render() {
     const { classes, match } = this.props;
     const { form } = match.params
-    const { name } = this.state;
 
     let title = "";
     let FormComponent = null;
     switch(form) {
       case "dados-pessoais": title = "Dados Pessoais"; FormComponent = DashboardGeneralForm; break;
       case "endereco": title = "Endereço"; FormComponent = DashboardAddressForm; break;
+      case "cartao": title = "Cartão"; FormComponent = DashboardCardForm; break;
       default: title = "Dados Pessoais"; FormComponent = DashboardGeneralForm;
     }
   
@@ -66,7 +66,7 @@ class DashboardForms extends Component{
           <div className={classes.backButtonText}>Voltar</div>
         </div>
         <h1 className={classes.pageTitle}>{title}</h1>
-        <FormComponent  />
+        <FormComponent />
       </div>
     )
   }
@@ -80,7 +80,7 @@ const mapStateToProps = state => ({
 DashboardForms = compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, null)
   )(DashboardForms);
 
 export { DashboardForms };

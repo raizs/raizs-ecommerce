@@ -4,11 +4,12 @@ import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from "react-redux";
 import { Loading } from '../../../../molecules';
-import { selectSaleOrderAction } from '../../../../store/actions';
+import { selectSaleOrderAction, updateCartAction, showConfirmationModalAction } from '../../../../store/actions';
 import { Formatter, CartHelper } from '../../../../helpers';
 import { CartProduct } from '../../../../components';
+import { toast } from 'react-toastify';
 
-const actions = { selectSaleOrderAction };
+const actions = { selectSaleOrderAction, updateCartAction, showConfirmationModalAction };
 
 const styles = theme => ({
   wrapper: {
@@ -163,6 +164,12 @@ class DashboardOrder extends Component {
 
   _renderSummary() {
     const {
+      saleOrder, 
+      stockDate,
+      products,
+      history,
+      updateCartAction,
+      showConfirmationModalAction,
       saleOrder: {
         amountTotal,
         shippingTimeRange,
@@ -171,6 +178,35 @@ class DashboardOrder extends Component {
         shippingEstimatedWeekDay
       }
     } = this.props
+
+    const _handleRebuyClick = saleOrder => {
+      if(saleOrder && products) {
+        const { lines } = saleOrder;
+        const { cart, hasModifications } = CartHelper.createCartFromLinesWithStock({ products, lines, stockDate });
+
+        if(cart) {
+          updateCartAction(cart);
+          history.push('/carrinho');
+          if(hasModifications) toast('Um ou mais itens do seu pedido foram alterados devido à disponibilidade em nosso estoque para a data escolhida.', { autoClose: 8000 });
+        } else {
+          toast('Não é possível refazer o seu pedido pois nenhum dos tens deste pedido está disponível para a data de entrega escolhida. Tente mudar a data de entrega.', { autoClose: 8000 });
+        }
+      }
+    }
+
+    const _handleCancelClick = saleOrder => {
+      showConfirmationModalAction({
+        title: 'Atenção',
+        msg: 'Tem certeza que quer cancelar este pedido?',
+        callback: () => {
+          if(saleOrder) {
+            console.log('todo')
+          }
+        },
+        confirmationLabel: 'Sim, tenho certeza.'
+      })
+    }
+
     return (
       <div className='summary'>
         <div>
@@ -190,8 +226,8 @@ class DashboardOrder extends Component {
         </div>
         <div></div>
         <div>
-          <Button id='rebuy'>Refazer pedido</Button>
-          <Button id='cancel'>Cancelar pedido</Button>
+          <Button id='rebuy' onClick={() => _handleRebuyClick(saleOrder)}>Refazer pedido</Button>
+          <Button id='cancel' onClick={() => _handleCancelClick(saleOrder)}>Cancelar pedido</Button>
         </div>
       </div>
     );
@@ -199,7 +235,6 @@ class DashboardOrder extends Component {
 
   render() {
     const { classes, saleOrder, history } = this.props;
-    console.log(this.state.cart);
 
     if(this.state.loading) {
       return <div className={classes.wrapper}>
@@ -209,9 +244,9 @@ class DashboardOrder extends Component {
 
     return (
       <div className={classes.wrapper}>
-        <h1>Pedido {saleOrder.name}</h1>
+        <h1>Pedido {saleOrder ? saleOrder.name : ''}</h1>
         <span onClick={() => history.push('/painel/pedidos')}><Icon>keyboard_arrow_left</Icon>Voltar</span>
-        {this._renderSummary()}
+        {saleOrder && this._renderSummary()}
         {this.state.cart && this._renderCartItems()}
       </div>
     );
@@ -221,7 +256,8 @@ class DashboardOrder extends Component {
 const mapStateToProps = state => ({
   saleOrders: state.saleOrders.orders,
   saleOrder: state.saleOrders.current,
-  products: state.products.model
+  products: state.products.model,
+  stockDate: state.datePicker.obj.stockDate
 });
 
 DashboardOrder = compose(

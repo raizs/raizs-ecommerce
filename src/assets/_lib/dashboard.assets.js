@@ -85,7 +85,6 @@ export const dashboardGeneralForm = [
   },
 ]
 
-
 export const dashboardAddressForm = [
   {
     label: "Nome do endereço",
@@ -129,5 +128,24 @@ export const dashboardAddressForm = [
   },
 ]
 
-
-
+export const dashboardCardForm = [
+  {
+    label: "Número do Cartão",
+    id: "cardNumber",
+    format: "formatCardNumber"
+  },
+  {
+    label: "Nome (como está no cartão)",
+    id: "cardName",
+  },
+  {
+    label: "MM/AAAA",
+    id: "cardExp",
+    format: "formatCardExp"
+  },
+  {
+    label: "CVV",
+    id: "cardCvv",
+    format: "formatCardCvv"
+  }
+]

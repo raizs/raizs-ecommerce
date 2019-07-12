@@ -8,7 +8,8 @@ export class Cart {
    * @param {Array} items - Array of { product: {Product}, quantity: {Number}, partialValue: {Number} }
    * @memberof Cart
    */
-  constructor({ items = [], selectedDate = null }) {
+  constructor({ items = [], selectedDate = null, id = '' }) {
+    this.id = id;
     this.items = items;
     this.selectedDate = selectedDate;
 
@@ -19,6 +20,7 @@ export class Cart {
     this.productCount = this._getProductCount(items);
 
     this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
+    this.getCookie = this.getCookie.bind(this);
   }
   
   update({ product, quantity, selectedDate }) {
@@ -134,5 +136,12 @@ export class Cart {
       })
     });
     return differences;
+  }
+
+  getCookie() {
+    return {
+      id: this.id,
+      items: this.items.map(item => ({ product: item.product.id, quantity: item.quantity }))
+    };
   }
 }

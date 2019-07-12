@@ -44,6 +44,13 @@ export {
 } from './_lib/header.actions';
 
 export {
+  SHOW_FIXED_LOADING,
+  CLOSE_FIXED_LOADING,
+  showFixedLoadingAction,
+  closeFixedLoadingAction
+} from './_lib/loading.actions';
+
+export {
   SET_MINICART_SECTION,
   setMiniCartSectionAction
 } from './_lib/miniCart.actions';

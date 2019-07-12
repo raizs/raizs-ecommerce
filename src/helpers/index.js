@@ -11,6 +11,7 @@ export {
 };
 
 export { CepHelper } from './_lib/Cep.helper';
+export { CookieHelper } from './_lib/Cookie.helper';
 export { CardHelper } from './_lib/Card.helper';
 export { Formatter } from './_lib/Formatter';
 export { HeaderHelper } from './_lib/Header.helper';

@@ -6,6 +6,10 @@ export class PaymentRepository extends BaseRepository {
     return this.post('payment/createCard', body);
   }
 
+  deleteCard(body) {
+    return this.post('payment/deleteCard', body);
+  }
+
   listCards(customer_id) {
     return this.get(`payment/cards?customer_id=${customer_id}`);
   }

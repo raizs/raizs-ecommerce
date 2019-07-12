@@ -1,7 +1,7 @@
 import { BaseController, Formatter, StateToApi, CepHelper } from '../../helpers';
 import { User } from '../../entities';
-import { UserRepository, UserAddressesRepository } from '../../repositories';
-import { UpdateUserValidation } from '../../validation';
+import { UserRepository, UserAddressesRepository, PaymentRepository } from '../../repositories';
+import { UpdateUserValidation, CheckoutValidation } from '../../validation';
 
 export class DashboardFormsController extends BaseController {
   constructor({ toState, getState, getProps }) {
@@ -10,9 +10,11 @@ export class DashboardFormsController extends BaseController {
     this.handleCepBlur = this.handleCepBlur.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.manageAddress = this.manageAddress.bind(this);
+    this.handleCardSubmit = this.handleCardSubmit.bind(this);
 
     this.userRepo = new UserRepository();
     this.userAddressRepo = new UserAddressesRepository();
+    this.paymentRepo = new PaymentRepository();
   }
   
 
@@ -22,10 +24,12 @@ export class DashboardFormsController extends BaseController {
   }
 
   userApiToState(user) {
-    const state = { ...this.getState(),
+    const state = {
+      ...this.getState(),
       ...user, 
       cpf:Formatter.formatCpf(user.cpf), 
-      phone: Formatter.formatPhone(user.phone) };
+      phone: Formatter.formatPhone(user.phone)
+    };
     this.toState(state)
   }
 
@@ -40,7 +44,7 @@ export class DashboardFormsController extends BaseController {
 
     if(!promise.err) {
       setUserAction(new User(promise.data));
-      return history.push("/painel/usuario");
+      return history.push("/painel/perfil");
     }
   }
 
@@ -56,7 +60,6 @@ export class DashboardFormsController extends BaseController {
 
   async handleCepBlur(e) {
     const { value, id } = e.target;
-    console.log(id)
     if (id == 'cep') {
       const { errors } = this.getState();
       if(value.length < 9) {
@@ -114,6 +117,41 @@ export class DashboardFormsController extends BaseController {
       
     }
     setUserAction(newUser);
-    history.push("/painel/usuario")
+    history.push("/painel/perfil")
+  }
+
+  async handleCardSubmit() {
+    const { cards, setCardsAction, history, user } = this.getProps();
+    const {
+      cardNumber,
+      cardName,
+      cardExp,
+      cardCvv
+    } = this.getState();
+    const values = {
+      cardNumber,
+      cardName,
+      cardExp,
+      cardCvv,
+      mpid: user.mpid
+    };
+
+    console.log(values);
+    const { isValidated, errors } = CheckoutValidation.card(values, 'credit');
+
+    if(!isValidated) {
+      const stateErrors = this.getState().errors;
+      return this.toState({ errors: { ...stateErrors, ...errors } });
+    }
+
+    const toApi = StateToApi.createCard(values, 'credit')
+    const promise = await this.paymentRepo.createCard(toApi);
+
+    if(!promise.err) {
+      const newCards = cards.add(promise.data);
+      setCardsAction(newCards);
+    }
+
+    history.push("/painel/perfil")
   }
 }

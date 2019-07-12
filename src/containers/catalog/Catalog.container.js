@@ -24,6 +24,8 @@ import {
   selectDateAction,
   openCartWarningModalAction
 } from '../../store/actions';
+import { withCookies } from 'react-cookie';
+import { Loading } from '../../molecules';
 
 const styles = theme => ({
   wrapper: {
@@ -210,7 +212,7 @@ class Catalog extends BaseContainer {
   }
 
   render() {
-    const { shouldDisplayBackButton } = this.state;
+    const { shouldDisplayBackButton, loading } = this.state;
     const {
       classes,
       history,
@@ -234,7 +236,7 @@ class Catalog extends BaseContainer {
           fixed={shouldFixTimeline}
           timelineWidth={timelineWidth}
         >
-          {this._renderTimelineSections()}
+          {loading ? <Loading absolute /> : this._renderTimelineSections()}
         </TimelineSections>
         <Button
           id='backToTop'
@@ -259,9 +261,10 @@ const mapStateToProps = state => ({
   selectedDate: state.datePicker.selected,
   selectedDateObj: state.datePicker.obj,
   stockDate: state.datePicker.obj.stockDate
-})
+});
 
 export default compose(
+  withCookies,
   withTimeline({ sectionOffset: 50, padding: 16, sectionsOffset: 0 }),
   withStyles(styles),
   connect(mapStateToProps, actions)

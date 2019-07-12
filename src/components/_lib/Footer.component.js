@@ -7,6 +7,7 @@ import ReactSVG from 'react-svg';
 const styles = ({ spacing, palette, fontSizes }) => ({
   wrapper: {
     padding: `${3 * spacing.unit}px`,
+    backgroundColor: 'white',
     borderTop: `1px solid ${palette.lightGray.main}`,
     '& *': {
       color: palette.gray.main

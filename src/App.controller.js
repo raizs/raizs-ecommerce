@@ -1,5 +1,5 @@
 import { BaseController, StateToApi, SocialMediaHelper, CepHelper, Formatter } from './helpers';
-import { User, Categories, Cards, Products, SaleOrders, UnitsOfMeasure, Cart, SubscriptionCart } from './entities';
+import { User, Categories, Cards, Products, UnitsOfMeasure, Cart, SubscriptionCart } from './entities';
 import {
   UserRepository,
   UserAddressesRepository,

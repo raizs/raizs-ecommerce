@@ -65,7 +65,8 @@ let OrderCard = props => {
   const {
     saleOrder,
     handleViewSaleOrder,
-    classes
+    classes,
+    handleRebuyClick
   } = props;
   
   const {
@@ -96,7 +97,7 @@ let OrderCard = props => {
         <p className='bold'>{stateString}</p>
       </div>
       <div>
-        <Button>Refazer Pedido</Button>
+        <Button id='rebuy' onClick={() => handleRebuyClick(saleOrder)}>Refazer Pedido</Button>
       </div>
       <div>
         <p className='details xsm' onClick={() => handleViewSaleOrder(saleOrder)}>visualizar</p>
