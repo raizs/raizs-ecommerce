@@ -44,14 +44,15 @@ export class CartHelper {
     return new SubscriptionCart({ items });
   }
 
-  static createCartFromCookie({ cookieCart, products }) {
+  static createCartFromCookie({ cookieCart, products, stockDate }) {
     if(!products || !products.all.length) return null;
 
     const items = cookieCart.items.map(item => ({
       product: products.getById(item.product),
       quantity: parseInt(item.quantity),
     }));
+    const { id } = cookieCart;
 
-    return new Cart({ items });
+    return new Cart({ items, id, selectedDate: stockDate });
   }
 }

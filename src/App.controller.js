@@ -1,4 +1,4 @@
-import { BaseController, StateToApi, SocialMediaHelper, CepHelper, Formatter } from './helpers';
+import { BaseController, StateToApi, SocialMediaHelper, CepHelper, Formatter, CartHelper } from './helpers';
 import { User, Categories, Cards, Products, UnitsOfMeasure, Cart, SubscriptionCart } from './entities';
 import {
   UserRepository,
@@ -9,6 +9,7 @@ import {
   SaleOrdersRepository,
   StockRepository, 
   UnitsOfMeasureRepository,
+  CartRepository,
 } from './repositories';
 import { toast } from 'react-toastify';
 
@@ -18,6 +19,7 @@ export class AppController extends BaseController {
 
     this.userRepo = new UserRepository();
     this.userAddressesRepo = new UserAddressesRepository();
+    this.cartRepo = new CartRepository();
     this.categoriesRepo = new CategoriesRepository();
     this.productsRepo = new ProductsRepository();
     this.paymentRepo = new PaymentRepository();
@@ -103,8 +105,12 @@ export class AppController extends BaseController {
       selectUserAddressAction,
       setCardsAction,
       selectCardAction,
-      setSaleOrdersAction,
-      setCepAction, 
+      setCepAction,
+      updateCartAction,
+      products,
+      dateObj: { stockDate },
+      cookies,
+      cart
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -121,6 +127,23 @@ export class AppController extends BaseController {
       
       const newUser = new User(pgUser.data);
       setUserAction(newUser);
+
+      const cookieCart = cookies.getAll().cart;
+      if(!cookieCart || !cookieCart.id) {
+        const cartPromise = await this.cartRepo.create({ partnerId: id });
+        console.log('cartPromise', cartPromise)
+
+        if(!cartPromise.err) {
+          const newCart = cart.setId(cartPromise.data.id);
+          cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 3600 });
+          updateCartAction(newCart);
+        } else {
+          console.error('ERROR CREATING CART IN DB.', cartPromise.err);
+        }
+      } else {
+        const newCart = CartHelper.createCartFromCookie({ cookieCart, products, stockDate });
+        updateCartAction(newCart);
+      }
 
       if(newUser.addresses && newUser.addresses.all.length) {
         const address = newUser.addresses.getDefaultUserAddress();
