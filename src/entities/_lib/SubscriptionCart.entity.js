@@ -27,6 +27,21 @@ export class SubscriptionCart {
 
     this.hasEdited = hasEdited;
   }
+
+
+
+  countItems(weekFilter) {
+
+    let { items } = this;
+    console.log(items);
+    if(!items) return 0;
+    let sum = 0;
+    for (let item of items) {
+      if (weekFilter && weekFilter != item.secondaryPeriodicity) continue;
+      sum += parseInt(item.quantity);
+    }
+    return sum;
+  }
   
   update({ product, quantity, periodicity = 'weekly', secondaryPeriodicity, selectedDate }) {
     product = clonedeep(product);

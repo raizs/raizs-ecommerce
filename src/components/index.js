@@ -5,6 +5,7 @@ export { CartProduct } from './_lib/CartProduct.component';
 export { CartWarningModal } from './_lib/CartWarningModal.component';
 export { CategoriesMosaic } from './_lib/CategoriesMosaic.component';
 export { Characteristics } from './_lib/Characteristics.component';
+export { CheckoutBar } from './_lib/CheckoutBar.component';
 export { ClientCommentsSlider } from './_lib/ClientCommentsSlider.component';
 export { DropdownMenu } from './_lib/DropdownMenu.component';
 export { FloatingCartResume } from './_lib/FloatingCartResume.component';

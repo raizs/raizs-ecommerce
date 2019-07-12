@@ -19,7 +19,8 @@ import {
   CartProduct,
   SubscriptionCartProduct,
   BigDatePicker,
-  SimpleCepChecker
+  SimpleCepChecker, 
+  CheckoutBar
 } from '../../components';
 import { CartCheckout } from './components';
 import { SubscriptionCart, Transaction } from '../../entities';
@@ -30,7 +31,7 @@ const styles = theme => ({
     userSelect: 'none',
     width: '100%',
     padding: 3 * theme.spacing.unit,
-    paddingBottom: 8 * theme.spacing.unit,
+    paddingBottom: theme.sizes.CHECKOUT_BAR_HEIGHT + 2*theme.spacing.unit,
     '& > h1': {
       ...theme.typography.raizs,
       marginBottom: 6 * theme.spacing.unit
@@ -281,6 +282,7 @@ class Cart extends BaseContainer {
         <div className='checkout'>
           <CartCheckout {...toCartCheckout} />
         </div>
+        <CheckoutBar transaction={transaction} history={this.props.history}/>
       </div>
     )
   }
