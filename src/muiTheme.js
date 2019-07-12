@@ -26,7 +26,8 @@ const MD = '15px';
 const MMD = '18px';
 const LG = '20px';
 const XL = '28px';
-const XXL = '48px';
+const XXL = '36px';
+const XXXL = '48px';
 
 const nXXS = 11;
 const nXS = 12;
@@ -41,6 +42,7 @@ const nXXL = 48;
 const SPACING_UNIT = 8;
 const HEADER_HEIGHT = '64px';
 const TOP_HEADER_HEIGHT = '32px';
+const CHECKOUT_BAR_HEIGHT = 50
 
 const theme = createMuiTheme({
   typography: {
@@ -95,7 +97,7 @@ const theme = createMuiTheme({
     },
     raizs: {
       fontWeight: 400,
-      fontSize: XXL,
+      fontSize: XXXL,
       lineHeight: '54px',
       fontFamily: 'raizs',
       textAlign: 'center'
@@ -390,7 +392,8 @@ const theme = createMuiTheme({
   },
   sizes: {
     HEADER_HEIGHT,
-    TOP_HEADER_HEIGHT
+    TOP_HEADER_HEIGHT,
+    CHECKOUT_BAR_HEIGHT,
   },
   shape: {
     borderRadius: '8px',

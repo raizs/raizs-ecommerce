@@ -198,7 +198,7 @@ class CartCheckout extends Component {
             </div>
           </div>
           {this._renderShipping()}
-          <Button onClick={() => history.push('checkout')} className={classes.successButton}>CHECKOUT</Button>
+          <Button onClick={() => history.push('/checkout')} className={classes.successButton}>CHECKOUT</Button>
         </div>
       </div>
     )
