@@ -80,8 +80,8 @@ export class CatalogController extends BaseController {
       available:products, unavailable:[]
     }
 
-    // let products = this.getProductsSortedByFilter();
-    return { products };
+    this.getProductsSortedByFilter();
+    return { products: this.getProductsSortedByFilter() };
   }
 
   getProductsSortedByFilter() {
