@@ -75,9 +75,6 @@ export class CatalogController extends BaseController {
   }
 
   getAvailableProducts() {
-    const { products } = this.getProps();
-
-    // console.log(this.getProductsSortedByFilter());
     return { products:this.getProductsSortedByFilter() };
   }
 
