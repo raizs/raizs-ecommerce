@@ -215,8 +215,6 @@ class App extends BaseContainer {
       }
     };
 
-    console.log(this.props.cart);
-
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <CookiesProvider>
@@ -246,7 +244,7 @@ class App extends BaseContainer {
                 <Route path='/pedido-finalizado' exact component={OrderCompleted} />
                 <Route path='/painel' component={Dashboard} />
                 <Route path='/assinatura' component={Subscription} />
-                <Route path='/produto/:productId' component={Product} />
+                <Route path='/:seoDescription/p' component={Product} />
                 <Route path='/como-funciona' component={HowItWorks} />
                 <Route path='/familias' component={Families} />
                 <Route path='/ajuda' component={HelpCenter} />
