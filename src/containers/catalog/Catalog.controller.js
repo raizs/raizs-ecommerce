@@ -75,18 +75,15 @@ export class CatalogController extends BaseController {
   }
 
   getAvailableProducts() {
-    const { stock, products, date } = this.getProps();
-    let { available, unavailable } = stock ? stock.groupAvailabilitiesByDate(products, date) : {
-      available:products, unavailable:[]
-    }
+    const { products } = this.getProps();
 
-    this.getProductsSortedByFilter();
-    return { products: this.getProductsSortedByFilter() };
+    // console.log(this.getProductsSortedByFilter());
+    return { products:this.getProductsSortedByFilter() };
   }
 
   getProductsSortedByFilter() {
     const { filter, ascending } = this.getState();
-    const { products } = this.getProps();
+    const { products, stock } = this.getProps();
 
     let sorted;
 
@@ -100,7 +97,7 @@ export class CatalogController extends BaseController {
     else sorted = sortby(products.original, "popularity")
 
     if (!ascending) sorted.reverse();
-    const newProducts = new Products(sorted)
+    const newProducts = new Products(sorted, null, products.originalStock)
     return newProducts;
   }
 
