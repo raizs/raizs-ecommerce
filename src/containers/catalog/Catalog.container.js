@@ -236,7 +236,7 @@ class Catalog extends BaseContainer {
           fixed={shouldFixTimeline}
           timelineWidth={timelineWidth}
         >
-          {loading ? <Loading absolute /> : this._renderTimelineSections()}
+          {loading ? <Loading /> : this._renderTimelineSections()}
         </TimelineSections>
         <Button
           id='backToTop'

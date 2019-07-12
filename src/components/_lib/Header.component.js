@@ -239,7 +239,7 @@ class Header extends Component {
         <ReactSvg
           src='/icons/pesquisa.svg'
           className={classnames(searchClassName)}
-          onClick={()=> this.props.toggleSearchBarAction(true)}
+          onClick={() => this.props.toggleSearchBarAction(true)}
         />
         <HeaderUserButton {...headerUserButtonProps} />
         <HeaderPopperButton

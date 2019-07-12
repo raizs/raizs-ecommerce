@@ -1,5 +1,6 @@
 export { AuthRepository } from './_lib/Auth.repository';
 export { BaseRepository } from './_lib/Base.repository';
+export { CartRepository } from './_lib/Cart.repository';
 export { CategoriesRepository } from './_lib/Categories.repository';
 export { NewsletterTargetsRepository } from './_lib/NewsletterTargets.repository';
 export { PaymentRepository } from './_lib/Payment.repository';

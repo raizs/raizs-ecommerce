@@ -21,6 +21,12 @@ export class Cart {
 
     this.getMpFormattedItems = this.getMpFormattedItems.bind(this);
     this.getCookie = this.getCookie.bind(this);
+    this.setId = this.setId.bind(this);
+  }
+
+  setId(id) {
+    const { items, selectedDate } = this;
+    return new Cart({ items, selectedDate, id });
   }
   
   update({ product, quantity, selectedDate }) {
@@ -49,7 +55,7 @@ export class Cart {
       else items[index].quantity = quantity;
     }
 
-    return new Cart({ items, selectedDate: selectedDate || this.selectedDate });
+    return new Cart({ items, selectedDate: selectedDate || this.selectedDate, id: this.id });
   }
 
   _getProductQuantitiesObj(items) {

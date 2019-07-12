@@ -124,17 +124,6 @@ class App extends BaseContainer {
     // });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { cart, cookies, updateCartAction } = this.props;
-    const { products } = nextProps;
-    const cookieCart = cookies.get('cart');
-    
-    if(cookieCart && !cart.productCount && products && products.all.length) {
-      const newCart = CartHelper.createCartFromCookie({ cookieCart, products });
-      updateCartAction(newCart);
-    }
-  }
-
   _renderTopHeader(currentPath) {
     const { history, selectedDate } = this.props;
     const { handleSelectDate } = this.controller;
@@ -225,6 +214,8 @@ class App extends BaseContainer {
         logout
       }
     };
+
+    console.log(this.props.cart);
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>
