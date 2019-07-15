@@ -32,14 +32,14 @@ class Modal extends Component {
   }
 
   render() {
-    const { closeIcon, classes, open, handleClose, children, width = 800 } = this.props;
+    const { closeIcon, classes, open, handleClose, children, width = 800, grayBg } = this.props;
     return (
       <MuiModal
         open={open}
         onClose={handleClose}
         style={{ alignItems: 'center', justifyContent: 'center', transition: "1s" }}
       >
-        <div id="modalComponent" className={classes.inner} style={{ width }}>
+        <div id="modalComponent" className={classes.inner} style={{ width, backgroundColor: grayBg ? '#EFEFEF' : 'white' }}>
           {closeIcon && <Icon onClick={handleClose} className={classes.closeButton}>close</Icon>}
           {children}
         </div>

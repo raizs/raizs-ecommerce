@@ -7,7 +7,7 @@ export const productExtraInfos = [
     label: 'Armazenamento',
     id: 'storageInfo',
   }, {
-    label: 'Info. Nutricional',
+    label: 'Info. nutricional',
     id: 'nutritionalInfo',
   }
 ];

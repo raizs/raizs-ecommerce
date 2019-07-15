@@ -17,20 +17,13 @@ const styles = theme => ({
     display:"flex",
   	justifyContent:"center",
     alignItems:"center",
+    userSelect: 'none'
   },
   whiteBox:{
     width:"1024px",
-    backgroundColor:"white",
     display:"flex",
   	justifyContent:"space-between",
     alignItems:"top",
-    paddingRight:10*theme.spacing.unit,
-    paddingLeft:10*theme.spacing.unit,
-    paddingTop:6*theme.spacing.unit,
-    paddingBottom:6*theme.spacing.unit,
-  },
-  rightBox:{
-    width:"350px"
   }
 });
 
@@ -57,21 +50,26 @@ class Product extends BaseContainer {
   }
 
   _renderModalContent() {
-    const { classes,cart } = this.props;
+    const { classes, cart, stockDate } = this.props;
     const { product } = this.state;
-    return <div className={classes.whiteBox}>
+    return (
+      <div className={classes.whiteBox}>
+        <div>
+          <ProductImage src={product.imageUrl} alt={product.description} />
+          <ProductFamilies product={product}/>
+        </div>
+        <div>
+          <ProductSummary
+            stockDate={stockDate}
+            handleUpdateCart={this.controller.handleUpdateCart.bind(this)}
+            product={product}
+            cart={cart}
+          />
+          <ProductExtraInfos product={product} />
+        </div>
+      </div>
+    );
             
-      <div className={classes.leftBox}>
-        <ProductImage src={product.imageUrl} alt={product.description} />
-        <ProductFamilies product={product}/>
-      </div>
-    
-      <div className={classes.rightBox}>
-        <ProductSummary handleUpdateCart={this.controller.handleUpdateCart.bind(this)} product={product} cart={cart}/>
-        <ProductExtraInfos product={product} />
-      </div>
-  
-    </div>;
   }
 
   render() {
@@ -79,7 +77,7 @@ class Product extends BaseContainer {
     const { product } = this.state;
 
     return (
-      <Modal open={modal} width="1024px" handleClose={closeModalProductAction} closeIcon>
+      <Modal grayBg open={modal} width="1024px" handleClose={closeModalProductAction} closeIcon>
         <div className={classes.wrapper} >
           {product && this._renderModalContent()}
         </div>
@@ -91,7 +89,8 @@ class Product extends BaseContainer {
 const mapStateToProps = state => ({
   cart: state.cart.current,
   modal: state.modal.product,
-  product: state.modal.selectedProduct
+  product: state.modal.selectedProduct,
+  stockDate: state.datePicker.obj.stockDate
 })
 
 export default compose(

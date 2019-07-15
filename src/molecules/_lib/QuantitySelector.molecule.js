@@ -13,8 +13,19 @@ const styles = theme => ({
     zIndex: 10,
     height: 5 * theme.spacing.unit,
     fontSize: theme.fontSizes.XL,
+    display: 'inline-block',
     '&.-mini': {
       height: 'auto'
+    },
+    '& > *': {
+      display: 'inline-block',
+    },
+    '& > p.label': {
+      fontSize: theme.fontSizes.MD,
+      marginLeft: theme.spacing.unit,
+      color: theme.palette.green.main,
+      fontWeight: 700,
+      fontFamily: 'raizs'
     }
   },
 
@@ -181,7 +192,7 @@ class QuantitySelector extends Component {
   }
 
   render() {
-    const { classes, mini } = this.props;
+    const { classes, mini, withLabel } = this.props;
     const classNames = ['quantity-selector', classes.wrapper];
     if(mini) classNames.push('-mini');
 
@@ -191,6 +202,7 @@ class QuantitySelector extends Component {
         onClick={e => e.stopPropagation()}
       >
         {this._renderContent()}
+        {withLabel && !this.state.quantity && <p className='label'>Adicionar ao carrinho</p>}
       </div>
     )
   }

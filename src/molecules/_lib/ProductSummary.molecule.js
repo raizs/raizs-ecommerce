@@ -6,92 +6,84 @@ import classnames from "classnames"
 import { MiniDatePickerHelper } from '../../helpers';
 import { QuantitySelector } from './QuantitySelector.molecule';
 
-
-
-
 const styles = theme => ({
-  summary:{
+  summary: {
     position:"relative",
-    height: "350px",
-    width:"350px"
   },
-  smallGrey:{
+  smallGrey: {
     fontSize: theme.fontSizes.XXS,
     color: theme.palette.gray.main,
-    marginBottom:2*theme.spacing.unit
+    marginBottom: 2*theme.spacing.unit
   },
-  title:{
+  title: {
     fontSize: theme.fontSizes.LG,
     color: theme.palette.black.main,
-    marginBottom:2*theme.spacing.unit
+    marginBottom: 2*theme.spacing.unit
   },
-  price:{
+  price: {
     fontSize: theme.fontSizes.MMD,
     color: theme.palette.gray.main,
-    marginBottom:2*theme.spacing.unit
-
+    marginBottom: 2*theme.spacing.unit,
+    fontWeight: 500
   },
-  subtitle:{
+  subtitle: {
     fontSize: theme.fontSizes.XS,
     lineHeight: theme.fontSizes.SM,
     color: theme.palette.gray.main,
-    marginBottom:2*theme.spacing.unit,
-    fontWeight:400,
-    marginBottom: 4*theme.spacing.unit
-  },
-  availabilityTitle:{
-    color: theme.palette.black.main,
-    fontWeight:800,
-    fontSize: theme.fontSizes.XS,
+    fontWeight: 500,
     marginBottom: 2*theme.spacing.unit
-
   },
-  inLineDateBox:{
-    width:"48px",
+  availabilityTitle: {
+    color: theme.palette.black.main,
+    fontWeight: 700,
+    fontSize: theme.fontSizes.XSM,
+    marginBottom: 2*theme.spacing.unit
+  },
+  inLineDateBox: {
     display:"inline-block",
+    marginRight: 2 * theme.spacing.unit
   },
-  flexDateBox:{
+  flexDateBox: {
     display:"flex",
     justifyContent:"space-between",
     alignItems:"center",
     flexDirection:"column",
-    height:"40px"
-
   },
-  circle:{
-    width:"10px",
-    height:"10px",
-    borderRadius: "5px",
-    marginBottom: 0.5*theme.spacing.unit,
-    backgroundColor:theme.palette.green.main,
+  circle: {
+    width: 12,
+    height: 12,
+    borderRadius: '50%',
+    marginBottom: theme.spacing.unit,
+    backgroundColor: theme.palette.green.main,
   },
-  unavailableCircle:{
-    backgroundColor:theme.palette.gray.light,
+  unavailableCircle: {
+    backgroundColor: theme.palette.gray.light,
   },
-  weekDay:{
-    fontSize:theme.fontSizes.XXS
+  weekDay: {
+    fontSize:theme.fontSizes.XS,
+    fontWeight: 600,
+    color: theme.palette.gray.main,
+    marginBottom: .25 * theme.spacing.unit
   },
-  fullDate:{
-    fontSize:theme.fontSizes.XS
+  fullDate: {
+    fontSize:theme.fontSizes.XS,
+    fontWeight: 600,
+    color: theme.palette.gray.main
   },
-  selectorBox:{
-    paddingTop: 4*theme.spacing.unit
+  selectorBox: {
+    paddingTop: 2 * theme.spacing.unit,
+    paddingBottom: 2 * theme.spacing.unit
   }
   
 });
 
 class ProductSummary extends Component{
-  constructor(props){
-    super(props)
-
-  }
-
 
   _renderAvailability(){
-    const { classes } = this.props;
+    const { classes, product } = this.props;
     return MiniDatePickerHelper.generateDatesObject().map((day, key)=>{
       let circleClassNames=[classes.circle];
-      key % 2 || circleClassNames.push(classes.unavailableCircle);
+      if(!product.stock[day.stockDate]) circleClassNames.push(classes.unavailableCircle);
 
       return <div className={classes.inLineDateBox} key={key}>
           <div className={classes.flexDateBox}>
@@ -105,8 +97,10 @@ class ProductSummary extends Component{
 
 
   render(){
-    const { classes, product, cart, handleUpdateCart } = this.props;
+    const { classes, product, cart, handleUpdateCart, stockDate } = this.props;
     const quantity = cart.productQuantities[product.id] || 0;
+    
+
     return (
       <div className={classes.summary}>
         <h4 className={classes.smallGrey}>{product.brandName}</h4>
@@ -117,7 +111,13 @@ class ProductSummary extends Component{
         <div className={classes.availabilityTitle}>DISPONIBILIDADE</div>        
         {this._renderAvailability()}
         <div className={classes.selectorBox}>
-          <QuantitySelector changeAction={handleUpdateCart} item={product} quantity={quantity}/>
+          <QuantitySelector
+            withLabel
+            changeAction={handleUpdateCart}
+            item={product}
+            quantity={quantity}
+            maxQuantity={product.stock ? product.stock[stockDate] : 0}
+          />
         </div>
       </div>
     )
