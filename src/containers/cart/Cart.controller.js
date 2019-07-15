@@ -35,7 +35,9 @@ export class CartController extends BaseController {
       selectDateAction,
       selectedDate,
       cart,
-      openCartWarningModalAction
+      openCartWarningModalAction,
+      updateCartAction,
+      updateSubscriptionCartAction
     } = this.getProps();
 
     const subscriptionCart = this.getProps().subscriptionCart.current;
@@ -48,7 +50,9 @@ export class CartController extends BaseController {
       openCartWarningModalAction,
       selected,
       Cart,
-      SubscriptionCart
+      SubscriptionCart,
+      updateCartAction,
+      updateSubscriptionCartAction
     });
   }
 

@@ -1,6 +1,9 @@
+import React from "react";
 import { Formatter } from "./Formatter";
 import { MiniDatePickerHelper } from "./MiniDatePicker.helper";
 import { CartRepository } from "../../repositories";
+import { toast } from "react-toastify";
+import { Button } from "@material-ui/core";
 
 export default class BaseController {
 	constructor({ toState, getState, getProps }) {
@@ -61,7 +64,9 @@ export default class BaseController {
 		subscriptionCart,
 		openCartWarningModalAction,
 		Cart,
-		SubscriptionCart
+    SubscriptionCart,
+    updateCartAction,
+    updateSubscriptionCartAction
 	}) {
 		const dates = MiniDatePickerHelper.generateDatesObject();
 
@@ -76,28 +81,50 @@ export default class BaseController {
     if(cartInfo.length || subscriptionCartInfo.length) {
       let newCart, newSubscriptionCart;
       if(cartInfo.length) {
-        newCart = new Cart({ items: cart.items, selectedDate: newDate });
+        newCart = new Cart({ items: cart.items, selectedDate: newDate, id: cart.id });
         cartInfo.forEach(diff =>
           newCart = newCart.update({ product: diff.product, quantity: diff.newQuantity })
         );
+        updateCartAction(newCart);
       }
-
+      
       if(subscriptionCartInfo.length) {
-        newSubscriptionCart = new SubscriptionCart({ items: cart.items, selectedDate: newDate });
+        newSubscriptionCart = new SubscriptionCart({ items: cart.items, selectedDate: newDate, id: subscriptionCart.id });
         subscriptionCartInfo.forEach(diff => {
           newSubscriptionCart = newSubscriptionCart.update({ product: diff.product, quantity: diff.newQuantity })
         });
+        updateSubscriptionCartAction(newSubscriptionCart);
       }
-      
-      return openCartWarningModalAction({
-        cartInfo,
-        newCart,
-        subscriptionCartInfo,
-        newSubscriptionCart,
-        oldDate,
-        newDate,
-        selectedDate: selected
-      });
+
+      toast(
+        <div>
+          <p style={{ color: 'white' }}>Um ou mais itens de seu carrinho foram alterados devido à mudança de data.</p>
+          <Button
+            id='review-cart'
+            style={{
+              marginTop: '8px',
+              marginBottom: '8px',
+              borderRadius: '8px',
+              fontWeight: 700,
+              float: 'right',
+              backgroundColor: 'transparent',
+              border: '1px solid white'
+            }}
+            onClick={() => {
+              openCartWarningModalAction({
+                cartInfo,
+                oldCart: cart,
+                subscriptionCartInfo,
+                oldSubscriptionCart: subscriptionCart,
+                oldDate,
+                newDate,
+                oldSelectedDate: selectedDate
+              });
+            }} >
+              <span style={{ color: 'white' }}>Verificar</span>
+            </Button>
+        </div>
+      , { autoClose: 10000 });
     }
 
     return selectDateAction(selected);

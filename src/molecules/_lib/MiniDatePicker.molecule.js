@@ -81,7 +81,6 @@ class MiniDatePicker extends Component {
               key={option.value}
               control={
                 <Radio
-                  onClick={handleSelectDate}
                   checked={option.value.toString() === value}
                 />
               }

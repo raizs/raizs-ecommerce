@@ -20,6 +20,7 @@ import classnames from "classnames";
 
 import {
   updateCartAction,
+  updateSubscriptionCartAction,
   openModalProductAction,
   selectDateAction,
   openCartWarningModalAction
@@ -92,7 +93,8 @@ const actions = {
   updateCartAction,
   openModalProductAction,
   selectDateAction,
-  openCartWarningModalAction
+  openCartWarningModalAction,
+  updateSubscriptionCartAction
 };
 
 /**

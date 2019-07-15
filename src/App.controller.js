@@ -257,7 +257,9 @@ export class AppController extends BaseController {
       selectedDate,
       cart,
       subscriptionCart,
-      openCartWarningModalAction
+      openCartWarningModalAction,
+      updateCartAction,
+      updateSubscriptionCartAction
     } = this.getProps();
     const selected = e.target.value;
 
@@ -269,7 +271,9 @@ export class AppController extends BaseController {
       subscriptionCart,
       openCartWarningModalAction,
       Cart,
-      SubscriptionCart
+      SubscriptionCart,
+      updateCartAction,
+      updateSubscriptionCartAction
     });
   }
 
@@ -293,12 +297,19 @@ export class AppController extends BaseController {
   }
 
   handleUpdateCart({ item, quantity }) {
-    const { cart, updateCartAction, dateObj: { stockDate } } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate);
+    const { cart, updateCartAction, dateObj: { stockDate }, cookies } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate, cookies);
   }
 
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
-    const { subscriptionCart, updateSubscriptionCartAction, dateObj: { stockDate } } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction, stockDate);
+    const { subscriptionCart, updateSubscriptionCartAction, dateObj: { stockDate }, cookies } = this.getProps();
+    this.baseHandleUpdateCart(
+      { item, quantity, periodicity, secondaryPeriodicity },
+      subscriptionCart,
+      updateSubscriptionCartAction,
+      stockDate,
+      cookies,
+      true
+    );
   }
 }

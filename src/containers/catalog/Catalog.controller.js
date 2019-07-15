@@ -58,7 +58,9 @@ export class CatalogController extends BaseController {
       selectDateAction,
       selectedDate,
       subscriptionCart,
-      openCartWarningModalAction
+      openCartWarningModalAction,
+      updateCartAction,
+      updateSubscriptionCartAction
     } = this.getProps();
 
     this.baseHandleSelectDate({
@@ -69,7 +71,9 @@ export class CatalogController extends BaseController {
       selectDateAction,
       selectedDate,
       subscriptionCart,
-      openCartWarningModalAction
+      openCartWarningModalAction,
+      updateCartAction,
+      updateSubscriptionCartAction
     });
   }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core';
 import classnames from 'classnames';
 
@@ -67,47 +67,44 @@ const styles = theme => ({
   }
 });
 
-class CatalogProduct extends Component {
-
-  render() {
-    const { classes, product, handleUpdateCart, cart, small, stockQuantity, openModalProductAction } = this.props;
-    const wrapperClasses = [classes.wrapper];
-    const imageClasses = [classes.imageWrapper];
-    
-    if(small) {
-      wrapperClasses.push('-small');
-      imageClasses.push('-small');
-    }
-
-    return (
-      <div
-        id={`product-${product.id}`}
-        className={classnames(wrapperClasses)}
-        onClick={()=>openModalProductAction(product)}
-      >
-        <div className={classnames(imageClasses)}>
-          <img-2
-            className={classes.image}
-            width={small ? SMALL_WIDTH - 8 : WIDTH - 8}
-            height={small ? SMALL_WIDTH - 8 : WIDTH - 8}
-            alt={product.name}
-            src={product.imageUrl}
-            src-preview={product.imageUrl}
-            >
-          </img-2>
-          <QuantitySelector
-            item={product}
-            maxQuantity={stockQuantity}
-            changeAction={handleUpdateCart}
-            quantity={cart.productQuantities[product.id] || 0}
-          />
-        </div>
-        <h6 className={classes.brand}>{product.brandName}</h6>
-        <h4 title={product.name} className={classes.name}>{product.name}</h4>
-        <h4 className={classes.price}>{product.fullPrice}</h4>
-       </div>
-    )
+let CatalogProduct = props => {
+  const { classes, product, handleUpdateCart, cart, small, stockQuantity, openModalProductAction } = props;
+  const wrapperClasses = [classes.wrapper];
+  const imageClasses = [classes.imageWrapper];
+  
+  if(small) {
+    wrapperClasses.push('-small');
+    imageClasses.push('-small');
   }
+
+  return (
+    <div
+      id={`product-${product.id}`}
+      className={classnames(wrapperClasses)}
+      onClick={()=>openModalProductAction(product)}
+    >
+      <div className={classnames(imageClasses)}>
+        <img-2
+          className={classes.image}
+          width={small ? SMALL_WIDTH - 8 : WIDTH - 8}
+          height={small ? SMALL_WIDTH - 8 : WIDTH - 8}
+          alt={product.name}
+          src={product.imageUrl}
+          src-preview={product.imageUrl}
+          >
+        </img-2>
+        <QuantitySelector
+          item={product}
+          maxQuantity={stockQuantity}
+          changeAction={handleUpdateCart}
+          quantity={cart.productQuantities[product.id] || 0}
+        />
+      </div>
+      <h6 className={classes.brand}>{product.brandName}</h6>
+      <h4 title={product.name} className={classes.name}>{product.name}</h4>
+      <h4 className={classes.price}>{product.fullPrice}</h4>
+      </div>
+  )
 }
 
 CatalogProduct = withStyles(styles)(CatalogProduct);

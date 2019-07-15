@@ -188,7 +188,7 @@ class Cart extends BaseContainer {
     return cart.items.length ? (
       <div className='items'>
         <h4>
-          Assinatura - {subscriptionName}
+          Assinatura - {subscriptionName || 'Minha cesta'}
           <span onClick={handleRemoveSubscription}><Icon>close</Icon></span>
         </h4>
         <div>

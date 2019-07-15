@@ -38,8 +38,9 @@ const styles = theme => ({
       marginBottom: theme.spacing.unit,
     },
     '& button': {
-      ...theme.buttons.primary,
+      ...theme.buttons.secondary,
       marginTop: 4 * theme.spacing.unit,
+      marginBottom: 4 * theme.spacing.unit,
       fontSize: theme.fontSizes.LG,
       display: 'inline-block'
     },
@@ -117,18 +118,18 @@ class CartWarningModal extends Component {
       selectDateAction,
       closeCartWarningModalAction
     } = this.props;
-    const { newCart, newSubscriptionCart, selectedDate } = cartWarningModal;
+    const { oldCart, oldSubscriptionCart, oldSelectedDate } = cartWarningModal;
 
-    if(newCart) updateCartAction(newCart);
-    if(newSubscriptionCart) updateSubscriptionCartAction(newSubscriptionCart);
-    selectDateAction(selectedDate);
+    if(oldCart) updateCartAction(oldCart);
+    if(oldSubscriptionCart) updateSubscriptionCartAction(oldSubscriptionCart);
+    selectDateAction(oldSelectedDate);
     closeCartWarningModalAction();
   }
 
   _renderRows(items) {
     const renderDiffText = (type, diff) => {
       if(type === 'remove') return 'Item indisponível para data escolhida';
-      else return `${diff} ite${diff > 1 ? 'ns' : 'm'} ser${diff > 1 ? 'ão' : 'á'} removido${diff > 1 ? 's' : ''}`
+      else return `${diff} ite${diff > 1 ? 'ns' : 'm'} ${diff > 1 ? 'foram' : 'foi'} removido${diff > 1 ? 's' : ''}`
     }
 
     return items.map(item => (
@@ -153,7 +154,7 @@ class CartWarningModal extends Component {
           <thead>
             <tr>
               <th className='date'>{oldDate.date}</th>
-              <th><Icon>arrow_right_alt</Icon></th>
+              <th></th>
               <th className='date'>{newDate.date}</th>
             </tr>
           </thead>
@@ -171,7 +172,7 @@ class CartWarningModal extends Component {
 
     return subscriptionCartInfo.length ? (
       <div>
-        <h4>Assinatura - {subscriptionName}</h4>
+        <h4>Assinatura - {subscriptionName || 'Minha cesta'}</h4>
         <table>
           <thead>
             <tr>
@@ -196,7 +197,7 @@ class CartWarningModal extends Component {
       <Modal open={isOpen} width='1024px' handleClose={closeCartWarningModalAction}>
         <div className={classes.wrapper}>
           <h2>Atenção</h2>
-          <h6>Um ou mais ítens do seu carrinho serão afetados pela mudança de data devido à disponibilidade do(s) mesmo(s) em nosso estoque.<br/>Confira abaixo se deseja prosseguir com a alteração.</h6>
+          <h6>Um ou mais ítens do seu carrinho foram afetados pela mudança de data devido à disponibilidade do(s) mesmo(s) em nosso estoque.<br/>Confira abaixo se deseja reverter sua a alteração.</h6>
           {this._renderCartDiffs()}
           {this._renderSubscriptionCartDiffs()}
           <div style={{ textAlign: 'center' }}>
@@ -204,7 +205,7 @@ class CartWarningModal extends Component {
               id='confirmDateChange'
               onClick={this._handleSubmit.bind(this)}
             >
-              Confirmar mudança de data
+              Cancelar mudança de data
             </Button>
           </div>
         </div>

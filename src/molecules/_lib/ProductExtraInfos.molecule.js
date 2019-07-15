@@ -44,10 +44,10 @@ class ProductExtraInfos extends Component{
 
   _renderMenuTopics(){
     const { classes, product  } = this.props;
-    return productExtraInfos.map((info, key)=>{
+    return productExtraInfos.map(info => {
       let topicClass = [classes.menuTopic]
       if (info.id == this.state.selected) topicClass.push(classes.selected) 
-      return <div className={classnames(topicClass)} onClick={()=>this.setState({selected: info.id})}>
+      return <div key={info.id} className={classnames(topicClass)} onClick={()=>this.setState({selected: info.id})}>
         {info.label}
       </div>
     })

@@ -20,8 +20,9 @@ const MIN_SMALL_PRODUCT_HEIGHT = 244 + (2 * MARGIN);
 
 const styles = theme => ({
   title: {
+    padding: 2 * theme.spacing.unit,
+    // paddingBottom: 2 * theme.spacing.unit,
     paddingTop: theme.spacing.unit,
-    paddingBottom: 2 * theme.spacing.unit,
     fontSize: theme.fontSizes.MMD,
     '&.-small': {
       fontSize: theme.fontSizes.MD,
@@ -63,7 +64,7 @@ class CatalogSectionList extends Component {
     const availableFakeHeight = Math.ceil(available.length / availablePerRow) * productHeight;
     const unavailableFakeHeight = Math.ceil(unavailable.length / unavailablePerRow) * UNAVAILABLE_PRODUCT_SPACE;
     
-    const fakeHeight = availableFakeHeight + unavailableFakeHeight;
+    const fakeHeight = availableFakeHeight + unavailableFakeHeight + 34 + 24;
     
     const anchor = document.querySelector(anchorId);
     anchor.style.height = `${fakeHeight}px`;
@@ -111,7 +112,7 @@ class CatalogSectionList extends Component {
       this.setState({ availableItems, unavailableItems, availableLoaded: availableSlice, unavailableLoaded: unavailableSlice });
     }
   }
-
+  
   _loadMore() {
     const { grouped } = this.props;
     const { availablePerRow, availableLoaded, unavailableLoaded } = this.state;

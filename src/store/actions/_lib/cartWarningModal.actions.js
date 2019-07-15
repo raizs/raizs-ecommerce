@@ -4,11 +4,11 @@ export const CLOSE_CART_WARNING_MODAL = 'CLOSE_CART_WARNING_MODAL';
 export const openCartWarningModalAction = ({
   cartInfo,
   subscriptionCartInfo,
-  newCart,
-  newSubscriptionCart,
+  oldCart,
+  oldSubscriptionCart,
   oldDate,
   newDate,
-  selectedDate
+  oldSelectedDate
 }) => {
   const data = {
     oldDate,
@@ -17,13 +17,14 @@ export const openCartWarningModalAction = ({
   
   if(cartInfo.length) {
     data.cartInfo = cartInfo;
-    data.newCart = newCart;
-    data.selectedDate = selectedDate;
+    data.oldCart = oldCart;
+    data.oldSelectedDate = oldSelectedDate;
   }
   
   if(subscriptionCartInfo.length) {
     data.subscriptionCartInfo = subscriptionCartInfo;
-    data.newSubscriptionCart = newSubscriptionCart;
+    data.oldSubscriptionCart = oldSubscriptionCart;
+    data.oldSelectedDate = oldSelectedDate;
   }
 
   return {
