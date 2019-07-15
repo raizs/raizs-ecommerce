@@ -105,6 +105,6 @@ class About extends Component {
 }
 
 export default compose(
-  withTimeline,
+  withTimeline({ sectionOffset: 0, padding: 16, sectionsOffset: -window.innerHeight }),
   withStyles(styles)
 )(About);
