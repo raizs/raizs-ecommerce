@@ -10,6 +10,7 @@ export class Products extends BaseModel {
       products = this._fixPopularProducts(products);
     }
 
+    this.originalStock = stock;
     this.stock = new Stock(stock);
 
     const catalogFilter = p => ![1,2,3,4].includes(p.id);

@@ -148,7 +148,6 @@ class CheckoutBar extends Component {
 
   _renderOpenContent(){
     const { classes, transaction } = this.props;
-    console.log(transaction.subcart.current.countItems("first"))
     return <div className={classes.flexContentBox}>
       <div className={classes.infosBox}>
         {transaction.hasCart && this._renderResumes("Pedido Avulso", transaction.totals.immediate.subtotal, transaction.cart.productCount )}

@@ -37,7 +37,6 @@ export class SubscriptionCart {
   countItems(weekFilter) {
 
     let { items } = this;
-    console.log(items);
     if(!items) return 0;
     let sum = 0;
     for (let item of items) {
