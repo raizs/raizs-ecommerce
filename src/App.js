@@ -33,8 +33,7 @@ import {
   updateSubscriptionCartAction,
   setProductsAction,
   setUnitsOfMeasureAction,
-  openCartWarningModalAction, 
-  showConfirmationModalAction
+  openCartWarningModalAction
 } from './store/actions';
 
 import defaultTheme from './muiTheme';
@@ -214,8 +213,6 @@ class App extends BaseContainer {
         logout
       }
     };
-
-    console.log(this.props.cart);
 
 		return (
       <MuiThemeProvider theme={defaultTheme}>

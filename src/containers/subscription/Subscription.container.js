@@ -12,6 +12,7 @@ import {
   setSubscriptionNameAction,
   addSubscriptionCartToCartAction
 } from '../../store/actions';
+import { withCookies } from 'react-cookie';
 
 const actions = {
   updateSubscriptionCartAction,
@@ -39,14 +40,14 @@ class Subscription extends BaseContainer {
   }
   
   render() {
-    const {
-      cep,
-      cepLoading,
-      cepSuccess,
-      cepError,
-      shippingValue,
-      coupon
-    } = this.state;
+    // const {
+    //   cep,
+    //   cepLoading,
+    //   cepSuccess,
+    //   cepError,
+    //   shippingValue,
+    //   coupon
+    // } = this.state;
     const {
       subscriptionCart,
       currentObservations,
@@ -54,17 +55,18 @@ class Subscription extends BaseContainer {
       categories,
       newProducts,
       brands,
-      history,
-      subscriptionName,
       stockDate,
-      dateObj
+      updateSubscriptionCartAction,
+      // history,
+      // subscriptionName,
+      // dateObj,
     } = this.props;
     const {
       handleUpdateSubscriptionCart,
       handleContinueAction,
-      handleChange,
-      handleCepBlur,
-      handleCheckout
+      // handleChange,
+      // handleCepBlur,
+      // handleCheckout
     } = this.controller;
 
     return (
@@ -72,11 +74,13 @@ class Subscription extends BaseContainer {
         <Route path='/assinatura/genericos'>
           <Generics
             cart={subscriptionCart}
+            allProducts={products}
             products={products.genericProducts}
             handleUpdate={handleUpdateSubscriptionCart}
             currentObservations={currentObservations}
             handleContinueAction={handleContinueAction}
             stockDate={stockDate}
+            updateSubscriptionCartAction={updateSubscriptionCartAction}
           />
         </Route>
         <Route path='/assinatura/complementos'>
@@ -131,6 +135,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withCookies,
   withRouter,
   connect(mapStateToProps, actions)
 )(Subscription);

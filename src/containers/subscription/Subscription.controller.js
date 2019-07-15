@@ -12,8 +12,15 @@ export class SubscriptionController extends BaseController {
   }
 
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
-    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity, periodicity, secondaryPeriodicity }, subscriptionCart, updateSubscriptionCartAction);
+    const { subscriptionCart, updateSubscriptionCartAction, stockDate, cookies } = this.getProps();
+    this.baseHandleUpdateCart(
+      { item, quantity, periodicity, secondaryPeriodicity },
+      subscriptionCart,
+      updateSubscriptionCartAction,
+      stockDate,
+      cookies,
+      true
+    );
   }
 
   handleContinueAction(currentObservations) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import { toast } from "react-toastify";
 import { GenericProduct } from './GenericProduct.component';
-import { Formatter } from '../../../../helpers';
+import { CartHelper } from '../../../../helpers';
 import { ObservationsModal } from './ObservationsModal.component';
 import { BottomSection } from './BottomSection.component';
 
@@ -114,30 +114,21 @@ class Generics extends Component {
   }
 
   async componentDidMount() {
-    const { currentObservations, cart } = this.props;
+    const { currentObservations, cart, allProducts, stockDate, updateSubscriptionCartAction } = this.props;
     if(currentObservations) this.setState({ currentObservations });
-    if(cart && !cart.hasEdited) {
-      const buttons = document.querySelectorAll('div.generic-product div.add');
-      for(let i = 0; i < buttons.length; i++) {
-        const defaultQuantities = { 1: 3, 2: 3, 3: 4, 4: 2 };
-        for(let j = 0; j < defaultQuantities[buttons[i].id]; j++) {
-          await buttons[i].click();
-        }
-      }
+    if(cart && !cart.hasEdited && allProducts && allProducts.all.length) {
+      const defaultCart = CartHelper.createDefaultSubCart({ products: allProducts, id: cart.id, stockDate })
+      updateSubscriptionCartAction(defaultCart);
     }
   }
-
+  
   async componentWillReceiveProps(nextProps) {
-    const { currentObservations, cart } = nextProps, prevObservations = this.props.currentObservations;
+    const { currentObservations, cart, allProducts, stockDate, updateSubscriptionCartAction } = nextProps,
+      prevObservations = this.props.currentObservations;
     if(currentObservations && !prevObservations) this.setState({ currentObservations });
-    if(cart && !cart.hasEdited) {
-      const buttons = document.querySelectorAll('div.generic-product div.add');
-      for(let i = 0; i < buttons.length; i++) {
-        const defaultQuantities = { 1: 3, 2: 3, 3: 4, 4: 2 };
-        for(let j = 0; j < defaultQuantities[buttons[i].id]; j++) {
-          await buttons[i].click();
-        }
-      }
+    if(cart && !cart.hasEdited && allProducts && allProducts.all.length) {
+      const defaultCart = CartHelper.createDefaultSubCart({ products: allProducts, id: cart.id, stockDate })
+      updateSubscriptionCartAction(defaultCart);
     }
   }
   

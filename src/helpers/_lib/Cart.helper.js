@@ -1,7 +1,7 @@
 import { Cart, SubscriptionCart } from "../../entities";
 
 export class CartHelper {
-  static createCartFromLines({ lines, products, withStock }) {
+  static createCartFromLines({ lines, products }) {
     if(!products || !products.all.length) return null;
     const items = lines.map(line => ({
       product: products.getById(line.productId),
@@ -54,5 +54,56 @@ export class CartHelper {
     const { id } = cookieCart;
 
     return new Cart({ items, id, selectedDate: stockDate });
+  }
+
+  static createSubCartFromCookie({ cookieSubCart, products, stockDate, id }) {
+    if(!products || !products.all.length) return null;
+
+    const items = cookieSubCart.items.map(item => ({
+      product: products.getById(item.product),
+      quantity: parseInt(item.quantity),
+      periodicity: item.periodicity,
+      secondaryPeriodicity: item.delivery_week
+    }));
+    const { hasEdited } = cookieSubCart;
+
+    return new SubscriptionCart({ items, id, selectedDate: stockDate, hasEdited });
+  }
+
+  static createDefaultSubCart({ products, stockDate, id }) {
+    if(!products || !products.all.length) return null;
+
+    const defaultProducts = [
+      {
+        id: 1,
+        quantity: 3,
+        periodicity: 'weekly',
+        secondaryPeriodicity: 'first'
+      }, {
+        id: 2,
+        quantity: 3,
+        periodicity: 'weekly',
+        secondaryPeriodicity: 'first'
+      }, {
+        id: 3,
+        quantity: 4,
+        periodicity: 'weekly',
+        secondaryPeriodicity: 'first'
+      }, {
+        id: 4,
+        quantity: 2,
+        periodicity: 'weekly',
+        secondaryPeriodicity: 'first'
+      }
+    ];
+
+    const items = defaultProducts.map(item => ({
+      product: products.getById(item.id),
+      quantity: item.quantity,
+      periodicity: item.periodicity,
+      secondaryPeriodicity: item.secondaryPeriodicity
+    }));
+    
+    return new SubscriptionCart({ items, id, selectedDate: stockDate, hasEdited: true });
   }
 }

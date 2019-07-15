@@ -107,10 +107,12 @@ export class AppController extends BaseController {
       selectCardAction,
       setCepAction,
       updateCartAction,
+      updateSubscriptionCartAction,
       products,
       dateObj: { stockDate },
       cookies,
-      cart
+      cart,
+      subscriptionCart
     } = this.getProps();
 
     let pgUser = await this.userRepo.getUser(user.uid);
@@ -129,20 +131,31 @@ export class AppController extends BaseController {
       setUserAction(newUser);
 
       const cookieCart = cookies.getAll().cart;
+      const cookieSubCart = cookies.getAll().subCart;
+
       if(!cookieCart || !cookieCart.id) {
         const cartPromise = await this.cartRepo.create({ partnerId: id });
-        console.log('cartPromise', cartPromise)
-
+        
         if(!cartPromise.err) {
           const newCart = cart.setId(cartPromise.data.id);
           cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 3600 });
           updateCartAction(newCart);
+          
+          if(!cookieSubCart || !cookieSubCart.id) {
+            const newSubCart = subscriptionCart.setId(cartPromise.data.id);
+            cookies.set('subCart', newSubCart.getCookie(), { path: '/', maxAge: 3600 });
+            updateSubscriptionCartAction(newSubCart);
+          }
+
         } else {
           console.error('ERROR CREATING CART IN DB.', cartPromise.err);
         }
       } else {
         const newCart = CartHelper.createCartFromCookie({ cookieCart, products, stockDate });
         updateCartAction(newCart);
+
+        const newSubCart = CartHelper.createSubCartFromCookie({ cookieSubCart, products, stockDate, id: newCart.id });
+        updateSubscriptionCartAction(newSubCart);
       }
 
       if(newUser.addresses && newUser.addresses.all.length) {

@@ -10,7 +10,8 @@ export class SubscriptionCart {
    * @param {Subscription} subscription
    * @memberof SubscriptionCart
    */
-  constructor({items = [], hasEdited = true, selectedDate = null }) {
+  constructor({ items = [], hasEdited = true, selectedDate = null, id = '' }) {
+    this.id = id;
     this.items = items;
     this.selectedDate = selectedDate;
 
@@ -28,7 +29,10 @@ export class SubscriptionCart {
     this.hasEdited = hasEdited;
   }
 
-
+  setId(id) {
+    const { items, selectedDate, hasEdited } = this;
+    return new SubscriptionCart({ items, selectedDate, id, hasEdited });
+  }
 
   countItems(weekFilter) {
 
@@ -77,7 +81,7 @@ export class SubscriptionCart {
       }
     }
 
-    return new SubscriptionCart({ items, selectedDate: selectedDate || this.selectedDate });
+    return new SubscriptionCart({ items, selectedDate: selectedDate || this.selectedDate, id: this.id });
   }
 
   _getProductQuantitiesObj(items) {
@@ -279,5 +283,19 @@ export class SubscriptionCart {
       })
     });
     return differences;
+  }
+
+  getCookie() {
+    return {
+      id: this.id,
+      hasEdited: this.hasEdited,
+      isSub: true,
+      items: this.items.map(item => ({
+        product: item.product.id,
+        quantity: item.quantity,
+        periodicity: item.periodicity || 'weekly',
+        secondaryPeriodicity: item.secondaryPeriodicity || 'first'
+      }))
+    };
   }
 }

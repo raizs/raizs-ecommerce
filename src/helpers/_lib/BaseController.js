@@ -1,11 +1,14 @@
 import { Formatter } from "./Formatter";
 import { MiniDatePickerHelper } from "./MiniDatePicker.helper";
+import { CartRepository } from "../../repositories";
 
 export default class BaseController {
 	constructor({ toState, getState, getProps }) {
 		this.toState = toState;
 		this.getState = getState;
-		this.getProps = getProps;
+    this.getProps = getProps;
+    
+    this.timeout = null;
 	}
 
 	baseHandleChange(e, format, errors = {}) {
@@ -21,16 +24,33 @@ export default class BaseController {
 		return { [id]: !currentValue };
 	}
 	
-	baseHandleUpdateCart(
+	async baseHandleUpdateCart(
     { item, quantity, periodicity, secondaryPeriodicity },
     cart,
     updateCartAction,
     selectedDate,
-    cookies
+    cookies,
+    isSub = false
   ) {
     const newCart = cart.update({ product: item, quantity, periodicity, secondaryPeriodicity, selectedDate });
     updateCartAction(newCart);
-    cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 1800 });
+
+    if(this.timeout) clearTimeout(this.timeout);
+    this.timeout = setTimeout(async () => {
+      const repo = new CartRepository();
+      await repo.update(newCart.getCookie());
+    }, 5000);
+    
+    if(!isSub) {
+      const cookieSubCart = cookies.get('subCart');
+      cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 3600 });
+      cookies.set('subCart', cookieSubCart, { path: '/', maxAge: 3600 });
+    }
+    else {
+      const cookieCart = cookies.get('cart');
+      cookies.set('cart', cookieCart, { path: '/', maxAge: 3600 })
+      cookies.set('subCart', newCart.getCookie(), { path: '/', maxAge: 3600 })
+    }
 	}
 
 	baseHandleSelectDate({

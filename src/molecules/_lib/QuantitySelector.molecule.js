@@ -150,10 +150,10 @@ class QuantitySelector extends Component {
 
   _handleClick(direction) {
     const stateQuantity = this.state.quantity;
-    const { changeAction, item, item: { periodicity }, maxQuantity } = this.props;
+    const { changeAction, item, item: { periodicity, secondaryPeriodicity }, maxQuantity } = this.props;
     const quantity = Math.max(0, Math.min(stateQuantity + direction, maxQuantity));
 
-    changeAction({ item, quantity, periodicity });
+    changeAction({ item, quantity, periodicity, secondaryPeriodicity });
     this.setState({ quantity });
   }
 

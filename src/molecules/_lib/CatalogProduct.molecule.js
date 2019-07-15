@@ -96,10 +96,10 @@ class CatalogProduct extends Component {
             >
           </img-2>
           <QuantitySelector
-            changeAction={handleUpdateCart}
             item={product}
-            quantity={cart.productQuantities[product.id] || 0}
             maxQuantity={stockQuantity}
+            changeAction={handleUpdateCart}
+            quantity={cart.productQuantities[product.id] || 0}
           />
         </div>
         <h6 className={classes.brand}>{product.brandName}</h6>

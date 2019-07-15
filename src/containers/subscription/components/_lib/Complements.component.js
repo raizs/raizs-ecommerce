@@ -99,6 +99,7 @@ class Complements extends Component {
             products={newProducts}
             handleUpdateCart={handleUpdate}
             availableWidth={availableWidth}
+            stockDate={stockDate}
           />
         </div>
       </TimelineSection>

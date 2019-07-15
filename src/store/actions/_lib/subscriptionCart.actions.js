@@ -7,8 +7,6 @@ export const ADD_SUBSCRIPTION_CART = 'ADD_SUBSCRIPTION_CART';
 export const REMOVE_SUBSCRIPTION_CART = 'REMOVE_SUBSCRIPTION_CART';
 
 export const updateSubscriptionCartAction = subscriptionCart => {
-  Cache.setItem('subscriptionCart', subscriptionCart.items);
-
   return {
     type: UPDATE_SUBSCRIPTION_CART,
     data: subscriptionCart

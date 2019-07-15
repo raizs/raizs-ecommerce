@@ -14,18 +14,20 @@ export class CartController extends BaseController {
   }
 
   handleUpdateCart({ item, quantity }) {
-    const { cart, updateCartAction } = this.getProps();
-    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction);
+    const { cart, updateCartAction, stockDate, cookies } = this.getProps();
+    this.baseHandleUpdateCart({ item, quantity }, cart, updateCartAction, stockDate, cookies);
   }
 
   handleUpdateSubscriptionCart({ item, quantity, periodicity, secondaryPeriodicity }) {
-    const { subscriptionCart, updateSubscriptionCartAction } = this.getProps();
-    this.baseHandleUpdateCart({
-      item,
-      quantity,
-      periodicity,
-      secondaryPeriodicity
-    }, subscriptionCart.current, updateSubscriptionCartAction);
+    const { subscriptionCart, updateSubscriptionCartAction, stockDate, cookies } = this.getProps();
+    this.baseHandleUpdateCart(
+      { item, quantity, periodicity, secondaryPeriodicity },
+      subscriptionCart.current,
+      updateSubscriptionCartAction,
+      stockDate,
+      cookies,
+      true
+    );
   }
 
   handleSelectDate(selected) {

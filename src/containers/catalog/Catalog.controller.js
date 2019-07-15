@@ -1,6 +1,6 @@
 import { BaseController } from '../../helpers';
 import { Products, UnitsOfMeasure, Cart, SubscriptionCart } from '../../entities';
-import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
+import { ProductsRepository, UnitsOfMeasureRepository, CartRepository } from '../../repositories';
 import sortby from 'lodash.sortby';
 
 
@@ -45,7 +45,6 @@ export class CatalogController extends BaseController {
 
       setUnitsOfMeasureAction(uom);
     }
-    
   }
 
   handleUpdateCart({ item, quantity }) {

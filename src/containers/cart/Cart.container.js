@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types'
 import compose from 'recompose/compose';
 import { withStyles, Icon } from '@material-ui/core';
+import { withCookies } from 'react-cookie';
 
 import { CartController } from './Cart.controller';
 import { BaseContainer } from '../../helpers';
@@ -303,6 +304,7 @@ const mapStateToProps = state => ({
 
 
 export default compose(
+  withCookies,
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, actions)
