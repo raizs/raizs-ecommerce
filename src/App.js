@@ -6,10 +6,10 @@ import { CookiesProvider, withCookies } from 'react-cookie';
 import { BrowserView, MobileView } from 'react-device-detect';
 import compose from 'recompose/compose';
 
-// import 'img-2';
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import defaultTheme from './muiTheme';
 
@@ -27,9 +27,9 @@ class App extends Component {
             <BrowserApp />
           </BrowserView>
 
-          <MobileView>
+          {/* <MobileView>
             <MobileApp />
-          </MobileView>
+          </MobileView> */}
           
         </CookiesProvider>
       </MuiThemeProvider>

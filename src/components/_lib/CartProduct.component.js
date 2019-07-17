@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles, Icon } from '@material-ui/core';
 
+import { Image } from '../../components';
 import { QuantitySelector } from '../../molecules';
 import { Formatter } from '../../helpers';
 
@@ -17,7 +18,8 @@ const styles = theme => ({
     borderRadius: theme.spacing.unit,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    overflow: 'hidden'
   },
   imageAndInfo: {
     display: 'flex',
@@ -27,11 +29,6 @@ const styles = theme => ({
     position: 'relative',
     height: LIST_PRODUCT_HEIGHT_PX,
     width: LIST_PRODUCT_HEIGHT_PX
-  },
-  image: {
-    '& img': {
-      borderRadius: theme.spacing.unit
-    }
   },
   nameAndPrice: {
     padding: `0 ${2 * theme.spacing.unit}px`,
@@ -72,75 +69,43 @@ const styles = theme => ({
   },
 });
 
-class CartProduct extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      loadedImage: false,
-      imageError: false
-    };
-  }
+let CartProduct = props => {
 
-  componentDidUpdate() {
-    const el = document.querySelector(`div#cart-product-${this.props.product.id} img-2`);
-    const { shadowRoot } = document.querySelector(`div#cart-product-${this.props.product.id} img-2`);
+  const { classes, product, handleUpdateCart, stockQuantity, disabled } = props;
 
-    if(!this.state.loadedImage && shadowRoot) {
-      const context = this;
-      const img = Array.from(shadowRoot.childNodes).pop();
-
-      if(el.loaded) {
-        context.setState({ loadedImage: true })
-      }
-
-      img.onerror = () => {
-        context.setState({ loadedImage: true, imageError: true });
-      }
-    }
-  }
-  
-  render() {
-    const { classes, product, handleUpdateCart, stockQuantity, disabled } = this.props;
-
-    return (
-      <div
-        id={`cart-product-${product.id}`}
-        className={classes.wrapper}
-      >
-        <div className={classes.imageAndInfo}>
-          <div className={classes.imageWrapper}>
-            <img-2
-              className={classes.image}
-              width={LIST_PRODUCT_HEIGHT}
-              height={LIST_PRODUCT_HEIGHT}
-              alt={product.name}
-              src={product.imageUrl}
-              src-preview={product.imageUrl}
-              >
-            </img-2>
-          </div>
-          <div className={classes.nameAndPrice}>
-            <h4 className={classes.name}>{product.name}</h4>
-            <h4 className={classes.price}>{product.fullPrice}</h4>
-          </div>
+  return (
+    <div
+      id={`cart-product-${product.id}`}
+      className={classes.wrapper}
+    >
+      <div className={classes.imageAndInfo}>
+        <div className={classes.imageWrapper}>
+          <Image
+            width={LIST_PRODUCT_HEIGHT}
+            height={LIST_PRODUCT_HEIGHT}
+            alt={product.name}
+            src={product.imageUrl} />
         </div>
-        <QuantitySelector
-          disabled={disabled}
-          changeAction={handleUpdateCart}
-          item={product}
-          quantity={product.quantity}
-          maxQuantity={stockQuantity}
-        />
-        <div className={classes.partialPriceAndClose}>
-          <h5 className={classes.partialPrice}>
-            {Formatter.currency(product.partialPrice)}
-          </h5>
-          { !disabled && <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon> }
+        <div className={classes.nameAndPrice}>
+          <h4 className={classes.name}>{product.name}</h4>
+          <h4 className={classes.price}>{product.fullPrice}</h4>
         </div>
       </div>
-    )
-  }
+      <QuantitySelector
+        disabled={disabled}
+        changeAction={handleUpdateCart}
+        item={product}
+        quantity={product.quantity}
+        maxQuantity={stockQuantity}
+      />
+      <div className={classes.partialPriceAndClose}>
+        <h5 className={classes.partialPrice}>
+          {Formatter.currency(product.partialPrice)}
+        </h5>
+        { !disabled && <Icon onClick={() => handleUpdateCart({ item: product, quantity: 0 })} fontSize='small'>close</Icon> }
+      </div>
+    </div>
+  );
 }
 
 CartProduct = withStyles(styles)(CartProduct);

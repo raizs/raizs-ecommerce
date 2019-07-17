@@ -3,14 +3,14 @@ import { withRouter } from 'react-router';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { connect } from "react-redux"
+import classnames from "classnames";
 
 import { BaseContainer } from "../../helpers"
+import { Image } from "../../components"
 import { toggleSearchBarAction } from "../../store/actions"
 import { SearchBarController } from "../controllers/SearchBar.controller.js"
 import { TextInput, Loading } from "../../molecules"
 
-import classnames from "classnames"
-import "img-2"
 
 const styles = theme => ({
   wrapper:{
@@ -57,8 +57,7 @@ const styles = theme => ({
       borderColor:"gray",
       fontSize: theme.fontSizes.XS,
       height: "40px"
-
-    },
+    }
   },
   notFound:{
     fontSize: theme.fontSizes.LG,
@@ -102,9 +101,7 @@ const styles = theme => ({
     color: theme.palette.gray.main,
     height:theme.fontSizes.XS,
     width:"150px"
-  },
-
-
+  }
 })
 
 class SearchBar extends BaseContainer {
@@ -119,7 +116,6 @@ class SearchBar extends BaseContainer {
       results: this.props.products.all
     }
   }
-
 
   _renderResults() {
     const { classes } = this.props;
@@ -145,13 +141,11 @@ class SearchBar extends BaseContainer {
     return results.map(product => {
       return <div className={classes.productBox} onClick={()=>this.controller.goToProduct(product.id)}>
         <div className={classes.productImgBox}>
-           <img-2
+           <Image
             width={20}
             height={20}
             alt={product.name}
-            src={product.imageUrl}
-            src-preview={product.imageUrl}
-          />
+            src={product.imageUrl} />
         </div>
         <div className={classes.productName}>
           {product.name}

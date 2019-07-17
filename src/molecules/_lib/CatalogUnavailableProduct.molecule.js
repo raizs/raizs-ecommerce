@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles, Tooltip } from '@material-ui/core';
 import classnames from 'classnames';
+import { Image } from '../../components';
 
 const WIDTH = 64;
 const HEIGHT = WIDTH;
@@ -31,11 +32,6 @@ const styles = theme => ({
     position: 'relative',
     height: 60,
     width: 60,
-  },
-  image: {
-    '& img': {
-      borderRadius: theme.spacing.unit
-    }
   },
   name: {
     ...theme.typography.textEllipsis,
@@ -90,15 +86,11 @@ class CatalogUnavailableProduct extends Component {
         }}
         title={
           <div className='wrapper'>
-            <img-2
-              className={classes.image}
+            <Image
               width={64}
               height={64}
               alt={product.name}
-              src={product.imageUrl}
-              src-preview={product.imageUrl}
-              >
-            </img-2>
+              src={product.imageUrl} />
             <div className='info'>
               <h4 className={classes.name}>{product.name}</h4>
               <h6 className={classes.price}>{product.fullPrice}</h6>
@@ -112,15 +104,11 @@ class CatalogUnavailableProduct extends Component {
           className={classnames(wrapperClasses)}
         >
           <div className={classnames(imageClasses)}>
-            <img-2
-              className={classes.image}
+            <Image
               width={64}
               height={64}
               alt={product.name}
-              src={product.imageUrl}
-              src-preview={product.imageUrl}
-              >
-            </img-2>
+              src={product.imageUrl} />
           </div>
           <div className='glass'/>
         </div>

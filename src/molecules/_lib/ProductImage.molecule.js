@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
-import 'img-2';
+import { Image } from '../../components';
 
 const styles = theme => ({
   imgBox:{
@@ -17,14 +17,11 @@ let ProductImage = props => {
 
   return (
     <div className={classes.imgBox}>
-      <img-2
+      <Image
         width={360}
         height={360}
         alt={description}
-        src={src}
-        src-preview={src}
-      >
-      </img-2>
+        src={src} />
     </div>
   );
 };

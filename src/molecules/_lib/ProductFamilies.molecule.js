@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 
 import Slider from "react-slick"
 import {SliderArrow } from "./SliderArrow.molecule"
+import { Image } from '../../components';
 
 const hardCordedFamilies = [
   {
@@ -85,18 +86,14 @@ class ProductFamilies extends Component{
 
     return families.map((family, key)=>{
       return <div className={classes.familyBox} key={key}>
-        <img-2 
-          style={{verticalAlign:"middle"}}
-          className={classes.img}
+        <Image 
           width={30}
           height={30}
           alt={family.name}
-          src={family.img}
-          src-preview={family.img}/>
-          <div className={classes.familyName}>
-            {family.name}
-
-          </div>
+          src={family.img} />
+        <div className={classes.familyName}>
+          {family.name}
+        </div>
       </div>
     })
     

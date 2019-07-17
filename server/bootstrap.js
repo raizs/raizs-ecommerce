@@ -5,9 +5,11 @@ require('@babel/register')({
     ignore: [ /(node_modules)/ ],
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
-        'syntax-dynamic-import',
+        '@babel/syntax-dynamic-import',
         'dynamic-import-node',
-        'react-loadable/babel'
+        'react-loadable/babel',
+        '@babel/transform-runtime',
+        '@babel/plugin-proposal-class-properties'
     ]
 });
 require('./index');

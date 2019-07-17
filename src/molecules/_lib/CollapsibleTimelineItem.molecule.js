@@ -72,10 +72,6 @@ class CollapsibleTimelineItem extends Component {
     }
   }
 
-  static propTypes = {
-    classes: PropTypes.object,
-  }
-
   render() {
     const { item, classes, currentSectionId } = this.props;
     let { isOpen } = this.state;

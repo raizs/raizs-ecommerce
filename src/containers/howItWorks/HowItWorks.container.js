@@ -8,8 +8,7 @@ import classnames from 'classnames';
 import ReactTooltip from 'react-tooltip'
 import { howItWorksTooltips } from "../../assets";
 import { AnchorMenu } from "../../molecules";
-import { SimpleCepChecker } from "../../components";
-import "img-2";
+import { SimpleCepChecker, Image } from "../../components";
 
 const styles = theme => ({
   wrapper: {
@@ -79,7 +78,6 @@ const styles = theme => ({
   	marginLeft:theme.spacing.unit,
   	color: theme.palette.green.main,
   	fontSize: theme.fontSizes.MD
-
   },
   tooltip:{
   	width:"300px",
@@ -98,7 +96,6 @@ const styles = theme => ({
   deliveryLeftBox:{
   	display:"inline-block",
   	width:"300px"
-
   },
   deliveryRightBox:{
   	display:"inline-block",
@@ -108,7 +105,6 @@ const styles = theme => ({
   topic:{
   	marginBottom:4*theme.spacing.unit,
   	width:"250px"
-
   },
   topicTitle:{
   	marginBottom: theme.spacing.unit,
@@ -128,7 +124,6 @@ const styles = theme => ({
   	color: theme.palette.black.main,
   	width: "400px",
   	textAlign:"right"
-
   },
   link:{
   	display:"inline-block",
@@ -144,8 +139,6 @@ const styles = theme => ({
 
 class HowItWorks extends Component{
 
-	
-
 	_renderBgChilds(){
 		const { classes } = this.props;
 		return howItWorksTooltips.map((item,key)=>{
@@ -157,12 +150,14 @@ class HowItWorks extends Component{
 		})
 	}
 
-
-
 	_renderDeliveryRightBox(){
 		const { classes } = this.props;
 		return <div className={classes.deliveryRightBox}>
-			<img-2 width={400} height={320}  src-preview="https://content.paodeacucar.com/wp-content/uploads/2017/08/cozinhar-legumes-e-vegetais-capa.jpg" alt="vegetais na cozinha" src="https://content.paodeacucar.com/wp-content/uploads/2017/08/cozinhar-legumes-e-vegetais-capa.jpg"/>
+			<Image
+				width={400}
+				height={320}
+				alt="vegetais na cozinha"
+				src="https://content.paodeacucar.com/wp-content/uploads/2017/08/cozinhar-legumes-e-vegetais-capa.jpg" />
 			<div className={classes.linkText}>
 				Ainda ficou com alguma dúvida? Consulte nossa &nbsp;
 				<div onClick={()=>this.props.history.push("/central-de-ajuda")} className={classes.link}>Central de ajuda</div>

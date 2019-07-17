@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles, Icon, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { Modal } from '..';
+import { Image } from '../../components';
 
 import {
   closeCartWarningModalAction,
@@ -88,14 +89,11 @@ const Card = props => {
   const { product, quantity } = props;
   return (
     <div className='card'>
-      <img-2
+      <Image
         width={40}
         height={40}
         alt={product.name}
-        src={product.imageUrl}
-        src-preview={product.imageUrl}
-        >
-      </img-2>
+        src={product.imageUrl} />
       <div>
         <p className='name' title={product.name}>
           {product.name}

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroller';
-import 'img-2';
 
 import { CatalogProduct, CatalogUnavailableProduct } from '../../../../molecules';
 import { sizes } from '../../../../constants/sizes';

@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { withFirebase } from 'react-redux-firebase';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { withCookies } from 'react-cookie';
 import compose from 'recompose/compose';
-import SmoothScroll from 'smooth-scroll';
 
-import 'img-2';
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';
@@ -113,11 +111,6 @@ class BrowserApp extends BaseContainer {
     });
 
     this.controller.initialFetch();
-
-    // new SmoothScroll('a[href^="#"]', {
-    //   speed: 750,
-    //   speedAsDuration: true
-    // });
   }
 
   _renderFooter(currentPath) {

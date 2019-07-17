@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withStyles, Icon, Select, MenuItem } from '@material-ui/core';
 
 import { Formatter } from '../../helpers';
+import { Image } from '../../components';
 import { QuantitySelector, PeriodicityTooltip } from '../../molecules';
 
 const LIST_PRODUCT_HEIGHT = 72;
@@ -37,11 +38,6 @@ const styles = theme => ({
     position: 'relative',
     height: LIST_PRODUCT_HEIGHT_PX,
     width: LIST_PRODUCT_HEIGHT_PX
-  },
-  image: {
-    '& img': {
-      borderRadius: theme.spacing.unit
-    }
   },
   nameAndPrice: {
     padding: `0 ${2 * theme.spacing.unit}px`,
@@ -158,15 +154,11 @@ class SubscriptionCartProduct extends Component {
       >
         <div className={classes.imageAndInfo}>
           <div className={classes.imageWrapper}>
-            <img-2
-              className={classes.image}
+            <Image
               width={LIST_PRODUCT_HEIGHT}
               height={LIST_PRODUCT_HEIGHT}
               alt={product.name}
-              src={product.imageUrl}
-              src-preview={product.imageUrl}
-              >
-            </img-2>
+              src={product.imageUrl} />
           </div>
           <div className={classes.nameAndPrice}>
             <h4 className={classes.name} title={product.name}>{product.name}</h4>

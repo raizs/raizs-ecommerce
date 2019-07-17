@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import { QuantitySelector } from '..';
 import { sizes } from '../../constants/sizes';
+import { Image } from '../../components';
 
 const MIN_PRODUCT_HEIGHT = sizes.CATALOG_PRODUCT_HEIGHT;
 const MIN_SMALL_PRODUCT_HEIGHT = sizes.SMALL_CATALOG_PRODUCT_HEIGHT;
@@ -38,12 +39,6 @@ const styles = theme => ({
     '&.-small': {
       height: sizes.SMALL_CATALOG_PRODUCT_WIDTH,
       width: sizes.SMALL_CATALOG_PRODUCT_WIDTH,
-    }
-  },
-  image: {
-    '& img': {
-      borderRadius: theme.spacing.unit,
-      zIndex: 0
     }
   },
   brand: {
@@ -81,18 +76,14 @@ let CatalogProduct = props => {
     <div
       id={`product-${product.id}`}
       className={classnames(wrapperClasses)}
-      onClick={()=>openModalProductAction(product)}
+      onClick={() => openModalProductAction(product)}
     >
       <div className={classnames(imageClasses)}>
-        <img-2
-          className={classes.image}
+        <Image
           width={small ? SMALL_WIDTH - 8 : WIDTH - 8}
           height={small ? SMALL_WIDTH - 8 : WIDTH - 8}
           alt={product.name}
-          src={product.imageUrl}
-          src-preview={product.imageUrl}
-          >
-        </img-2>
+          src={product.imageUrl} />
         <QuantitySelector
           item={product}
           maxQuantity={stockQuantity}
