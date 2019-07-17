@@ -32,9 +32,12 @@ const MINIMUM_VALUE = 60; // todo: get from db
 const FREE_SHIPPING_VALUE = 200; // todo: get from db
 
 class Review extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    subtotalError: true
+    this.state = {
+      subtotalError: true
+    }
   }
 
   static propTypes = {

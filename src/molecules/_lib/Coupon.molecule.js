@@ -86,15 +86,16 @@ class Coupon extends BaseContainer {
 
   constructor(props){
     super(props, CouponController);
+    
+    this.state = {
+      couponCode:"teste", 
+      loading:false,
+      searched:false,
+      coupon:null, 
+      errorMsg:""
+    }
   }
 
-  state = {
-    couponCode:"teste", 
-    loading:false,
-    searched:false,
-    coupon:null, 
-    errorMsg:""
-  }
 
   _renderInput(){
     const { classes } = this.props;

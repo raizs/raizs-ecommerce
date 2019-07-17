@@ -49,17 +49,17 @@ class HelpCenter extends BaseContainer{
 
   constructor(props){
     super(props, HelpCenterController)
-  }
-	
-  state = {
-    email:"",
-    name:"",
-    phone:"", 
-    msg: "",
-    emailPartner:"",
-    namePartner:"",
-    phonePartner:"", 
-    msgPartner: ""
+    
+    this.state = {
+      email:"",
+      name:"",
+      phone:"", 
+      msg: "",
+      emailPartner:"",
+      namePartner:"",
+      phonePartner:"", 
+      msgPartner: ""
+    }
   }
 
   componentDidMount() {

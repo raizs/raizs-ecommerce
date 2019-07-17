@@ -131,14 +131,15 @@ const styles = theme => ({
 class OrderCompleted extends BaseContainer {
 
   constructor(props){
-    super(props, OrderCompletedController)
+		super(props, OrderCompletedController)
+		
+		this.state = {
+			loading: true,
+			order: null, 
+			total: 0
+		}
   }
 
-	state = {
-		loading: true,
-		order: null, 
-    total: 0
-	}
 
 	componentDidMount() {
 		document.title = 'Raízs | Pedido finalizado';	

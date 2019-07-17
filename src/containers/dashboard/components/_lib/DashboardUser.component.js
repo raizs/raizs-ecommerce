@@ -153,9 +153,13 @@ const styles = theme => ({
 });
 
 class DashboardUser extends Component {
-  state = {
-    loading: true,
-    chunkSize: 2
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+      chunkSize: 2
+    }
   }
 
   componentWillMount() {

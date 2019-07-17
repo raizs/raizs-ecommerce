@@ -110,15 +110,16 @@ const styles = theme => ({
 class SearchBar extends BaseContainer {
   constructor(props) {
     super(props, SearchBarController);
+
+    this.state = {
+      search: "",
+      errors: {
+        search: null
+      },
+      results: this.props.products.all
+    }
   }
 
-  state = {
-    search: "",
-    errors: {
-      search: null
-    },
-    results: this.props.products.all
-  }
 
   _renderResults() {
     const { classes } = this.props;

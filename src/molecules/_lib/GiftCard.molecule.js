@@ -19,12 +19,12 @@ const styles = theme => ({
 class GiftCard extends BaseContainer {
   constructor(props){
     super(props, GiftCardController);
+    this.state = {
+      value: 0,
+      id: null
+    }
   }
 
-  state = {
-    value: 0,
-    id: null
-  }
 
   componentWillMount(){
     this.controller.getGiftCardValue();

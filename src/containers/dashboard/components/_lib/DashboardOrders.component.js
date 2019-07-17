@@ -34,8 +34,12 @@ const styles = theme => ({
 });
 
 class DashboardOrders extends Component {
-  state = {
-    loading: true
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true
+    }
   }
   
   componentWillMount() {

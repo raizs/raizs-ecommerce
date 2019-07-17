@@ -138,12 +138,13 @@ const styles = theme => ({
 class LandingMobile extends BaseContainer {
   constructor(props) {
     super(props, LandingController);
+    
+    this.state = {
+      newsletterEmail: '',
+      newsletterLoading: false
+    }
   }
 
-  state = {
-    newsletterEmail: '',
-    newsletterLoading: false
-  }
 
   componentWillMount() {
     // if(window.localStorage.getItem('is_first_login'))

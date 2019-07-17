@@ -83,17 +83,17 @@ const actions = {
 class BrowserApp extends BaseContainer {
   constructor(props) {
     super(props, AppController);
-  }
-
-  state = {
-    email: '',
-    password: '',
-    forgotPasswordEmail: '',
-
-    loginLoading: false,
-    emailError: '',
-    passwordError: '',
-    forgotPasswordError: ''
+  
+    this.state = {
+      email: '',
+      password: '',
+      forgotPasswordEmail: '',
+  
+      loginLoading: false,
+      emailError: '',
+      passwordError: '',
+      forgotPasswordError: ''
+    };
   }
 
   async componentDidMount() {

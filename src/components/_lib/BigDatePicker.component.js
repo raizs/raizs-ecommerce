@@ -56,11 +56,15 @@ const styles = theme => ({
 });
 
 class BigDatePicker extends Component {
-  state = {
-    options: MiniDatePickerHelper.generateDatesObject(),
-    selected: MiniDatePickerHelper.generateDatesObject()[0],
-    value: 0,
-    initialSlide: false
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      options: MiniDatePickerHelper.generateDatesObject(),
+      selected: MiniDatePickerHelper.generateDatesObject()[0],
+      value: 0,
+      initialSlide: false
+    }
   }
 
   componentDidMount() {

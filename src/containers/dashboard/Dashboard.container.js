@@ -47,11 +47,12 @@ const styles = theme => ({
 class Dashboard extends BaseContainer {
   constructor(props) {
     super(props, DashboardController);
+
+    this.state = {
+      name: ""
+    }
   }
 
-  state = {
-    name: ""
-  }
 
   componentDidMount() {
     document.title = 'Raízs | Painel';

@@ -73,9 +73,13 @@ const styles = theme => ({
 });
 
 class CartProduct extends Component {
-  state = {
-    loadedImage: false,
-    imageError: false
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      loadedImage: false,
+      imageError: false
+    };
   }
 
   componentDidUpdate() {

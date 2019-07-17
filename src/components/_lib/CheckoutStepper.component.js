@@ -45,9 +45,13 @@ const steps = {
 };
 
 class CheckoutStepper extends Component {
-  state = {
-    activeStepNumber: 0,
-    activeStepId: 'carrinho'
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeStepNumber: 0,
+      activeStepId: 'carrinho'
+    };
   }
 
   componentWillReceiveProps(nextProps) {

@@ -26,9 +26,13 @@ const styles = theme => ({
 });
 
 class ComplementsSection extends Component {
-  state = {
-    isOpen: false,
-    all: `${this.props.section.shortId}Products`,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false,
+      all: `${this.props.section.shortId}Products`,
+    }
   }
 
   _renderContent() {

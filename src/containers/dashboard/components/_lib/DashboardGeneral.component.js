@@ -51,9 +51,12 @@ const styles = theme => ({
 });
 
 class DashboardGeneral extends Component{
+  constructor(props) {
+    super(props);
 
-  state = {
-    loading: true
+    this.state = {
+      loading: true
+    }
   }
 
   componentWillReceiveProps(nextProps) {

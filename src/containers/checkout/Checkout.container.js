@@ -83,56 +83,17 @@ const actions = {
 class Checkout extends BaseContainer {
   constructor(props) {
     super(props, CheckoutController);
-  }
-
-  state = {
-    openedSection: 'user',
-    loading:false,
-    userSectionLoading: false,
-    addressSectionLoading: false,
-    paymentSectionLoading: false,
     
-    isUserSectionDone: false,
-    isAddressSectionDone: false,
-    isPaymentSectionDone: false,
-    loginEmailOrCellphone: '',
-    loginPassword: '',
-    signupName: '',
-    signupLastName: '',
-    signupCpf: '',
-    signupEmail: '',
-    signupCellphone: '',
-    signupPassword: '',
-    signupNews: false,
-
-    currentAddressSection: 'form',
-    addressName: '',
-    addressReceiverName: '',
-    addressCep: '',
-    addressAddress: '',
-    addressNumber: '',
-    addressComplement: '',
-    addressNeighbourhood: '',
-    addressCity: '',
-    addressState: '',
-    addressIsDefault: false,
-    isEditingAddress: false,
-    editingAddressId: null,
-
-    selectedPaymentMethod: 'creditCard',
-    creditCardNumber: '',
-    creditCardName: '',
-    creditCardExp: '',
-    creditCardCvv: '',
-    creditCardShouldSave: true,
-
-    debitCardNumber: '',
-    debitCardName: '',
-    debitCardExp: '',
-    debitCardCvv: '',
-    debitCardShouldSave: '',
-    
-    errors: {
+    this.state = {
+      openedSection: 'user',
+      loading:false,
+      userSectionLoading: false,
+      addressSectionLoading: false,
+      paymentSectionLoading: false,
+      
+      isUserSectionDone: false,
+      isAddressSectionDone: false,
+      isPaymentSectionDone: false,
       loginEmailOrCellphone: '',
       loginPassword: '',
       signupName: '',
@@ -141,6 +102,9 @@ class Checkout extends BaseContainer {
       signupEmail: '',
       signupCellphone: '',
       signupPassword: '',
+      signupNews: false,
+  
+      currentAddressSection: 'form',
       addressName: '',
       addressReceiverName: '',
       addressCep: '',
@@ -150,12 +114,49 @@ class Checkout extends BaseContainer {
       addressNeighbourhood: '',
       addressCity: '',
       addressState: '',
+      addressIsDefault: false,
+      isEditingAddress: false,
+      editingAddressId: null,
+  
+      selectedPaymentMethod: 'creditCard',
       creditCardNumber: '',
       creditCardName: '',
       creditCardExp: '',
-      creditCardCvv: ''
+      creditCardCvv: '',
+      creditCardShouldSave: true,
+  
+      debitCardNumber: '',
+      debitCardName: '',
+      debitCardExp: '',
+      debitCardCvv: '',
+      debitCardShouldSave: '',
+      
+      errors: {
+        loginEmailOrCellphone: '',
+        loginPassword: '',
+        signupName: '',
+        signupLastName: '',
+        signupCpf: '',
+        signupEmail: '',
+        signupCellphone: '',
+        signupPassword: '',
+        addressName: '',
+        addressReceiverName: '',
+        addressCep: '',
+        addressAddress: '',
+        addressNumber: '',
+        addressComplement: '',
+        addressNeighbourhood: '',
+        addressCity: '',
+        addressState: '',
+        creditCardNumber: '',
+        creditCardName: '',
+        creditCardExp: '',
+        creditCardCvv: ''
+      }
     }
   }
+
 
   /**
    * componentDidMount - checks if user is logged in and if it has

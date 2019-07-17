@@ -90,8 +90,12 @@ const styles = theme => ({
  * @extends {Component}
  */
 class Header extends Component {
-  state = {
-    windowWidth: 1024,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      windowWidth: 1024,
+    }
   }
 
   /**

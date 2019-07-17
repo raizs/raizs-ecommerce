@@ -131,12 +131,12 @@ const styles = theme => ({
 class Home extends BaseContainer {
   constructor(props) {
     super(props, HomeController);
+    this.state = {
+      newsletterEmail: '',
+      newsletterLoading: false
+    }
   }
 
-  state = {
-    newsletterEmail: '',
-    newsletterLoading: false
-  }
 
   componentDidMount() {
     document.title = 'Raízs Orgânicos';    

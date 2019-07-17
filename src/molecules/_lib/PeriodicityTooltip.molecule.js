@@ -106,8 +106,12 @@ const styles = theme => ({
 });
 
 class PeriodicityTooltip extends Component {
-  state = {
-    arrowRef: null
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      arrowRef: null
+    }
   }
 
   _handleArrowRef = node => {

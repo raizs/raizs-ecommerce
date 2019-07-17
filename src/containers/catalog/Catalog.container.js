@@ -107,16 +107,17 @@ const actions = {
 class Catalog extends BaseContainer {
   constructor(props) {
     super(props, CatalogController);
+    
+    this.state = {
+      loading: true,
+      filter: "popularity",
+      ascending: false,
+      shouldDisplayBackButton: false,
+  
+      currentSectionId: ''
+    }
   }
 
-  state = {
-    loading: true,
-    filter: "popularity",
-    ascending: false,
-    shouldDisplayBackButton: false,
-
-    currentSectionId: ''
-  }
 
   static propTypes = {
     classes: PropTypes.object,

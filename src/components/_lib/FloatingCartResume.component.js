@@ -59,9 +59,12 @@ const styles = theme => ({
   }
 });
 class FloatingCartResume extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    open: true,
+    this.state = {
+      open: true,
+    }
   }
 
   _renderExpandableButton(){

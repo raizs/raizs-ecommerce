@@ -27,10 +27,14 @@ const styles = theme => ({
  * @extends {Component}
  */
 class About extends Component {
-  state = {
-    expanded: Boolean(this.props.location.hash),
-    aboutUsHeight: window.innerHeight - 96,
-    initialScroll: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      expanded: Boolean(this.props.location.hash),
+      aboutUsHeight: window.innerHeight - 96,
+      initialScroll: false
+    }
   }
 
   static propTypes = {

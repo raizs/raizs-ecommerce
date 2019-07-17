@@ -61,20 +61,20 @@ const styles = theme => ({
 const initialMsg = "Digite seu CEP e veja se entregamos na sua região.";
 
 class SimpleCepChecker extends BaseContainer {
-
   constructor(props) {
     super(props, CepCheckerController);
+
+    this.state = {
+      loading: false,
+      cep: "",
+      code: '',
+      msg: initialMsg,
+      searched: false,
+      success: false, 
+      description: ""
+    }
   }
 
-  state = {
-    loading: false,
-    cep: "",
-    code: '',
-    msg: initialMsg,
-    searched: false,
-    success: false, 
-    description: ""
-  }
   
   _renderDescription() {
 

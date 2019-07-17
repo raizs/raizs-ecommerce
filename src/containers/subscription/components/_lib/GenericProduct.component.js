@@ -139,8 +139,12 @@ const styles = theme => ({
 });
 
 class GenericProduct extends Component {
-  state = {
-    arrowRef: null
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      arrowRef: null
+    }
   }
 
   _renderTooltip = id => {

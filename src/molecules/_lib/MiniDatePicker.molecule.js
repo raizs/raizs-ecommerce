@@ -34,10 +34,14 @@ const styles = theme => ({
 });
 
 class MiniDatePicker extends Component {
-  state = {
-    options: MiniDatePickerHelper.generateDatesObject(),
-    selected: MiniDatePickerHelper.generateDatesObject()[0],
-    value: 0
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      options: MiniDatePickerHelper.generateDatesObject(),
+      selected: MiniDatePickerHelper.generateDatesObject()[0],
+      value: 0
+    }
   }
 
   componentWillMount() {

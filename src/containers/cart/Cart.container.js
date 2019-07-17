@@ -100,15 +100,16 @@ const actions = {
 class Cart extends BaseContainer {
   constructor(props) {
     super(props, CartController);
+    
+    this.state = {
+      cep: '',
+      shipping: null,
+      cepLoading: false,
+      cepSuccess: false,
+      cepError: false,
+    }
   }
 
-  state = {
-    cep: '',
-    shipping: null,
-    cepLoading: false,
-    cepSuccess: false,
-    cepError: false,
-  }
 
   static propTypes = {
     classes: PropTypes.object,

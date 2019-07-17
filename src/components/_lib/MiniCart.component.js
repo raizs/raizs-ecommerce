@@ -136,9 +136,12 @@ const styles = theme => ({
 });
 
 class MiniCart extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    currentSection: 'cart'
+    this.state = {
+      currentSection: 'cart'
+    }
   }
 
   componentDidMount() {

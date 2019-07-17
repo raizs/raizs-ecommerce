@@ -31,9 +31,12 @@ const styles = theme => ({
 });
 
 class ProductExtraInfos extends Component{
+  constructor(props) {
+    super(props);
 
-  state = {
-    selected:"moreInfo"
+    this.state = {
+      selected:"moreInfo"
+    }
   }
 
   _renderMenuTopics() {

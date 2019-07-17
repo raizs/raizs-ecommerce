@@ -64,8 +64,12 @@ const styles = theme => ({
 });
 
 class CollapsibleTimelineItem extends Component {
-  state = {
-    isOpen: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false
+    }
   }
 
   static propTypes = {

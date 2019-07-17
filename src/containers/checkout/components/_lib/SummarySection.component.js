@@ -106,8 +106,12 @@ const styles = theme => ({
 });
 
 class SummarySection extends Component {
-  state = {
-    dates: MiniDatePickerHelper.generateDatesObject()
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dates: MiniDatePickerHelper.generateDatesObject()
+    }
   }
 
   _renderProducts(key = null) {

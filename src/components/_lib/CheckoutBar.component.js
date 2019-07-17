@@ -112,9 +112,12 @@ const styles = theme => ({
 });
  
 class CheckoutBar extends Component {
-
-  state = {
-    open:false
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      open:false
+    }
   }
 
   _renderResumes(title, subtotal, itemsCount){

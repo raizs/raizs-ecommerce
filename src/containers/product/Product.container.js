@@ -58,12 +58,13 @@ class Product extends BaseContainer {
 
   constructor(props){
     super(props, ProductController)
+    
+    this.state = {
+      loading: true,
+      product:null
+    }
   }
 
-	state = {
-    loading: true,
-    product:null
-	}
 
   
   componentWillMount(){

@@ -56,10 +56,13 @@ const styles = theme => ({
 });
 
 class DashboardGeneralForm extends BaseContainer {
+  constructor(props) {
+    super(props);
 
-  state = {
-    loading: true,
-    errors: {}
+    this.state = {
+      loading: true,
+      errors: {}
+    }
   }
   
   componentWillMount() {

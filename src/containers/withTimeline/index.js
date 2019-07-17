@@ -9,14 +9,18 @@ const defaultOptions = {
 
 const withTimeline = (options = defaultOptions) => WrappedComponent => {
   return class extends React.Component {
-    state = {
-      initialScroll: false,
-      timelineData: {
-        availableWidth: 1024 - TIMELINE_MAX_WIDTH,
-        timelineWidth: TIMELINE_MAX_WIDTH,
-        shouldFixTimeline: false,
-        offsets: [],
-        currentSectionId: ''
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        initialScroll: false,
+        timelineData: {
+          availableWidth: 1024 - TIMELINE_MAX_WIDTH,
+          timelineWidth: TIMELINE_MAX_WIDTH,
+          shouldFixTimeline: false,
+          offsets: [],
+          currentSectionId: ''
+        }
       }
     }
     

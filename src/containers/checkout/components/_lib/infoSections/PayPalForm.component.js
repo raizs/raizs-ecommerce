@@ -21,14 +21,14 @@ class PayPalForm extends BaseContainer {
   constructor(props) {
     super(props, PayPalController);
     this.payPalRepo = new PayPalRepository();
+  
+    this.state = {
+      showButton:false
+    }
   }
 
   componentDidMount() {
     this.controller.setCheckoutButton()
-  }
-
-  state = {
-    showButton:false
   }
 
   render() {

@@ -67,11 +67,15 @@ const styles = theme => ({
 });
 
 class SimplePopper extends Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    connected: this.props.open !== null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      anchorEl: null,
+      open: false,
+      connected: this.props.open !== null
+    };
+  }
   
   componentDidMount() {
     const context = this;

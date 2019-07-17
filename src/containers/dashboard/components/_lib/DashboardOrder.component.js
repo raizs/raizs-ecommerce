@@ -96,9 +96,13 @@ const styles = theme => ({
 });
 
 class DashboardOrder extends Component {
-  state = {
-    loading: true,
-    cart: null
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+      cart: null
+    }
   }
 
   componentWillMount() {

@@ -37,9 +37,12 @@ const styles = theme => {
 
 
 class TermsAndConditions extends Component{
+  constructor(props) {
+    super(props);
 
-  state = {
-    open:false
+    this.state = {
+      open:false
+    }
   }
 
   _renderText(){

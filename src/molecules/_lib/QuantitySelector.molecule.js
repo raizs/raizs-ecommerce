@@ -148,9 +148,13 @@ const styles = theme => ({
 });
 
 class QuantitySelector extends Component {
-  state = {
-    quantity: this.props.quantity,
-    item: this.props.item
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      quantity: this.props.quantity,
+      item: this.props.item
+    }
   }
 
   componentWillReceiveProps(nextProps) {

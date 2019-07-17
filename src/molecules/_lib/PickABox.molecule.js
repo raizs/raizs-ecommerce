@@ -31,8 +31,12 @@ const styles = theme => ({
 });
 
 class PickABox extends Component {
-  state = {
-    width: 120
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      width: 120
+    }
   }
 
   static propTypes = {

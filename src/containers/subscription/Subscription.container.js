@@ -24,16 +24,17 @@ const actions = {
 class Subscription extends BaseContainer {
   constructor(props) {
     super(props, SubscriptionController);
+    
+    this.state = {
+      cep: '',
+      cepLoading: false,
+      cepSuccess: false,
+      cepError: false,
+      shippingValue: '',
+      coupon: ''
+    }
   }
 
-  state = {
-    cep: '',
-    cepLoading: false,
-    cepSuccess: false,
-    cepError: false,
-    shippingValue: '',
-    coupon: ''
-  }
 
   componentDidMount() {
     document.title = 'Raízs | Assinatura';

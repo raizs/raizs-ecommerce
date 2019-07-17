@@ -103,13 +103,17 @@ const styles = theme => ({
 });
 
 class Generics extends Component {
-  state = {
-    isModalOpen: false,
-    restrictions: '',
-    preferences: '',
-    currentObservations: {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalOpen: false,
       restrictions: '',
-      preferences: ''
+      preferences: '',
+      currentObservations: {
+        restrictions: '',
+        preferences: ''
+      }
     }
   }
 

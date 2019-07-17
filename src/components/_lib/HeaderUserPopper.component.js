@@ -82,8 +82,12 @@ const styles = theme => ({
 });
 
 class HeaderUserPopper extends Component {
-  state = {
-    forgotPassword: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      forgotPassword: false
+    }
   }
   
   _renderLoggedInPopper = (classes, toLoggedIn) => {

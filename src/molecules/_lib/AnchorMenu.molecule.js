@@ -32,8 +32,12 @@ const styles = theme => ({
 
 
 class AnchorMenu extends Component{
-  state = {
-    hash: ""
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hash: ""
+    }
   }
 
   _renderMenuItems() {

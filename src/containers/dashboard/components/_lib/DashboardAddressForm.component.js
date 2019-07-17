@@ -70,12 +70,12 @@ const styles = theme => ({
 class DashboardAddressForm extends BaseContainer {
   constructor(props) {
     super(props, DashboardFormsController);
-  }
-
-  state = {
-    loading: false,
-    new: true,
-    errors: {}
+  
+    this.state = {
+      loading: false,
+      new: true,
+      errors: {}
+    }
   }
 
   getRandomNewUser() {

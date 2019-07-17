@@ -81,8 +81,12 @@ const styles = theme => ({
 });
 
 class CartCheckout extends Component {
-  state = {
-    subscriptionName: ''
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      subscriptionName: ''
+    }
   }
 
   componentDidMount() {

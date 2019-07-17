@@ -38,9 +38,12 @@ const styles = theme => {
 
 
 class FAQTopic extends Component{
+  constructor(props) {
+    super(props);
 
-  state = {
-    open:false
+    this.state = {
+      open:false
+    }
   }
 
   _renderQuestions() {

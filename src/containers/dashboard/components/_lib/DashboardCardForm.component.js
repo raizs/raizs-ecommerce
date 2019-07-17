@@ -69,12 +69,12 @@ const styles = theme => ({
 class DashboardCardForm extends BaseContainer{
   constructor(props) {
     super(props, DashboardFormsController)
-  }
-
-  state = {
-    loading: false,
-    new: true,
-    errors: {}
+  
+    this.state = {
+      loading: false,
+      new: true,
+      errors: {}
+    }
   }
 
   getRandomNewCard() {

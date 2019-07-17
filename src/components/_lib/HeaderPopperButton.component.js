@@ -95,12 +95,16 @@ const styles = theme => ({
  * @extends {Component}
  */
 class HeaderPopperButton extends Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    timeout: null,
-    arrowRef: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      anchorEl: null,
+      open: false,
+      timeout: null,
+      arrowRef: null
+    };
+  }
 
   /**
    * _handleArrowRef - method to place the popper arrow correctly

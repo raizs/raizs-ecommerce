@@ -32,8 +32,12 @@ const styles = theme => ({
 });
 
 class DashboardSubscriptions extends Component {
-  state = {
-    loading: true
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true
+    }
   }
   
   componentWillMount() {

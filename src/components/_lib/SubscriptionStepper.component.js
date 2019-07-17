@@ -48,9 +48,13 @@ const steps = {
 };
 
 class SubscriptionStepper extends Component {
-  state = {
-    activeStepNumber: 0,
-    activeStepId: 'genericos'
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeStepNumber: 0,
+      activeStepId: 'genericos'
+    }
   }
 
   componentWillReceiveProps(nextProps) {
