@@ -46,13 +46,13 @@ export default class BaseController {
     
     if(!isSub) {
       const cookieSubCart = cookies.get('subCart');
-      cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 3600 });
-      cookies.set('subCart', cookieSubCart, { path: '/', maxAge: 3600 });
+      cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 7200 });
+      cookies.set('subCart', cookieSubCart, { path: '/', maxAge: 7200 });
     }
     else {
       const cookieCart = cookies.get('cart');
-      cookies.set('cart', cookieCart, { path: '/', maxAge: 3600 })
-      cookies.set('subCart', newCart.getCookie(), { path: '/', maxAge: 3600 })
+      cookies.set('cart', cookieCart, { path: '/', maxAge: 7200 })
+      cookies.set('subCart', newCart.getCookie(), { path: '/', maxAge: 7200 })
     }
 	}
 

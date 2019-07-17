@@ -138,12 +138,12 @@ export class AppController extends BaseController {
         
         if(!cartPromise.err) {
           const newCart = cart.setId(cartPromise.data.id);
-          cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 3600 });
+          cookies.set('cart', newCart.getCookie(), { path: '/', maxAge: 7200 });
           updateCartAction(newCart);
           
           if(!cookieSubCart || !cookieSubCart.id) {
             const newSubCart = subscriptionCart.setId(cartPromise.data.id);
-            cookies.set('subCart', newSubCart.getCookie(), { path: '/', maxAge: 3600 });
+            cookies.set('subCart', newSubCart.getCookie(), { path: '/', maxAge: 7200 });
             updateSubscriptionCartAction(newSubCart);
           }
 

@@ -64,9 +64,11 @@ export {
   SET_PRODUCTS,
   SET_NEW_PRODUCTS,
   SET_POPULAR_PRODUCTS,
+  SET_CURRENT_PRODUCT,
   setProductsAction,
   setNewProductsAction,
-  setPopularProductsAction
+  setPopularProductsAction,
+  setCurrentProductAction,
 } from './_lib/products.actions';
 
 export {

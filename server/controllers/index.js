@@ -2,18 +2,18 @@ import express from "express";
 
 import serverRenderer from '../middleware/renderer';
 import configureStore from '../../src/store/configureStore';
-import { setAsyncMessageAction } from '../../src/store/reducers';
+import { setCurrentProductAction } from '../../src/store/actions';
 
 const router = express.Router();
 const path = require("path");
 
 
-const actionIndex = (req, res, next) => {
+const actionIndex = async (req, res, next) => {
     const store = configureStore();
-    store.dispatch(setAsyncMessageAction("Hi, I'm from server!"))
-        .then(() => {
-            serverRenderer(store)(req, res, next);
-        });
+    await store.dispatch(setCurrentProductAction("VAI FDP"))
+
+    serverRenderer(store)(req, res, next);
+
 };
 
 

@@ -6,7 +6,6 @@ import { withFirebase } from 'react-redux-firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import { withCookies } from 'react-cookie';
 import compose from 'recompose/compose';
-
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,28 +32,30 @@ import {
   openCartWarningModalAction
 } from './store/actions';
 
-import { Header, TopHeader, Footer, BottomHeader, CartWarningModal } from './components';
-import { About } from './containers/about';
-import { Cart } from './containers/cart';
-import { Catalog } from './containers/catalog';
-import { Checkout } from './containers/checkout';
-import { Home } from './containers/home';
-import { Home2 } from './containers/home2';
-import { Home3 } from './containers/home3';
-import { Landing } from './containers/landing';
-import { OrderCompleted } from './containers/orderCompleted';
-import { NotFound } from './containers/notFound';
-import { HowItWorks } from './containers/howItWorks';
-import { Dashboard } from './containers/dashboard';
-import { Product } from './containers/product';
-import { HelpCenter } from './containers/helpCenter';
-import { BaseContainer } from './helpers';
-import { Subscription } from './containers/subscription';
 import { AppController } from './App.controller';
-import { Families } from './containers/families';
-import ProductModal from './containers/product/ProductModal.container'
-import { ConfirmationModal } from './containers/confirmationModal'
-import { Loading } from './molecules';
+
+import { BaseContainer } from './helpers';
+
+// import { Header, TopHeader, Footer, BottomHeader, CartWarningModal } from './components';
+// import { About } from './containers/about';
+// import { Cart } from './containers/cart';
+// import { Catalog } from './containers/catalog';
+// import { Checkout } from './containers/checkout';
+// import { Home } from './containers/home';
+// import { Home2 } from './containers/home2';
+// import { Home3 } from './containers/home3';
+// import { Landing } from './containers/landing';
+// import { OrderCompleted } from './containers/orderCompleted';
+// import { NotFound } from './containers/notFound';
+// import { HowItWorks } from './containers/howItWorks';
+// import { Dashboard } from './containers/dashboard';
+// import { Product } from './containers/product';
+// import { HelpCenter } from './containers/helpCenter';
+// import { Subscription } from './containers/subscription';
+// import { Families } from './containers/families';
+// import ProductModal from './containers/product/ProductModal.container'
+// import { ConfirmationModal } from './containers/confirmationModal'
+// import { Loading } from './molecules';
 
 const actions = {
   closeUserPopperAction,
@@ -94,48 +95,53 @@ class BrowserApp extends BaseContainer {
     };
   }
 
-  async componentDidMount() {
-    this.props.firebase.auth().onAuthStateChanged(user => {
-      if(user) {
-        this.controller.fetchPgUser(user);
-        toast(`Bem vindo(a), ${user.displayName}!`, { autoClose: 3500, position: toast.POSITION.BOTTOM_RIGHT });
-      }
-      else {
-        this.props.setUserAction(null);
-        this.props.setUserAddressesAction(null);
-        this.props.selectUserAddressAction(null);
-        this.props.setCardsAction(null);
-        this.props.selectCardAction(null);
-        this.props.setCepAction(null);
-      }
-    });
+  // async componentDidMount() {
+  //   this.props.firebase.auth().onAuthStateChanged(user => {
+  //     if(user) {
+  //       this.controller.fetchPgUser(user);
+  //       toast(`Bem vindo(a), ${user.displayName}!`, { autoClose: 3500, position: toast.POSITION.BOTTOM_RIGHT });
+  //     }
+  //     else {
+  //       this.props.setUserAction(null);
+  //       this.props.setUserAddressesAction(null);
+  //       this.props.selectUserAddressAction(null);
+  //       this.props.setCardsAction(null);
+  //       this.props.selectCardAction(null);
+  //       this.props.setCepAction(null);
+  //     }
+  //   });
 
-    this.controller.initialFetch();
-  }
+  //   this.controller.initialFetch();
 
-  _renderTopHeader(currentPath) {
-    const { history, selectedDate } = this.props;
-    const { handleSelectDate } = this.controller;
+  //   // new SmoothScroll('a[href^="#"]', {
+  //   //   speed: 750,
+  //   //   speedAsDuration: true
+  //   // });
+  // }
 
-    return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && (
-      <TopHeader history={history} handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
-    );
-  }
+  // _renderTopHeader(currentPath) {
+  //   const { history, selectedDate } = this.props;
+  //   const { handleSelectDate } = this.controller;
 
-  _renderBottomHeader(currentPath) {
-    const { selectedDate } = this.props;
-    const { handleSelectDate } = this.controller;
+  //   return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && (
+  //     <TopHeader history={history} handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
+  //   );
+  // }
 
-    return ['assinatura'].includes(currentPath) && (
-      <BottomHeader handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
-    );
-  }
+  // _renderBottomHeader(currentPath) {
+  //   const { selectedDate } = this.props;
+  //   const { handleSelectDate } = this.controller;
 
-  _renderFooter(currentPath) {
-    const { history } = this.props;
+  //   return ['assinatura'].includes(currentPath) && (
+  //     <BottomHeader handleSelectDate={handleSelectDate} selectedDate={selectedDate} />
+  //   );
+  // }
 
-    return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && <Footer history={history} />;
-  }
+  // _renderFooter(currentPath) {
+  //   const { history } = this.props;
+
+  //   return !['assinatura', 'carrinho', 'checkout'].includes(currentPath) && <Footer history={history} />;
+  // }
   
 	render() {
     const {
@@ -203,8 +209,13 @@ class BrowserApp extends BaseContainer {
         logout
       }
     };
+    console.log(this.props.product);
+    return <div>
+      <h2>TESTE</h2>
+      <h1>{this.props.product}</h1>
+    </div>
 
-		return (
+		/*return (
       <div className='App' style={{ backgroundColor: '#EFEFEF' }}>
         {showFixedLoading && <Loading fixed />}
         <ProductModal />
@@ -239,8 +250,8 @@ class BrowserApp extends BaseContainer {
           </Switch>
         </div>
         {this._renderFooter(currentPath)}
-      </div>
-    );
+      </div>*/
+    // );
   }
 }
 
@@ -255,7 +266,8 @@ const mapStateToProps = state => ({
   selectedDate: state.datePicker.selected,
   dateObj: state.datePicker.obj,
   products: state.products.model,
-  showFixedLoading: state.loading.showFixed
+  showFixedLoading: state.loading.showFixed,
+  product: state.products.currentProduct
 });
 
 export default compose(

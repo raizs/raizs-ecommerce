@@ -6,7 +6,6 @@ import { withFirebase } from 'react-redux-firebase';
 import { toast } from 'react-toastify';
 import { withCookies } from 'react-cookie';
 import compose from 'recompose/compose';
-
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';
