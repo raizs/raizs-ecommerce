@@ -1,6 +1,6 @@
 import { SET_USER_ADDRESSES, SELECT_USER_ADDRESS } from "../../actions";
 import { Cache } from "../../../helpers";
-import { UserAddresses, UserAddress } from "../../../entities";
+import { UserAddresses } from "../../../entities";
 
 const cachedUserAddresses = Cache.getItem('userAddresses');
 const model = cachedUserAddresses ? new UserAddresses(cachedUserAddresses) : null;

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
-
 
 import Slider from "react-slick"
 import {SliderArrow } from "./SliderArrow.molecule"
 
-const hardCordedFamilies=[
+const hardCordedFamilies = [
   {
     id:"1",
     name:"Silva",
@@ -44,25 +43,23 @@ const hardCordedFamilies=[
   },
 ]
 
-
-
 const styles = theme => ({
-  slider:{
+  slider: {
     paddingRight:"50px",
     width: "400px",
     height:"50px",
   },
-  img:{
+  img: {
     display:"inline-block",
     verticalAlign:"middle"
     
   },
-  familyBox:{
+  familyBox: {
     overflow:"hidden",
     height:"50px",
     paddingTop:theme.spacing.unit
   },
-  familyName:{
+  familyName: {
     fontSize:theme.fontSizes.XS,
     display:"inline-block",
     fontFamily:"raizs",
@@ -71,7 +68,7 @@ const styles = theme => ({
     width:"68px",
     paddingLeft:"4px",
   },
-  title:{
+  title: {
     marginTop:4*theme.spacing.unit,
     fontSize: theme.fontSizes.SM,
     fontWeight: 800,
@@ -79,13 +76,9 @@ const styles = theme => ({
   }
 });
 
-
 class ProductFamilies extends Component{
-  constructor(props){
-    super(props)
-  }
 
-  _renderFamilies(){
+  _renderFamilies() {
 
     const { classes } = this.props;
     const families = [...hardCordedFamilies];
@@ -109,15 +102,16 @@ class ProductFamilies extends Component{
     
   }
 
-  render(){
-    const { classes, product  } = this.props;
+  render() {
+    const { classes } = this.props;
     const settings = {
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 1,
-    nextArrow: <SliderArrow to='next' styles={{width:"40px", height:"40px"}}/>,
+      nextArrow: <SliderArrow to='next' styles={{width:"40px", height:"40px"}}/>,
       className: classes.slider
     };
+
     return (
       <span>
         <div className={classes.title}>Famílias Produtoras</div>        
@@ -125,7 +119,7 @@ class ProductFamilies extends Component{
           {this._renderFamilies()}
         </Slider>
       </span>
-          )
+    );
   }
 };
 

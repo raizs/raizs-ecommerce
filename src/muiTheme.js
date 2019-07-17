@@ -102,6 +102,13 @@ const theme = createMuiTheme({
       fontFamily: 'raizs',
       textAlign: 'center'
     },
+    raizsMobile: {
+      fontWeight: 400,
+      fontSize: XL,
+      lineHeight: '32px',
+      fontFamily: 'raizs',
+      textAlign: 'center'
+    },
     textEllipsis: {
       textOverflow: 'ellipsis',
       overflow: 'hidden',

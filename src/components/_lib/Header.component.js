@@ -74,12 +74,11 @@ const styles = theme => ({
   },
   backdrop:{
     position:"fixed",
-    top:0,
     zIndex:3,
     backgroundColor:"rgba(0,0,0, 0.1)",
     width:"100%",
     height:"100vh",
-    top:12*theme.spacing.unit,
+    top:12 * theme.spacing.unit,
 
   }
 });

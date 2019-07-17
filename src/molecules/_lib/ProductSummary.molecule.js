@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import classnames from "classnames"

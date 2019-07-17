@@ -59,31 +59,31 @@ const styles = theme => ({
   }
 });
 
-/**
- * _renderMoreInfo - Function to render the right part of tooltip
- *
- * @param {String} img - Image URL
- * @param {String} title - Title to be rendered
- * @param {String} description - Description to be rendered
- * @param {Function} clickAction - Action to be called
- */
-const _renderMoreInfo = ({ img, title, description, clickAction }, classes) => {
-  return (
-    <div className={classes.moreInfo}>
-      <div
-        className='image'
-        style={{ backgroundImage: 'url(http://www.comidadibuteco.com.br/wp-content/themes/cdb2013/assets/img/petiscos/BeloHorizonte/OK_222_SimplesAssimsqn_BeloHorizonte_2018_JuliaFilogonio.jpg)' }}
-      />
-      <div className='title'>
-        TÍTULO
-      </div>
-      <div className={classes.description}>
-        Alguma descrição vai aqui, pode ser um pouco mais longa
-      </div>
-      <button onClick={clickAction} className={classes.moreInfoButton}>COMPRAR</button>
-    </div>
-  );
-};
+// /**
+//  * _renderMoreInfo - Function to render the right part of tooltip
+//  *
+//  * @param {String} img - Image URL
+//  * @param {String} title - Title to be rendered
+//  * @param {String} description - Description to be rendered
+//  * @param {Function} clickAction - Action to be called
+//  */
+// const _renderMoreInfo = ({ img, title, description, clickAction }, classes) => {
+//   return (
+//     <div className={classes.moreInfo}>
+//       <div
+//         className='image'
+//         style={{ backgroundImage: 'url(http://www.comidadibuteco.com.br/wp-content/themes/cdb2013/assets/img/petiscos/BeloHorizonte/OK_222_SimplesAssimsqn_BeloHorizonte_2018_JuliaFilogonio.jpg)' }}
+//       />
+//       <div className='title'>
+//         TÍTULO
+//       </div>
+//       <div className={classes.description}>
+//         Alguma descrição vai aqui, pode ser um pouco mais longa
+//       </div>
+//       <button onClick={clickAction} className={classes.moreInfoButton}>COMPRAR</button>
+//     </div>
+//   );
+// };
 
 const _renderSubcategories = (categoryId, classes, history) => {
   const subs = subcategories[categoryId];

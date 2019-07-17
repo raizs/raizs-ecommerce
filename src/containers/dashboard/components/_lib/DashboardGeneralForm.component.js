@@ -1,17 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
-import classnames from "classnames";
 import { connect } from "react-redux";
-import { Loading, TextInput } from '../../../../molecules';
-import { DashboardFormsController } from "../../DashboardForms.controller"
+import { TextInput } from '../../../../molecules';
 import { BaseContainer } from '../../../../helpers';
 import { dashboardGeneralForm } from "../../../../assets";
 
-import {
-  setUserAction,
-} from '../../../../store/actions';
+import { setUserAction } from '../../../../store/actions';
 
 const styles = theme => ({
   wrapper: {
@@ -59,7 +55,7 @@ const styles = theme => ({
   }
 });
 
-class DashboardGeneralForm extends BaseContainer{
+class DashboardGeneralForm extends BaseContainer {
 
   state = {
     loading: true,
@@ -73,7 +69,7 @@ class DashboardGeneralForm extends BaseContainer{
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user) {
+    if (nextProps.user && !this.props.user) {
       this.controller.userApiToState(nextProps.user)
     }
   }
@@ -83,22 +79,23 @@ class DashboardGeneralForm extends BaseContainer{
     const { classes } = this.props;
     return dashboardGeneralForm.map(field => {
       return <div className={classes.inputBox}>
-      <TextInput 
-        className={classes.inputValue}
-        id={field.id}
-        error={this.state.errors[field.id]}
-        value={this.state[field.id]}
-        handleChange={e => handleChange(e, field.format)}
-        label={field.label}
-        labelClassName={classes.inputLabel}
+        <TextInput 
+          className={classes.inputValue}
+          id={field.id}
+          error={this.state.errors[field.id]}
+          value={this.state[field.id]}
+          handleChange={e => handleChange(e, field.format)}
+          label={field.label}
+          labelClassName={classes.inputLabel}
         />
       </div>
     });
   }
 
   render() {
-    const { updateUser } = this.controller
-    const { classes } = this.props
+    const { updateUser } = this.controller;
+    const { classes } = this.props;
+
     return (
       <div className={classes.wrapper}>
         <form className={classes.form}>
@@ -123,5 +120,6 @@ DashboardGeneralForm = compose(
   withStyles(styles),
   withRouter,
   connect(mapStateToProps, { setUserAction })
-  )(DashboardGeneralForm);
-  export { DashboardGeneralForm }
+)(DashboardGeneralForm);
+
+export { DashboardGeneralForm }

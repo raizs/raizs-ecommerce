@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import React from 'react';
+import { withStyles, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import classnames from "classnames";
@@ -9,10 +9,7 @@ import { DashboardFormsController } from "../../DashboardForms.controller"
 import { BaseContainer } from '../../../../helpers';
 import { dashboardCardForm } from "../../../../assets";
 
-import {
-  setUserAction,
-  setCardsAction
-} from '../../../../store/actions';
+import { setUserAction, setCardsAction } from '../../../../store/actions';
 
 const styles = theme => ({
   wrapper: {
@@ -23,7 +20,7 @@ const styles = theme => ({
     width:"100%",
     position:"relative"
   },
-  form:{
+  form: {
     width:"100%",
     maxWidth:"800px",
     padding:5*theme.spacing.unit,
@@ -31,35 +28,34 @@ const styles = theme => ({
     backgroundColor: "white",
     borderRadius: theme.spacing.unit,
   },
-  inputBox:{
+  inputBox: {
     width:"50%",
     display:"inline-block",
     verticalAlign:"top",
     height:"76px"
   },
-  small:{
+  small: {
     width:"25%"
   },
-  big:{
+  big: {
     width:"75%"
   },
-  inputLabel:{
+  inputLabel: {
     fontSize: theme.fontSizes.XS,
     fontWeight:800,
     color: theme.palette.black.main,
     marginBottom: theme.spacing.unit
   },
-  inputValue:{
+  inputValue: {
     ...theme.inputs.text,
-    "&>input":{
+    "&>input": {
       fontSize: theme.fontSizes.XS,
       height: "40px"
-
     }
   },
   checkboxInput: theme.inputs.checkbox,
   checkedCheckboxInput: theme.inputs.checkedCheckbox,
-  buttonBox:{
+  buttonBox: {
   	textAlign:"center"
   },
   button: {

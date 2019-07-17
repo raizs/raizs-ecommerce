@@ -8,4 +8,10 @@ const Landing = Loadable({
 	modules: ['landing']
 });
 
-export { Landing };
+const LandingMobile = Loadable({
+	loader: () => import(/* webpackChunkName: "landing-mobile" */ './Landing.container.mobile'),
+	loading: () => <Loading />,
+	modules: ['landing-mobile']
+});
+
+export { Landing, LandingMobile };

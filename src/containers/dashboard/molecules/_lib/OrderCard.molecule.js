@@ -1,7 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
 import { withStyles, Button } from '@material-ui/core';
-import { CartHelper } from '../../../../helpers';
 
 const styles = theme => ({
   wrapper: {

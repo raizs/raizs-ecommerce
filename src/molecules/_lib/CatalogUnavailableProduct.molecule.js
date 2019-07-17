@@ -12,7 +12,6 @@ const styles = theme => ({
     display: 'inline-block',
     margin: 2 * theme.spacing.unit,
     borderRadius: theme.spacing.unit,
-    display: 'inline-block',
     backgroundColor: 'white',
     overflow: 'hidden',
     cursor: 'pointer',

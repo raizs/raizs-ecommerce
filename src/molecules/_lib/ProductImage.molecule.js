@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react';
 import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import 'img-2';
@@ -23,8 +23,8 @@ let ProductImage = props => {
         alt={description}
         src={src}
         src-preview={src}
-        >
-        </img-2>
+      >
+      </img-2>
     </div>
   );
 };

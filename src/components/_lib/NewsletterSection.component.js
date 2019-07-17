@@ -2,8 +2,6 @@ import React from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import { Loading } from '../../molecules';
 
-const N = 8;
-
 const styles = theme => ({
   wrapper: {
     position: 'relative',

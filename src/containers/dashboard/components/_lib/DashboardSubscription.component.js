@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles, Icon, Button, Select, MenuItem } from '@material-ui/core';
+import { withStyles, Icon, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import { connect } from "react-redux";
@@ -197,11 +197,8 @@ class DashboardSubscription extends Component {
     const {
       saleSubscription: {
         totalPrice,
-        shippingTimeRange,
         state,
-        stateString,
-        shippingEstimatedDate,
-        shippingEstimatedWeekDay
+        stateString
       }
     } = this.props
 

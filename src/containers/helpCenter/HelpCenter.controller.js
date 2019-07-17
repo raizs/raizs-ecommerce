@@ -1,4 +1,4 @@
-import { BaseController, Formatter } from "../../helpers";
+import { BaseController } from "../../helpers";
 import { MailRepository } from "../../repositories";
 import { toast } from 'react-toastify';
 toast.configure({
@@ -6,7 +6,6 @@ toast.configure({
   draggable: false,
   type:"error"
 });
-
 
 export class HelpCenterController extends BaseController {
 
@@ -19,12 +18,11 @@ export class HelpCenterController extends BaseController {
     this.mailRepo = new MailRepository();
   }
 
-
   handleChange(e, format) {
     this.toState(this.baseHandleChange(e, format, null));
   }
 
-  async sendContactEmail(){
+  async sendContactEmail() {
     const { name, email, msg, phone } = this.getState();
     const promise = await this.mailRepo.sendContactEmail({
       name,
@@ -32,17 +30,15 @@ export class HelpCenterController extends BaseController {
       msg,
       phone
     });
-    if (promise.err){
-      toast("Ocorreu um erro ao tentar enviar seu email. Confira as informações digitadas")
+    if (promise.err) {
+      toast("Ocorreu um erro ao tentar enviar seu email. Confira as informações digitadas.")
     }
     else{
       toast("Email enviado com sucesso")
     }
-
-
   }
 
-  async sendBePartnerEmail(){
+  async sendBePartnerEmail() {
     const { namePartner, emailPartner, msgPartner, phonePartner } = this.getState();
     const promise = await this.mailRepo.sendBePartnerEmail({
       name: namePartner,
@@ -50,8 +46,8 @@ export class HelpCenterController extends BaseController {
       msg: msgPartner,
       phone: phonePartner
     });
-    if (promise.err){
-      toast("Ocorreu um erro ao tentar enviar seu email. Confira as informações digitadas")
+    if (promise.err) {
+      toast("Ocorreu um erro ao tentar enviar seu email. Confira as informações digitadas.")
     }
     else{
       toast("Email enviado com sucesso")

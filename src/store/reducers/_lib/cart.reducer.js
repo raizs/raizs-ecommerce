@@ -1,5 +1,5 @@
 import { UPDATE_CART } from "../../actions";
-import { Cache, MiniDatePickerHelper } from "../../../helpers";
+import { MiniDatePickerHelper } from "../../../helpers";
 import { Cart } from "../../../entities";
 
 const selectedDate = MiniDatePickerHelper.generateDatesObject()[0].stockDate;

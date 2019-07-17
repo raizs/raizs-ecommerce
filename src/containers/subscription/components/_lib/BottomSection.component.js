@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles, Button } from '@material-ui/core';
-import { toast } from "react-toastify";
-import { GenericProduct } from './GenericProduct.component';
 import { Formatter } from '../../../../helpers';
 
 const styles = theme => ({

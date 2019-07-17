@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles, Icon } from '@material-ui/core';
 import compose from 'recompose/compose';
-import classnames from 'classnames'
 
 import { Loading, ProductImage, ProductSummary, ProductFamilies, ProductExtraInfos } from '../../molecules';
 import { updateCartAction } from '../../store/actions';

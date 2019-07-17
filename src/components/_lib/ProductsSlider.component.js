@@ -26,7 +26,6 @@ let ProductsSlider = props => {
     all,
     cart,
     classes,
-    isSmall,
     products,
     stockDate,
     availableWidth,
@@ -53,6 +52,7 @@ let ProductsSlider = props => {
           <div key={key} className={classes.chunk}>
             {products.map(product => 
               <CatalogProduct
+                key={product.id}
                 cart={cart}
                 product={product}
                 handleUpdateCart={handleUpdateCart}

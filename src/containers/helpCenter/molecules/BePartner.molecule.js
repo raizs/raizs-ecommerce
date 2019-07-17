@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import classnames from "classnames";
-import { withRouter } from 'react-router';
-import smoothScroll from "smooth-scroll"
 import ReactSvg from 'react-svg'
 import { TextInput } from "../../../molecules";
  
@@ -37,7 +35,6 @@ const styles = theme => {
       "&>input":{
         fontSize: theme.fontSizes.SM,
         height: "44px"
-
       }
     },
     textarea: {
@@ -59,19 +56,12 @@ const styles = theme => {
       marginTop: 3 * theme.spacing.unit,
       width:"150px"
     }
-
   }
-
 };
 
+class BePartner extends Component {
 
-class BePartner extends Component{
-
-  constructor(props){
-    super(props)
-  }
-
-  _renderInfo(key, value){
+  _renderInfo(key, value) {
     const { classes } = this.props;
     return <div className={classes.infoBox}>
       <div className={classes.infoKey}>{key}</div>
@@ -80,20 +70,20 @@ class BePartner extends Component{
   }
 
 
-  _renderIcons(){
+  _renderIcons() {
     const { classes } = this.props;
     let icons = [1, 2, 3]
     return icons.map((icon, key)=>{
       return <ReactSvg
-          key={key}
-          src='/icons/assinatura.svg'
-          className={classes.socialIcon}
-        />
+        key={key}
+        src='/icons/assinatura.svg'
+        className={classes.socialIcon}
+      />
 
     })
   }
 
-  _renderEmailForm(){
+  _renderEmailForm() {
     const { classes,
      state: { emailPartner, namePartner, phonePartner, msgPartner }, 
      controller: { handleChange, sendBePartnerEmail } } = this.props;
@@ -132,7 +122,7 @@ class BePartner extends Component{
     </form>
   }
 
-  render(){
+  render() {
     const { classes } = this.props;
     return (
       <div id="seja-parceiro" className={classnames(classes.wrapper, "offset-important")}>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import compose from 'recompose/compose';
-import { Generics, Complements, Review } from './components';
+import { Generics, Complements } from './components';
 import { BaseContainer } from '../../helpers';
 import { SubscriptionController } from './Subscription.controller';
 import {

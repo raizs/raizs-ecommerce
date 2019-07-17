@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { withStyles, Icon, Select, MenuItem, Tooltip } from '@material-ui/core';
+import { withStyles, Icon, Select, MenuItem } from '@material-ui/core';
 
-import { Formatter, MiniDatePickerHelper } from '../../helpers';
+import { Formatter } from '../../helpers';
 import { QuantitySelector, PeriodicityTooltip } from '../../molecules';
-import { periodicityHelpTexts } from '../../assets';
 
 const LIST_PRODUCT_HEIGHT = 72;
 const LIST_PRODUCT_HEIGHT_PX = '72px';

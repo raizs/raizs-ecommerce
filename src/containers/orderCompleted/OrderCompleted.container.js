@@ -210,7 +210,7 @@ class OrderCompleted extends BaseContainer {
 	}
 
 	render() {
-		const { wrapper, confirmMessage, basketBox, basketImg, infoBox } = this.props.classes;
+		const { wrapper, confirmMessage, basketBox, basketImg } = this.props.classes;
 
 		if (this.state.loading) {
 			return <div className={wrapper}>
@@ -225,7 +225,7 @@ class OrderCompleted extends BaseContainer {
 				</div>
 				<div className={basketBox}>
 					{this._renderFamilyInfo()}
-					<img className={basketImg} src="/icons/cesta-foto.png"/>
+					<img className={basketImg} src="/icons/cesta-foto.png" alt='cesta'/>
 					{this._renderExpensesInfo()}
 				</div>
 				{this._renderInfos()}

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import React from 'react';
+import { withStyles, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { withRouter } from 'react-router';
 import classnames from "classnames";
@@ -9,9 +9,7 @@ import { DashboardFormsController } from "../../DashboardForms.controller"
 import { BaseContainer } from '../../../../helpers';
 import { dashboardAddressForm } from "../../../../assets";
 
-import {
-  setUserAction,
-} from '../../../../store/actions';
+import { setUserAction } from '../../../../store/actions';
 
 const styles = theme => ({
   wrapper: {
@@ -69,9 +67,9 @@ const styles = theme => ({
   }
 });
 
-class DashboardAddressForm extends BaseContainer{
+class DashboardAddressForm extends BaseContainer {
   constructor(props) {
-    super(props, DashboardFormsController)
+    super(props, DashboardFormsController);
   }
 
   state = {

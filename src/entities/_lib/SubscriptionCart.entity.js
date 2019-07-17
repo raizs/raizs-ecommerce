@@ -1,5 +1,4 @@
 import clonedeep from 'lodash.clonedeep';
-import { Subscription } from '..';
 import moment from "moment";
 
 export class SubscriptionCart {
@@ -40,7 +39,7 @@ export class SubscriptionCart {
     if(!items) return 0;
     let sum = 0;
     for (let item of items) {
-      if (weekFilter && weekFilter != item.secondaryPeriodicity) continue;
+      if (weekFilter && weekFilter !== item.secondaryPeriodicity) continue;
       sum += parseInt(item.quantity);
     }
     return sum;
@@ -128,6 +127,7 @@ export class SubscriptionCart {
       switch(type) {
         case 'generics': items.forEach(item => { if([1,2,3,4].includes(item.product.id)) value += item.quantity }); break;
         case 'complements': items.forEach(item => { if(![1,2,3,4].includes(item.product.id)) value += item.quantity }); break;
+        default: break;
       }
     }
     else items.forEach(item => { value += item.quantity });
@@ -225,8 +225,8 @@ export class SubscriptionCart {
 
   subtractOneCicle(discounts){
     let newDiscounts = [];
-    for (var discount of discounts){
-      if (discount.cycles != 1){
+    for (let discount of discounts){
+      if (discount.cycles !== 1){
         newDiscounts.push({
           ...discount,
           cycles: discount.cycles - 1,
@@ -238,8 +238,8 @@ export class SubscriptionCart {
 
   cloneFirstCharge(toMp){
     let clone = [...toMp];
-    for (var charge of toMp){
-      if (charge.metadata.week == "first"){
+    for (let charge of toMp){
+      if (charge.metadata.week === "first"){
         clone.push({
           ...charge,
           discounts:this.subtractOneCicle(charge.discounts),

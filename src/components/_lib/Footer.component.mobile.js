@@ -115,12 +115,12 @@ const _renderIconsList = ({ title, items }) => {
 }
 
 /**
- * Footer - The Footer component
+ * FooterMobile - The FooterMobile component
  *
- * @param {Object} props - Footer props
- * @returns {JSX} Footer component
+ * @param {Object} props - FooterMobile props
+ * @returns {JSX} FooterMobile component
  */
-let Footer = ({ classes, history }) => {
+let FooterMobile = ({ classes, history }) => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.topInfo}>
@@ -140,6 +140,6 @@ let Footer = ({ classes, history }) => {
   )
 }
 
-Footer = withStyles(styles)(Footer);
+FooterMobile = withStyles(styles)(FooterMobile);
 
-export { Footer };
+export { FooterMobile };

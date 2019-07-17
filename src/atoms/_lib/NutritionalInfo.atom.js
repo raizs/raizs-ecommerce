@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
-import classnames from "classnames"
 import compose from 'recompose/compose';
 import { nutritionVocabulary } from "../../assets"
-
 
 const styles = theme => ({
   table:{
@@ -25,15 +23,9 @@ const styles = theme => ({
   }
 });
 
-
-
 class NutritionalInfo extends Component{
-  constructor(props){
-    super(props)
-  }
 
-
-  _renderBody(){
+  _renderBody() {
     const { info, classes } = this.props;
     return Object.keys(info).map((key, i)=>{
       return <tr>
@@ -42,11 +34,8 @@ class NutritionalInfo extends Component{
       </tr>
     })
   }
-  
 
-
-  render(){
-    console.log(this.state)
+  render() {
     const { classes  } = this.props;
     return (
       <table className={classes.table}>

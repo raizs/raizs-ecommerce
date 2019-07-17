@@ -6,12 +6,12 @@ import queryString from "query-string";
 export class OrderCompletedController extends BaseController {
 
 	constructor({ toState, getState, getProps }) {
-    	super({ toState, getState, getProps });
-	    this.saleOrdersRepo = new SaleOrdersRepository();
-	    this.saleSubscriptionsRepo = new SaleSubscriptionsRepository(); 	}
+		super({ toState, getState, getProps });
+		this.saleOrdersRepo = new SaleOrdersRepository();
+		this.saleSubscriptionsRepo = new SaleSubscriptionsRepository();
+	}
 
-
-	async fetchData(){
+	async fetchData() {
 		const { location, setSaleOrdersAction, setSaleSubscriptionsAction, user } = this.getProps();
 		const { saleId, subscriptionId, total, shippingDiscount } = queryString.parse(location.search);
 		const promises = [
@@ -35,14 +35,15 @@ export class OrderCompletedController extends BaseController {
 		let order = [];
 		let sub = [];
 
-		if (saleId){
-			order = newSaleOrders.all.find(s=>s.id == saleId);
+		if (saleId) {
+			order = newSaleOrders.all.find(s => s.id === saleId);
 		}
 
-		if (subscriptionId){
-			sub = newSaleSubscriptions.all.find(s=>s.id == subscriptionId);
+		if (subscriptionId) {
+			sub = newSaleSubscriptions.all.find(s => s.id === subscriptionId);
 		}
-		this.toState({ order, sub, loading:false, total:total/100, shippingDiscount })
+		
+		this.toState({ order, sub, loading:false, total:total/100, shippingDiscount });
 	}
       
 }

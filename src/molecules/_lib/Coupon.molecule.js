@@ -1,13 +1,11 @@
 import React from 'react'
 import { withStyles, Button, Icon } from '@material-ui/core';
-import classnames from 'classnames';
 import { TextInput, Loading } from "../";
 import { BaseContainer } from "../../helpers";
 import { CouponController } from "./controllers/Coupon.controller.js";
 import compose from 'recompose/compose';
 import { connect } from "react-redux";
 import { setCouponAction } from "../../store/actions";
-
 
 const styles = theme => ({
   wrapper: {
@@ -100,7 +98,7 @@ class Coupon extends BaseContainer {
 
   _renderInput(){
     const { classes } = this.props;
-    const { couponCode, loading, searched } = this.state;
+    const { couponCode } = this.state;
     const { handleChange, handleSearch } = this.controller;
 
     return <span>
@@ -135,7 +133,7 @@ class Coupon extends BaseContainer {
 
   _renderNotFound(){
     const { classes } = this.props;
-    const { couponCode, errorMsg } = this.state;
+    const { errorMsg } = this.state;
     return <div>
       <div className={classes.notFoundText}>{errorMsg} </div>
       <div onClick={this.controller.handleRestartCoupon} className={classes.notFoundButton}>Inserir outro cupom</div>
@@ -144,8 +142,7 @@ class Coupon extends BaseContainer {
 
   render() {
     const { classes, coupon } = this.props;
-    const { couponCode, loading, searched } = this.state;
-    const { handleChange, handleSearch } = this.controller;
+    const { loading, searched } = this.state;
 
     return (
       <div className={classes.wrapper}>

@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles, Icon } from '@material-ui/core';
-import classnames from "classnames";
-import { withRouter } from 'react-router';
-import smoothScroll from "smooth-scroll"
-
 
 const styles = theme => {
   const { unit } = theme.spacing;
@@ -38,21 +34,16 @@ const styles = theme => {
       fontSize: theme.fontSizes.XS,
     },
   }
-
 };
 
 
 class FAQTopic extends Component{
 
-  constructor(props){
-    super(props)
-  }
-
-  state={
+  state = {
     open:false
   }
 
-  _renderQuestions(){
+  _renderQuestions() {
     const { classes, questions } = this.props;
     return questions.map((q, key)=>{
       return <div key={key} className={classes.qBox}>

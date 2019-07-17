@@ -61,15 +61,15 @@ class Dashboard extends BaseContainer {
   }
   
   componentWillMount() {
-    const { storeFirebase } = this.props;
-    const isAuth = !storeFirebase.auth.isEmpty;
+    // const { storeFirebase } = this.props;
+    // const isAuth = !storeFirebase.auth.isEmpty;
 
     // if(!isAuth) this.props.history.push('/');
   }
 
   componentWillReceiveProps(nextProps) {
-    const { storeFirebase } = nextProps;
-    const isAuth = !storeFirebase.auth.isEmpty;
+    // const { storeFirebase } = nextProps;
+    // const isAuth = !storeFirebase.auth.isEmpty;
 
     // if(!isAuth) this.props.history.push('/');
 

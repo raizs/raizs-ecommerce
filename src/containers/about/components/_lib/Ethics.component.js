@@ -38,7 +38,7 @@ let Ethics = ({ classes, id }) => {
       <h2>Sustentável e transparente</h2>
       <p>{ethicsInfoText}</p>
       <div>
-        <img src='http://www.pngpix.com/wp-content/uploads/2016/11/PNGPIX-COM-Pie-Chart-PNG-Transparent-Image-500x498.png' />
+        <img alt='ética e transparencia' src='http://www.pngpix.com/wp-content/uploads/2016/11/PNGPIX-COM-Pie-Chart-PNG-Transparent-Image-500x498.png' />
       </div>
     </div>
   );

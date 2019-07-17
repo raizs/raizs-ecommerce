@@ -1,12 +1,10 @@
 import React from 'react'
-import { withStyles, Button, Icon, FormControlLabel, Checkbox } from '@material-ui/core';
-import classnames from 'classnames';
+import { withStyles, FormControlLabel, Checkbox } from '@material-ui/core';
 import { BaseContainer, Formatter } from "../../helpers";
 import { GiftCardController } from "./controllers/GiftCard.controller.js";
 import compose from 'recompose/compose';
 import { connect } from "react-redux";
 import { setGiftCardAction } from "../../store/actions";
-
 
 const styles = theme => ({
   wrapper: {
@@ -16,18 +14,16 @@ const styles = theme => ({
   },
   checkboxInput: theme.inputs.checkbox,  
   checkedCheckboxInput: theme.inputs.checkedCheckbox,
- 
 });
 
 class GiftCard extends BaseContainer {
-
   constructor(props){
     super(props, GiftCardController);
   }
 
   state = {
-    value:0,
-    id:null
+    value: 0,
+    id: null
   }
 
   componentWillMount(){
@@ -35,14 +31,14 @@ class GiftCard extends BaseContainer {
   }
 
   componentWillReceiveProps(nextProps){
-    if (nextProps.coupon != this.props.coupon){
+    if (nextProps.coupon !== this.props.coupon){
       this.controller.getGiftCardValue();
     }
   }
 
 
   render() {
-    const { classes, coupon, giftCard } = this.props;
+    const { classes, giftCard } = this.props;
     const { value } = this.state;
     if (!value) return null;
 

@@ -331,7 +331,7 @@ class DashboardUser extends Component {
                 <div className={classes.addressBox}>
                   <div className={classes.personalData}>
                     <div className={classes.personalDataKey} style={{ verticalAlign: 'middle' }}>
-                      <img src={icons[card.brand.toLowerCase()] || flat}  style={{ height: 24, width: 40 }}/>
+                      <img alt='brand' src={icons[card.brand.toLowerCase()] || flat}  style={{ height: 24, width: 40 }}/>
                     </div>          
                     <div className={classes.personalDataValue} style={{ verticalAlign: 'middle' }}>{card.finalStringNumbers}</div>          
                   </div>

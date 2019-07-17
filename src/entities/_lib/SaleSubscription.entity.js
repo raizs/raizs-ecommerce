@@ -35,7 +35,7 @@ export class SaleSubscription extends BaseModel {
     if(!lines) return 0;
   	let sum = 0;
   	for (let line of lines) {
-      if (weekFilter && weekFilter != line.delivery_week) continue;
+      if (weekFilter && weekFilter !== line.delivery_week) continue;
   		sum += parseInt(line.quantity);
   	}
   	return sum;

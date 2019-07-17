@@ -17,7 +17,6 @@ export class DashboardFormsController extends BaseController {
     this.paymentRepo = new PaymentRepository();
   }
   
-
   handleChange(e, format) {
     const { errors } = this.getState();
     this.toState(this.baseHandleChange(e, format, errors));
@@ -48,19 +47,19 @@ export class DashboardFormsController extends BaseController {
     }
   }
 
-  addressApiToState(addresses) {
+  addressApiToState() {
     const { match, user } = this.getProps();
     const { id } = match.params;
-    if (id != "novo" ) {
+
+    if (id !== "novo") {
       const address = user.addresses.getById(id)
       this.toState(address);
-
     }
   }
 
   async handleCepBlur(e) {
     const { value, id } = e.target;
-    if (id == 'cep') {
+    if (id === 'cep') {
       const { errors } = this.getState();
       if(value.length < 9) {
         if(!value.length) return;
@@ -95,7 +94,7 @@ export class DashboardFormsController extends BaseController {
     const values = this.getState();
     let newUser;
 
-    if(id == "novo") {
+    if(id === "novo") {
       values.parentId = user.id;
       const toApi = StateToApi.manageAddress(values)
       const promise = await this.userAddressRepo.create(toApi)

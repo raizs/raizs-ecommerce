@@ -167,7 +167,7 @@ class GenericProduct extends Component {
     const { classes, item, changeAction, quantity, stockQuantity } = this.props;
     return (
       <div key={item.id} className={classnames(classes.item, 'generic-product')} id={item.id}>
-        <img src={item.imageUrl} />
+        <img src={item.imageUrl} alt={item.name} />
         <p className='label'>
           {item.name}
           <Tooltip

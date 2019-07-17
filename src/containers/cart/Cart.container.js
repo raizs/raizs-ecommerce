@@ -40,7 +40,6 @@ const styles = theme => ({
     '& > div.date-picker-wrapper': {
       display: 'flex',
       justifyContent: 'center',
-      marginTop: 2 * theme.spacing.unit,
       marginTop: 2 * theme.spacing.unit
     },
     '& > div.items': {

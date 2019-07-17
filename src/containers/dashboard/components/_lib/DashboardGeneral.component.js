@@ -81,7 +81,7 @@ class DashboardGeneral extends Component{
               {this.props.saleOrders[box.id]}
             </div>
           </div>
-          <img className={classes.whiteBoxImg} src={box.img} />
+          <img alt='todo' className={classes.whiteBoxImg} src={box.img} />
         </div>
       );
     })

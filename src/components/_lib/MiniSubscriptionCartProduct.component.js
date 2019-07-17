@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, Icon, Select, MenuItem } from '@material-ui/core';
+import { withStyles, Select, MenuItem } from '@material-ui/core';
 
 import { Formatter } from '../../helpers';
 import { QuantitySelector, PeriodicityTooltip } from '../../molecules';

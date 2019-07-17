@@ -32,8 +32,8 @@ export class CepHelper {
 
   }
 
-  static async getAddressByCep(cep){
-    let promise = await Axios.get(`https://viacep.com.br/ws/${Formatter.extractNumbers(cep)}/json`)
+  static async getAddressByCep(cep) {
+    await Axios.get(`https://viacep.com.br/ws/${Formatter.extractNumbers(cep)}/json`)
   }
 
   static async checkShippingByCep(cep){

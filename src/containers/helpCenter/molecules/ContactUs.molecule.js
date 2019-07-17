@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { withStyles, Button } from '@material-ui/core';
 import classnames from "classnames";
-import { withRouter } from 'react-router';
-import smoothScroll from "smooth-scroll"
 import ReactSvg from 'react-svg'
 import { TextInput } from "../../../molecules";
- 
 
 const styles = theme => {
   const { unit } = theme.spacing;
@@ -108,11 +105,7 @@ const styles = theme => {
 
 class ContactUs extends Component{
 
-  constructor(props){
-    super(props)
-  }
-
-  _renderInfo(key, value){
+  _renderInfo(key, value) {
     const { classes } = this.props;
     return <div className={classes.infoBox}>
       <div className={classes.infoKey}>{key}</div>
@@ -120,21 +113,19 @@ class ContactUs extends Component{
     </div>
   }
 
-
-  _renderIcons(){
+  _renderIcons() {
     const { classes } = this.props;
     let icons = [1, 2, 3]
     return icons.map((icon, key)=>{
       return <ReactSvg
-          key={key}
-          src='/icons/assinatura.svg'
-          className={classes.socialIcon}
-        />
-
+        key={key}
+        src='/icons/assinatura.svg'
+        className={classes.socialIcon}
+      />;
     })
   }
 
-  _renderEmailForm(){
+  _renderEmailForm() {
     const { classes,
      state: { email, name, phone, msg }, 
      controller: { handleChange, sendContactEmail } } = this.props;
@@ -173,7 +164,7 @@ class ContactUs extends Component{
     </form>
   }
 
-  render(){
+  render() {
     const { classes } = this.props;
     let email = "contato@raizs.com.br";
     return (

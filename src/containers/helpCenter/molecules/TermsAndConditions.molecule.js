@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles, Icon } from '@material-ui/core';
-import classnames from "classnames";
-import { withRouter } from 'react-router';
-import smoothScroll from "smooth-scroll"
-
 
 const styles = theme => {
   const { unit } = theme.spacing;
@@ -42,11 +38,7 @@ const styles = theme => {
 
 class TermsAndConditions extends Component{
 
-  constructor(props){
-    super(props)
-  }
-
-  state={
+  state = {
     open:false
   }
 

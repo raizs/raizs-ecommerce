@@ -113,10 +113,6 @@ const styles = theme => ({
  
 class CheckoutBar extends Component {
 
-  constructor(props){
-    super(props);
-  }
-
   state = {
     open:false
   }

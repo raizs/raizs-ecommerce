@@ -38,10 +38,6 @@ const styles = theme => ({
 
 class DashboardForms extends Component{
 
-  constructor(props) {
-    super(props)
-  }
-
   state = {
     name:""
   }

@@ -1,8 +1,6 @@
 import { BaseController } from '../../helpers';
 import { ProductsRepository } from "../../repositories"
-import { Product } from '../../entities';
 import sortby from 'lodash.sortby';
-
 
 export class SearchBarController extends BaseController {
 
@@ -14,7 +12,6 @@ export class SearchBarController extends BaseController {
     this.goToProduct = this.goToProduct.bind(this);
     this.timeout = null;
   }    
-
 
   async handleChange(e, format) {
     const { errors } = this.getState();

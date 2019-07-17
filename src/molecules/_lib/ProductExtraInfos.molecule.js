@@ -40,7 +40,7 @@ class ProductExtraInfos extends Component{
     const { classes } = this.props;
     return productExtraInfos.map(info => {
       let topicClass = [classes.menuTopic]
-      if (info.id == this.state.selected) topicClass.push(classes.selected) 
+      if (info.id === this.state.selected) topicClass.push(classes.selected) 
       return <div key={info.id} className={classnames(topicClass)} onClick={()=>this.setState({selected: info.id})}>
         {info.label}
       </div>
@@ -50,7 +50,7 @@ class ProductExtraInfos extends Component{
   _renderInfoBox() {
     const { classes, product } = this.props;
     const { selected } = this.state
-    if (selected == "moreInfo" || selected == "storageInfo") {
+    if (selected === "moreInfo" || selected === "storageInfo") {
       return <div className={classes.infoBox}>
         {product[selected]}
       </div>

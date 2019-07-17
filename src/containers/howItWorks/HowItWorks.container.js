@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { withStyles, Icon, Button } from '@material-ui/core';
+import { withStyles, Icon } from '@material-ui/core';
 
 import compose from 'recompose/compose';
 import classnames from 'classnames';
@@ -10,8 +10,6 @@ import { howItWorksTooltips } from "../../assets";
 import { AnchorMenu } from "../../molecules";
 import { SimpleCepChecker } from "../../components";
 import "img-2";
-
-
 
 const styles = theme => ({
   wrapper: {

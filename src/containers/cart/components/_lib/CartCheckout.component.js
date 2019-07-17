@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import classnames from 'classnames';
 import { withStyles, LinearProgress, Button, Select, MenuItem } from '@material-ui/core';
 
 import { Formatter } from '../../../../helpers';
-import { Loading, TextInput } from '../../../../molecules';
 import { SubscriptionCart } from '../../../../entities';
 
 const styles = theme => ({
@@ -75,7 +73,7 @@ const styles = theme => ({
 class CartCheckout extends Component {
 
   _renderShipping() {
-    const { classes, subtotalError, transaction } = this.props;
+    const { classes, transaction } = this.props;
     return (
       <div>
         <div className={classes.shipping}>
@@ -103,25 +101,14 @@ class CartCheckout extends Component {
     let {
       user,
       classes,
-      cart,
-      subscriptionCart,
       selectedAddress,
       selectUserAddressAction,
-      cep,
-      cepSuccess,
-      cepError,
-      handleChange,
-      handleCepBlur,
-      cepLoading,
       transaction,
       currentCep
     } = this.props;
 
-    const sCart = subscriptionCart.isAdded ? subscriptionCart.current : new SubscriptionCart({});
-    const subtotal = cart.subtotal + sCart.subtotal;
-
     let shippingData = transaction.calculateShippingProgress(transaction.totals.toChargeNow.total - transaction.totals.toChargeNow.shipping);
-    let shouldRenderShippingLeft = shippingData.progress != 100
+    let shouldRenderShippingLeft = shippingData.progress !== 100;
 
     if((user && user.addresses.all.length) || currentCep.current ) {
       return (

@@ -1,4 +1,4 @@
-import { BaseModel, Formatter } from '../../helpers';
+import { BaseModel } from '../../helpers';
 
 import moment from "moment";
 const recurrencyKeys = ["first", "second", "third", "fourth"];
@@ -11,7 +11,6 @@ const emptyValues = {
 	giftCard: 0,
 	date:moment().format('YYYY-MM-DD')
 }
-
 
 export class Transaction extends BaseModel {
 
@@ -34,11 +33,11 @@ export class Transaction extends BaseModel {
 		this.totals = this.calculateCharges();
 	}
 
-	calculateShippingProgress(value){
+	calculateShippingProgress(value) {
 		let { shippingMinDiscount, shipping, shippingDiscount } = this;
-		if (value){
+		if (value) {
 			let progress = parseInt(100*value/shippingMinDiscount);
-			if (progress>100){
+			if (progress>100) {
 				return {
 					shippingValue: shipping.value - shippingDiscount,
 					progress:100,
@@ -58,31 +57,29 @@ export class Transaction extends BaseModel {
 		}
 	}
 
-	getGroupedRecurrencies(){
+	getGroupedRecurrencies() {
 		const { momentDate, subcart } = this;
+		let recurrencies = {};
 		if (!momentDate) return recurrencies;
-	    let filtersAndDates = subcart.current.getFiltersAndDates(momentDate);
-	    
-	    let recurrencies = { }
-		recurrencyKeys.forEach(key=>{
+		
+		let filtersAndDates = subcart.current.getFiltersAndDates(momentDate);
+		recurrencyKeys.forEach(key => {
 			let items = this.subcart.current.items.filter(filtersAndDates[key].filter);
 			let date = filtersAndDates[key].date;
 			let subtotal = 0; 
-			items.forEach(({ product, quantity }) => {
-		      subtotal += (product.mpPrice * quantity)/100;
-		    });
+			items.forEach(({ product, quantity }) => { subtotal += (product.mpPrice * quantity)/100; });
 			recurrencies[key] = {
 				...emptyValues,
 				items,
 				date,
 				subtotal
 			}
-		})
+		});
 
 		return recurrencies;
 	}
 
-	calculateGiftCard(totals){
+	calculateGiftCard(totals) {
 		let { value } = this.giftCard;
 		const toImmediate = Math.min((totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon), value)
 		totals.immediate.giftCard = toImmediate;
@@ -90,7 +87,7 @@ export class Transaction extends BaseModel {
 		return totals;
 	}
 
-	calculateCharges(){
+	calculateCharges() {
 		const { cart, momentDate } = this;
 
 		let totals = {
@@ -119,8 +116,7 @@ export class Transaction extends BaseModel {
 		return totals;
 	}
 
-
-	calculateTotals(totals){
+	calculateTotals(totals) {
 		totals.immediate.total = totals.immediate.subtotal + totals.immediate.shipping - totals.immediate.coupon - totals.immediate.giftCard;
 		recurrencyKeys.forEach(key=>{
 			let recurrency = totals.recurrencies[key];
@@ -129,20 +125,18 @@ export class Transaction extends BaseModel {
 		return totals;
 	}
 
-
-
-	calculateShipping(totals){
+	calculateShipping(totals) {
 		//logica de calcular fretes;
-		const  { shipping, hasSubcart, hasCart } = this;
+		const  { hasSubcart, hasCart } = this;
 		let { immediate, recurrencies } = totals;
 		
-		if (!hasSubcart){
+		if (!hasSubcart) {
 			totals.immediate.shipping = this.calculateShippingProgress(immediate.subtotal - immediate.coupon).shippingValue;
 		}
 		else {
 			recurrencyKeys.forEach(key=>{
 				let rec = recurrencies[key];
-				if (key=="first" && hasCart){
+				if (key === "first" && hasCart) {
 					totals.recurrencies[key].shipping = this.calculateShippingProgress(immediate.subtotal + rec.subtotal - immediate.coupon - rec.coupon).shippingValue;
 				}
 				else{
@@ -154,8 +148,8 @@ export class Transaction extends BaseModel {
 		return totals;
 	}
 
-	calculateDiscounts(totals){
-		if (this.coupon){
+	calculateDiscounts(totals) {
+		if (this.coupon) {
 			return this.coupon.calculateDiscount(totals);
 		}
 		return totals;

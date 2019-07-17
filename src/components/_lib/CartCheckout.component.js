@@ -109,7 +109,7 @@ class CartCheckout extends Component {
   }
 
   render() {
-    const { classes, cart, subtotalError, MINIMUM_VALUE } = this.props;
+    const { classes, cart, subtotalError } = this.props;
     const { subscriptionName } = this.state;
 
     const valueClasses = [classes.value];

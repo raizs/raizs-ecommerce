@@ -2,7 +2,6 @@ import React from 'react'
 
 import { CatalogSectionList } from './CatalogSectionList.component';
 import { withStyles } from '@material-ui/core';
-import { StringMapper } from '../../../../helpers';
 
 const styles = theme => ({
   h2: {

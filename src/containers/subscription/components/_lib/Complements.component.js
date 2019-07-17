@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router';
-import { withStyles, Button } from '@material-ui/core';
-import { Formatter } from '../../../../helpers';
+import { withStyles } from '@material-ui/core';
 import { withTimeline } from '../../../withTimeline';
 import compose from 'recompose/compose';
 import { Timeline, TimelineSections, TimelineSection, ProductsSlider } from '../../../../components';

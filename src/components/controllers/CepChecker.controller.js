@@ -1,7 +1,5 @@
 import { BaseController, CepHelper, Formatter } from '../../helpers';
 import { ProductsRepository } from "../../repositories"
-import { Product } from '../../entities';
-
 
 export class CepCheckerController extends BaseController {
 
@@ -19,7 +17,7 @@ export class CepCheckerController extends BaseController {
   }
   
   async handleSubmit() {
-    const { setCepAction, setShippingAction } = this.getProps();
+    const { setCepAction } = this.getProps();
     const { cep } = this.getState();
     
     if(cep) {

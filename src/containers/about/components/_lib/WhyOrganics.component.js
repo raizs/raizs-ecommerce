@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { whyOrganicsAnimals, whyOrganicsEnvironment, whyOrganicsHealth } from '../../../../assets';
 import ReactSVG from 'react-svg';
 

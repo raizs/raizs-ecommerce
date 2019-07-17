@@ -1,4 +1,3 @@
-import React from 'react'
 import { BaseController } from "../../helpers";
 import { NewsletterTargetsRepository } from "../../repositories";
 import { toast } from "react-toastify";

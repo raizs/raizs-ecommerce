@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
-import { withStyles, Button } from '@material-ui/core';
-import { CartHelper, Formatter } from '../../../../helpers';
+import { withStyles } from '@material-ui/core';
+import { Formatter } from '../../../../helpers';
 
 const styles = theme => ({
   wrapper: {
@@ -89,11 +89,8 @@ let SubscriptionCard = props => {
   const {
     name,
     totalPrice,
-    shippingTimeRange,
     stateString,
     itemCountString,
-    recurringNextDate,
-    recurringNextWeekDay
   } = subscription;
 
   return (

@@ -25,6 +25,7 @@ export class CartHelper {
       }
 
       if(quantity) return { product, quantity };
+      return null;
     }).filter(item => item);
 
     const cart = items.length ? new Cart({ items }) : null;

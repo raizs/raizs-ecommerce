@@ -185,10 +185,9 @@ class SummarySection extends Component {
   }
 
   render() {
-    const { classes, selectedDate, cart, subscriptionCart, coupon, giftCard, transaction } = this.props;
+    const { classes, selectedDate, transaction } = this.props;
     const { totals } = transaction;
     let { toChargeNow } = totals;
-    const sCart = subscriptionCart.current;
 
     return (
       <div className={classes.wrapper}>

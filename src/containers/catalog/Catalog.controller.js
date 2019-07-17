@@ -1,6 +1,6 @@
 import { BaseController } from '../../helpers';
 import { Products, UnitsOfMeasure, Cart, SubscriptionCart } from '../../entities';
-import { ProductsRepository, UnitsOfMeasureRepository, CartRepository } from '../../repositories';
+import { ProductsRepository, UnitsOfMeasureRepository } from '../../repositories';
 import sortby from 'lodash.sortby';
 
 
@@ -83,14 +83,14 @@ export class CatalogController extends BaseController {
 
   getProductsSortedByFilter() {
     const { filter, ascending } = this.getState();
-    const { products, stock } = this.getProps();
+    const { products } = this.getProps();
 
     let sorted;
 
-    if (filter=="price") {
+    if (filter === "price") {
       sorted = sortby(products.original, product => {
         const price = parseFloat(product['productTmpl.list_price'])
-        return price
+        return price;
       });
     }
 
@@ -103,7 +103,7 @@ export class CatalogController extends BaseController {
 
   toggleSort(currentFilter) {
     const { filter, ascending } = this.getState();
-    if (currentFilter == filter) {
+    if (currentFilter === filter) {
       this.toState({ ascending:!ascending })
     }
     else {

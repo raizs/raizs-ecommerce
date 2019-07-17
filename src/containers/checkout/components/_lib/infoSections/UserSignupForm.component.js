@@ -44,8 +44,6 @@ class UserSignupForm extends Component {
       signupEmail,
       signupCellphone,
       signupPassword,
-      signupNews,
-      handleCheckbox,
       handleChange,
       handleSignup,
       handleCompleteSignup

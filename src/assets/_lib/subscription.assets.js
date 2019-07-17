@@ -1,5 +1,3 @@
-import { React } from 'react';
-
 export const genericExamples = {
   1: [
     'Berinjela 600g',

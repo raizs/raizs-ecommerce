@@ -1,5 +1,4 @@
 import { Formatter } from "./Formatter";
-import { Transaction } from "../../entities";
 
 export class StateToApi {
 

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles, Icon, Collapse } from '@material-ui/core';
 import { ProductsSlider } from '../../../../components';
-import { CatalogProduct } from '../../../../molecules';
-import InfiniteScroll from 'react-infinite-scroller';
-import clonedeep from 'lodash.clonedeep';
 import { CatalogSection } from '../../../catalog/components';
 
 const styles = theme => ({

@@ -4,8 +4,6 @@ import { withStyles } from '@material-ui/core';
 import { mediaObjects } from '../../assets';
 import { SliderHelper } from '../../helpers';
 
-const N = 8;
-
 const styles = theme => ({
   title: {
     ...theme.typography.raizs,
@@ -62,7 +60,7 @@ let MediaSlider = props => {
           {mediaObjects.map(obj => {
             return (
               <a className={classes.item} key={obj.url} target='blank' href={obj.url}>
-                <img src={obj.src} />
+                <img alt='avatar' src={obj.src} />
               </a>
             );
           })}

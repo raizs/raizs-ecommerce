@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { Loading, TextInput } from '../../molecules';
@@ -78,7 +78,7 @@ class SimpleCepChecker extends BaseContainer {
   
   _renderDescription() {
 
-    const { msg, success, searched }  = this.state;
+    const { msg, searched }  = this.state;
 
     if (searched){
       return <p className='description'>{msg}</p>;

@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles} from '@material-ui/core';
-import { TextInput } from '../../../../../molecules';
 import { PayPalRepository } from '../../../../../repositories';
 import { BaseContainer } from '../../../../../helpers';
-import { withRouter } from 'react-router';
 import { PayPalController } from "../../../PayPal.controller.js"
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-
 
 const styles = theme => ({
   payPalContainer:{
@@ -21,13 +18,12 @@ const styles = theme => ({
 
 class PayPalForm extends BaseContainer {
 
-  constructor(props){
+  constructor(props) {
     super(props, PayPalController);
     this.payPalRepo = new PayPalRepository();
   }
 
-  componentDidMount(){
-    console.log("PASSANDO")
+  componentDidMount() {
     this.controller.setCheckoutButton()
   }
 
@@ -36,14 +32,11 @@ class PayPalForm extends BaseContainer {
   }
 
   render() {
-    const {
-      classes,
-    } = this.props;
-
+    const { classes } = this.props;
 
     return (
       <form className={classes.payPalContainer}>
-        <div className={classes.payPalButton} id="paypal-button-container"></div>
+        <div className={classes.payPalButton} id="paypal-button-container" />
       </form>
     )
   }
@@ -60,6 +53,6 @@ const mapStateToProps = state => ({
 PayPalForm = compose(
   withStyles(styles),
   connect(mapStateToProps, {})
-  )(PayPalForm);
+)(PayPalForm);
 
 export { PayPalForm };

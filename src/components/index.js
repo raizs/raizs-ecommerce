@@ -30,3 +30,6 @@ export { Timeline } from './_lib/Timeline.component';
 export { TimelineSection } from './_lib/TimelineSection.component';
 export { TimelineSections } from './_lib/TimelineSections.component';
 export { TopHeader } from './_lib/TopHeader.component';
+
+export { HeaderMobile } from './_lib/Header.component.mobile';
+export { FooterMobile } from './_lib/Footer.component.mobile';

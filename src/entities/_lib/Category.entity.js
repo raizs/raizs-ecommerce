@@ -24,7 +24,8 @@ export class Category {
       .replace(/[ÓÒÔÕ]/gi, 'o')
       .replace(/[ÚÙÛ]/gi, 'u')
       .replace(/[Ç]/gi, 'c')
-      .replace(/(\(|\,|\.|\)|\/)/g, '').replace(/ /g, '-');
+      .replace(/(\(|\,|\.|\)|\/)/g, '')
+      .replace(/ /g, '-');
   }
 
   _getOrder(timelineId) {

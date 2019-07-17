@@ -6,7 +6,7 @@ import {
   SaleOrdersRepository,
   SaleSubscriptionsRepository
 } from '../../repositories';
-import { User, SaleOrders, Transaction } from '../../entities';
+import { User, Transaction } from '../../entities';
 import { CheckoutValidation } from '../../validation';
 import { toast } from 'react-toastify';
 
@@ -233,6 +233,7 @@ export class CheckoutController extends BaseController {
         break;
       }
       case 'payment': toState.isPaymentSectionDone = false; break;
+      default: break;
     }
 
     this.toState(toState);
@@ -296,8 +297,7 @@ export class CheckoutController extends BaseController {
     let promise = await this.userRepo.updateFirebaseUser(toApi, fuid);
     if(promise.err) {
       this.toState({ userSectionLoading: false });
-      console.log(promise.err);
-      throw 'Error updating firebase user';
+      throw new Error('Error updating firebase user');
     }
     
     await SocialMediaHelper.signInWithEmailAndPassword(firebase, values.signupEmail, values.signupPassword);
@@ -505,7 +505,7 @@ export class CheckoutController extends BaseController {
       else selectCardAction(cards.getDefaultCreditCard());
     }
     if(id === 'payPal') {
-      if (!cart.subtotal){
+      if (!cart.subtotal) {
         return toast("O pagamento de assinaturas com paypal ainda não está disponível. Selecione outro método de pagamento")
       }
     }
@@ -605,21 +605,21 @@ export class CheckoutController extends BaseController {
     this.toState({ loading:true });
 
     let query = `?total=${parseInt(transaction.totals.toChargeNow.total*100)}`
-    if (transaction.totals.toChargeNow.shipping != transaction.shipping.value) query += "&shippingDiscount=true";
+    if (transaction.totals.toChargeNow.shipping !== transaction.shipping.value) query += "&shippingDiscount=true";
 
-    if (selectedPaymentMethod=="payPal"){
+    if (selectedPaymentMethod === "payPal") {
       console.log("PAYPAL LOGIC NEEDS TO BE DONE HERE");
     }
     else {
-      if (transaction.hasCart){
+      if (transaction.hasCart) {
         const promise = await this.createSaleOrder(transaction);
-        if (!promise.err){
+        if (!promise.err) {
           query += `&saleId=${promise.data.saleId}` 
         }
       }
-      if (transaction.hasSubcart){
+      if (transaction.hasSubcart) {
         const promise = await this.createSubscription(transaction);
-        if (!promise.err){
+        if (!promise.err) {
           query += `&subscriptionId=${promise.data.subId}`
         }
       }
@@ -635,8 +635,7 @@ export class CheckoutController extends BaseController {
       user, 
       selectedUserAddress, 
       selectedCard, 
-      momentDate, 
-      setSaleOrdersAction
+      momentDate
     } = this.getProps();
 
     const toApi = StateToApi.saleOrderCheckout({

@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import classnames from "classnames";
-import { withRouter } from 'react-router';
-import smoothScroll from "smooth-scroll"
-
-
 
 const styles = theme => ({
   wrapper:{
@@ -36,21 +32,17 @@ const styles = theme => ({
 
 
 class AnchorMenu extends Component{
-
-  constructor(props){
-    super(props)
+  state = {
+    hash: ""
   }
 
-  state={
-    hash:""
-  }
-
-  _renderMenuItems(){
+  _renderMenuItems() {
     const { items, classes} = this.props;
-    return items.map((item,key)=>{
+
+    return items.map((item,key) => {
       let itemClass = [classes.item];
       let id = "#"+item.id;
-      if (this.state.hash == id){
+      if (this.state.hash === id) {
         itemClass.push(classes.selected)
       }
       return <a key={key} href={id} >
@@ -61,13 +53,13 @@ class AnchorMenu extends Component{
         
     })
   }
-        // onClick={}
 
-  render(){
+  render() {
     const { classes } = this.props;
+
     return (
       <div className={classes.wrapper}>
-        <div className={classes.greenStripe}></div>
+        <div className={classes.greenStripe} />
         {this._renderMenuItems()}
       </div>
     )

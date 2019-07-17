@@ -59,7 +59,7 @@ class CheckoutStepper extends Component {
   }
 
   render() {
-    const { classes, history } = this.props;
+    const { classes } = this.props;
     const { activeStepNumber } = this.state;
 
     return (

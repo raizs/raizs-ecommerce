@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 import { TextInput } from '../../../../../molecules';
 
 const styles = theme => ({
@@ -84,8 +84,6 @@ class AddressForm extends Component {
       addressNeighbourhood,
       addressCity,
       addressState,
-      addressIsDefault,
-      handleCheckboxChange,
       handleChange,
       handleCepBlur,
       handleNewAddressSubmit,
