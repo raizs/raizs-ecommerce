@@ -7,6 +7,7 @@ const PORT = 3000;
 
 // initialize the application and create the routes
 const app = express();
+console.log("loga maldito")
 
 app.use(indexController);
 

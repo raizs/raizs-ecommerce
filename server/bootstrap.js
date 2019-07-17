@@ -1,3 +1,6 @@
+if (typeof(window) == 'undefined'){
+    global.window = new Object();
+}
 require('ignore-styles');
 require('url-loader');
 require('file-loader');
@@ -7,7 +10,8 @@ require('@babel/register')({
     plugins: [
         'syntax-dynamic-import',
         'dynamic-import-node',
-        'react-loadable/babel'
+        'react-loadable/babel',
+        '@babel/transform-runtime',
     ]
 });
 require('./index');

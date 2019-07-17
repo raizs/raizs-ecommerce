@@ -6,9 +6,9 @@ import { withFirebase } from 'react-redux-firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import { withCookies } from 'react-cookie';
 import compose from 'recompose/compose';
-import SmoothScroll from 'smooth-scroll';
+// import SmoothScroll from 'smooth-scroll';
 
-import 'img-2';
+// import 'img-2';
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';

@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import App from '../../src/App';
 
 // import the manifest generated with the create-react-app build
-import manifest from '../../build/asset-manifest.json';
+import manifest from '../../build/manifest.json';
 // function to extract js assets from the manifest
 const extractAssets = (assets, chunks) => Object.keys(assets)
     .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)

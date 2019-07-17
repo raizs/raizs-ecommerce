@@ -2,7 +2,8 @@ import { SET_CATEGORIES } from "../../actions";
 import { Cache } from "../../../helpers";
 import { Categories } from "../../../entities";
 
-const cachedCategories = Cache.getItem('categories');
+const cachedCategories = Cache.getItem('categories') || [];
+console.log("CACHED",cachedCategories)
 
 const initialState = {
 	model: cachedCategories ? new Categories(cachedCategories) : null

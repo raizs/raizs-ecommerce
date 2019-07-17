@@ -3,33 +3,34 @@ import { withRouter } from 'react-router';
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { withFirebase } from 'react-redux-firebase';
 import { CookiesProvider, withCookies } from 'react-cookie';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView/*, MobileView*/ } from 'react-device-detect';
 import compose from 'recompose/compose';
 
-import 'img-2';
 import './styles/css/index.css';
 import 'moment/locale/pt-br.js';
 import 'react-toastify/dist/ReactToastify.css';
 
 import defaultTheme from './muiTheme';
 
-import MobileApp from './App.mobile';
+// import MobileApp from './App.mobile';
 import BrowserApp from './App.browser';
 
 class App extends Component {
-	render() {
 
+	render() {
+    if (typeof window === 'undefined') {
+      global.window = {}
+    }
 		return (
       <MuiThemeProvider theme={defaultTheme}>
         <CookiesProvider>
-
           <BrowserView>
             <BrowserApp />
           </BrowserView>
 
-          <MobileView>
+          {/*<MobileView>
             <MobileApp />
-          </MobileView>
+          </MobileView>*/}
           
         </CookiesProvider>
       </MuiThemeProvider>
