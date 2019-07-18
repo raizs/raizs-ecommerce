@@ -33,7 +33,6 @@ export const setNewProductsAction = products => {
 };
 
 export const setCurrentProductAction = product => {
-  console.log("PASSA NA ACTION")
   return {
     type: SET_CURRENT_PRODUCT,
     data: product

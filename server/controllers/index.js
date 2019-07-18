@@ -3,14 +3,25 @@ import express from "express";
 import serverRenderer from '../middleware/renderer';
 import configureStore from '../../src/store/configureStore';
 import { setCurrentProductAction } from '../../src/store/actions';
+import { ProductsRepository } from "../../src/repositories"
+import { Product } from "../../src/entities"
 
 const router = express.Router();
 const path = require("path");
 
 
 const actionIndex = async (req, res, next) => {
+	let splitedUrl = req.baseUrl.split("/")
     const store = configureStore();
-    await store.dispatch(setCurrentProductAction("VAI FDP"))
+	if (splitedUrl.length>=3 && splitedUrl[2] =="p"){
+		let seoDescription = splitedUrl[1];
+		let productRepo = new ProductsRepository();
+		let promise = await productRepo.fetchProduct(`seoDescription=${seoDescription}`)
+	    await store.dispatch(setCurrentProductAction(new Product({...promise.data, stock:{}})))
+		console.log(promise)
+		console.log("PRODUCTPAGE LOGIC");
+	}
+
 
     serverRenderer(store)(req, res, next);
 

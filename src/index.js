@@ -17,8 +17,15 @@ const AppBundle = (
         </BrowserRouter>
     </ReduxProvider>
 );
-
+console.log(window)
 window.onload = () => {
+    React.useEffect(() => {
+        const jssStyles = document.querySelector('#jss-server-side');
+        if (jssStyles) {
+          jssStyles.parentNode.removeChild(jssStyles);
+        }
+      }, []);
+    console.log("WINDOW HAS BEEN LOADED")
     Loadable.preloadReady().then(() => {
         ReactDOM.hydrate(
             AppBundle,

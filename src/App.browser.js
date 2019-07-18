@@ -49,7 +49,7 @@ import { BaseContainer } from './helpers';
 // import { NotFound } from './containers/notFound';
 // import { HowItWorks } from './containers/howItWorks';
 // import { Dashboard } from './containers/dashboard';
-// import { Product } from './containers/product';
+import { Product } from './containers/product';
 // import { HelpCenter } from './containers/helpCenter';
 // import { Subscription } from './containers/subscription';
 // import { Families } from './containers/families';
@@ -209,10 +209,11 @@ class BrowserApp extends BaseContainer {
         logout
       }
     };
-    console.log(this.props.product);
-    return <div>
+      // <Route path='/:seoDescription/p' component={Product} />
+    return <div className="App" style={{ backgroundColor: '#EFEFEF' }}>
       <h2>TESTE</h2>
-      <h1>{this.props.product}</h1>
+      <Product/>
+      {/*<h1>{this.props.product}</h1>*/}
     </div>
 
 		/*return (
@@ -242,7 +243,6 @@ class BrowserApp extends BaseContainer {
             <Route path='/pedido-finalizado' exact component={OrderCompleted} />
             <Route path='/painel' component={Dashboard} />
             <Route path='/assinatura' component={Subscription} />
-            <Route path='/:seoDescription/p' component={Product} />
             <Route path='/como-funciona' component={HowItWorks} />
             <Route path='/familias' component={Families} />
             <Route path='/ajuda' component={HelpCenter} />

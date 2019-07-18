@@ -83,7 +83,7 @@ class ProductSummary extends Component{
     const { classes, product } = this.props;
     return MiniDatePickerHelper.generateDatesObject().map((day, key)=>{
       let circleClassNames=[classes.circle];
-      if(!product.stock[day.stockDate]) circleClassNames.push(classes.unavailableCircle);
+      // if(!product.stock[day.stockDate]) circleClassNames.push(classes.unavailableCircle);
 
       return <div className={classes.inLineDateBox} key={key}>
           <div className={classes.flexDateBox}>

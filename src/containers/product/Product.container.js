@@ -77,7 +77,7 @@ class Product extends BaseContainer {
 
 	render() {
 		const { classes, cart } = this.props;
-    const { product } = this.state;
+    let product = this.props.product || this.state.product;
 
 		if (!product){
 			return <div className={classes.wrapper}>
@@ -114,7 +114,8 @@ class Product extends BaseContainer {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart.current
+  cart: state.cart.current,
+  product: state.products.currentProduct
 })
 
 export default compose(
