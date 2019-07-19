@@ -49,7 +49,7 @@ import { BaseContainer } from './helpers';
 // import { NotFound } from './containers/notFound';
 // import { HowItWorks } from './containers/howItWorks';
 // import { Dashboard } from './containers/dashboard';
-import { Product } from './containers/product';
+import Product from './containers/product';
 // import { HelpCenter } from './containers/helpCenter';
 // import { Subscription } from './containers/subscription';
 // import { Families } from './containers/families';

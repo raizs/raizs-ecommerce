@@ -22,12 +22,8 @@ const actionIndex = async (req, res, next) => {
 		// console.log("PRODUCTPAGE LOGIC");
 		// console.log(store.getState().products.currentProduct);
 	}
-	serverRenderer(store)(req, res, next);
+  serverRenderer(store)(req, res, next);
 };
-
-
-// root (/) should always serve our server rendered page
-router.use('^/$', actionIndex);
 
 // other static resources should just be served as they are
 router.use(express.static(

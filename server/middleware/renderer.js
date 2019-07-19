@@ -10,7 +10,7 @@ import theme from '../../src/muiTheme';
 import App from '../../src/App';
 
 // import the manifest generated with the create-react-app build
-import manifest from '../../build/manifest.json';
+import manifest from '../../build/asset-manifest.json';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/styles';
 
 // function to extract js assets from the manifest
@@ -49,10 +49,9 @@ export default (store) => (req, res, next) => {
             </Loadable.Capture>
         );
         
-        
         const sheets = new ServerStyleSheets();
         const html = ReactDOMServer.renderToString(sheets.collect(appBundle));
-        
+
         // Grab the CSS from our sheets.
         const css = sheets.toString();
         
@@ -62,24 +61,25 @@ export default (store) => (req, res, next) => {
 
         // map required assets to script tags
         const extraChunks = extractAssets(manifest, modules)
-            .map(c => `<script type="text/javascript" src="/${c}"></script>`);
+          .map(c => `<script type="text/javascript" src="/${c}"></script>`);
 
         // get HTML headers
         const helmet = Helmet.renderStatic();
+        console.log('htmlData', htmlData);
 
         // now inject the rendered app into our html and send it to the client
         return res.send(
-            htmlData
-                // write the React app
-                .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-                // write the string version of our state
-                .replace('_REDUX_STATE={}', `REDUX_STATE_=${reduxState}`)
-                // append the extra js assets
-                .replace('</body>', extraChunks.join('') + '</body>')
-                // append the extra js assets
-                .replace('</style>', css + '</style>')
-                // write the HTML header tags
-                .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
+          htmlData
+            // write the React app
+            .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+            // write the string version of our state
+            .replace('_REDUX_STATE={}', `REDUX_STATE_=${reduxState}`)
+            // append the extra js assets
+            .replace('</body>', extraChunks.join('') + '</body>')
+            // append the extra js assets
+            .replace('</style>', css + '</style>')
+            // write the HTML header tags
+            .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
         );
     });
 }

@@ -8,4 +8,4 @@ const Product = Loadable({
 	modules: ['product']
 });
 
-export { Product };
+export default Product;

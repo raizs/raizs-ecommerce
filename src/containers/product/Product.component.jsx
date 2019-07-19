@@ -54,7 +54,6 @@ export const ProductComponent = props => {
 
   const classes = styles(props);
   const { product, history } = props;
-  console.log('front', props.product.imageUrl)
 
   return product ? (
     <div className={classes.wrapper}>
@@ -62,7 +61,7 @@ export const ProductComponent = props => {
       <div className={classes.relativeBox}>
         <p>{props.product.imageUrl}</p>
         <div onClick={() => null} className={classes.goBackButton}>
-          <Icon fontSize="small" className={classes.goBackIcon}>arrow_back_ios</Icon>
+          <Icon fontSize="small" onClick={() => console.log('AI!')} className={classes.goBackIcon}>arrow_back_ios</Icon>
           Voltar
         </div>
 
