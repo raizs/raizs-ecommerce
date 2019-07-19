@@ -209,10 +209,9 @@ class BrowserApp extends BaseContainer {
         logout
       }
     };
-      // <Route path='/:seoDescription/p' component={Product} />
     return <div className="App" style={{ backgroundColor: '#EFEFEF' }}>
       <h2>TESTE</h2>
-      <Product/>
+      <Route path='/:seoDescription/p' component={Product} />
       {/*<h1>{this.props.product}</h1>*/}
     </div>
 

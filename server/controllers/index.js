@@ -18,9 +18,9 @@ const actionIndex = async (req, res, next) => {
 		let productRepo = new ProductsRepository();
 		let promise = await productRepo.fetchProduct(`seoDescription=${seoDescription}`)
 	    await store.dispatch(setCurrentProductAction(new Product({...promise.data, stock:{}})))
-		console.log(promise)
-		console.log("PRODUCTPAGE LOGIC");
+		// console.log(promise)
 	}
+	console.log("PRODUCTPAGE LOGIC");
 
 
     serverRenderer(store)(req, res, next);

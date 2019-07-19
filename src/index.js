@@ -17,7 +17,7 @@ const AppBundle = (
         </BrowserRouter>
     </ReduxProvider>
 );
-console.log(window)
+console.log("AQUI",window)
 window.onload = () => {
     React.useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side');

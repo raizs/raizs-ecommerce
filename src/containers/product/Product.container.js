@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { withStyles, Icon } from '@material-ui/core';
+import { withStyles, Icon, Button } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import { Loading, ProductImage, ProductSummary, ProductFamilies, ProductExtraInfos } from '../../molecules';
@@ -68,11 +68,12 @@ class Product extends BaseContainer {
 
   
   componentWillMount(){
-    this.controller.fetchProduct(this.props)
+    console.log("LOGANDO MOUNT")
+    // this.controller.fetchProduct(this.props)
   }
 
   componentWillReceiveProps(nextProps){
-    this.controller.fetchProduct(nextProps)
+    // this.controller.fetchProduct(nextProps)
   }
 
 	render() {
@@ -86,6 +87,9 @@ class Product extends BaseContainer {
 		}
 	    return (
         <div className={classes.wrapper}>
+            <Button id='checkout' className={classes.button} onClick={()=>this.props.history.push("/alface-americana-organica-unidade-raizs/p")}>
+            MUDAR DE PAGINA    
+          </Button>
 
           <div className={classes.relativeBox}>
 
