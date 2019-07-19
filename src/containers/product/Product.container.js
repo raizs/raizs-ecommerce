@@ -87,7 +87,7 @@ class Product extends BaseContainer {
 		}
 	    return (
         <div className={classes.wrapper}>
-            <Button id='checkout' className={classes.button} onClick={()=>this.props.history.push("/alface-americana-organica-unidade-raizs/p")}>
+            <Button id='checkout' className={classes.button} onClick={()=>console.log("\n\n\nteste")}>
             MUDAR DE PAGINA    
           </Button>
 

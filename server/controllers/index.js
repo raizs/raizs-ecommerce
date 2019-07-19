@@ -13,6 +13,7 @@ const path = require("path");
 const actionIndex = async (req, res, next) => {
 	let splitedUrl = req.baseUrl.split("/")
     const store = configureStore();
+    console.log("PASSA NO SERVER")
 	if (splitedUrl.length>=3 && splitedUrl[2] =="p"){
 		let seoDescription = splitedUrl[1];
 		let productRepo = new ProductsRepository();

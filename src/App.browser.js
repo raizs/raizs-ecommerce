@@ -46,7 +46,7 @@ import { BaseContainer } from './helpers';
 // import { Home3 } from './containers/home3';
 // import { Landing } from './containers/landing';
 // import { OrderCompleted } from './containers/orderCompleted';
-// import { NotFound } from './containers/notFound';
+import { NotFound } from './containers/notFound';
 // import { HowItWorks } from './containers/howItWorks';
 // import { Dashboard } from './containers/dashboard';
 import { Product } from './containers/product';
@@ -212,6 +212,7 @@ class BrowserApp extends BaseContainer {
     return <div className="App" style={{ backgroundColor: '#EFEFEF' }}>
       <h2>TESTE</h2>
       <Route path='/:seoDescription/p' component={Product} />
+      <Route path='/teste' component={NotFound} />
       {/*<h1>{this.props.product}</h1>*/}
     </div>
 
