@@ -9,7 +9,6 @@ const Image = props => {
       width={width}
       height={height}
       alt={alt}
-      effect='blur'
       src={src} />
   );
 }

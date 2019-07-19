@@ -9,22 +9,20 @@ import { Product } from "../../src/entities"
 const router = express.Router();
 const path = require("path");
 
-
 const actionIndex = async (req, res, next) => {
+	// console.log('actions index');
 	let splitedUrl = req.baseUrl.split("/")
     const store = configureStore();
-	if (splitedUrl.length>=3 && splitedUrl[2] =="p"){
+	if (splitedUrl.length>=3 && splitedUrl[2] == "p") {
 		let seoDescription = splitedUrl[1];
 		let productRepo = new ProductsRepository();
-		let promise = await productRepo.fetchProduct(`seoDescription=${seoDescription}`)
-	    await store.dispatch(setCurrentProductAction(new Product({...promise.data, stock:{}})))
-		console.log(promise)
-		console.log("PRODUCTPAGE LOGIC");
+		let promise = await productRepo.fetchProduct(`seoDescription=${seoDescription}`);
+		await store.dispatch(setCurrentProductAction(new Product({...promise.data, stock:{}})));
+		// console.log(promise);
+		// console.log("PRODUCTPAGE LOGIC");
+		// console.log(store.getState().products.currentProduct);
 	}
-
-
-    serverRenderer(store)(req, res, next);
-
+	serverRenderer(store)(req, res, next);
 };
 
 

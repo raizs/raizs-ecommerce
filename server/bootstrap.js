@@ -1,6 +1,7 @@
-if (typeof(window) == 'undefined'){
+if (typeof(window) == 'undefined') {
     global.window = new Object();
 }
+
 require('ignore-styles');
 require('url-loader');
 require('file-loader');

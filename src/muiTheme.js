@@ -44,7 +44,7 @@ const HEADER_HEIGHT = '64px';
 const TOP_HEADER_HEIGHT = '32px';
 const CHECKOUT_BAR_HEIGHT = 50
 
-const theme = createMuiTheme({
+const theme = {
   typography: {
     fontFamily: [
       'Raleway',
@@ -408,6 +408,6 @@ const theme = createMuiTheme({
   spacing: {
     unit: SPACING_UNIT
   }
-});
+};
 
 export default theme;

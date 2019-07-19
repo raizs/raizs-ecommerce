@@ -4,7 +4,7 @@ import { Loading } from '../../molecules';
 
 const Product = Loadable({
 	loader: () => import(/* webpackChunkName: "product" */ './Product.container'),
-	loading: () => <Loading />,
+	loading: () => <div>loading...</div>,
 	modules: ['product']
 });
 

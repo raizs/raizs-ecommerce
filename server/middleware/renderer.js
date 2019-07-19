@@ -4,12 +4,15 @@ import Loadable from 'react-loadable';
 import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
+import theme from '../../src/muiTheme';
 
 // import our main App component
 import App from '../../src/App';
 
 // import the manifest generated with the create-react-app build
 import manifest from '../../build/manifest.json';
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/styles';
+
 // function to extract js assets from the manifest
 const extractAssets = (assets, chunks) => Object.keys(assets)
     .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
@@ -33,19 +36,29 @@ export default (store) => (req, res, next) => {
         const modules = [];
         const routerContext = {};
 
-        // render the app as a string
-        const html = ReactDOMServer.renderToString(
+        // Send the rendered page back to the client.
+        const appBundle = (
             <Loadable.Capture report={m => modules.push(m)}>
                 <ReduxProvider store={store}>
                     <StaticRouter location={req.baseUrl} context={routerContext}>
-                        <App/>
+                        <ThemeProvider theme={theme}>
+                            <App />
+                        </ThemeProvider>
                     </StaticRouter>
                 </ReduxProvider>
             </Loadable.Capture>
         );
-
+        
+        
+        const sheets = new ServerStyleSheets();
+        const html = ReactDOMServer.renderToString(sheets.collect(appBundle));
+        
+        // Grab the CSS from our sheets.
+        const css = sheets.toString();
+        
         // get the stringified state
         const reduxState = JSON.stringify(store.getState());
+        // console.log(store.getState().products.currentProduct);
 
         // map required assets to script tags
         const extraChunks = extractAssets(manifest, modules)
@@ -63,6 +76,8 @@ export default (store) => (req, res, next) => {
                 .replace('_REDUX_STATE={}', `REDUX_STATE_=${reduxState}`)
                 // append the extra js assets
                 .replace('</body>', extraChunks.join('') + '</body>')
+                // append the extra js assets
+                .replace('</style>', css + '</style>')
                 // write the HTML header tags
                 .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
         );
